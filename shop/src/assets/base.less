@@ -1,0 +1,206 @@
+@theme-color: rgb(235, 97, 0);
+
+body { background-color: #f4fafa; }
+html, body { height: 100%; width: 100%; overflow-x: hidden; }
+img { max-width: 100%; }
+#app, #app-content, #app-body{ height: 100%; }
+#app-body{box-sizing: border-box; padding-top: 46px; padding-bottom: 50px;}
+#app-body.no-header{padding-top: 0 !important;}
+#app-body.no-tabbar{padding-bottom: 0 !important;}
+#app-body .page-view{height: 100%;}
+
+.l-bg-white{background-color: #fff;}
+.l-img-block{display: block; margin: auto;}
+.l-zoom{overflow: hidden;}
+/*
+  http://www.css88.com/book/css/ 
+  弹性布局===================
+  .l-flex-h  横向布局不换行，子项将会同等高度
+  .l-flex-hc 横向布局不换行，子项将垂直居中
+  .vux-center .vux-center-h .vux-center-v
+*/
+.l-flex-h,
+.l-flex-hc,
+.l-flex-hvc,
+.l-flex-v,
+.l-flex-vc,
+.l-flex-vhc,
+.l-flex-wrap {
+  /*应用于父元素 */
+  display: flex;
+}
+/*
+  flex-flow: <' flex-direction '> || <' flex-wrap '>
+  flex-direction: row | row-reverse | column | column-reverse
+  flex-wrap: nowrap | wrap | wrap-reverse
+*/
+.l-flex-h,
+.l-flex-hc,
+.l-flex-hvc {
+  /*横向布局*/
+  flex-flow: row nowrap;
+}
+.l-flex-v,
+.l-flex-vc,
+.l-flex-vhc {
+  /*纵向布局*/
+  flex-flow: column nowrap;
+}
+/*
+  justify-content: flex-start | flex-end | center | space-between | space-around 用于不换行的弹性盒模型容器
+  align-items: flex-start | flex-end | center | baseline | stretch 用于不换行的弹性盒模型容器
+*/
+.l-flex-h {
+  /*同等高度*/
+  align-items: strecth;
+}
+.l-flex-hc,
+.l-flex-hvc {
+  /*水平排列的垂直居中*/
+  align-items: center;
+}
+.l-flex-hvc {
+  /*水平排列的水平居中*/
+  justify-content: center;
+}
+
+.l-flex-vc,
+.l-flex-vhc{
+  /*垂直排列的垂直居中*/
+  justify-content: center;
+}
+.l-flex-vhc {
+  /*垂直排列的水平居中*/
+  align-items: center;
+}
+
+/*
+  用于换行的弹性盒模型容器
+  align-content: flex-start | flex-end | center | space-between | space-around | stretch 
+*/
+.l-flex-wrap {
+  /*水平排列换行布局*/
+  flex-flow: row wrap;
+  /*align-content: flex-start;*/
+  /*justify-content: space-between;*/
+}
+
+/*
+  设置子项
+  flex: none | <' flex-grow '> <' flex-shrink >'? || <' flex-basis '>
+  flex-grow: <number> 剩余空间扩展比例
+  flex-shrink: <number>  不足空间收缩比例
+  flex-basis: <length> | <percentage> | auto | content   // 基准值
+  align-self: auto | flex-start | flex-end | center | baseline | stretch
+*/
+[class*='l-flex-'] > .l-rest {
+  /*如果只有设置其中一个子项，其将霸占剩余部分*/
+  display: block;
+  flex: 1;
+}
+/*弹性布局===================end*/
+.l-fr{float: right;}
+i{font-style: normal;}
+h1,h2,h3,h4,h5{font-weight: 500;}
+.l-fs-xl{font-size: 18px;}
+.l-fs-l, h4{font-size: 16px;}
+.l-fs-m{font-size: 14px;}
+.l-fs-s{font-size: 12px;}
+.l-fs-xs{font-size: 11px;}
+.l-fs-xxs{font-size: 10px;}
+.l-txt-theme{color: @theme-color;}
+.l-txt-gray{color: #999;}
+.l-txt-del{text-decoration: line-through;}
+.l-txt-center{text-align: center;}
+.l-txt-right{text-align: right;}
+.l-txt-wrap1, .l-txt-wrap2{
+  text-overflow: ellipsis;
+  overflow: hidden;
+  word-break: break-all;
+  word-wrap: break-word;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+}
+.l-txt-wrap2 {-webkit-line-clamp: 2; line-height: 1.4; font-size: 12px; }
+.l-bg-co{background: no-repeat 50% 50%; background-size: cover;}
+.l-bg-ca{background: no-repeat 50% 50%; background-size: contain;}
+.l-bg-full{background: no-repeat 50% 50%; background-size: 100% 100%;}
+
+.l-padding{padding: 15px;}
+.l-padding-t{padding-top: 15px; }
+.l-padding-b{padding-bottom: 15px; }
+.l-padding-l{padding-left: 15px; }
+.l-padding-r{padding-right: 15px; }
+.l-padding-tb{padding-top: 15px; padding-bottom: 15px;}
+.l-padding-lr{padding-left: 15px; padding-right: 15px;}
+.l-margin{margin: 15px;}
+.l-margin-t{margin-top: 15px;}
+.l-margin-b{margin-bottom: 15px;}
+.l-margin-l{margin-left: 15px;}
+.l-margin-r{margin-right: 15px;}
+.l-margin-tb{margin-top: 15px; margin-bottom: 15px;}
+.l-margin-lr{margin-left: 15px; margin-right: 15px;}
+.l-margin-t-m{margin-top: 10px;}
+.l-margin-r-m{margin-right: 10px;}
+.l-margin-t-l{margin-top: 30px;}
+.l-margin-t-xl{margin-top: 40px;}
+
+.l-link-main{color: @theme-color; text-decoration: underline;}
+.l-link-gray{color: #999; text-decoration: underline;}
+
+// 页面切换动画
+.vux-pop-out-enter-active,
+.vux-pop-out-leave-active,
+.vux-pop-in-enter-active, 
+.vux-pop-in-leave-active,
+.vux-pop-fade-enter-active,
+.vux-pop-fade-leave-active {
+  will-change: transform;
+  transition: all 500ms;
+  backface-visibility: hidden;
+  perspective: 1000;
+}
+
+.vux-pop-in-enter-active, 
+.vux-pop-out-leave-active,
+.vux-pop-fade-enter-active {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+}
+
+.vux-pop-out-enter {
+  opacity: 0;
+  transform: translate3d(-100%, 0, 0);
+}
+.vux-pop-out-leave-active {
+  opacity: 0;
+  transform: translate3d(100%, 0, 0);
+}
+.vux-pop-in-enter {
+  opacity: 0;
+  transform: translate3d(100%, 0, 0);
+}
+.vux-pop-in-leave-active {
+  opacity: 0;
+  transform: translate3d(-100%, 0, 0);
+}
+.vux-pop-fade-enter {
+  opacity: 0;
+  transform: translate3d(0, 0, 0);
+}
+.vux-pop-fade-leave-active {
+  opacity: 0;
+  transform: translate3d(0, 0, 0);
+}
+
+// 覆盖样式
+#vux_view_box_body{padding: 0;}
+.weui-btn_plain-primary{
+  color:  @theme-color !important;
+  border: 1px solid rgb(235, 97, 0) !important;
+}
+.weui-cell__icon{display: block; width: 30px; height: 30px; margin-right: 10px;}
