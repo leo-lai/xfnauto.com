@@ -1,13 +1,12 @@
 @theme-color: rgb(235, 97, 0);
 
-body { background-color: #f4fafa; }
-html, body { height: 100%; width: 100%; overflow-x: hidden; }
+html, body { height: 100%; width: 100%; overflow: hidden; }
+body { background-color: #f4fafa; font-size: 16px; user-select: none;}
 img { max-width: 100%; }
-#app, #app-content, #app-body{ height: 100%; }
+#app, #app-content, #app-body, #app-body .page-view{ height: 100%; box-sizing: border-box;}
 #app-body{box-sizing: border-box; padding-top: 46px; padding-bottom: 50px;}
 #app-body.no-header{padding-top: 0 !important;}
 #app-body.no-tabbar{padding-bottom: 0 !important;}
-#app-body .page-view{height: 100%;}
 
 .l-bg-white{background-color: #fff;}
 .l-img-block{display: block; margin: auto;}
@@ -134,6 +133,7 @@ h1,h2,h3,h4,h5{font-weight: 500;}
 .l-padding-r{padding-right: 15px; }
 .l-padding-tb{padding-top: 15px; padding-bottom: 15px;}
 .l-padding-lr{padding-left: 15px; padding-right: 15px;}
+.l-padding-btn{padding-left: 15px; padding-right: 15px; padding-top: 10px; padding-bottom: 10px;}
 .l-margin{margin: 15px;}
 .l-margin-t{margin-top: 15px;}
 .l-margin-b{margin-bottom: 15px;}
@@ -142,10 +142,17 @@ h1,h2,h3,h4,h5{font-weight: 500;}
 .l-margin-tb{margin-top: 15px; margin-bottom: 15px;}
 .l-margin-lr{margin-left: 15px; margin-right: 15px;}
 .l-margin-t-m{margin-top: 10px;}
+.l-margin-r-s{margin-right: 5px;}
 .l-margin-r-m{margin-right: 10px;}
 .l-margin-t-l{margin-top: 30px;}
 .l-margin-t-xl{margin-top: 40px;}
-
+.l-btn-area{width: 80%; margin: 30px auto 15px;}
+.l-btn-w50{width: 50%; margin: auto;}
+.l-btn-radius{border-radius: 99px !important;}
+.l-btn-radius:after{border-radius: 99px !important;}
+.l-fixed-bottom ._placeholder{visibility: hidden; opacity: 0; pointer-events: none; height: 72px;}
+.l-fixed-bottom ._inner{position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;}
+.l-img-icon{width: 24px; height: 24px;}
 .l-link-main{color: @theme-color; text-decoration: underline;}
 .l-link-gray{color: #999; text-decoration: underline;}
 
@@ -165,13 +172,13 @@ h1,h2,h3,h4,h5{font-weight: 500;}
 .vux-pop-in-enter-active, 
 .vux-pop-out-leave-active,
 .vux-pop-fade-enter-active {
-  position: absolute;
+  position: absolute !important;
   top: 0;
   left: 0;
   height: 100%;
   width: 100%;
+  z-index: 1;
 }
-
 .vux-pop-out-enter {
   opacity: 0;
   transform: translate3d(-100%, 0, 0);
@@ -188,6 +195,11 @@ h1,h2,h3,h4,h5{font-weight: 500;}
   opacity: 0;
   transform: translate3d(-100%, 0, 0);
 }
+
+.vux-pop-fade-enter-active,
+.vux-pop-fade-leave-active {
+  transition-duration: 200ms;
+}
 .vux-pop-fade-enter {
   opacity: 0;
   transform: translate3d(0, 0, 0);
@@ -197,10 +209,44 @@ h1,h2,h3,h4,h5{font-weight: 500;}
   transform: translate3d(0, 0, 0);
 }
 
+// 顶部提示
+.l-toptip {
+  position: fixed; top: 0; right: 0; left:0; z-index: 2000;
+  padding: 0.5rem; text-align: center; color: #fff; background-color: #F43530; 
+  transition: all 0.3s ease; transform: translateY(-100%);
+}
+.l-toptip._show{
+  transform: translateY(0);
+}
+.l-toptip._error{
+  background-color: #e64340;
+}
+.l-toptip._warn{
+  background-color: #e96900; 
+}
+
+.l-preview-imgs{
+  overflow: hidden; margin: 0 -10px -10px 0; font-size: 0;
+  ._add, ._item{width: 50px; height: 50px;margin:0 10px 10px 0; display: inline-block; vertical-align: top; background-color: #ddd;}
+  ._add{background: #ddd url('./images/icon-009.png') no-repeat 50% 50%; background-size: 50%;}
+}
+.weui-cell__ft .l-preview-imgs {text-align: right;}
 // 覆盖样式
+.l-ipt{
+  ._icon{width: 24px; height: 24px; vertical-align: -4px; margin-right: 10px;}
+}
 #vux_view_box_body{padding: 0;}
 .weui-btn_plain-primary{
   color:  @theme-color !important;
   border: 1px solid rgb(235, 97, 0) !important;
 }
+.weui-btn{font-size: 16px !important;}
+.weui-input{color: #333 !important;}
+.weui-cells{font-size: 16px !important; font-weight: 400;}
+.weui-cells .vux-label{font-weight: 400 !important;}
+.weui-toast.weui-toast_forbidden{color: #fff !important;}
 .weui-cell__icon{display: block; width: 30px; height: 30px; margin-right: 10px;}
+.vux-x-input-placeholder-right .weui-input{text-align: right;}
+.vux-x-input-placeholder-right .weui-textarea{text-align: right;}
+.vux-cell-value{color: #333 !important;}
+.vux-cell-placeholder{color: #999 !important;}

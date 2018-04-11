@@ -1,12 +1,14 @@
-import config from '../config'
+import { toptip, device, storage, utils } from '../assets/utils'
+import Vue from 'vue'
 import axios from 'axios'
-import { storage, utils } from 'assets/js/utils'
-import { Message } from 'element-ui'
 import router from '../router'
+import { util } from 'node-forge';
 
+const host = window.location.host === 'shop.xfnauto.com' ? window.location.origin : 'http://shop.mifengqiche.com'
+const baseURL = window.location.host === 'shop.xfnauto.com' ? 'https://tomcat.xfnauto.com/tauto' : 'http://tomcat.mifengqiche.com/tauto'
 // 创建axios实例
 const service = axios.create({
-  baseURL: config.api.baseURL,
+  baseURL,
   timeout: 60000
 })
 // request拦截器
@@ -19,23 +21,12 @@ service.interceptors.request.use(config => {
 // respone拦截器
 service.interceptors.response.use(response => {
   const data = response.data
-  switch(data.resultCode) {
-  	case 200:
-  		return data
-  	case 4002:
-  		Message({
-        type: 'error',
-        message: data.message || '登录失效，请重新登录',
-        onClose() {
-          storage.local.remove('sessionId')
-          api.auth.logout()
-        }
-      })
-      break
-    default:
-      data.message = data.message || '服务器接口出错'
+  if(data.resultCode == 200) {
+    return data
+  }else {
+    data.message = data.message || '服务器接口出错'
+    return Promise.reject(data)
   }
-  return Promise.reject(data)
 }, error => {
   if (error && error.response) {
     switch (error.response.status) {
@@ -75,14 +66,39 @@ service.interceptors.response.use(response => {
       default:
       	error.message = '服务器连接失败'
     }
+    error.resultCode = error.response.status
     error.message += ` - ${error.response.status}`
   }
   return Promise.reject(error)
 })
 
+const showToast = (text = '', type = 'warn') => {
+  return new Promise((resolve, reject) => {
+    if(type) {
+      Vue.$vux.toast.show({
+        type,
+        text,
+        time: 3000,
+        isShowMask: true,
+        onHide: resolve
+      })
+    }else{
+      Vue.$vux.toast.text(text, 'top')
+    }
+  })
+}
+const showMessage = content => {
+  Vue.$vux.alert.show({
+    title: '系统提示',
+    content
+  })
+}
+const showLoading = text => Vue.$vux.loading.show({ text })
+const hideLoading = _ => Vue.$vux.loading.hide()
+
 const fetch = {
   ajax(url = '', data = {}, method = 'GET', contentType = 'form') {
-    data.sessionId = storage.local.get('sessionId')
+    data.sessionId = storage.local.get('token')
     return new Promise((resolve, reject) => {
       service({
         url, method, data,
@@ -97,438 +113,343 @@ const fetch = {
           return ret.join('&')
         }]
       }).then(resolve).catch(error => {
-        error && error.message && Message({
-          type: 'error',
-          message: error.message
-        })
+        if(error.resultCode == 4002) {
+          // 登录失效
+          showToast('登录失效').then(_ => {
+            api.user.logout()
+          })
+        }else {
+          // 接口出错
+          showMessage(error.message)
+        }
         reject(error)
       })
     })
   },
   post(url, data) {
     return this.ajax(url, data, 'POST')
-  },
-  form(url, formData) { // 自定义表单数据
-    formData && formData.append('sessionId', storage.local.get('sessionId'))
-    return new Promise((resolve, reject) => {
-      service({
-        url,
-        method: 'post',
-        data: formData
-      }).then(resolve).catch(error => {
-        error && error.message && Message({
-          type: 'error',
-          message: error.message
-        })
-        reject(error)
-      })
-    })
   }
 }
 
 const api = {
-  baseURL: config.api.baseURL,
-  pageSizes: [100, 200, 300, 400],
-  uploadBase64(base64Data = '') {
-    return fetch.post('/uploadImageBase64', {
-      img_file: base64Data
+  baseURL,
+  pageSizes: [10, 20, 50, 100],
+  // 发送手机验证码
+  sendMobiCode(phone, btn) {
+    if (!/^1\d{10}$/.test(phone)) {
+      showMessage('请输入正确手机号码')
+      return Promise.reject('请输入正确手机号码')
+    }
+
+    let time = 60
+    let oldtext = ''
+    let timeid = 0
+    if (btn) {
+      btn.setAttribute('disabled', true)
+      btn.classList.add('weui-btn_disabled')
+      oldtext = btn.textContent
+      btn.textContent = '60s'
+      timeid = setInterval(() => {
+        if (--time >= 0) {
+          btn.textContent = `${time}s`
+        } else {
+          clearInterval(timeid)
+          btn.removeAttribute('disabled')
+          btn.textContent = oldtext
+        }
+      }, 1000)
+    }
+
+    let promise = fetch.post('/common/phoneVerifyCode', { phoneNumber: phone })
+    promise.then((response) => {
+      showToast('手机验证码已发送', null)
+      return response
+    }).catch(() => {
+      clearInterval(timeid)
+      btn.removeAttribute('disabled')
+      btn.classList.remove('weui-btn_disabled')
+      btn.textContent = oldtext
+    })
+
+    return promise
+  },
+  getWxConfig(url) {
+    url = url || (device.isIos ? router.landingUrl : window.location.href)
+    url = url.split('#')[0]
+    // 如果查询参数后面带有 / 会导致签名失败 所以要encodeURIComponent
+    url = utils.url.setArgs(url, utils.url.getArgs(url))
+
+    const that = this
+    let promise = new Promise((resolve, reject) => {
+      let config = {
+        debug: false,
+        appId: '',
+        timestamp: '',
+        nonceStr: '',
+        signature: '',
+        jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo', 'onMenuShareQZone', 'chooseImage', 'previewImage', 'uploadImage', 'downloadImage', 'openLocation', 'getLocation', 'hideOptionMenu', 'showOptionMenu', 'scanQRCode']
+      }
+
+      if (!window.wx) {
+        reject('页面没有引入微信JS-SDK')
+      } else {
+        if (device.isIos && window.wx._configSuccess) {
+          return resolve(window.wx)
+        }
+
+        fetch.post('/common/getConfig', { url }).then(({ data }) => {
+          config.appId = data.appId
+          config.timestamp = data.timestamp
+          config.nonceStr = data.nonceStr
+          config.signature = data.signature
+
+          // wx.config begin
+          window.wx.config(config)
+          
+          let configError = false
+          window.wx.error(res => {
+            if (res.errMsg.indexOf('config:fail') !== -1) {
+              configError = true
+              if (window.wx._tryConfig) {
+                window.wx._configSuccess = false
+                console.log('current page：微信JS-SDK权限验证失败', res)
+                reject('微信JS-SDK权限验证失败')
+              }else {
+                // ios环境下(landing page)第一次权限验证失败，再利用当前地址(current page)尝试一下
+                console.log('landing page：微信JS-SDK权限验证失败', res)
+                window.wx._tryConfig = true
+                resolve(that.getWxConfig(window.location.href))
+              }
+            }
+          })
+          window.wx.ready(res => {
+            // config:fail 权限验证失败也会执行ready 函数（此处略坑）
+            // 使用延迟函数，等待wx.config end（内部函数）执行完毕
+            clearTimeout(window.wx.timeid)
+            window.wx.timeid = setTimeout(_ => {
+              if (!configError) {
+                console.log('微信JS-SDK权限验证成功', res)
+                window.wx._configSuccess = true
+                resolve(window.wx)
+              }
+            }, 500)
+          })
+        }).catch(res => {
+          console.log('服务器返回微信JS-SDK配置失败', res)
+          reject('服务器返回微信JS-SDK配置失败')
+        })
+      }
+    })
+    return promise
+  },
+  getWxPayConfig(formData = {}) { // 微信支付配置
+    let promise = new Promise((resolve, reject) => {
+      if (!formData.orderId) {
+        reject('支付失败：订单id不存在')
+        mui.alert('支付失败：订单id不存在')
+        return
+      }
+      if (storage.local.get('openId')) {
+        formData.openId = storage.local.get('openId')
+      }
+      fetch.post('/shopOrderPay/pay/prepare', formData).then(({ data }) => {
+        storage.session.set('buy_become_agent', data.isAgent || 0)
+        storage.local.set('openId', data.openId)
+        resolve(data.payInfo)
+      }).catch(reject)
+    })
+
+    return promise
+  },
+  chooseWXPay(formData) { // 微信jssdk支付
+    let promise = new Promise((resolve, reject) => {
+      if (!device.isWechat) {
+        showToast('请使用微信浏览器支付', null)
+        return reject('请使用微信浏览器支付')
+      }
+
+      showLoading('正在支付...')
+      this.getWxConfig().then(wx => {
+        this.getWxPayConfig(formData).then(data => {
+          wx.chooseWXPay({
+            timestamp: data.timeStamp,
+            nonceStr: data.nonceStr,
+            package: data.package,
+            signType: data.signType,
+            paySign: data.paySign,
+            success: res => {
+              if (res.err_msg === 'get_brand_wcpay_request:ok') {
+                resolve('ok')
+              } else if (res.err_msg === 'get_brand_wcpay_request:cancel') {
+                reject('cancel')
+              } else if (res.err_msg === 'get_brand_wcpay_request:fail') {
+                reject('fail')
+              } else {
+                resolve('支付回调成功')
+              }
+            },
+            fail: err => reject(err.errMsg)
+          })
+        }).finally(_ => {
+          hideLoading()
+        })
+      }).catch(errMsg => {
+        reject(errMsg)
+        hideLoading()
+      })
+    })
+    return promise
+  },
+  chooseWXPay2(formData) { // 微信浏览器支付
+    let promise = new Promise((resolve, reject) => {
+      if (!device.isWechat) {
+        showToast('请使用微信浏览器支付', null)
+        reject('请使用微信浏览器支付')
+        return
+      }
+      showLoading('正在支付...')
+      this.getWxPayConfig(formData).then(data => {
+        let onBridgeReady = function () {
+          WeixinJSBridge.invoke('getBrandWCPayRequest', data, res => {
+            if (res.err_msg === 'get_brand_wcpay_request:ok') {
+              resolve('ok')
+            } else if (res.err_msg === 'get_brand_wcpay_request:cancel') {
+              reject('cancel')
+            } else if (res.err_msg === 'get_brand_wcpay_request:fail') {
+              reject('fail')
+            } else {
+              resolve('支付回调成功')
+            }
+          })
+        }
+        if (typeof WeixinJSBridge == 'undefined') {
+          document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false)
+        } else {
+          onBridgeReady()
+        }
+      }).catch(reject).finally(_ => {
+        hideLoading()
+      })
+    })
+    return promise
+  },
+  previewImage(imgs = [], index = 0) {
+    return new Promise((resolve, reject) => {
+      showLoading()
+      this.getWxConfig().then(wx => {
+        wx.previewImage({
+          current: utils.isNumber(index) ? imgs[index] : index,   // 当前显示图片的http链接
+          urls: imgs,                                             // 需要预览的图片http链接列表
+          success: res => resolve(res),
+          fail: res => reject(err.errMsg)
+        })
+      }).catch(reject).finally(_ => {
+        hideLoading()
+      })
     })
   },
-  uploadByBase64(base64Data = '') {
-    var formData = new FormData()
-    //convertBase64UrlToBlob函数是将base64编码转换为Blob  
-    formData.append('img_file', utils.convert.base64ToBlob(base64Data), 'image_' + Date.now() + '.png')
-    return fetch.form('/uploadImage', formData)
+  chooseImage(count = 1) {
+    return new Promise((resolve, reject) => {
+      showLoading()
+      this.getWxConfig().then(wx => {
+        wx.chooseImage({
+          count,
+          sizeType: ['original', 'compressed'],     // 可以指定是原图还是压缩图，默认二者都有
+          sourceType: ['album', 'camera'],          // 可以指定来源是相册还是相机，默认二者都有
+          success: res => resolve(res.localIds),    // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
+          fail: err => reject(err.errMsg)
+        })
+      }).catch(reject).finally(_ => {
+        hideLoading()
+      })
+    })
   },
-  auth: {
-    check() {
-      return !!storage.local.get('sessionId')
+  uploadImage(localIds = [], remote = true) {
+    return new Promise((resolve, reject) => {
+      let _serverIds = []
+      let _localIds = []
+      let allLength = localIds.length
+      
+      
+      showLoading(allLength > 1 ? `上传中(1/${allLength})` : '上传中')
+      let _ = function syncUpload(localIds) {
+        let localId = localIds.pop()
+        wx.uploadImage({
+          localId,
+          isShowProgressTips: 0,
+          success: res => {
+            _serverIds.push(res.serverId)
+            _localIds.push(localId)
+
+            if (localIds.length > 0) {
+              showLoading(`上传中(${_localIds.length}/${allLength})`)
+              syncUpload(localIds)
+            } else {
+              if (remote) {
+                fetch.post('/common/uploadImage', { 
+                  media_ids: _serverIds.join(',') 
+                }).then(({ data }) => {
+                  resolve({
+                    serverIds: _serverIds,
+                    localIds: _localIds,
+                    images: data
+                  })
+                }).finally(_ => {
+                  hideLoading()
+                })
+              } else {
+                resolve({
+                  serverIds: _serverIds,
+                  localIds: _localIds,
+                  images: []
+                })
+                hideLoading()
+              }
+            }
+          },
+          fail: err => {
+            if (localIds.length === 0) {
+              hideLoading()
+              reject(err.errMsg)
+            }
+          }
+        })
+      }(localIds)
+    })
+  },
+  user: {
+    register(formData = {}) {
+      return fetch.post('/interfaceShop/shopUsers/register', formData)
     },
     login(formData = {}) {
-      formData.userName = (formData.userName || '').trim()
-      return fetch.post('/login', formData)
+      return fetch.post('/interfaceShop/shopUsers/loginPassword', formData)
     },
-    logout(toLogin = true) {
-      // return new Promise((resolve, reject) => {
-      //   if (storage.local.get('sessionId')) {
-      //     fetch.post('/loginOut').then(resolve, reject)
-      //   } else {
-      //     resolve()
-      //   }
-      // }).finally(_ => {
-        storage.local.remove('sessionId')
-        storage.local.remove('usermenus')
-        storage.local.remove('userinfo')
-        toLogin && location.replace(window.location.origin + `${config.router.base}login?to=` + location.href)
-        // toLogin && router.replace(`/login?to=` + location.href)
-      // })
+    logout() {
+      storage.local.remove('token')
+      storage.local.remove('userinfo')
+      router.replace('/login')
     },
-    changePwd(formData = {}) {
-      return fetch.post('/changePassword', formData)
+    getInfo() {
+      return Promise.resolve(storage.local.get('userinfo'))
     },
-    getZuzhiList() {
-      return fetch.post('/organizationLevelList')
+    getStoreInfo() {
+      return fetch.post('/interfaceShop/shopUsers/myOrgInfo')
     },
-    getRoleList() {
-      return fetch.post('/roleListList')
+    saveStoreInfo() {
+      return fetch.post('/interfaceShop/shopUsers/supplementOrg')
+    },
+    forgotPwd(formData = {}) {
+      return fetch.post('/interfaceShop/shopUsers/forgetPassword', formData)
     }
   },
-  index: {
-    getCount() {
-      return fetch.post('/index')
-    }
-  },
-  zuzhi: { // 组织架构管理
+  goods: {
     getList(formData = {}, page = 1, rows = 50) {
       formData.page = page
       formData.rows = rows
       return fetch.post('/organizationList', formData)
-    },
-    getParent(orgLevel = 0) {
-      return fetch.post('/organizationLevelListByLevel', { orgLevel })
-    },
-    getInfo(orgId = '') {
-      return fetch.post('/organizationInfo', { orgId })
-    },
-    enable(orgId = '', isOn = '') {
-      return fetch.post('/organizationOnOff', {orgId, isOn})
-    },
-    add(formData = {}) {
-      return fetch.post('/organizationEdit', formData)
-    },
-    getCangList() { // 仓库列表
-      return fetch.post('/organizationWarehouseList')
-    }
-  },
-  user: { // 系统用户管理
-    getList(formData = {}, page = 1, rows = 50) {
-      formData.page = page
-      formData.rows = rows
-      return fetch.post('/userList', formData)
-    },
-    enable(userId = '', isEnable = '') {
-      return fetch.post('/userIsEnable', {userId, isEnable})
-    },
-    add(formData = {}) {
-      return fetch.post('/addUser', formData)
-    },
-    getSalesList(formData = {}) {
-      return fetch.post('/salesList', formData)
-    }
-  },
-  role: { // 角色管理
-    getList(formData = {}, page = 1, rows = 50) {
-      formData.page = page
-      formData.rows = rows
-      return fetch.post('/roleList', formData)
-    },
-    add(formData = {}) {
-      return fetch.post('/roleEdit', formData)
-    },
-    getMenuList(roleId = '') {
-      return fetch.post('/menuListTree', { roleId })
-    },
-    setRoleMenu(formData = {}) {
-      return fetch.post('/setRoleMenu', formData)
-    }
-  },
-  group: { // 分组管理
-    getList(formData = {}, page = 1, rows = 50) {
-      formData.page = page
-      formData.rows = rows
-      return fetch.post('/systemGroupingList', formData)
-    },
-    add(formData = {}) {
-      return fetch.post('/systemGroupingEdit', formData)
-    },
-    del(groupingId = '') { // 删除分组
-      return fetch.post('/systemGroupingDalete', { groupingId })
-    },
-    getUserList(groupingId = '') { // 已分配人员列表
-      return fetch.post('/systemUserGroupingList', { groupingId })
-    },
-    getSltUserList() { // 待分配人员列表
-      return fetch.post('/orgOneSelfList')
-    },
-    addUser(formData = {}) { // 添加人员
-      return fetch.post('/systemUserGroupingEdit', formData)
-    },
-    delUser(userGroupingId = '') { // 删除人员
-      return fetch.post('/systemUserGroupingDalete', { userGroupingId })
-    }
-  },
-  menu: {
-    add(formData = {}) {
-      return fetch.post('/editMenu', formData)
-    },
-    del(menuId = '') {
-      return fetch.post('/deleteMenu', { menuId })
-    }
-  },
-  supplier: { // 供应商管理
-    getList(formData = {}, page = 1, rows = 50) {
-      formData.page = page
-      formData.rows = rows
-      return fetch.post('/supplierList', formData)
-    },
-    add(formData = {}) {
-      return fetch.post('/supplierEdit', formData)
-    },
-    del(supplierId = '') {
-      return fetch.post('/supplierDelete', { supplierId })
-    },
-    getListDown() {
-      return fetch.post('/supplierListList')
-    }
-  },
-  car: { // 车型管理
-    getList(formData = {}, page = 1, rows = 50) {
-      formData.page = page
-      formData.rows = rows
-      return fetch.post('/carsList', formData)
-    },
-    add(formData = {}) {
-      return fetch.post('/carsEdit', formData)
-    },
-    del(carId = '') {
-      return fetch.post('/carsDelete', { carId })
-    },
-    getBrandList() { // 品牌列表
-      return fetch.post('/carsBrandList')
-    },
-    getFamilyList(brandId = '') { // 车系列表
-      return fetch.post('/carsFamilyList', { brandId })
-    },
-    getStyleList(familyId = '') { // 车等级列表
-      return fetch.post('/carsStyleList', { familyId })
-    },
-    getCarsList(familyId = '') { // 车大类列表
-      return fetch.post('/carsListList', { familyId })
-    },
-    getCarsInfo(carId = '') { // 车大类相关信息
-      return fetch.post('/carsInfo', { carId })
-    },
-    getDepositPrice(formData = {}) { // 获取车辆定金
-      return fetch.post('/carDepositPrice', formData)
-    }
-  },
-  color: { // 车身颜色内饰管理
-    getList(formData = {}, page = 1, rows = 50) { // 车系列表(分页)
-      formData.page = page
-      formData.rows = rows
-      return fetch.post('/carsFamilyListPage', formData)
-    },
-    getCheshenList(familyId = '') { // 获取车身颜色列表
-      return fetch.post('/carColourGetByBrand', { familyId })
-    },
-    addCheshen(formData = {}) {
-      return fetch.post('/carColourEdit', formData)
-    },
-    delCheshen(carColourId = '') {
-      return fetch.post('/carColourDelete', { carColourId })
-    },
-    getNeishiList(familyId = '') { // 获取内饰颜色列表
-      return fetch.post('/carInteriorGetByBrand', { familyId })
-    },
-    addNeishi(formData = {}) {
-      return fetch.post('/carInteriorEdit', formData)
-    },
-    delNeishi(interiorId = '') {
-      return fetch.post('/carInteriorDelete', { interiorId })
-    },
-    addImages(formData = {}) {
-      return fetch.post('/carColourImageAdd', formData)
-    },
-    getImages(carsId = '',  carColourId = '') { // 获取车身照片
-      return fetch.post('/carColourImageGetByCarColour', { carsId, carColourId })
-    }
-  },
-  customer: { // 客户管理
-    getList(formData = {}, page = 1, rows = 50) {
-      formData.page = page
-      formData.rows = rows
-      return fetch.post('/customerOrgList', formData)
-    },
-    getInfo(formData = {}) {
-      return fetch.post('/customerUsersrInfo', formData)
-    },
-    saveUserInfo(formData = {}) {
-      return fetch.post('/changeUserInfo', formData)
-    },
-    saveCarInfo(formData = {}) {
-      return fetch.post('/changeUserCarInfo', formData)
-    },
-    addOrder(formData = {}) { // 新增/编辑
-      return fetch.post('/editCustomerOrder', formData)
-    },
-    getOrderInfo(customerOrderId = '') { // 获取订单详情
-      return fetch.post('/customerOrderInfo', { customerOrderId })
-    },
-    payOrder(formData = {}) { // 支付定金
-      return fetch.post('/payInOrder', formData)
-    },
-    orderPrice(customerOrderId = '') { // 订单费用
-      return fetch.post('/orderPriceList', { customerOrderId })
-    },
-    payHistory(customerOrderId = '') { // 收款历史
-      return fetch.post('/orderPayList', { customerOrderId })
-    },
-    bankPass(customerOrderId = '') { // 银行审核通过
-      return fetch.post('/bankApprovalPass', { customerOrderId })
-    },
-    fullPay(customerOrderId = '') { // 银行审核不通过，改成全款支付尾款
-      return fetch.post('/changeFullPayment', { customerOrderId })
-    },
-    giveCar(formData = {}) {
-      return fetch.post('/turnOverVehicle', formData)
-    },
-    saveRemark(formData = {}) {
-      return fetch.post('/addCustomerRemarks', formData)
-    },
-    add(formData = {}) { // 新增客户
-      return fetch.post('/addCustomerUsersr', formData)
-    }, // 跟踪列表
-    getTrackList(formData = {}, page = 1, rows = 50) {
-      formData.page = page
-      formData.rows = rows
-      return fetch.post('/trackCustomerOrgList', formData)
-    }, // 预约列表
-    getBespeakList(formData = {}, page = 1, rows = 50) {
-      formData.page = page
-      formData.rows = rows
-      return fetch.post('/bespeakCustomerOrgList', formData)
-    },
-    notBuy(customerUsersOrgId = '') { // 标记为不购买
-      return fetch.post('/notBuyCustomerOrg', { customerUsersOrgId })
-    },
-    track(formData = {}) { // 标记为已到店
-      return fetch.post('/systenUserChangeCustomerOrg', formData)
-    },
-    getContractInfo(customerOrderId = '') { // 合同信息
-      return fetch.post('/customerOrderPrint', { customerOrderId })
-    }
-  },
-  stock: { // 库存管理
-    getList(formData = {}, page = 1, rows = 50) { // 车辆库存列表
-      formData.page = page
-      formData.rows = rows
-      return fetch.post('/stockCarList', formData)
-    },
-    getInfo(formData = {}){ // 车辆库存详情
-      return fetch.post('/stockCarInfo', formData)
-    },
-    editInfo(formData = {}) { // 编辑车辆库存详情
-      return fetch.post('/stockCarEdit', formData)
-    },
-    getInList(formData = {}, page = 1, rows = 50) { // 入库单列表
-      formData.page = page
-      formData.rows = rows
-      return fetch.post('/storageList', formData)
-    },
-    addIn(formData = {}) { // 新增入库单
-      return fetch.post('/storageEdit', formData)
-    },
-    delIn(stockCarId = '') {
-      return fetch.post('/storageCarDelete', { stockCarId })
-    },
-    getInInfo(storageId = '') { // 入库单详情
-      return fetch.post('/storageInfo', { storageId })
-    },
-    getInCarList(formData = {}, page = 1, rows = 50) {
-      formData.page = page
-      formData.rows = rows
-      return fetch.post('/storageCarList', formData)
-    },
-    addInCar(formData = {}) { // 新增入库车辆
-      return fetch.post('/storageCarEdit', formData)
-    },
-    addOrder(formData = {}) { // 新增订车单
-      return fetch.post('/stockOrderCreate', formData)
-    },
-    cancelOrder(stockOrderId = '') { // 取消订车单
-      return fetch.post('/stockOrderCancel', { stockOrderId })
-    },
-    getOrderInfo(stockOrderId = '', isSellList = 0) { // 获取订车单详情
-      return fetch.post('/stockOrderInfo', { stockOrderId, isSellList })
-    },
-    signOrder(stockOrderId = '') {
-      return fetch.post('/stockOrderSign', { stockOrderId })
-    },
-    noticeBefore(stockOrderId = '') { // 通知有车前信息
-      return fetch.post('/stockOrderNoticeBefor', { stockOrderId })
-    },
-    notice(formData = {}) { // 通知有车
-      return fetch.post('/stockOrderNotice', formData)
-    },
-    getOrderList(formData = {}, page = 1, rows = 50) { // 订车列表
-      formData.page = page
-      formData.rows = rows
-      return fetch.post('/stockOrderList', formData)
-    },
-    outStockBefor(stockOrderId = '') { // 二级出库车辆前信息
-      return fetch.post('/stockOrderStorageOutBefor', { stockOrderId })
-    },
-    outStock(formData = {}) { // 二级车辆出库
-      return fetch.post('/stockOrderStorageOut', formData)
-    },
-    getOrderList2(formData = {}, page = 1, rows = 50) { // 三级车辆出库列表
-      formData.page = page
-      formData.rows = rows
-      return fetch.post('/customerOrderList', formData)
-    },
-    outStockBefor2(customerOrderId = '') { // 三级出库车辆前信息
-      return fetch.post('/customerOrderStorageOutBefor', { customerOrderId })
-    },
-    outStock2(formData = {}) { // 三级车辆出库
-      return fetch.post('/customerOrderStorageOut', formData)
-    }
-  },
-  order: { // 代购管理
-    getList(formData = {}, page = 1, rows = 50) { // 代购单列表
-      formData.page = page
-      formData.rows = rows
-      return fetch.post('/ConsumerOrder/listOrders', formData)
-    },
-    getInfo(orderId = '') {
-      return fetch.post('/ConsumerOrder/getOrderDetail', { orderId })
-    },
-    getPayInfo(orderId = '') { // 获取支付信息
-      return fetch.post('/ConsumerOrder/getPaymentInfo', { orderId })
-    },
-    pay(formData = {}) { // 上传支付凭证
-      return fetch.post('/ConsumerOrderPayment/create', formData)
-    },
-    tickPic(formData = {}) { // 上传票证图片
-      return fetch.post('/ConsumerOrderCar/uploadTickPic', formData)
-    },
-    tickDone(orderId = '') { // 所有上传票证图片
-      return fetch.post('/ConsumerOrder/finishOrder', { orderId })
-    },
-    getContractInfo(orderId = '') { // 合同信息
-      return fetch.post('/ConsumerOrder/getContractInfo', { orderId })
-    },
-    refund(formData = {}) { // 退款
-      return fetch.post('/ConsumerOrder/countermandExamine', formData)
-    }
-  },
-  pay: { // 通联支付
-    orderPay(formData = {}) {
-      return fetch.post('/stockOrderPay', formData)
-    },
-    finish(customerOrderId = '') { // 完款交车
-      return fetch.post('/endOrder', { customerOrderId })
-    }
-  },
-  bank: {
-    getList(formData = {}, page = 1, rows = 50) { // 审核列表
-      formData.page = page
-      formData.rows = rows
-      return fetch.post('/bankToExamineOrderList', formData)
-    },
-    examine(formData = {}) { // 审核
-      return fetch.post('/bankToExamineOrder', formData)
     }
   }
 }
 
+Vue.prototype.$api = api
 export default api

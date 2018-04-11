@@ -5,23 +5,25 @@
         <router-view class="page-view"></router-view>
       </transition>
 
-      <tabbar v-show="$route.meta.tabbar" slot="bottom">
-        <tabbar-item :link="{path: '/', replace: true}" :selected="$route.path === '/'">
-          <img slot="icon" src="./assets/images/tabbar-01.png">
-          <img slot="icon-active" src="./assets/images/tabbar-01-active.png">
-          <span slot="label">首页</span>
-        </tabbar-item>
-        <tabbar-item :link="{path: '/loan', replace: true}" :selected="$route.path === '/loan'">
-          <img slot="icon" src="./assets/images/tabbar-02.png">
-          <img slot="icon-active" src="./assets/images/tabbar-02-active.png">
-          <span slot="label">0-1成首付</span>
-        </tabbar-item>
-        <tabbar-item :link="{path: '/me', replace: true}" :selected="$route.path === '/me'">
-          <img slot="icon" src="./assets/images/tabbar-03.png">
-          <img slot="icon-active" src="./assets/images/tabbar-03-active.png">
-          <span slot="label">我的</span>
-        </tabbar-item>
-      </tabbar>
+      <transition :name="viewTransition" :css="!!direction || direction === 'fade'">
+        <tabbar v-show="$route.meta.tabbar">
+          <tabbar-item :link="{path: '/', replace: true}" :selected="$route.path === '/'">
+            <img slot="icon" src="./assets/images/tabbar-01.png">
+            <img slot="icon-active" src="./assets/images/tabbar-01-active.png">
+            <span slot="label">首页</span>
+          </tabbar-item>
+          <tabbar-item :link="{path: '/loan', replace: true}" :selected="$route.path === '/loan'">
+            <img slot="icon" src="./assets/images/tabbar-02.png">
+            <img slot="icon-active" src="./assets/images/tabbar-02-active.png">
+            <span slot="label">0-1成首付</span>
+          </tabbar-item>
+          <tabbar-item :link="{path: '/me', replace: true}" :selected="$route.path === '/me'">
+            <img slot="icon" src="./assets/images/tabbar-03.png">
+            <img slot="icon-active" src="./assets/images/tabbar-03-active.png">
+            <span slot="label">我的</span>
+          </tabbar-item>
+        </tabbar>
+      </transition>
     </div>
 
     <loading v-model="loading"></loading>
@@ -61,10 +63,11 @@ export default {
     onScroll() {
       this.$nextTick(_ => {
         let viewBoxs = document.querySelectorAll('#vux_view_box_body')
-        this.scrollElem = viewBoxs[1] || viewBoxs[0]
-        if (this.scrollElem) {
-          this.scrollElem.scrollTop = this.scrollTop
-          this.scrollElem.addEventListener('scroll', throttle(this.scrollHandler, 500), false)
+        let scrollElem = viewBoxs[1] || viewBoxs[0]
+        if (scrollElem) {
+          this.scrollElem = scrollElem
+          scrollElem.scrollTop = this.scrollTop
+          scrollElem.addEventListener('scroll', throttle(this.scrollHandler, 500), false)
         }
       })
     },
