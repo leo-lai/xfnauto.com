@@ -14,21 +14,21 @@
       </div>
 
       <div v-else class="l-padding l-txt-center l-flex-hc" style="width: 70%; margin: 10% auto;">
-        <x-button link="/login">账号登录</x-button>
+        <x-button link="/login?to=/me">账号登录</x-button>
         <span class="l-margin-l"></span>
-        <x-button link="/register">注册账号</x-button>
+        <x-button link="/register?to=/me">注册账号</x-button>
       </div>
     </div>
     <div class="l-bg-white l-padding-t">
       <div class="l-zoom">
         <group style="margin-top:-1px;" gutter="0">
-          <cell title="我的订单" is-link @click.native="chooseImage(1, 1)">
+          <cell title="我的订单" is-link>
             <img class="weui-cell__icon" slot="icon" src="../assets/images/icon-001.png">
           </cell>
-          <cell title="寻车记录" is-link>
+          <cell title="寻车记录" link="/car/seek/list">
             <img class="weui-cell__icon" slot="icon" src="../assets/images/icon-002.png">
           </cell>
-          <cell title="贷款申请" is-link>
+          <cell title="贷款申请" link="/loan/list">
             <img class="weui-cell__icon" slot="icon" src="../assets/images/icon-003.png">
           </cell>
         </group>

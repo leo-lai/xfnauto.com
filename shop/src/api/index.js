@@ -435,18 +435,59 @@ const api = {
     getStoreInfo() {
       return fetch.post('/interfaceShop/shopUsers/myOrgInfo')
     },
-    saveStoreInfo() {
-      return fetch.post('/interfaceShop/shopUsers/supplementOrg')
+    saveStoreInfo(formData = {}) {
+      return fetch.post('/interfaceShop/shopUsers/supplementOrg', formData)
     },
     forgotPwd(formData = {}) {
       return fetch.post('/interfaceShop/shopUsers/forgetPassword', formData)
     }
   },
-  goods: {
-    getList(formData = {}, page = 1, rows = 50) {
+  car: {
+    getBrandList() {
+      return fetch.post('/common/carsBrandList')
+    },
+    getFamilyList(brandId = '') {
+      return fetch.post('/common/carsFamilyList', { brandId })
+    },
+    getCarList(familyId = '') {
+      return fetch.post('/common/carsListList', { familyId })
+    },
+    getChenShenList(familyId = '') {
+      return fetch.post('/common/carColourList', { familyId })
+    },
+    getNeishiList(familyId = '') {
+      return fetch.post('/common/carInteriorList', { familyId })
+    }
+  },
+  loan: { // 贷款
+    apply2(formData = {}) {
+      return fetch.post('/interfaceShop/applyLoan/applyLoanMerchant', formData)
+    },
+    getList(formData = {}, page = 1, rows = 50) { // 贷款申请记录
       formData.page = page
       formData.rows = rows
-      return fetch.post('/organizationList', formData)
+      return fetch.post('/interfaceShop/applyLoan/myApplyLoanList', formData)
+    }
+  },
+  seek: { // 寻车
+    add(formData = {}) {
+      return fetch.post('/interfaceShop/shopFindCar/shopFindCarEdit', formData)
+    },
+    getList(formData = {}, page = 1, rows = 50) { // 寻车记录
+      formData.page = page
+      formData.rows = rows
+      return fetch.post('/interfaceShop/shopFindCar/myShopFindCarList', formData)
+    },
+    getInfo(findTheCarId = '') { // 寻车详情
+      return fetch.post('/interfaceShop/shopFindCar/shopFindCarInfo', { findTheCarId })
+    },
+    cancel(findTheCarId = '') { // 取消寻车
+      return fetch.post('/interfaceShop/shopFindCar/shopFindCarDel', { findTheCarId })
+    }
+  },
+  wuliu: { // 物流
+    getList() {
+      return fetch.post('/interfaceShop/consignment/logisticsLineList')
     }
   }
 }

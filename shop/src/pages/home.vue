@@ -4,7 +4,7 @@
     <div class="l-bg-white l-padding">
       <flexbox>
         <flexbox-item>
-          <router-link class="l-link-1" to="/login" tag="div">
+          <router-link class="l-link-1" to="/wuliu/list" tag="div">
             <img class="_icon" src="../assets/images/20180402003.png">
             <div class="_txt">
               <p>车物流</p>
@@ -13,22 +13,22 @@
           </router-link>
         </flexbox-item>
         <flexbox-item>
-          <div class="l-link-1">
+          <router-link tag="div" class="l-link-1" :to="{path: '/loan', replace: true}">
             <img class="_icon" src="../assets/images/20180402004.png">
             <div class="_txt">
               <p>金融购</p>
               <p class="l-fs-xs l-txt-gray">垫资车贷点这里</p>
             </div>
-          </div>
+          </router-link>
         </flexbox-item>
         <flexbox-item>
-          <div class="l-link-1">
+          <router-link tag="div" class="l-link-1" to="/car/seek">
             <img class="_icon" src="../assets/images/20180402005.png">
             <div class="_txt">
               <p>要寻车</p>
               <p class="l-fs-xs l-txt-gray">找到心仪车辆</p>
             </div>
-          </div>
+          </router-link>
         </flexbox-item>
       </flexbox>
     </div>

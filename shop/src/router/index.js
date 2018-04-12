@@ -60,7 +60,7 @@ router.beforeEach((to, from, next) => {
     storage.local.remove('userinfo')
     routerEventName = 'push'
     store.commit('updateDirection', { direction: 'in' })
-    return next('/login?to=' + to.fullPath)
+    return next(`/login?to=${to.fullPath || ''}`)
   }
 
   let direction = ''

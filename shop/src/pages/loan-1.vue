@@ -29,9 +29,8 @@
         <cell title="店铺地址" align-items="flex-start" :value="getAddress()"></cell>
         <cell title="店铺描述" align-items="flex-start" :value="storeInfo.introduce"></cell>
       </group>
-      <group v-if="storeInfo" label-width="6em">
+      <group v-if="storeInfo" label-width="7em">
         <cell title="企业法人身份证" align-items="flex-start">
-          <div slot="title" style="width: 10em;">企业法人身份证</div>
           <div class="l-idcard-upload l-flex-hc" slot="inline-desc">
             <div class="_item">
               <img :src="storeInfo.idCardPicOn" alt="">
@@ -45,24 +44,20 @@
           </div>
         </cell>
         <cell title="营业执照" align-items="flex-start">
-          <div class="l-margin-t-m" slot="inline-desc">
-            <div class="l-preview-imgs">
-              <img class="_item" :src="item" v-for="item in businessLicense" :key="item">
-            </div>
+          <div class="l-preview-imgs">
+            <img class="_item" :src="item" v-for="item in businessLicense" :key="item">
           </div>
         </cell>
         <cell title="店铺照片" align-items="flex-start">
-          <div class="l-margin-t-m" slot="inline-desc">
-            <div class="l-preview-imgs">
-              <img class="_item" :src="item" v-for="item in storeImages" :key="item">
-            </div>
+          <div class="l-preview-imgs">
+            <img class="_item" :src="item" v-for="item in storeImages" :key="item">
           </div>
         </cell>
       </group>
-      <router-link v-else tag="div" to="/me/store/info" class="l-bg-white l-padding l-txt-center" style="padding-top: 10%;padding-bottom: 10%;">
+      <div v-else class="l-bg-white l-padding l-txt-center" style="padding-top: 10%;padding-bottom: 10%;">
         <img style="width: 50%; margin-right: -1.2rem;" src="../assets/images/20180402014.png" alt="">
         <p class="l-txt-gray l-margin-t l-fs-s">请完善商家信息</p>
-      </router-link>
+      </div>
     </template>
     <div class="l-fixed-bottom">
       <div class="_placeholder"></div>

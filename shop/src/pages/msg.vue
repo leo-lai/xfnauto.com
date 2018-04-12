@@ -1,13 +1,15 @@
 <template>
   <view-box>
-    <msg :title="title" :description="description" :buttons="buttons" :icon="icon"></msg>
+    <div class="l-padding">
+      <msg :title="title" :description="description" :buttons="buttons" :icon="icon"></msg>
+    </div>
   </view-box>
 </template>
 
 <script>
 import { Msg } from 'vux'
 export default {
-  name: 'Msg',
+  name: 'message',
   components: { Msg },
   data () {
     return {
@@ -41,15 +43,12 @@ export default {
             type: 'default',
             text: '返回',
             onClick: _ => {
-              this.$router.go(this.$route.query.register ? -3 : -1)
+              this.$router.go(this.$route.query.register ? -2 : -1)
             }
           }
         ]
         break
-      default:
-        break
     }
-    
   }
 }
 </script>

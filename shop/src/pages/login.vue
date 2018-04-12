@@ -55,24 +55,27 @@ export default {
       this.$api.user.login(this.formData).then(({data}) => {
         this.$storage.local.set('token', data.sessionId)
         this.$storage.local.set('userinfo', data)
-        let toUrl = this.$route.query.to
-        if(toUrl) {
-          this.$router.replace({
-            path: toUrl, 
-            query: {
-              direction: 'out'
+
+        this.$vux.toast.show({
+          text: '登录成功',
+          onHide: res => {
+            let toUrl = this.$route.query.to
+            if(toUrl) {
+              this.$router.replace({
+                path: toUrl, 
+                query: {
+                  direction: 'out'
+                }
+              })
+            }else {
+              this.$router.back()
             }
-          })
-        }else {
-          this.$router.back()
-        }
+          }
+        })
       }).finally(_ => {
         this.$vux.loading.hide()
       })
     }
-  },
-  mounted() {
-    console.log(this.$utils.url.parse('http://192.168.10.161:8080/login?to=/loan'))
   }
 }
 </script>

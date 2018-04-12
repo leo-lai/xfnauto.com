@@ -18,8 +18,9 @@
       <x-textarea class="vux-x-input-placeholder-right" title="店铺描述" placeholder="请输入店铺描述" :rows="3" v-model="formData.introduce"></x-textarea>
     </group>
 
-    <group>
+    <group label-width="6em"> 
       <cell title="上传企业法人身份证" align-items="flex-start">
+        <div slot="title" style="width: 10em;">上传企业法人身份证</div>
         <div class="l-idcard-upload l-flex-hc" slot="inline-desc">
           <div class="_item" @click="chooseImage(1, 1)">
             <img :src="formData.idCardPicOn" alt="">
@@ -37,6 +38,13 @@
         <div class="l-preview-imgs">
           <img class="_item" :src="item" v-for="item in businessLicense" :key="item">
           <i class="_add" src="../assets/images/icon-009.png" @click="chooseImage(3, 9)"></i>
+        </div>
+      </cell>
+      <cell title="上传店铺照片" align-items="flex-start">
+        <div slot="title" style="width: 7em;">上传店铺照片</div>
+        <div class="l-preview-imgs">
+          <img class="_item" :src="item" v-for="item in storeImages" :key="item">
+          <i class="_add" src="../assets/images/icon-009.png" @click="chooseImage(4, 9)"></i>
         </div>
       </cell>
     </group>
@@ -69,6 +77,7 @@ export default {
       storeType: [],
       regionValue: [],
       businessLicense: [],
+      storeImages:[],
       formData: {
         linkMan: '',
         telePhone: '',
@@ -83,10 +92,10 @@ export default {
         areaId: '',
         areaName: '',
         address: '',
+        introduce: '',
         idCardPicOn: '',
         idCardPicOff: '',
         businessLicense: '',
-        introduce: '',
         imageUrl: ''
       }
     }
@@ -97,7 +106,7 @@ export default {
     },
     sltAddress() {
       if(this.regionValue.length === 3) {
-        let regionName = value2name(this.regionValue, ChinaAddressV4Data)
+        let regionName = value2name(this.regionValue, ChinaAddressV4Data).split(' ')
         this.formData.provinceId = this.regionValue[0]
         this.formData.cityId = this.regionValue[1]
         this.formData.areaId = this.regionValue[2]
@@ -108,18 +117,6 @@ export default {
     },
     chooseImage(type = 1, number = 1) {
       this.$api.chooseImage(number).then(localIds => {
-        // switch (type) {
-        //   case 1: // 身份证正面
-        //     this.formData.idCardPicOn = localIds[0]
-        //     break
-        //   case 2: // 身份证反面
-        //     this.formData.idCardPicOff = localIds[0]
-        //     break
-        //   case 3: // 营业执照
-        //     this.businessLicense = localIds
-        //     break
-        // }
-        
         this.$api.uploadImage(localIds).then(({ serverIds, images, localIds })=>{
           console.log(serverIds, images, localIds)
           switch (type) {
@@ -132,6 +129,10 @@ export default {
             case 3: // 营业执照
               this.businessLicense = images
               this.formData.businessLicense = images.join(',')
+              break
+            case 4: // 店铺照片
+              this.storeImages = images
+              this.formData.imageUrl = images.join(',')
               break
           }
         })
@@ -189,8 +190,12 @@ export default {
         this.$toptip('请上传企业法人身份证反面')
         return
       }
-      if(this.businessLicense.length === 0) {
+      if(!this.formData.businessLicense) {
         this.$toptip('请上传营业执照')
+        return
+      }
+      if(!this.formData.imageUrl) {
+        this.$toptip('请上传店铺照片')
         return
       }
 
@@ -210,10 +215,6 @@ export default {
 </script>
 
 <style lang="less">
-.l-idcard-upload{
-  padding: 10px 0 0;
-  ._item{width: 50%; box-sizing: border-box; text-align: center;}
-  ._item img{display: block; width: 100%; height: 80px; background: #ddd url('../assets/images/icon-009.png') no-repeat 50% 50%; margin-bottom: 5px; background-size: 25%;}
-}
+
 </style>
 

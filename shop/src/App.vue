@@ -49,11 +49,11 @@ export default {
   },
   data() {
     return {
-      scrollElem: {
-        scrollTop: 0,
-        scrollHeight: 0,
-        clientHeight: window.innerHeight
-      }
+      // scrollElem: {
+      //   scrollTop: 0,
+      //   scrollHeight: 0,
+      //   clientHeight: window.innerHeight
+      // }
     }
   },
   methods: {
@@ -61,6 +61,7 @@ export default {
       this.$router.savedScroll[this.$route.fullPath] = event.target.scrollTop
     },
     onScroll() {
+      this.noPreventBounce = !!document.querySelector('#no-prevent-bounce')
       this.$nextTick(_ => {
         let viewBoxs = document.querySelectorAll('#vux_view_box_body')
         let scrollElem = viewBoxs[1] || viewBoxs[0]
@@ -72,7 +73,6 @@ export default {
       })
     },
     preventBounce() { // 禁止ios 无滚动时页面反弹效果
-
       let scrollData = { posY: 0, maxScroll: 0 }
       let appBody = document.querySelector('#app-body')
       appBody.addEventListener('touchstart', event => {
@@ -80,10 +80,14 @@ export default {
         // 垂直位置标记
         scrollData.posY = e.pageY
         // 是否可以滚动
-        scrollData.maxScroll = this.scrollElem.scrollHeight - this.scrollElem.clientHeight
+        if(this.scrollElem) {
+          scrollData.maxScroll = this.scrollElem.scrollHeight - this.scrollElem.clientHeight
+        }
       }, false)
 
       appBody.addEventListener('touchmove', event => {
+        if(this.noPreventBounce) return
+
         let e = event.touches[0] || event
         // 如果不足于滚动，则禁止触发整个窗体元素的滚动
         if (scrollData.maxScroll <= 0) {

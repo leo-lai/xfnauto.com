@@ -1,4 +1,5 @@
 let config = {
+  thumb1: 'http://opii7iyzy.bkt.clouddn.com/momo.jpg?imageMogr2/format/jpg/interlace/1/quality/60/gravity/Center/thumbnail/100x/crop/x100',
   storeType: [
     {
       key: 1,
