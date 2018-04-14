@@ -34,7 +34,7 @@ export default {
 </script>
 <style lang="less">
 .l-loan{
-  position: absolute; top:0; left: 0; bottom: 0; right: 0; 
+  position: absolute; top:0; left: 0; width: 100%; height: 100%;
   ._bg1, ._bg2{
     position: absolute; top:0; left: 0; bottom: 50px; right:0; z-index: -1;
     background:#f07d1b no-repeat 50% 50%; background-size: cover;

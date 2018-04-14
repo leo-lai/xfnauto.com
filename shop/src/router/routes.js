@@ -10,6 +10,7 @@ const Msg = () => import('../pages/msg').then(m => m.default)
 const Loan1 = () => import('../pages/loan-1').then(m => m.default)
 const Loan2 = () => import('../pages/loan-2').then(m => m.default)
 const LoanList = () => import('../pages/loan-list').then(m => m.default)
+const LoanInfo = () => import('../pages/loan-info').then(m => m.default)
 const CarSelector = () => import('../pages/car-selector').then(m => m.default)
 const MapSelector = () => import('../pages/map-selector').then(m => m.default)
 const CarSeek = () => import('../pages/car-seek').then(m => m.default)
@@ -17,6 +18,8 @@ const CarSeekList = () => import('../pages/car-seek-list').then(m => m.default)
 const CarSeekInfo = () => import('../pages/car-seek-info').then(m => m.default)
 const WuliuList = () => import('../pages/wuliu-list').then(m => m.default)
 const WuliuFreight = () => import('../pages/wuliu-freight').then(m => m.default)
+const WuliuFreightAddcar = () => import('../pages/wuliu-freight-addcar').then(m => m.default)
+const GoodsList = () => import('../pages/goods-list').then(m => m.default)
 
 const routes = [
   {
@@ -61,6 +64,14 @@ const routes = [
     component: LoanList,
     meta: {
       title: '贷款申请'
+    }
+  },
+  {
+    path: '/loan/info',
+    name: 'loan-info',
+    component: LoanInfo,
+    meta: {
+      title: '贷款详情'
     }
   },
   {
@@ -179,6 +190,22 @@ const routes = [
     component: WuliuFreight,
     meta: {
       title: '我要托运'
+    }
+  },
+  {
+    path: '/wuliu/freight/addcar',
+    name: 'wuliu-freight-addcar',
+    component: WuliuFreightAddcar,
+    meta: {
+      title: '添加车辆'
+    }
+  },
+  {
+    path: '/goods/list',
+    name: 'goods-list',
+    component: GoodsList,
+    meta: {
+      title: '车辆列表'
     }
   },
 ]

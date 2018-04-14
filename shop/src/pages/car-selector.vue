@@ -12,7 +12,7 @@
               </div>
             </cell>
             <cell is-link v-for="item in brand.list" :key="item.id" :title="item.name" @click.native="sltBrand(item)"></cell>
-            <cell v-if="brand.list.length === 0">
+            <cell v-if="brand.list.length === 0 && !brand.loading">
               <div slot="title" class="l-txt-gray l-txt-center">暂无数据</div>
             </cell>
           </group>
@@ -32,7 +32,7 @@
               </div>
             </cell>
             <cell is-link v-for="item in family.list" :key="item.id" :title="item.name" @click.native="sltFamily(item)"></cell>
-            <cell v-if="family.list.length === 0">
+            <cell v-if="family.list.length === 0 && !family.loading">
               <div slot="title" class="l-txt-gray l-txt-center">暂无数据</div>
             </cell>
           </group>
@@ -53,11 +53,11 @@
             </cell>
             <cell v-for="item in car.list" :key="item.id" @click.native="sltCar(item)">
               <div slot="title">
-                <h4 class="l-fs-m">{{item.name}}</h4>
+                <p class="l-fs-m">{{item.name}}</p>
                 <p class="l-fs-s l-txt-gray l-margin-ts-s">指导价：{{item.priceStr}}</p>
               </div>
             </cell>
-            <cell v-if="car.list.length === 0">
+            <cell v-if="car.list.length === 0 && !car.loading">
               <div slot="title" class="l-txt-gray l-txt-center">暂无数据</div>
             </cell>
           </group>
@@ -106,7 +106,7 @@ export default {
     },
     sltBrand: function (item) {
       this.brand.slted = item
-      this.$storage.local.set('brand_slted', item)
+      this.$storage.session.set('brand_slted', item)
       this.getFamilyList()
     },
     // 车系列表
@@ -124,7 +124,7 @@ export default {
     },
     sltFamily: function (item) {
       this.family.slted = item
-      this.$storage.local.set('family_slted', item)
+      this.$storage.session.set('family_slted', item)
       this.getCarList()
     },
     // 车类列表
@@ -142,7 +142,7 @@ export default {
     },
     sltCar: function (item) {
       this.car.slted = item
-      this.$storage.local.set('car_slted', item)
+      this.$storage.session.set('car_slted', item)
       this.$router.back()
     },
     closeCar: function() {
@@ -150,7 +150,9 @@ export default {
     }
   },
   mounted() {
-    this.getBrandList()
+    setTimeout(() => {
+      this.getBrandList()  
+    }, 500)
   }
 }
 </script>

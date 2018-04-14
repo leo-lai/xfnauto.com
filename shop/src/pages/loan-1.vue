@@ -1,110 +1,186 @@
 <template>
   <view-box>
-    <group gutter="0" v-if="userInfo">
-      <cell title="头像">
-        <div class="l-user-avatar l-bg-co" :style="{'background-image':'url('+ userInfo.headPortrait +')'}"></div>
+    <div class="l-flex-hc l-padding-btn">
+      <img class="l-img-icon l-margin-r-m" src="../assets/images/icon-010.png" alt="">
+      <h4 class="l-rest">车辆信息</h4>
+    </div>
+    <group gutter="0" label-width="6em">
+      <cell title="车型" link="/car/selector">
+        <div style="padding: 2px 0;" v-if="formData.carsId" class="l-fs-m">{{formData.carsName}}</div>
+        <span v-else class="l-txt-gray">请选择车型</span>
       </cell>
-      <cell title="昵称" :value="userInfo.userName"></cell>
-      <cell title="手机号码" :value="userInfo.phoneNumber"></cell>
+      <cell title="指导价">
+        <span>{{formData.guidancePrice}} 元</span>
+      </cell>
     </group>
 
-    <template v-if="userInfo && userInfo.userType === 2">
-      <div class="l-flex-hc l-padding-btn l-bg-white l-margin-t">
-        <img class="l-img-icon l-margin-r-m" src="../assets/images/icon-008.png" alt="">
-        <h4 class="l-rest">商家信息</h4>
-        
-        <router-link v-if="!storeInfo" class="l-fr l-link-main" to="/me/store/info">去完善信息</router-link>
-        <span v-else class="l-txt-theme">{{storeStatus[storeInfo.status - 1]}}</span>
-      </div>
-      
-      <group v-if="storeInfo" gutter="0" label-width="6em">
-        <cell title="店长姓名" :value="storeInfo.linkMan"></cell>
-        <cell title="店长电话" :value="storeInfo.telePhone"></cell>
-        <cell title="客服姓名" :value="storeInfo.serviceName"></cell>
-        <cell title="客服电话" :value="storeInfo.servicePhone"></cell>
-      </group>
-      <group v-if="storeInfo" label-width="6em">
-        <cell title="商家类型" :value="getStoreType(storeInfo.natureType)"></cell>
-        <cell title="店铺名称" :value="storeInfo.shortName"></cell>
-        <cell title="店铺地址" align-items="flex-start" :value="getAddress()"></cell>
-        <cell title="店铺描述" align-items="flex-start" :value="storeInfo.introduce"></cell>
-      </group>
-      <group v-if="storeInfo" label-width="7em">
-        <cell title="企业法人身份证" align-items="flex-start">
-          <div class="l-idcard-upload l-flex-hc" slot="inline-desc">
-            <div class="_item">
-              <img :src="storeInfo.idCardPicOn" alt="">
-              <p class="l-txt-gray l-fs-s">身份证正面</p>
-            </div>
-            <div class="l-margin-l"></div>
-            <div class="_item">
-              <img :src="storeInfo.idCardPicOff" alt="">
-              <p class="l-txt-gray l-fs-s">身份证反面</p>
-            </div>
+    <div class="l-flex-hc l-padding-btn">
+      <img class="l-img-icon l-margin-r-m" src="../assets/images/icon-023.png" alt="">
+      <h4 class="l-rest">贷款信息</h4>
+    </div>
+    <group gutter="0" label-width="6em">
+      <popup-radio title="金融机构" :options="bankList" v-model="formData.institutionId" placeholder="请选择">
+        <div slot="popup-header" class="vux-1px-b l-padding-btn l-txt-center">请选择金融机构</div>
+      </popup-radio>
+      <popup-radio title="首付比例" :options="downPayments" v-model="formData.downPayments" placeholder="请选择">
+        <div slot="popup-header" class="vux-1px-b l-padding-btn l-txt-center">请选择首付比例</div>
+      </popup-radio>
+      <popup-radio title="还款期数" :options="loanPeriod" v-model="formData.loanPeriod" placeholder="请选择">
+        <div slot="popup-header" class="vux-1px-b l-padding-btn l-txt-center">请选择还款期数</div>
+      </popup-radio>
+      <x-input title="贷款总额" placeholder="请输入贷款总额" type="number" :max="10" placeholder-align="right" v-model="formData.loanAmount">
+        <span slot="right" class="l-txt-gray l-margin-l-s">元</span>
+      </x-input>
+    </group>
+
+    <div class="l-flex-hc l-padding-btn">
+      <img class="l-img-icon l-margin-r-m" src="../assets/images/icon-024.png" alt="">
+      <h4 class="l-rest">提交资料</h4>
+    </div>
+    <group gutter="0">
+      <x-input title="申请人姓名" placeholder="请输入姓名" :show-clear="false" :max="20" placeholder-align="right" v-model="formData.loanPeopleName"></x-input>
+      <x-input title="申请人电话" placeholder="请输入电话" type="tel" :max="11" :show-clear="false" placeholder-align="right" v-model="formData.loanPeoplePhone"></x-input>
+      <cell title="上传身份证照片" align-items="flex-start">
+        <div slot="title" style="width: 10em;">上传身份证照片</div>
+        <div class="l-idcard-upload l-flex-hc" slot="inline-desc">
+          <div class="_item" @click="chooseImage(1, 1)">
+            <img :src="formData.idCardPicOn" alt="">
+            <p class="l-txt-gray l-fs-s">身份证正面</p>
           </div>
-        </cell>
-        <cell title="营业执照" align-items="flex-start">
-          <div class="l-preview-imgs">
-            <img class="_item" :src="item" v-for="item in businessLicense" :key="item">
+          <div class="l-margin-l"></div>
+          <div class="_item" @click="chooseImage(2, 1)">
+            <img :src="formData.idCardPicOff" alt="">
+            <p class="l-txt-gray l-fs-s">身份证反面</p>
           </div>
-        </cell>
-        <cell title="店铺照片" align-items="flex-start">
-          <div class="l-preview-imgs">
-            <img class="_item" :src="item" v-for="item in storeImages" :key="item">
-          </div>
-        </cell>
-      </group>
-      <div v-else class="l-bg-white l-padding l-txt-center" style="padding-top: 10%;padding-bottom: 10%;">
-        <img style="width: 50%; margin-right: -1.2rem;" src="../assets/images/20180402014.png" alt="">
-        <p class="l-txt-gray l-margin-t l-fs-s">请完善商家信息</p>
-      </div>
-    </template>
+        </div>
+      </cell>
+      <cell title="上传收入证明" align-items="flex-start">
+        <div slot="title" style="width: 7em;">上传收入证明</div>
+        <div class="l-preview-imgs">
+          <img class="_item" :src="item" v-for="item in annualIncomeImage" :key="item">
+          <i class="_add" src="../assets/images/icon-009.png" @click="chooseImage(3, 9)"></i>
+        </div>
+      </cell>
+    </group>
+
     <div class="l-fixed-bottom">
       <div class="_placeholder"></div>
       <div class="_inner">
-        <div class="l-btn-w50 l-padding-tb"><x-button @click.native="logout" class="l-btn-radius" type="primary">退出登录</x-button></div>
+        <div class="l-btn-w50 l-padding-tb"><x-button @click.native="submit" class="l-btn-radius" type="primary">提交申请</x-button></div>
       </div>
     </div>
   </view-box>
 </template>
 
 <script>
+import { PopupRadio } from 'vux'
 export default {
-  name: 'me-info',
+  name: 'loan-1',
+  components: {
+    PopupRadio
+  },
   data () {
     return {
-      storeStatus: ['审核通过', '已禁用', '审核中'],
       userInfo: null,
-      storeInfo: null,
-      businessLicense: [],
-      storeImages: []
+      bankList: [],
+      downPayments: [
+        { key: 0.1, value: '10%' },
+        { key: 0.2, value: '20%' },
+        { key: 0.3, value: '30%' },
+        { key: 0.4, value: '40%' },
+        { key: 0.5, value: '50%' },
+        { key: 0.6, value: '60%' }
+      ],
+      loanPeriod: [12, 18, 24, 36, 48],
+      annualIncomeImage: [],
+      formData: {
+        carsId: '',
+        carsName: '',
+        guidancePrice: '',
+        institutionId: '',
+        downPayments: '',
+        loanPeriod: '',
+        loanAmount: '',
+        loanPeopleName: '',
+        loanPeoplePhone: '',
+        idCardPicOn: '',
+        idCardPicOff: '',
+        annualIncomeImage: '',
+      }
     }
   },
   methods: {
-    getStoreType(key = 1) {
-      return this.$config.storeType.filter(item => item.key === key)[0].value
-    },
-    getAddress() {
-      let {provinceName, cityName, areaName, address} = this.storeInfo
-      return (provinceName === cityName ? provinceName : provinceName + cityName) + areaName + address
-    },
-    logout() {
-      this.$vux.confirm.show({
-        title: '系统提示',
-        content: '是否确定退出登录',
-        onConfirm: _ => {
-          this.$api.user.logout()
-        }
+    chooseImage(type = 1, number = 1) {
+      this.$api.chooseImage(number).then(localIds => {
+        this.$api.uploadImage(localIds).then(({ serverIds, images, localIds })=>{
+          console.log(serverIds, images, localIds)
+          switch (type) {
+            case 1: // 身份证正面
+              this.formData.idCardPicOn = images[0]
+              break
+            case 2: // 身份证反面
+              this.formData.idCardPicOff = images[0]
+              break
+            case 3: // 收入证明
+              this.annualIncomeImage = this.annualIncomeImage.concat(images)
+              this.formData.annualIncomeImage = this.annualIncomeImage.join(',')
+              break
+          }
+        })
+      }).catch(errMsg => {
+        this.$vux.confirm.show({
+          title: '授权提示',
+          content: '需要获取您的相册权限，是否允许？',
+          cancelText: '不允许',
+          confirmText: '允许',
+          onConfirm: res => {
+            this.$utils.url.reload()
+          }
+        })
       })
     },
-    getStoreInfo() {
+    submit() {
+      if(!this.formData.carsId) {
+        this.$toptip('请选择车型')
+        return
+      }
+      if(!this.formData.institutionId) {
+        this.$toptip('请选择金融机构')
+        return
+      }
+      if(!this.formData.downPayments) {
+        this.$toptip('请选择首付比例')
+        return
+      }
+      if(!this.formData.loanPeriod) {
+        this.$toptip('请选择还款期数')
+        return
+      }
+      if(!(Number(this.formData.loanAmount) > 0)) {
+        this.$toptip('请输入贷款总额')
+        return
+      }
+      if(!this.formData.idCardPicOn) {
+        this.$toptip('请上传身份证正面')
+        return
+      }
+      if(!this.formData.idCardPicOff) {
+        this.$toptip('请上传身份证反面')
+        return
+      }
+      if(!this.formData.annualIncomeImage) {
+        this.$toptip('请上传收入证明')
+        return
+      }
+
       this.$vux.loading.show()
-      this.$api.user.getStoreInfo().then(({data}) => {
-        if(data) {
-          this.storeInfo = data
-          this.businessLicense = data.businessLicense ? data.businessLicense.split(',') : []
-          this.storeImages = data.imageUrl ? data.imageUrl.split(',') : []
-        }
+      this.$api.loan.apply1(this.formData).then(({data}) => {
+        this.$vux.toast.show({
+          text: '提交申请成功',
+          onHide: _ => {
+            this.$router.back()
+          }
+        })
       }).finally(_ => {
         this.$vux.loading.hide()
       })
@@ -113,10 +189,16 @@ export default {
   mounted() {
     this.$api.user.getInfo().then(data => {
       this.userInfo = data
-      if(data.userType === 2) {
-        this.getStoreInfo()
-      }
     })
+
+    this.bankList = this.$config.bankList
+
+    let sltedCar = this.$storage.session.get('car_slted')
+    if(sltedCar) {
+      this.formData.carsId = sltedCar.id
+      this.formData.carsName = sltedCar.name
+      this.formData.guidancePrice = sltedCar.price
+    }
   }
 }
 </script>

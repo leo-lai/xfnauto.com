@@ -80,9 +80,8 @@ export default {
           onHide: _ => {
             this.$storage.local.set('token', data.sessionId)
             this.$storage.local.set('userinfo', data)
-            let toUrl = this.$route.query.to
             if(this.formData.userType === 1) {
-              this.$router.replace(toUrl || '/me')
+              this.$router.replace('/me')
             }else {
               this.$router.replace('/me/store/info?register=1')
             }

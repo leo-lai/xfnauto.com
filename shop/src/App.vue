@@ -67,7 +67,9 @@ export default {
         let scrollElem = viewBoxs[1] || viewBoxs[0]
         if (scrollElem) {
           this.scrollElem = scrollElem
-          scrollElem.scrollTop = this.scrollTop
+          setTimeout(() => {
+            scrollElem.scrollTop = this.scrollTop  
+          })
           scrollElem.addEventListener('scroll', throttle(this.scrollHandler, 500), false)
         }
       })
@@ -194,18 +196,24 @@ export default {
     font-size: 10px;
     margin-top: 3px;
   }
-  ._loc {
-    position: absolute;
+  ._jia, ._jian {
+    display: inline-block;
     left: 0;
     right: 0;
     bottom: 0;
-    border-radius: 0 0 5px 5px;
+    border-radius: 5px;
+    padding: 0 10px;
     height: 20px;
     line-height: 20px;
-    background: rgba(0, 0, 0, 0.6);
+    background-image: linear-gradient(to right, #f06a35, #e34c79);
     color: #fff;
     text-align: center;
     font-size: 11px;
+    opacity: 0.9;
+    margin-top: 5px;
+  }
+  ._jian{
+    background-image: linear-gradient(to right, #41df66, #16ba5b);
   }
 }
 </style>

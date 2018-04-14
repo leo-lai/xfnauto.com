@@ -6,7 +6,7 @@
     </div>
     <group v-if="line1" gutter="0" label-width="15em">
       <cell :title="line1.lineName" :inline-desc="'起步价：￥' + line1.startPrice">
-        <x-button class="l-btn-radius" mini type="primary" @click.native="searchFreight">查询运费</x-button>
+        <x-button class="l-btn-radius" mini type="primary" @click.native="searchFreight(line1)">查询运费</x-button>
       </cell>
     </group>
 
@@ -16,7 +16,7 @@
     </div>
     <group v-if="line2" gutter="0" label-width="15em">
       <cell v-for="item in line2" :key="item.lineId" :title="item.lineName" :inline-desc="'运费：￥' + item.amount + ' / 辆'">
-        <x-button class="l-btn-radius" mini type="primary" @click.native="searchFreight">查询运费</x-button>
+        <x-button class="l-btn-radius" mini type="primary" @click.native="searchFreight(item)">查询运费</x-button>
       </cell>
     </group>
   </view-box>
@@ -32,12 +32,29 @@ export default {
   },
   methods: {
     getList() {
+      this.$vux.loading.show()
       this.$api.wuliu.getList().then(({data}) => {
         this.line1 = data.list[0]
         this.line2 = data.list.slice(1, data.list.length)
-      })
+      }).finally(_ => {})
+      this.$vux.loading.hide()
     },
-    searchFreight() {
+    searchFreight(item) {
+      let formData = this.$storage.session.get('wuliu-freight-formdata')
+      this.$storage.session.set(
+        'wuliu-freight-formdata', 
+        Object.assign({}, formData, {
+          consignmentType: item.consignmentType,
+          consignmentTypeLineId: item.lineId,
+          consignmentTypeLineName: item.lineName,
+          startingPointAddress: item.startingPointAddress,
+          startingPointLatitude: item.startingPointLatitude,
+          startingPointLongitude: item.startingPointLongitude,
+          destinationAddress: item.destinationAddress,
+          destinationLatitude: item.destinationLatitude,
+          destinationLongitude: item.destinationLongitude,
+        })
+      )
       this.$router.push('/wuliu/freight')
     }
   },

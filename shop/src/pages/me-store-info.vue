@@ -127,12 +127,12 @@ export default {
               this.formData.idCardPicOff = images[0]
               break
             case 3: // 营业执照
-              this.businessLicense = images
-              this.formData.businessLicense = images.join(',')
+              this.businessLicense = this.businessLicense.concat(images)
+              this.formData.businessLicense = this.businessLicense.join(',')
               break
             case 4: // 店铺照片
-              this.storeImages = images
-              this.formData.imageUrl = images.join(',')
+              this.storeImages = this.storeImages.concat(images)
+              this.formData.imageUrl = this.storeImages.join(',')
               break
           }
         })

@@ -174,6 +174,14 @@ const api = {
     return promise
   },
   getWxConfig(url) {
+    if(!window.wx) {
+      return Promise.reject('页面没有引入微信JS-SDK')
+    }
+
+    if (!device.isWechat) {
+      return Promise.reject('请使用微信浏览器支付')
+    }
+
     url = url || (device.isIos ? router.landingUrl : window.location.href)
     url = url.split('#')[0]
     // 如果查询参数后面带有 / 会导致签名失败 所以要encodeURIComponent
@@ -190,55 +198,51 @@ const api = {
         jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage', 'onMenuShareQQ', 'onMenuShareWeibo', 'onMenuShareQZone', 'chooseImage', 'previewImage', 'uploadImage', 'downloadImage', 'openLocation', 'getLocation', 'hideOptionMenu', 'showOptionMenu', 'scanQRCode']
       }
 
-      if (!window.wx) {
-        reject('页面没有引入微信JS-SDK')
-      } else {
-        if (device.isIos && window.wx._configSuccess) {
-          return resolve(window.wx)
-        }
-
-        fetch.post('/common/getConfig', { url }).then(({ data }) => {
-          config.appId = data.appId
-          config.timestamp = data.timestamp
-          config.nonceStr = data.nonceStr
-          config.signature = data.signature
-
-          // wx.config begin
-          window.wx.config(config)
-          
-          let configError = false
-          window.wx.error(res => {
-            if (res.errMsg.indexOf('config:fail') !== -1) {
-              configError = true
-              if (window.wx._tryConfig) {
-                window.wx._configSuccess = false
-                console.log('current page：微信JS-SDK权限验证失败', res)
-                reject('微信JS-SDK权限验证失败')
-              }else {
-                // ios环境下(landing page)第一次权限验证失败，再利用当前地址(current page)尝试一下
-                console.log('landing page：微信JS-SDK权限验证失败', res)
-                window.wx._tryConfig = true
-                resolve(that.getWxConfig(window.location.href))
-              }
-            }
-          })
-          window.wx.ready(res => {
-            // config:fail 权限验证失败也会执行ready 函数（此处略坑）
-            // 使用延迟函数，等待wx.config end（内部函数）执行完毕
-            clearTimeout(window.wx.timeid)
-            window.wx.timeid = setTimeout(_ => {
-              if (!configError) {
-                console.log('微信JS-SDK权限验证成功', res)
-                window.wx._configSuccess = true
-                resolve(window.wx)
-              }
-            }, 500)
-          })
-        }).catch(res => {
-          console.log('服务器返回微信JS-SDK配置失败', res)
-          reject('服务器返回微信JS-SDK配置失败')
-        })
+      if (device.isIos && window.wx._configSuccess) {
+        return resolve(window.wx)
       }
+
+      fetch.post('/common/getConfig', { url }).then(({ data }) => {
+        config.appId = data.appId
+        config.timestamp = data.timestamp
+        config.nonceStr = data.nonceStr
+        config.signature = data.signature
+
+        // wx.config begin
+        window.wx.config(config)
+        
+        let configError = false
+        window.wx.error(res => {
+          if (res.errMsg.indexOf('config:fail') !== -1) {
+            configError = true
+            if (window.wx._tryConfig) {
+              window.wx._configSuccess = false
+              console.log('current page：微信JS-SDK权限验证失败', res)
+              reject('微信JS-SDK权限验证失败')
+            }else {
+              // ios环境下(landing page)第一次权限验证失败，再利用当前地址(current page)尝试一下
+              console.log('landing page：微信JS-SDK权限验证失败', res)
+              window.wx._tryConfig = true
+              resolve(that.getWxConfig(window.location.href))
+            }
+          }
+        })
+        window.wx.ready(res => {
+          // config:fail 权限验证失败也会执行ready 函数（此处略坑）
+          // 使用延迟函数，等待wx.config end（内部函数）执行完毕
+          clearTimeout(window.wx.timeid)
+          window.wx.timeid = setTimeout(_ => {
+            if (!configError) {
+              console.log('微信JS-SDK权限验证成功', res)
+              window.wx._configSuccess = true
+              resolve(window.wx)
+            }
+          }, 500)
+        })
+      }).catch(res => {
+        console.log('服务器返回微信JS-SDK配置失败', res)
+        reject('服务器返回微信JS-SDK配置失败')
+      })
     })
     return promise
   },
@@ -246,7 +250,7 @@ const api = {
     let promise = new Promise((resolve, reject) => {
       if (!formData.orderId) {
         reject('支付失败：订单id不存在')
-        mui.alert('支付失败：订单id不存在')
+        showMessage('支付失败：订单id不存在')
         return
       }
       if (storage.local.get('openId')) {
@@ -459,14 +463,38 @@ const api = {
       return fetch.post('/common/carInteriorList', { familyId })
     }
   },
+  goods: {
+    getList(formData = {}, page = 1, rows = 50) {
+      formData.page = page
+      formData.rows = rows
+      return fetch.post('/interfaceShop/shopGoodsCars/shopGoodsCarsList', formData)
+    },
+    getBrandList() {
+      return fetch.post('/interfaceShop/shopGoodsCars/brandListList')
+    },
+    getCityList() {
+      return fetch.post('/interfaceShop/shopGoodsCars/cityListList')
+    },
+    getActiveList(formData = {}, page = 1, rows = 50) {
+      formData.page = page
+      formData.rows = rows
+      return fetch.post('/interfaceShop/goodsCarsActivity/activityList', formData)
+    }
+  },
   loan: { // 贷款
-    apply2(formData = {}) {
+    apply1(formData = {}) { // 个人贷款
+      return fetch.post('/interfaceShop/applyLoan/applyLoanEdit', formData)
+    },
+    apply2(formData = {}) { // 商家垫资
       return fetch.post('/interfaceShop/applyLoan/applyLoanMerchant', formData)
     },
     getList(formData = {}, page = 1, rows = 50) { // 贷款申请记录
       formData.page = page
       formData.rows = rows
       return fetch.post('/interfaceShop/applyLoan/myApplyLoanList', formData)
+    },
+    getInfo(applyLoanId = '') {
+      return fetch.post('/interfaceShop/applyLoan/applyLoanInfo', { applyLoanId })
     }
   },
   seek: { // 寻车
@@ -488,6 +516,9 @@ const api = {
   wuliu: { // 物流
     getList() {
       return fetch.post('/interfaceShop/consignment/logisticsLineList')
+    },
+    getFreight(formData = {}) { // 查询运费
+      return fetch.post('/interfaceShop/consignment/expensesCount', formData)
     }
   }
 }

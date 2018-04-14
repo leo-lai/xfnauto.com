@@ -1,6 +1,8 @@
 <template>
   <view-box>
-    <search @on-submit="onSearch" @on-cancel="onSearch" v-model="list.filter.keywords" :auto-fixed="false" placeholder="查找寻车单"></search>
+    <div class="l-search-placeholder">
+      <search @on-submit="onSearch" @on-cancel="onSearch" v-model="list.filter.keywords" :auto-fixed="false" placeholder="查找寻车记录"></search>
+    </div>
     <router-link tag="div" :to="'/car/seek/info?id=' + item.findTheCarId" class="l-seek-item" v-for="item in list.data" :key="item.findTheCarId">
       <div class="_hd l-flex-hc l-is-link">
         <div class="l-rest">期望价：{{item.guidancePriceStr}}万元</div>
@@ -49,7 +51,8 @@ export default {
       this.resetInfinite()
     },
     resetInfinite() {
-      this.$refs.infinite.$emit('$InfiniteLoading:reset')
+      this.$refs.infinite.$emit('$InfiniteLoading:reset', false)
+      this.onInfinite(1)
     },
     onInfinite(page) {
       this.$api.seek.getList(this.list.filter, page || this.list.page).then(({data}) => {
@@ -77,9 +80,6 @@ export default {
         this.$refs.infinite.$emit('$InfiniteLoading:complete')
       })
     }
-  },
-  mounted() {
-    
   }
 }
 </script>

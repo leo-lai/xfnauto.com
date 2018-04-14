@@ -144,7 +144,6 @@ export default {
           text: '提交成功',
           onHide: _ => {
             this.$router.back()
-            this.$storage.local.remove('car_slted')
           }
         })
       }).finally(_ => {
@@ -153,8 +152,8 @@ export default {
     }
   },
   mounted() {
-    let sltedCar = this.$storage.local.get('car_slted')
-    let sltedFamily = this.$storage.local.get('family_slted')
+    let sltedCar = this.$storage.session.get('car_slted')
+    let sltedFamily = this.$storage.session.get('family_slted')
     if(sltedCar) {
       this.formData.carsId = sltedCar.id
       this.formData.carsName = sltedCar.name

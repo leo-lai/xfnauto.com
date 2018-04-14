@@ -10,10 +10,12 @@
         <span v-else class="l-txt-gray">请选择车型</span>
       </cell>
       <cell title="指导价">
-        <span>￥</span>
-        <span>{{formData.guidancePrice}}</span>
+        <span>{{formData.guidancePrice}} 元</span>
       </cell>
       <x-input title="车辆数量" placeholder="请输入申请贷款车辆数量" type="tel" :max="10" placeholder-align="right" v-model="formData.carNumber"></x-input>
+      <x-input title="贷款总额" placeholder="请输入贷款总额" type="number" :max="10" placeholder-align="right" v-model="formData.loanAmount">
+        <span slot="right" class="l-txt-gray l-margin-l-s">元</span>
+      </x-input>
     </group>
 
     <div class="l-flex-hc l-padding-btn l-margin-t">
@@ -73,7 +75,7 @@
 
 <script>
 export default {
-  name: 'me-info',
+  name: 'loan-2',
   data () {
     return {
       storeStatus: ['审核通过', '已禁用', '审核中'],
@@ -84,7 +86,8 @@ export default {
         carsId: '',
         carsName: '',
         guidancePrice: '',
-        carNumber: ''
+        carNumber: '',
+        loanAmount: ''
       }
     }
   },
@@ -117,6 +120,10 @@ export default {
         this.$toptip('请输入申请贷款车辆数量')
         return
       }
+      if(!(Number(this.formData.loanAmount) > 0)) {
+        this.$toptip('请输入贷款总额')
+        return
+      }
 
       this.$vux.loading.show()
       this.$api.loan.apply2(this.formData).then(({data}) => {
@@ -124,7 +131,6 @@ export default {
           text: '提交申请成功',
           onHide: _ => {
             this.$router.back()
-            this.$storage.local.remove('car_slted')
           }
         })
       }).finally(_ => {
@@ -134,7 +140,7 @@ export default {
   },
   mounted() {
     this.getStoreInfo()
-    let sltedCar = this.$storage.local.get('car_slted')
+    let sltedCar = this.$storage.session.get('car_slted')
     if(sltedCar) {
       this.formData.carsId = sltedCar.id
       this.formData.carsName = sltedCar.name

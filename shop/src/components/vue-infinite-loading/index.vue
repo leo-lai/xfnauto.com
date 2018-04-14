@@ -42,14 +42,12 @@
    */
   function getCurrentDistance(elm, dir) {
     let distance;
+    
     const scrollTop = isNaN(elm.scrollTop) ? elm.pageYOffset : elm.scrollTop;
     if (dir === 'top') {
       distance = scrollTop;
     } else {
-      const scrollElmHeight = elm === window ?
-                              window.innerHeight :
-                              elm.getBoundingClientRect().height;
-
+      const scrollElmHeight = elm === window ? window.innerHeight : elm.getBoundingClientRect().height;
       distance = this.$el.offsetTop - scrollTop - scrollElmHeight - (elm.offsetTop || 0);
     }
     return distance;
@@ -75,6 +73,10 @@
         type: Number,
         default: 50,
       },
+      autoStart: {
+        type: Boolean,
+        default: true
+      },
       onInfinite: Function,
       spinner: String,
       direction: {
@@ -91,7 +93,7 @@
         }
       }.bind(this);
 
-      setTimeout(this.scrollHandler, 1);
+      this.autoStart && setTimeout(this.scrollHandler, 500);
       this.scrollParent.addEventListener('scroll', this.scrollHandler);
 
       this.$on('$InfiniteLoading:loaded', () => {
@@ -111,7 +113,7 @@
         this.isFirstLoad = true;
         this.scrollParent.removeEventListener('scroll', this.scrollHandler);
         this.scrollParent.addEventListener('scroll', this.scrollHandler);
-        firstTime && setTimeout(this.scrollHandler, 1);
+        firstTime && setTimeout(this.scrollHandler);
       });
     },
     /**

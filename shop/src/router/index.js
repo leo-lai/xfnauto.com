@@ -64,20 +64,14 @@ router.beforeEach((to, from, next) => {
   }
 
   let direction = ''
+  // 页面返回
+  if (pageHistory[pageHistory.length - 2] === to.path) {
+    direction = 'out'
+    pageHistory.pop()
   // tabbar页面切换
-  if(from.meta.tabbar && to.meta.tabbar) {
+  }else if (from.meta.tabbar && to.meta.tabbar) {
     pageHistory[pageHistory.length - 1] = to.path
     direction = 'fade'
-  // 页面返回
-  } else if (pageHistory[pageHistory.length - 2] === to.path) {
-    // 判断是否是ios左滑返回
-    if (!routerEventName && (Date.now() - touchEndTime) < 377) {
-      direction = ''
-    } else {
-      direction = 'out'
-    }
-    pageHistory.pop()
-
   // 第一个页面进入
   } else if (from.path === '/' && !from.name) {
     if (pageHistory[pageHistory.length - 1] !== to.path) {
@@ -92,6 +86,11 @@ router.beforeEach((to, from, next) => {
     }else{
       pageHistory.push(to.path)
     }
+  }
+
+  // 判断是否是ios左滑返回
+  if (!routerEventName && (Date.now() - touchEndTime) < 377) {
+    direction = ''
   }
 
   store.commit('updateDirection', { direction: to.query.direction || direction})
