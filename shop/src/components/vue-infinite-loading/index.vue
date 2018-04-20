@@ -93,7 +93,9 @@
         }
       }.bind(this);
 
-      this.autoStart && setTimeout(this.scrollHandler, 500);
+      if(this.autoStart) {
+        this.autoStartId = setTimeout(this.scrollHandler, 500);
+      }
       this.scrollParent.addEventListener('scroll', this.scrollHandler);
 
       this.$on('$InfiniteLoading:loaded', () => {
@@ -133,11 +135,12 @@
         }
       },
     },
-    destroyed() {
+    beforeDestroy() {
+      clearTimeout(this.autoStartId)
       if (!this.isComplete) {
         this.scrollParent.removeEventListener('scroll', this.scrollHandler);
       }
-    },
+    }
   };
 </script>
 <style lang="less" scoped>

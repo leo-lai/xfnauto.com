@@ -7,6 +7,7 @@ const MeStoreInfo = () => import('../pages/me-store-info').then(m => m.default)
 const MeInfo = () => import('../pages/me-info').then(m => m.default)
 const Password = () => import('../pages/password').then(m => m.default)
 const Msg = () => import('../pages/msg').then(m => m.default)
+const Pay = () => import('../pages/pay').then(m => m.default)
 const Loan1 = () => import('../pages/loan-1').then(m => m.default)
 const Loan2 = () => import('../pages/loan-2').then(m => m.default)
 const LoanList = () => import('../pages/loan-list').then(m => m.default)
@@ -20,6 +21,12 @@ const WuliuList = () => import('../pages/wuliu-list').then(m => m.default)
 const WuliuFreight = () => import('../pages/wuliu-freight').then(m => m.default)
 const WuliuFreightAddcar = () => import('../pages/wuliu-freight-addcar').then(m => m.default)
 const GoodsList = () => import('../pages/goods-list').then(m => m.default)
+const GoodsInfo = () => import('../pages/goods-info').then(m => m.default)
+const GoodsOrder = () => import('../pages/goods-order').then(m => m.default)
+const OrderList1 = () => import('../pages/order-list1').then(m => m.default)
+const OrderInfo1 = () => import('../pages/order-info1').then(m => m.default)
+const OrderList2 = () => import('../pages/order-list2').then(m => m.default)
+const OrderInfo2 = () => import('../pages/order-info2').then(m => m.default)
 
 const routes = [
   {
@@ -132,7 +139,15 @@ const routes = [
     meta: {
       title: '提示'
     }
-  }, 
+  },
+  {
+    path: '/pay',
+    name: 'pay',
+    component: Pay,
+    meta: {
+      title: '微信支付'
+    }
+  },
   {
     path: '/car/selector',
     name: 'car-selector',
@@ -206,6 +221,59 @@ const routes = [
     component: GoodsList,
     meta: {
       title: '车辆列表'
+    }
+  },
+  {
+    path: '/goods/info',
+    name: 'goods-info',
+    component: GoodsInfo,
+    meta: {
+      title: '车辆详情'
+    }
+  },
+  {
+    path: '/goods/order',
+    name: 'goods-order',
+    component: GoodsOrder,
+    meta: {
+      title: '预约下单',
+      auth: true
+    }
+  },
+  {
+    path: '/order/list1',
+    name: 'order-list1',
+    component: OrderList1,
+    meta: {
+      title: '预约订单',
+      auth: true
+    }
+  },
+  {
+    path: '/order/info1',
+    name: 'order-info1',
+    component: OrderInfo1,
+    meta: {
+      title: '预约单详情',
+      auth: true
+    }
+  },
+  {
+    path: '/order/list2',
+    name: 'order-list2',
+    component: OrderList2,
+    meta: {
+      title: '订购单',
+      auth: true
+    }
+  },
+  {
+    path: '/order/info2',
+    name: 'order-info2',
+    component: OrderInfo2,
+    meta: {
+      title: '订购单详情',
+      auth: true
     }
   },
 ]

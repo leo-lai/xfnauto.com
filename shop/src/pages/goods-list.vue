@@ -1,5 +1,5 @@
 <template>
-  <view-box>
+  <view-box no-prevent-bounce>
     <div class="l-search-placeholder">
       <search @on-submit="onSearch" @on-cancel="onSearch" @on-focus="hideSearchFilter" v-model="list.filter.keywords" :auto-fixed="false" placeholder="查找车辆"></search>
     </div>
@@ -31,7 +31,7 @@
     </div>
     <!-- 产品列表 -->
     <div class="l-bg-white l-padding-lr">
-      <div class="l-flex-h l-list-1" :class="{'vux-1px-t': index > 0}" v-for="(item,index) in list.data" :key="item.goodsCarsId">
+      <router-link tag="div" :to="'/goods/info?id=' + item.goodsCarsId" class="l-flex-h l-list-1" :class="{'vux-1px-t': index > 0}" v-for="(item,index) in list.data" :key="item.goodsCarsId">
         <div class="_thumb l-bg-co l-margin-r-m" :style="{'background-image': 'url(' + item.thumb + ')'}"></div>
         <div class="l-rest">
           <h5 class="l-txt-wrap1">{{item.carsName}}</h5>
@@ -52,7 +52,7 @@
             <p v-if="item.discountPriceStr" :class="item.discountPriceOnLine ? '_jia' : '_jian'">{{item.discountPriceStr}}</p>
           </div>
         </div>
-      </div>
+      </router-link>
     </div>
     <infinite-loading ref="infinite" :on-infinite="onInfinite"></infinite-loading>
   </view-box>
@@ -112,7 +112,7 @@ export default {
     onInfinite(page) {
       this.$api.goods.getList(this.list.filter, page || this.list.page).then(({data}) => {
         let returnList = data.list.map(item => {
-          item.thumb = this.$utils.imgThumb(item.carsImage, 100, 100) || this.$config.thumb1
+          item.thumb = this.$utils.imgThumb(item.image, 100, 100) || this.$config.thumb1
           item.guidingPriceStr = (item.guidingPrice / 10000).toFixed(2)
 
           item.discountPriceOnLine = item.discountPriceOnLine || 0
@@ -133,9 +133,7 @@ export default {
         this.list.data = data.page > 1 ? this.list.data.concat(returnList) : returnList
 
         if(returnList.length > 0){
-          this.$nextTick(()=>{
-            this.$refs.infinite.$emit('$InfiniteLoading:loaded')
-          })
+          this.$refs.infinite.$emit('$InfiniteLoading:loaded')
           
           if(returnList.length >= data.rows){
             this.list.page++
@@ -145,8 +143,10 @@ export default {
         }else{
           this.$refs.infinite.$emit('$InfiniteLoading:complete')
         }
-      }).catch(_ => {
-        this.$refs.infinite.$emit('$InfiniteLoading:complete')
+      }).catch(err => {
+        if(!err.abort) {
+          this.$refs.infinite.$emit('$InfiniteLoading:complete')
+        }
       })
     },
     tabClick(index = 1) {
@@ -180,6 +180,9 @@ export default {
       this.getBrandList()
       this.getCityList()  
     }, 500)
+  },
+  beforeDestroy() {
+    this.$api.abort()
   }
 }
 </script>

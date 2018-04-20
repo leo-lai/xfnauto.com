@@ -22,14 +22,25 @@ service.interceptors.request.use(config => {
 service.interceptors.response.use(response => {
   const data = response.data
   if(data.resultCode == 200) {
+    data.code = data.resultCode
     return data
   }else {
-    data.message = data.message || '服务器接口出错'
-    return Promise.reject(data)
+    return Promise.reject({
+      code: data.resultCode,
+      message: data.message || '服务器接口出错'
+    })
   }
 }, error => {
-  if (error && error.response) {
-    switch (error.response.status) {
+  error = error || {
+    code: 0,
+    message: '未知错误'
+  }
+
+  if (error.response) {
+    error.code = error.response.status
+    error.message = ''
+
+    switch (error.code) {
       case 400:
         error.message = '请求错误'
         break
@@ -43,7 +54,7 @@ service.interceptors.response.use(response => {
         error.message = `请求地址出错: ${error.response.config.url}`
         break
       case 408:
-        error.message = '请求超时'
+        error.message = '请求超时，请检查网络'
         break
       case 500:
         error.message = '服务器内部错误'
@@ -66,8 +77,6 @@ service.interceptors.response.use(response => {
       default:
       	error.message = '服务器连接失败'
     }
-    error.resultCode = error.response.status
-    error.message += ` - ${error.response.status}`
   }
   return Promise.reject(error)
 })
@@ -97,7 +106,10 @@ const showLoading = text => Vue.$vux.loading.show({ text })
 const hideLoading = _ => Vue.$vux.loading.hide()
 
 const fetch = {
+  source: {},
   ajax(url = '', data = {}, method = 'GET', contentType = 'form') {
+    let source = axios.CancelToken.source()
+    fetch.source[url] = source
     data.sessionId = storage.local.get('token')
     return new Promise((resolve, reject) => {
       service({
@@ -105,6 +117,7 @@ const fetch = {
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded'
         },
+        cancelToken: source.token,
         transformRequest: [function(data) {
           let ret = []
           for (let key in data) {
@@ -112,17 +125,25 @@ const fetch = {
           }
           return ret.join('&')
         }]
-      }).then(resolve).catch(error => {
-        if(error.resultCode == 4002) {
-          // 登录失效
-          showToast('登录失效').then(_ => {
-            api.user.logout()
-          })
-        }else {
-          // 接口出错
-          showMessage(error.message)
+      }).then(data => {
+        resolve(data)
+      }).catch(error => {
+        if (axios.isCancel(error)) {
+          error.code = -1
+          error.abort = true
+        } else {
+          error.abort = false
+          if (error.code == 4002) { // 登录失效
+            showToast('登录失效').then(_ => {
+              api.user.logout()
+            })
+          } else { // 接口出错
+            showMessage(error.message)
+          }
         }
         reject(error)
+      }).finally(_ => {
+        fetch.source[url] = null
       })
     })
   },
@@ -134,6 +155,16 @@ const fetch = {
 const api = {
   baseURL,
   pageSizes: [10, 20, 50, 100],
+  abort(url = '') { // 取消接口请求
+    if (url) {
+      fetch.source[url] && fetch.source[url].cancel('取消请求')
+    }else {
+      let urls = Object.keys(fetch.source)
+      urls.forEach(url => {
+        fetch.source[url] && fetch.source[url].cancel('取消请求')
+      })
+    }
+  },
   // 发送手机验证码
   sendMobiCode(phone, btn) {
     if (!/^1\d{10}$/.test(phone)) {
@@ -247,18 +278,13 @@ const api = {
     return promise
   },
   getWxPayConfig(formData = {}) { // 微信支付配置
+    if (!formData.orderId) {
+      showMessage('订单id不存在')
+      return Promise.reject('订单id不存在')
+    }
+
     let promise = new Promise((resolve, reject) => {
-      if (!formData.orderId) {
-        reject('支付失败：订单id不存在')
-        showMessage('支付失败：订单id不存在')
-        return
-      }
-      if (storage.local.get('openId')) {
-        formData.openId = storage.local.get('openId')
-      }
-      fetch.post('/shopOrderPay/pay/prepare', formData).then(({ data }) => {
-        storage.session.set('buy_become_agent', data.isAgent || 0)
-        storage.local.set('openId', data.openId)
+      fetch.post('/interfaceShop/advanceOrder/orgAdvanceOrderInpay', formData).then(({ data }) => {
         resolve(data.payInfo)
       }).catch(reject)
     })
@@ -469,6 +495,9 @@ const api = {
       formData.rows = rows
       return fetch.post('/interfaceShop/shopGoodsCars/shopGoodsCarsList', formData)
     },
+    getInfo(goodsCarsId = '') {
+      return fetch.post('/interfaceShop/shopGoodsCars/shopGoodsCarsInfo', { goodsCarsId })
+    },
     getBrandList() {
       return fetch.post('/interfaceShop/shopGoodsCars/brandListList')
     },
@@ -479,6 +508,27 @@ const api = {
       formData.page = page
       formData.rows = rows
       return fetch.post('/interfaceShop/goodsCarsActivity/activityList', formData)
+    }
+  },
+  order: {
+    add(formData = {}) { // 预约下单
+      return fetch.post('/interfaceShop/advanceOrder/advanceOrderEdit', formData)
+    },
+    getList1(formData = {}, page = 1, rows = 50) { // 预约单
+      formData.page = page
+      formData.rows = rows
+      return fetch.post('/interfaceShop/advanceOrder/myOrgAdvanceOrderList', formData)
+    },
+    getInfo1(advanceOrderId = '') { // 预约单详情
+      return fetch.post('/interfaceShop/advanceOrder/orgAdvanceOrderInfo', { advanceOrderId })
+    },
+    getList2(formData = {}, page = 1, rows = 50) { // 订购单
+      formData.page = page
+      formData.rows = rows
+      return fetch.post('/interfaceShop/advanceOrder/myOrderList', formData)
+    },
+    getInfo2(orderId = '') { // 订购单详情
+      return fetch.post('/interfaceShop/advanceOrder/myOrderInfo', { orderId })
     }
   },
   loan: { // 贷款

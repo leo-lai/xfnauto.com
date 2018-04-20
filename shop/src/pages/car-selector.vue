@@ -1,5 +1,5 @@
 <template>
-  <div id="no-prevent-bounce">
+  <div no-prevent-bounce>
     <div class="l-panel" :class="brand.visible ? '_center' : '_right'">
       <div class='_inner l-flex-v'>
         <div class='l-padding-btn'>选择品牌</div>

@@ -22,7 +22,10 @@
     <div class="l-bg-white l-padding-t">
       <div class="l-zoom">
         <group style="margin-top:-1px;" gutter="0">
-          <cell title="我的订单" is-link>
+          <cell title="预约单" link="/order/list1">
+            <img class="weui-cell__icon" slot="icon" src="../assets/images/icon-001.png">
+          </cell>
+          <cell title="订购单" link="/order/list2">
             <img class="weui-cell__icon" slot="icon" src="../assets/images/icon-001.png">
           </cell>
           <cell title="寻车记录" link="/car/seek/list">

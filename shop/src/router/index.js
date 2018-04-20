@@ -6,7 +6,13 @@ import routes from './routes'
 
 
 Vue.use(Router)
-const router = new Router({ mode: 'history', routes })
+const router = new Router({ 
+  base: '/',
+  mode: 'history', 
+  routes 
+})
+
+router.hostURL = window.location.origin + (router.options.base || '')
 
 // 记录滚动位置
 router.savedScroll = {}
@@ -50,7 +56,11 @@ router.beforeEach((to, from, next) => {
   // http直接跳转
   if (/\/?http/.test(to.fullPath)) {
     let url = to.fullPath.replace(/\/?(http)/, '$1')
-    window.location.href = url
+    if (routerEventName === 'replace') {
+      window.location.replace(url)
+    }else{
+      window.location.href = url
+    }
     return next(false)
   }
 

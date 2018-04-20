@@ -55,27 +55,30 @@
     <div class="l-bg-white l-zoom l-margin-tb">
       <img class="l-img-block" src="../assets/images/20180402009.jpg" alt="活动热销专区">
       <div class="l-padding-lr">
-        <div class="l-flex-hc l-list-1 vux-1px-b" v-for="item in goodsActive" :key="item">
-          <div class="_thumb l-bg-co l-margin-r-m" style="background-image:url('https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1387625928,2358473142&fm=27&gp=0.jpg')"></div>
+        <router-link tag="div" class="l-flex-h l-list-1 vux-1px-b" :to="'/goods/info?id=' + item.goodsCarsActivityId" v-for="item in goodsActive" :key="item.goodsCarsActivityId">
+          <div class="_thumb l-bg-co l-margin-r-m" :style="{'background-image':'url('+item.thumb+')'}"></div>
           <div class="l-rest">
-            <h5 class="l-txt-wrap1">本田啊打发的骄傲的法拉利大撒反对发本田啊打发的骄傲的法拉利大撒反对发</h5>
+            <h5 class="l-txt-wrap1">
+              {{item.carsName}}
+            </h5>
             <div class="l-fs-s l-txt-gray">
               <p>
-                <span class="_tag1">车身：白色</span>
-                <span class="_tag1">内饰：白色</span>
+                <span class="_tag1">车身：{{item.colourName}}</span>
+                <span class="_tag1">内饰：{{item.interiorName}}</span>
               </p>
               <p>
-                <span class="_tag2 l-fr">含强交险</span>
-                <i class="l-txt-theme l-fs-xs">￥</i><span class="l-txt-theme l-fs-l l-margin-r-m">18.5万</span>
-                <span class="l-txt-del">指导价：￥50万</span>
+                <span class="_tag2 l-fr" v-if="item.overInsurance">含强交险</span>
+                <span class="l-txt-theme l-fs-l l-margin-r-m l-rmb">{{item.saleingPriceStr}}万</span>
+                <span>指导价：<i class="l-rmb">{{item.guidingPriceStr}}</i>万</span>
               </p>
               <p>
-                <span class="l-fr">库存：100</span>
-                <span>江门鹤山店</span>
+                <span class="l-fr">库存：{{item.saleingNumber}}</span>
+                <span>{{item.orgName}}</span>
               </p>
+              <p v-if="item.discountPriceStr" :class="item.discountPriceOnLine ? '_jia' : '_jian'">{{item.discountPriceStr}}</p>
             </div>
           </div>
-        </div>
+        </router-link>
       </div>
       <div class="l-margin">
         <x-button :plain="true" type="primary" link="/goods/list?isActive=1">查看全部活动 »</x-button>
@@ -86,30 +89,31 @@
     <div class="l-bg-white l-zoom l-margin-tb">
       <img class="l-img-block" src="../assets/images/20180402010.jpg" alt="新品专区">
       <div class="l-padding-lr">
-        <div class="l-flex-hc l-list-1 vux-1px-b" v-for="item in goodsNew" :key="item">
-          <div class="_thumb l-bg-co l-margin-r-m" style="background-image:url('https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=1387625928,2358473142&fm=27&gp=0.jpg')"></div>
+        <router-link tag="div" class="l-flex-h l-list-1 vux-1px-b" :to="'/goods/info?id=' + item.goodsCarsId" v-for="item in goodsNew" :key="item.goodsCarsId">
+          <div class="_thumb l-bg-co l-margin-r-m" :style="{'background-image':'url('+item.thumb+')'}"></div>
           <div class="l-rest">
             <h5 class="l-txt-wrap1">
               <span class="_tag0">新品</span>
-              本田啊打发的骄傲的法拉利大撒反对发本田啊打发的骄傲的法拉利大撒反对发
+              {{item.carsName}}
             </h5>
             <div class="l-fs-s l-txt-gray">
               <p>
-                <span class="_tag1">车身：白色</span>
-                <span class="_tag1">内饰：白色</span>
+                <span class="_tag1">车身：{{item.colourName}}</span>
+                <span class="_tag1">内饰：{{item.interiorName}}</span>
               </p>
               <p>
-                <span class="_tag2 l-fr">含强交险</span>
-                <i class="l-txt-theme l-fs-xs">￥</i><span class="l-txt-theme l-fs-l l-margin-r-m">18.5万</span>
-                <span class="l-txt-del">指导价：￥50万</span>
+                <span class="_tag2 l-fr" v-if="item.overInsurance">含强交险</span>
+                <span class="l-txt-theme l-fs-l l-margin-r-m l-rmb">{{item.saleingPriceStr}}万</span>
+                <span>指导价：<i class="l-rmb">{{item.guidingPriceStr}}</i>万</span>
               </p>
               <p>
-                <span class="l-fr">库存：100</span>
-                <span>江门鹤山店</span>
+                <span class="l-fr">库存：{{item.saleingNumber}}</span>
+                <span>{{item.orgName}}</span>
               </p>
+              <p v-if="item.discountPriceStr" :class="item.discountPriceOnLine ? '_jia' : '_jian'">{{item.discountPriceStr}}</p>
             </div>
           </div>
-        </div>
+        </router-link>
       </div>
       <div class="l-margin">
         <x-button :plain="true" type="primary" link="/goods/list?isNew=1">查看全部新品 »</x-button>
@@ -146,20 +150,55 @@ export default {
   methods: {
     getGoodsActive() {
       this.$api.goods.getActiveList({}, 1, 5).then(({data}) => {
-        this.goodsActive = data.list
+        this.goodsActive = data.list.map(item => {
+          item.thumb = this.$utils.imgThumb(item.image, 100, 100) || this.$config.thumb1
+          item.guidingPriceStr = (item.guidingPrice / 10000).toFixed(2)
+          item.discountPriceOnLine = item.discountPriceOnLine || 0
+          item.saleingPriceStr = (item.activityPrice / 10000).toFixed(2)
+          if(item.discountPriceOnLine === 0) {
+            item.discountPriceStr = ''
+          }else {
+            item.discountPriceStr = (item.discountPriceOnLine > 0 ? '加价 ' : '降价 ')
+            if(Math.abs(item.discountPriceOnLine) >= 10000) {
+              item.discountPriceStr += (item.discountPriceOnLine / 10000).toFixed(2) + '万元'
+            }else {
+              item.discountPriceStr += item.discountPriceOnLine+ '元'
+            }
+          }
+          return item
+        })
       })
     },
     getGoodsNew() {
       this.$api.goods.getList({isNew: 1}, 1, 5).then(({data}) => {
-        this.goodsNew = data.list
+        this.goodsNew = data.list.map(item => {
+          item.thumb = this.$utils.imgThumb(item.image, 100, 100) || this.$config.thumb1
+          item.guidingPriceStr = (item.guidingPrice / 10000).toFixed(2)
+          item.discountPriceOnLine = item.discountPriceOnLine || 0
+          item.saleingPriceStr = (item.bareCarPriceOnLine / 10000).toFixed(2)
+          if(item.discountPriceOnLine === 0) {
+            item.discountPriceStr = ''
+          }else {
+            item.discountPriceStr = (item.discountPriceOnLine > 0 ? '加价 ' : '降价 ')
+            if(Math.abs(item.discountPriceOnLine) >= 10000) {
+              item.discountPriceStr += (item.discountPriceOnLine / 10000).toFixed(2) + '万元'
+            }else {
+              item.discountPriceStr += item.discountPriceOnLine+ '元'
+            }
+          }
+          return item
+        })
       })
     }
   },
   mounted() {
     setTimeout(() => {
       this.getGoodsActive()
-      // this.getGoodsNew()
+      this.getGoodsNew()
     }, 500)
+  },
+  beforeDestroy() {
+    this.$api.abort()
   }
 }
 </script>

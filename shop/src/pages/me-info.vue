@@ -78,7 +78,7 @@ export default {
   name: 'me-info',
   data () {
     return {
-      storeStatus: ['审核通过', '已禁用', '审核中'],
+      storeStatus: ['审核通过', '审核不通过', '审核中'],
       userInfo: null,
       storeInfo: null,
       businessLicense: [],

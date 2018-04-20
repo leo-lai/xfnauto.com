@@ -21,7 +21,7 @@
           <img class="_icon" src="../assets/images/icon-015.png" alt="">创建日期：{{info.createDate}}
         </span>
       </div>
-      <div class="l-margin l-remark">{{info.remarks}}</div>
+      <div v-if="info.remarks" class="l-margin l-remark">{{info.remarks}}</div>
       <div class="l-margin l-fs-m">
         <div>
           <span class="l-fr">{{info.colourName}}</span>

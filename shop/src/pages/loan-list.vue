@@ -3,7 +3,7 @@
     <div class="l-search-placeholder">
       <search @on-submit="onSearch" @on-cancel="onSearch" v-model="list.filter.keywords" :auto-fixed="false" placeholder="查找贷款记录"></search>
     </div>
-    <router-link tag="div" :to="'/loan/info?id=' + item.applyLoanId" class="l-loan-item" v-for="item in list.data" :key="item.applyLoanId">
+    <router-link tag="div" :to="'/loan/info?id=' + item.applyLoanId" class="l-loan-item  l-fs-m" v-for="item in list.data" :key="item.applyLoanId">
       <div class="_hd l-flex-hc l-is-link">
         <div class="l-rest">贷款单号：--</div>
         <span class="l-txt-theme">{{state[item.loneState]}}</span>

@@ -61,7 +61,7 @@ export default {
       this.$router.savedScroll[this.$route.fullPath] = event.target.scrollTop
     },
     onScroll() {
-      this.noPreventBounce = !!document.querySelector('#no-prevent-bounce')
+      this.noPreventBounce = !!document.querySelector('[no-prevent-bounce]')
       this.$nextTick(_ => {
         let viewBoxs = document.querySelectorAll('#vux_view_box_body')
         let scrollElem = viewBoxs[1] || viewBoxs[0]
@@ -133,87 +133,4 @@ export default {
 @import "~vux/src/styles/reset.less";
 @import "~vux/src/styles/1px.less";
 @import "./assets/base.less";
-.l-link-1 {
-  text-align: center;
-  ._icon {
-    display: block;
-    width: 50px;
-    height: 50px;
-    margin: auto;
-  }
-  ._txt {
-    margin-top: 5px;
-  }
-}
-
-.l-link-2 {
-  display: block;
-  width: 106px;
-  margin: auto;
-}
-.l-list-1 {
-  position: relative;
-  padding: 15px 0;
-  /* &::after{content: ' '; position: absolute; left: 0; right: 0; bottom: 0; height: 1px; color: #d9d9d9; 
-  border-bottom: 1px solid #d9d9d9; transform-origin: 0 100%; transform: scaleY(.5);} */
-  p {
-    margin-top: 3px;
-  }
-  ._thumb {
-    position: relative;
-    border: 1px solid #d9d9d9;
-    border-radius: 5px;
-    width: 90px;
-    height: 90px;
-  }
-  ._thumb img {
-    display: block;
-    width: 100%;
-    height: 100%;
-  }
-  ._tag0 {
-    display: inline-block;
-    background-color: #fd8842;
-    color: #fff;
-    border-radius: 2px;
-    padding: 0 5px;
-    font-size: 10px;
-    vertical-align: middle;
-  }
-  ._tag1 {
-    display: inline-block;
-    border-radius: 10px;
-    background-color: #e2f3ff;
-    padding: 1px 10px;
-    margin-right: 5px;
-    font-size: 11px;
-  }
-  ._tag2 {
-    border-radius: 5px;
-    border: 1px solid rgb(235, 97, 0);
-    color: rgb(235, 97, 0);
-    padding: 1px 5px;
-    font-size: 10px;
-    margin-top: 3px;
-  }
-  ._jia, ._jian {
-    display: inline-block;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    border-radius: 5px;
-    padding: 0 10px;
-    height: 20px;
-    line-height: 20px;
-    background-image: linear-gradient(to right, #f06a35, #e34c79);
-    color: #fff;
-    text-align: center;
-    font-size: 11px;
-    opacity: 0.9;
-    margin-top: 5px;
-  }
-  ._jian{
-    background-image: linear-gradient(to right, #41df66, #16ba5b);
-  }
-}
 </style>
