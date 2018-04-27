@@ -31,7 +31,7 @@
     </div>
     <!-- 产品列表 -->
     <div class="l-bg-white l-padding-lr">
-      <router-link tag="div" :to="'/goods/info?id=' + item.goodsCarsId" class="l-flex-h l-list-1" :class="{'vux-1px-t': index > 0}" v-for="(item,index) in list.data" :key="item.goodsCarsId">
+      <router-link tag="div" :to="'/goods/info?id=' + item.goodsCarsId + '&isActive=' + isActive" class="l-flex-h l-list-1" :class="{'vux-1px-t': index > 0}" v-for="(item,index) in list.data" :key="item.goodsCarsId">
         <div class="_thumb l-bg-co l-margin-r-m" :style="{'background-image': 'url(' + item.thumb + ')'}"></div>
         <div class="l-rest">
           <h5 class="l-txt-wrap1">{{item.carsName}}</h5>
@@ -41,15 +41,15 @@
               <span class="_tag1">内饰：{{item.interiorName}}</span>
             </p>
             <p>
-              <span class="_tag2 l-fr" v-if="item.overInsurance">含强交险</span>
+              <span class="_tag2 l-fr" v-if="item.overInsurance">带交强险</span>
               <span class="l-txt-theme l-fs-l l-margin-r-m l-rmb">{{item.saleingPriceStr}}万</span>
               <span>指导价：<i class="l-rmb">{{item.guidingPriceStr}}</i>万</span>
             </p>
             <p>
-              <span class="l-fr">库存：{{item.saleingNumber}}</span>
+              <span class="l-fr">{{item.goodsCarsActivityId ? '活动数量：' : '库存：'}}{{item.saleingNumber}}</span>
               <span>{{item.orgName}}</span>
             </p>
-            <p v-if="item.discountPriceStr" :class="item.discountPriceOnLine ? '_jia' : '_jian'">{{item.discountPriceStr}}</p>
+            <p v-if="item.discountPriceStr" :class="item.discountPriceOnLine > 0 ? '_jia' : '_jian'">{{item.discountPriceStr}}</p>
           </div>
         </div>
       </router-link>
@@ -69,6 +69,7 @@ export default {
   },
   data () {
     return {
+      isActive: 0,
       tabIndex: -1,
       brandList: [],
       cityList: [],
@@ -110,22 +111,34 @@ export default {
       this.onInfinite(1)
     },
     onInfinite(page) {
-      this.$api.goods.getList(this.list.filter, page || this.list.page).then(({data}) => {
+      let promise = null
+      if(this.isActive) {
+        promise = this.$api.goods.getActiveList(this.list.filter, page || this.list.page)
+      }else{
+        promise = this.$api.goods.getList(this.list.filter, page || this.list.page)
+      }
+      
+      promise.then(({data}) => {
         let returnList = data.list.map(item => {
           item.thumb = this.$utils.imgThumb(item.image, 100, 100) || this.$config.thumb1
           item.guidingPriceStr = (item.guidingPrice / 10000).toFixed(2)
+          
+          if(item.goodsCarsActivityId) {
+            item.goodsCarsId = item.goodsCarsActivityId
+            item.saleingPriceStr = (item.activityPrice / 10000).toFixed(2)
+          }else {
+            item.saleingPriceStr = (item.bareCarPriceOnLine / 10000).toFixed(2)
+          }
 
-          item.discountPriceOnLine = item.discountPriceOnLine || 0
-          item.saleingPrice = item.guidingPrice + item.discountPriceOnLine 
-          item.saleingPriceStr = (item.saleingPrice / 10000).toFixed(2)
-          if(item.discountPriceOnLine === 0) {
+          if(!item.discountPriceOnLine) {
             item.discountPriceStr = ''
           }else {
+            let discountPriceOnLine = Math.abs(item.discountPriceOnLine)
             item.discountPriceStr = (item.discountPriceOnLine > 0 ? '加价 ' : '降价 ')
-            if(Math.abs(item.discountPriceOnLine) >= 10000) {
-              item.discountPriceStr += (item.discountPriceOnLine / 10000).toFixed(2) + '万元'
+            if(discountPriceOnLine >= 10000) {
+              item.discountPriceStr += (discountPriceOnLine / 10000).toFixed(2) + '万元'
             }else {
-              item.discountPriceStr += item.discountPriceOnLine+ '元'
+              item.discountPriceStr += discountPriceOnLine+ '元'
             }
           }
           return item
@@ -172,6 +185,7 @@ export default {
     }
   },
   created() {
+    this.isActive = this.$route.query.isActive == 1 ? 1 : 0
     this.list.filter.isNew = this.$route.query.isNew == 1 ? 1 : 0
     this.list.filter.brandId = this.$route.query.bid || ''
   },

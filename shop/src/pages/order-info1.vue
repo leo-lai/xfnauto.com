@@ -1,14 +1,14 @@
 <template>
   <view-box>
-    <div class="l-zoom" v-if="info && info.carInfo">
+    <div class="l-zoom" v-if="carInfo">
       <div class="l-bg-white l-padding vux-1px-b">预约单号：{{info.orderCode}}</div>
       <div class="l-bg-white l-flex-hc l-padding vux-1px-b">
-        <img class="l-thumb1 l-margin-r" :src="info.carInfo.thumb" alt="">
+        <img class="l-thumb1 l-margin-r" :src="carInfo.thumb" alt="">
         <div class="l-rest l-fs-m">
-          <h4 class="l-fs-m">{{info.carInfo.carsName}}</h4>
+          <h4 class="l-fs-m">{{carInfo.carsName}}</h4>
           <p>
-            <span class="l-txt-gray">车身颜色：{{info.carInfo.colourName}}</span>
-            <span class="l-txt-gray l-margin-l-s">内饰颜色：{{info.carInfo.interiorName}}</span>
+            <span class="l-txt-gray">车身颜色：{{carInfo.colourName}}</span>
+            <span class="l-txt-gray l-margin-l-s">内饰颜色：{{carInfo.interiorName}}</span>
           </p>
         </div>
       </div>
@@ -17,19 +17,19 @@
         <table>
           <tr>
             <td class="_tit">指导价：</td>
-            <td class="l-txt-right"><span class="l-rmb">{{info.carInfo.guidingPrice}}</span></td>
+            <td class="l-txt-right"><span class="l-rmb">{{carInfo.guidingPrice}}</span></td>
           </tr>
-          <tr v-if="info.discountPriceOnLine > 0">
+          <tr v-if="carInfo.discountPriceOnLine > 0">
             <td class="_tit">已加价：</td>
-            <td class="l-txt-right l-txt-gray">+ <span class="l-rmb">{{info.carInfo.discountPriceOnLine}}</span></td>
+            <td class="l-txt-right l-txt-gray"><span class="l-rmb">{{carInfo.discountPriceOnLine}}</span></td>
           </tr>
           <tr v-else>
             <td class="_tit">已优惠：</td>
-            <td class="l-txt-right l-txt-gray">- <span class="l-rmb">{{0-info.carInfo.discountPriceOnLine}}</span></td>
+            <td class="l-txt-right l-txt-gray"><span class="l-rmb">{{0-carInfo.discountPriceOnLine}}</span></td>
           </tr>
           <tr>
             <td class="_tit">裸车价：</td>
-            <td class="l-txt-right"><span class="l-rmb l-txt-theme">{{info.carInfo.bareCarPriceOnLine}}</span></td>
+            <td class="l-txt-right"><span class="l-rmb l-txt-theme">{{carInfo.bareCarPriceOnLine}}</span></td>
           </tr>
           <tr>
             <td class="_tit">定金：</td>
@@ -61,7 +61,14 @@
             <td class="l-txt-right"><span >{{info.appointmentDate}}</span></td>
           </tr>
         </table>
-        <div class="l-remark l-margin-t">{{info.remarks}}</div>
+        <div v-if="info.remarks" class="l-remark l-margin-t">{{info.remarks}}</div>
+      </div>
+    </div>
+
+    <div v-if="info && !info.overPay && info.expectPayWay == 1" class="l-fixed-bottom">
+      <div class="_placeholder"></div>
+      <div class="_inner">
+        <div class="l-btn-w50 l-padding-tb"><x-button @click.native="gotoPay" class="l-btn-radius" type="primary">去支付</x-button></div>
       </div>
     </div>
   </view-box>
@@ -73,6 +80,7 @@ export default {
     return {
       expectBuyWay: ['', '全款', '贷款'],
       expectPayWay: ['', '线上支付', '到店支付'],
+      carInfo: null,
       info: null
     }
   },
@@ -80,16 +88,24 @@ export default {
     getInfo() {
       this.$vux.loading.show()
       this.$api.order.getInfo1(this.$route.query.id).then(({data}) => {
-        if(data.orderInfoVos && data.orderInfoVos.length > 0) {
-          let carInfo = data.orderInfoVos[0]
-          carInfo.thumb = this.$utils.imgThumb(carInfo.image, 100, 100) || this.$config.thumb1
-          carInfo.guidingPriceStr = (carInfo.guidingPrice / 10000).toFixed(2)
-          data.carInfo = carInfo
-        }
+        let carInfo = data.orderInfoVos[0] || {}
+        carInfo.thumb = carInfo.image ? this.$utils.imgThumb(carInfo.image, 100, 100) : this.$config.thumb1
+        carInfo.number = data.orderInfoVos.length
+        this.carInfo = carInfo
         this.info = data
       }).finally(_ => {
         this.$vux.loading.hide()
       })
+    },
+    gotoPay() {
+      this.$storage.session.set('pay-info', {
+        id: this.info.advanceOrderId,
+        name: this.carInfo.carsName,
+        price: this.carInfo.depositPrice,
+        number: this.carInfo.number,
+        money: this.info.depositPrice
+      })
+      this.$router.replace(this.$utils.url.join(this.$router.hostURL, '/pay'))
     }
   },
   mounted() {

@@ -55,6 +55,10 @@ export default {
           destinationLongitude: item.destinationLongitude,
         })
       )
+
+      if(formData.consignmentTypeLineId != item.lineId){
+        this.$storage.session.remove('wuliu-freight-addcar')
+      }
       this.$router.push('/wuliu/freight')
     }
   },

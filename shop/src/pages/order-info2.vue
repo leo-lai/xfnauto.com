@@ -89,9 +89,7 @@
               </div>
             </div>
 
-            <div class="l-margin-t-s l-txt-gray l-fs-s" v-if="carItem.remark">
-              备注：{{carItem.remark}}
-            </div>
+            <div class="l-margin-t-s l-txt-gray l-fs-s" v-if="carItem.remark">备注：{{carItem.remark}}</div>
 
             <!-- 车架号列表 -->
             <div class="l-margin-t-s l-fs-s" v-if="carItem.cars && carItem.cars.length > 0">

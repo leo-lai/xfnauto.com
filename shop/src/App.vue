@@ -15,7 +15,7 @@
           <tabbar-item :link="{path: '/loan', replace: true}" :selected="$route.path === '/loan'">
             <img slot="icon" src="./assets/images/tabbar-02.png">
             <img slot="icon-active" src="./assets/images/tabbar-02-active.png">
-            <span slot="label">0-1成首付</span>
+            <span slot="label">{{userInfo && userInfo.userType == 2 ? '找垫资' : '0-1成首付'}}</span>
           </tabbar-item>
           <tabbar-item :link="{path: '/me', replace: true}" :selected="$route.path === '/me'">
             <img slot="icon" src="./assets/images/tabbar-03.png">
@@ -49,11 +49,22 @@ export default {
   },
   data() {
     return {
-      // scrollElem: {
-      //   scrollTop: 0,
-      //   scrollHeight: 0,
-      //   clientHeight: window.innerHeight
-      // }
+      userInfo: null,
+      scrollElem: {
+        scrollTop: 0,
+        scrollHeight: 0,
+        clientHeight: window.innerHeight
+      }
+    }
+  },
+  watch: {
+    '$route.path': {
+      immediate: true,
+      // deep: true,
+      handler() {
+        this.onScroll()
+        this.$api.user.getInfo().then(data => this.userInfo = data)
+      }
     }
   },
   methods: {
@@ -66,11 +77,9 @@ export default {
         let viewBoxs = document.querySelectorAll('#vux_view_box_body')
         let scrollElem = viewBoxs[1] || viewBoxs[0]
         if (scrollElem) {
-          this.scrollElem = scrollElem
-          setTimeout(() => {
-            scrollElem.scrollTop = this.scrollTop  
-          })
+          setTimeout(_ => scrollElem.scrollTop = this.scrollTop)
           scrollElem.addEventListener('scroll', throttle(this.scrollHandler, 500), false)
+          this.scrollElem = scrollElem
         }
       })
     },
@@ -120,11 +129,7 @@ export default {
     }
   },
   mounted() {
-    this.onScroll()
     this.preventBounce()
-  },
-  updated() {
-    this.onScroll()
   }
 }
 </script>

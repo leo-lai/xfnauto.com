@@ -3,23 +3,15 @@
     <div class="l-bg-white l-zoom" v-if="info">
       <div class="l-flex-hc l-padding vux-1px-b">
         <img class="l-thumb l-margin-r" :src="info.thumb" alt="">
-        <div class="l-rest">
+        <div class="l-rest l-fs-m">
           <h4>{{info.carsName}}</h4>
-          <p class="l-fs-m">
+          <p>
             <span class="l-txt-gray">期望价：</span>
             <span class="l-txt-theme l-rmb l-fs-l">{{info.expectationAmount}}万</span>
             <span class="vux-1px-r l-margin-lr-m"></span>
             <span class="l-txt-gray">指导价：<i class="l-rmb">{{info.guidancePriceStr}}万</i></span>
           </p>
         </div>
-      </div>
-      <div class="l-margin">
-        <span class="l-seek-tag1">
-          <img class="_icon" src="../assets/images/icon-016.png" alt="">发布人：{{info.shopUsersVo.realName}}
-        </span>
-        <span class="l-seek-tag1 l-margin-l-s">
-          <img class="_icon" src="../assets/images/icon-015.png" alt="">创建日期：{{info.createDate}}
-        </span>
       </div>
       <div v-if="info.remarks" class="l-margin l-remark">{{info.remarks}}</div>
       <div class="l-margin l-fs-m">
@@ -28,7 +20,7 @@
           <span class="l-txt-gray">车身颜色：</span>
         </div>
         <div>
-          <span class="l-fr">{{info.interiorName}}</span>
+          <span class="l-fr">{{info.interiorName || ''}}</span>
           <span class="l-txt-gray">内饰颜色：</span>
         </div>
         <div>
@@ -42,6 +34,10 @@
         <div>
           <span class="l-fr">{{info.linkmanPhone}}</span>
           <span class="l-txt-gray">联系电话：</span>
+        </div>
+        <div>
+          <span class="l-fr">{{info.createDate}}</span>
+          <span class="l-txt-gray">创建日期：</span>
         </div>
       </div>
     </div>
@@ -71,7 +67,7 @@
               <a :href="'tel:' + item.systemUserPhone" class="l-fr l-seek-tag3">
                 <img class="_icon" src="../assets/images/icon-017.png" alt="">联系Ta
               </a>
-              有效期至：{{item.overdueDate}}
+              有效期至：{{item.overdueDate | Ymd}}
             </p>
           </div>
         </div>
@@ -109,7 +105,7 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-.l-thumb{width: 50px; height: 50px; border-radius: 5px; border:1px solid #d9d9d9;}
+.l-thumb{width: 60px; height: 60px; border-radius: 5px; border:1px solid #d9d9d9;}
 .l-seek-tag1{
   display: inline-block; font-size: 12px; background-color: #f2f6f9; border-radius: 15px; padding: 3px 15px 3px 10px;
   ._icon{width: 20px; height: 20px; vertical-align: -4px; margin-right: 4px;}

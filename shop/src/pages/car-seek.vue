@@ -19,7 +19,8 @@
       <x-input title="上牌城市" placeholder="请填写" :show-clear="false" :max="50" placeholder-align="right" v-model="formData.signCity"></x-input>
       <calendar title="期望提车时间" v-model="formData.expectationHaveingCarTime" placeholder="请选择" disable-past></calendar>
       <x-input title="联系人姓名" placeholder="请填写" :show-clear="false" :max="20" placeholder-align="right" v-model="formData.linkmanName"></x-input>
-      <x-input title="联系人电话" placeholder="请填写" type="tel" :max="11" :show-clear="false" placeholder-align="right" v-model="formData.linkmanPhone"></x-input>
+      <cell title="联系人姓名" :value="formData.linkmanPhone"></cell>
+      <!-- <x-input title="联系人电话" placeholder="请填写" type="tel" :max="11" :show-clear="false" placeholder-align="right" v-model="formData.linkmanPhone"></x-input> -->
       <x-textarea class="vux-x-input-placeholder-right" title="特殊要求" placeholder="请填写" :rows="3" v-model="formData.remarks"></x-textarea>
     </group>
 
@@ -110,14 +111,14 @@ export default {
         this.$toptip('请选择车型')
         return
       }
-      if(!this.cheshen.slted[0]) {
-        this.$toptip('请选择车身颜色')
-        return
-      }
-      if(!this.neishi.slted[0]) {
-        this.$toptip('请选择内饰颜色')
-        return
-      }
+      // if(!this.cheshen.slted[0]) {
+      //   this.$toptip('请选择车身颜色')
+      //   return
+      // }
+      // if(!this.neishi.slted[0]) {
+      //   this.$toptip('请选择内饰颜色')
+      //   return
+      // }
       if(!(Number(this.formData.expectationAmount) > 0)) {
         this.$toptip('请填写期望价')
         return
@@ -135,8 +136,8 @@ export default {
         return
       }
 
-      this.formData.colourId = this.cheshen.slted[0]
-      this.formData.interiorId = this.neishi.slted[0]
+      this.formData.colourId = this.cheshen.slted[0] || ''
+      this.formData.interiorId = this.neishi.slted[0] || ''
 
       this.$vux.loading.show()
       this.$api.seek.add(this.formData).then(({data}) => {
@@ -160,6 +161,12 @@ export default {
       this.formData.guidancePrice = (sltedCar.price / 10000).toFixed(2)
       this.formData.familyId = sltedFamily.id
     }
+
+    this.$api.user.getInfo().then(data => {
+      console.log(data)
+      this.userInfo = data
+      this.formData.linkmanPhone = data.phoneNumber
+    })
   }
 }
 </script>

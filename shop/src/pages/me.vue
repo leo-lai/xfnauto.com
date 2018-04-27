@@ -25,13 +25,13 @@
           <cell title="预约单" link="/order/list1">
             <img class="weui-cell__icon" slot="icon" src="../assets/images/icon-001.png">
           </cell>
-          <cell title="订购单" link="/order/list2">
+          <cell title="订购单" :link="orderLink">
             <img class="weui-cell__icon" slot="icon" src="../assets/images/icon-001.png">
           </cell>
           <cell title="寻车记录" link="/car/seek/list">
             <img class="weui-cell__icon" slot="icon" src="../assets/images/icon-002.png">
           </cell>
-          <cell title="贷款申请" link="/loan/list">
+          <cell :title="loanTitle" link="/loan/list">
             <img class="weui-cell__icon" slot="icon" src="../assets/images/icon-003.png">
           </cell>
         </group>
@@ -49,7 +49,9 @@ export default {
   },
   data () {
     return {
-      userInfo: null
+      userInfo: null,
+      orderLink: '/order/list3',
+      loanTitle: ''
     }
   },
   methods: {
@@ -58,6 +60,13 @@ export default {
     this.$api.user.getInfo().then(data => {
       console.log(data)
       this.userInfo = data
+      if(data.userType == 2) {
+        this.orderLink = '/order/list2'
+        this.loanTitle = '垫资申请记录'
+      }else{
+        this.orderLink = '/order/list3'
+        this.loanTitle = '贷款申请记录'
+      }
     })
   }
 }

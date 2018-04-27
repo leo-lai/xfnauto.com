@@ -12,8 +12,8 @@
       <cell title="指导价">
         <span>{{formData.guidancePrice}} 元</span>
       </cell>
-      <x-input title="车辆数量" placeholder="请输入申请贷款车辆数量" type="tel" :max="10" placeholder-align="right" v-model="formData.carNumber"></x-input>
-      <x-input title="贷款总额" placeholder="请输入贷款总额" type="number" :max="10" placeholder-align="right" v-model="formData.loanAmount">
+      <x-input title="车辆数量" placeholder="请输入申请垫资车辆数量" type="tel" :max="10" placeholder-align="right" v-model="formData.carNumber"></x-input>
+      <x-input title="垫资总额" placeholder="请输入垫资总额" type="number" :max="10" placeholder-align="right" v-model="formData.loanAmount">
         <span slot="right" class="l-txt-gray l-margin-l-s">元</span>
       </x-input>
     </group>
@@ -21,8 +21,6 @@
     <div class="l-flex-hc l-padding-btn l-margin-t">
       <img class="l-img-icon l-margin-r-m" src="../assets/images/icon-008.png" alt="">
       <h4 class="l-rest">商家信息</h4>
-      <router-link v-if="!storeInfo" class="l-fr l-link-main" to="/me/store/info">去完善信息</router-link>
-      <span v-else class="l-txt-theme">{{storeStatus[storeInfo.status - 1]}}</span>
     </div>
 
     <group gutter="0" v-if="storeInfo" label-width="6em">
@@ -78,7 +76,7 @@ export default {
   name: 'loan-2',
   data () {
     return {
-      storeStatus: ['审核通过', '已禁用', '审核中'],
+      storeStatus: ['店铺资料审核通过', '店铺资料审核不通过', '审核中'],
       storeInfo: null,
       businessLicense: [],
       storeImages: [],
@@ -91,9 +89,20 @@ export default {
       }
     }
   },
+  watch: {
+    'formData.guidancePrice': 'getLoanAmount',
+    'formData.carNumber': 'getLoanAmount',
+  },
   methods: {
+    getLoanAmount() {
+      let guidancePrice = Number(this.formData.guidancePrice)
+      let carNumber = Number(this.formData.carNumber)
+      if(guidancePrice && carNumber) {
+        this.formData.loanAmount = guidancePrice * carNumber * 0.8
+      }
+    },
     getStoreType(key = 1) {
-      return this.$config.storeType.filter(item => item.key === key)[0].value
+      return (this.$config.storeType.filter(item => item.key === key)[0] || {}).value || ''
     },
     getAddress() {
       let {provinceName, cityName, areaName, address} = this.storeInfo
@@ -117,11 +126,11 @@ export default {
         return
       }
       if(!(Number(this.formData.carNumber) > 0)) {
-        this.$toptip('请输入申请贷款车辆数量')
+        this.$toptip('请输入申请垫资车辆数量')
         return
       }
       if(!(Number(this.formData.loanAmount) > 0)) {
-        this.$toptip('请输入贷款总额')
+        this.$toptip('请输入垫资总额')
         return
       }
 

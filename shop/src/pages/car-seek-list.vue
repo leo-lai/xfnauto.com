@@ -6,7 +6,7 @@
     <router-link tag="div" :to="'/car/seek/info?id=' + item.findTheCarId" class="l-seek-item l-fs-m" v-for="item in list.data" :key="item.findTheCarId">
       <div class="_hd l-flex-hc l-is-link">
         <div class="l-rest">期望价：{{item.guidancePriceStr}}万元</div>
-        <span class="l-txt-theme">{{item.findCarOffers.length > 0 ? '有报价' : '寻车中'}}</span>
+        <span class="l-txt-theme">{{item.findCarOffers.length > 0 ? '有报价('+item.findCarOffers.length+'条)' : '寻车中'}}</span>
       </div>
       <div class="_bd l-flex-hc">
         <img class="_thumb" :src="item.thumb" alt="">
@@ -76,8 +76,10 @@ export default {
         }else{
           this.$refs.infinite.$emit('$InfiniteLoading:complete')
         }
-      }).catch(_ => {
-        this.$refs.infinite.$emit('$InfiniteLoading:complete')
+      }).catch(err => {
+        if(!err.abort) {
+          this.$refs.infinite.$emit('$InfiniteLoading:complete')
+        }
       })
     }
   }

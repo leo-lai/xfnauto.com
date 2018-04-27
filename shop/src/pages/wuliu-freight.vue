@@ -1,7 +1,7 @@
 <template>
   <view-box>
     <group gutter="0" label-width="6em">
-      <cell title="托运方式" is-link>
+      <cell title="托运方式" >
         <div v-if="formData.consignmentTypeLineName">{{formData.consignmentTypeLineName}}</div>
         <div v-else class="l-txt-gray">
           <img class="l-img-icon" src="../assets/images/icon-021.png" alt="">

@@ -52,15 +52,13 @@ export default {
     },
     onInfinite(page) {
       this.$api.order.getList2(this.list.filter, page || this.list.page).then(({data}) => {
-        let returnList = data.list.map(item => {
-          if(item.infos && item.infos.length > 0) {
-            let carInfo = item.infos[0]
-            carInfo.thumb = this.$utils.imgThumb(carInfo.image, 100, 100) || this.$config.thumb1
-            carInfo.guidancePriceStr = (carInfo.guidancePrice / 10000).toFixed(2)
-            item.carInfo = carInfo
-          }
+        let returnList = data.list.filter(item => item.infos.length > 0).map(item => {
+          let carInfo = item.infos[0]
+          carInfo.thumb = this.$utils.imgThumb(carInfo.image, 100, 100) || this.$config.thumb1
+          item.carInfo = carInfo
           return item
         })
+        
         
         this.list.data = data.page > 1 ? this.list.data.concat(returnList) : returnList
 
@@ -77,8 +75,10 @@ export default {
         }else{
           this.$refs.infinite.$emit('$InfiniteLoading:complete')
         }
-      }).catch(_ => {
-        this.$refs.infinite.$emit('$InfiniteLoading:complete')
+      }).catch(err => {
+        if(!err.abort) {
+          this.$refs.infinite.$emit('$InfiniteLoading:complete')
+        }
       })
     }
   }

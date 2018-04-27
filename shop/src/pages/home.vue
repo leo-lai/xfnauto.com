@@ -16,7 +16,7 @@
           <router-link tag="div" class="l-link-1" to="/loan">
             <img class="_icon" src="../assets/images/20180402004.png">
             <div class="_txt">
-              <p>金融购</p>
+              <p>{{userInfo && userInfo.userType == 2 ? '找垫资' : '金融购'}}</p>
               <p class="l-fs-xs l-txt-gray">垫资车贷点这里</p>
             </div>
           </router-link>
@@ -47,7 +47,7 @@
         </flexbox-item>
       </flexbox>
       <div class="l-margin-t">
-        <x-button :plain="true" type="primary" link="/goods/list">查看全部品牌 »</x-button>
+        <x-button :plain="true" type="primary" link="/goods/list">查看全部在售车辆 »</x-button>
       </div>
     </div>
 
@@ -55,7 +55,7 @@
     <div class="l-bg-white l-zoom l-margin-tb">
       <img class="l-img-block" src="../assets/images/20180402009.jpg" alt="活动热销专区">
       <div class="l-padding-lr">
-        <router-link tag="div" class="l-flex-h l-list-1 vux-1px-b" :to="'/goods/info?id=' + item.goodsCarsActivityId" v-for="item in goodsActive" :key="item.goodsCarsActivityId">
+        <router-link tag="div" class="l-flex-h l-list-1 vux-1px-b" :to="'/goods/info?isActive=1&id=' + item.goodsCarsActivityId" v-for="item in goodsActive" :key="item.goodsCarsActivityId">
           <div class="_thumb l-bg-co l-margin-r-m" :style="{'background-image':'url('+item.thumb+')'}"></div>
           <div class="l-rest">
             <h5 class="l-txt-wrap1">
@@ -67,15 +67,15 @@
                 <span class="_tag1">内饰：{{item.interiorName}}</span>
               </p>
               <p>
-                <span class="_tag2 l-fr" v-if="item.overInsurance">含强交险</span>
+                <span class="_tag2 l-fr" v-if="item.overInsurance">带交强险</span>
                 <span class="l-txt-theme l-fs-l l-margin-r-m l-rmb">{{item.saleingPriceStr}}万</span>
                 <span>指导价：<i class="l-rmb">{{item.guidingPriceStr}}</i>万</span>
               </p>
               <p>
-                <span class="l-fr">库存：{{item.saleingNumber}}</span>
+                <span class="l-fr">活动数量：{{item.saleingNumber}}</span>
                 <span>{{item.orgName}}</span>
               </p>
-              <p v-if="item.discountPriceStr" :class="item.discountPriceOnLine ? '_jia' : '_jian'">{{item.discountPriceStr}}</p>
+              <p v-if="item.discountPriceStr" :class="item.discountPriceOnLine > 0 ? '_jia' : '_jian'">{{item.discountPriceStr}}</p>
             </div>
           </div>
         </router-link>
@@ -102,7 +102,7 @@
                 <span class="_tag1">内饰：{{item.interiorName}}</span>
               </p>
               <p>
-                <span class="_tag2 l-fr" v-if="item.overInsurance">含强交险</span>
+                <span class="_tag2 l-fr" v-if="item.overInsurance">带交强险</span>
                 <span class="l-txt-theme l-fs-l l-margin-r-m l-rmb">{{item.saleingPriceStr}}万</span>
                 <span>指导价：<i class="l-rmb">{{item.guidingPriceStr}}</i>万</span>
               </p>
@@ -110,7 +110,7 @@
                 <span class="l-fr">库存：{{item.saleingNumber}}</span>
                 <span>{{item.orgName}}</span>
               </p>
-              <p v-if="item.discountPriceStr" :class="item.discountPriceOnLine ? '_jia' : '_jian'">{{item.discountPriceStr}}</p>
+              <p v-if="item.discountPriceStr" :class="item.discountPriceOnLine > 0 ? '_jia' : '_jian'">{{item.discountPriceStr}}</p>
             </div>
           </div>
         </router-link>
@@ -132,6 +132,7 @@ export default {
   },
   data () {
     return {
+      userInfo: null,
       bannerSwiper: {
         list: [{ 
           url: 'javascript:', 
@@ -153,16 +154,16 @@ export default {
         this.goodsActive = data.list.map(item => {
           item.thumb = this.$utils.imgThumb(item.image, 100, 100) || this.$config.thumb1
           item.guidingPriceStr = (item.guidingPrice / 10000).toFixed(2)
-          item.discountPriceOnLine = item.discountPriceOnLine || 0
           item.saleingPriceStr = (item.activityPrice / 10000).toFixed(2)
           if(item.discountPriceOnLine === 0) {
             item.discountPriceStr = ''
           }else {
+            let discountPriceOnLine = Math.abs(item.discountPriceOnLine)
             item.discountPriceStr = (item.discountPriceOnLine > 0 ? '加价 ' : '降价 ')
-            if(Math.abs(item.discountPriceOnLine) >= 10000) {
-              item.discountPriceStr += (item.discountPriceOnLine / 10000).toFixed(2) + '万元'
+            if(discountPriceOnLine >= 10000) {
+              item.discountPriceStr += (discountPriceOnLine / 10000).toFixed(2) + '万元'
             }else {
-              item.discountPriceStr += item.discountPriceOnLine+ '元'
+              item.discountPriceStr += discountPriceOnLine+ '元'
             }
           }
           return item
@@ -174,22 +175,25 @@ export default {
         this.goodsNew = data.list.map(item => {
           item.thumb = this.$utils.imgThumb(item.image, 100, 100) || this.$config.thumb1
           item.guidingPriceStr = (item.guidingPrice / 10000).toFixed(2)
-          item.discountPriceOnLine = item.discountPriceOnLine || 0
           item.saleingPriceStr = (item.bareCarPriceOnLine / 10000).toFixed(2)
-          if(item.discountPriceOnLine === 0) {
+          if(!item.discountPriceOnLine) {
             item.discountPriceStr = ''
           }else {
+            let discountPriceOnLine = Math.abs(item.discountPriceOnLine)
             item.discountPriceStr = (item.discountPriceOnLine > 0 ? '加价 ' : '降价 ')
-            if(Math.abs(item.discountPriceOnLine) >= 10000) {
-              item.discountPriceStr += (item.discountPriceOnLine / 10000).toFixed(2) + '万元'
+            if(discountPriceOnLine >= 10000) {
+              item.discountPriceStr += (discountPriceOnLine / 10000).toFixed(2) + '万元'
             }else {
-              item.discountPriceStr += item.discountPriceOnLine+ '元'
+              item.discountPriceStr += discountPriceOnLine+ '元'
             }
           }
           return item
         })
       })
     }
+  },
+  created() {
+    this.$api.user.getInfo().then(data => this.userInfo = data)
   },
   mounted() {
     setTimeout(() => {

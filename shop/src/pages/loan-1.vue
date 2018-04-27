@@ -19,16 +19,16 @@
       <h4 class="l-rest">贷款信息</h4>
     </div>
     <group gutter="0" label-width="6em">
-      <popup-radio title="金融机构" :options="bankList" v-model="formData.institutionId" placeholder="请选择">
+      <!-- <popup-radio title="金融机构" :options="bankList" v-model="formData.institutionId" placeholder="请选择">
         <div slot="popup-header" class="vux-1px-b l-padding-btn l-txt-center">请选择金融机构</div>
-      </popup-radio>
+      </popup-radio> -->
       <popup-radio title="首付比例" :options="downPayments" v-model="formData.downPayments" placeholder="请选择">
         <div slot="popup-header" class="vux-1px-b l-padding-btn l-txt-center">请选择首付比例</div>
       </popup-radio>
       <popup-radio title="还款期数" :options="loanPeriod" v-model="formData.loanPeriod" placeholder="请选择">
         <div slot="popup-header" class="vux-1px-b l-padding-btn l-txt-center">请选择还款期数</div>
       </popup-radio>
-      <x-input title="贷款总额" placeholder="请输入贷款总额" type="number" :max="10" placeholder-align="right" v-model="formData.loanAmount">
+      <x-input :show-clear="false" title="贷款总额" placeholder="请输入贷款总额" type="number" :max="10" placeholder-align="right" v-model="formData.loanAmount">
         <span slot="right" class="l-txt-gray l-margin-l-s">元</span>
       </x-input>
     </group>
@@ -54,13 +54,15 @@
           </div>
         </div>
       </cell>
-      <cell title="上传收入证明" align-items="flex-start">
+      <!-- <cell title="上传收入证明" align-items="flex-start">
         <div slot="title" style="width: 7em;">上传收入证明</div>
-        <div class="l-preview-imgs">
-          <img class="_item" :src="item" v-for="item in annualIncomeImage" :key="item">
-          <i class="_add" src="../assets/images/icon-009.png" @click="chooseImage(3, 9)"></i>
+        <div slot="inline-desc" class="l-margin-t-m">
+          <div class="l-preview-imgs">
+            <img class="_item" :src="item" v-for="item in annualIncomeImage" :key="item">
+            <i class="_add" src="../assets/images/icon-009.png" @click="chooseImage(3, 9)"></i>
+          </div>
         </div>
-      </cell>
+      </cell> -->
     </group>
 
     <div class="l-fixed-bottom">
@@ -106,6 +108,13 @@ export default {
         idCardPicOn: '',
         idCardPicOff: '',
         annualIncomeImage: '',
+      }
+    }
+  },
+  watch: {
+    'formData.downPayments': function(val) {
+      if(val && this.formData.guidancePrice) {
+        this.formData.loanAmount = ((1 - val) * this.formData.guidancePrice).toFixed(2)
       }
     }
   },
@@ -166,10 +175,6 @@ export default {
       }
       if(!this.formData.idCardPicOff) {
         this.$toptip('请上传身份证反面')
-        return
-      }
-      if(!this.formData.annualIncomeImage) {
-        this.$toptip('请上传收入证明')
         return
       }
 

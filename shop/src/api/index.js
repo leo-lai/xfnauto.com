@@ -4,7 +4,7 @@ import axios from 'axios'
 import router from '../router'
 import { util } from 'node-forge';
 
-const host = window.location.host === 'shop.xfnauto.com' ? window.location.origin : 'http://shop.mifengqiche.com'
+const resURl = 'https://res.xfnauto.com'
 const baseURL = window.location.host === 'shop.xfnauto.com' ? 'https://tomcat.xfnauto.com/tauto' : 'http://tomcat.mifengqiche.com/tauto'
 // 创建axios实例
 const service = axios.create({
@@ -126,6 +126,7 @@ const fetch = {
           return ret.join('&')
         }]
       }).then(data => {
+        fetch.source[url] = null
         resolve(data)
       }).catch(error => {
         if (axios.isCancel(error)) {
@@ -141,9 +142,8 @@ const fetch = {
             showMessage(error.message)
           }
         }
-        reject(error)
-      }).finally(_ => {
         fetch.source[url] = null
+        reject(error)
       })
     })
   },
@@ -153,6 +153,7 @@ const fetch = {
 }
 
 const api = {
+  resURl,
   baseURL,
   pageSizes: [10, 20, 50, 100],
   abort(url = '') { // 取消接口请求
@@ -210,7 +211,7 @@ const api = {
     }
 
     if (!device.isWechat) {
-      return Promise.reject('请使用微信浏览器支付')
+      return Promise.reject('请使用微信浏览器打开')
     }
 
     url = url || (device.isIos ? router.landingUrl : window.location.href)
@@ -447,6 +448,25 @@ const api = {
       }(localIds)
     })
   },
+  wxShare(shareInfo) {
+    let _default = {
+      title: '喜蜂鸟·淘车网',
+      desc: '想批发价买新车，就上淘车网——您身边的汽车超市！',
+      imgUrl: resURl + '/shop/logo-100x100.jpg',
+      link: window.location.href
+    }
+    return new Promise((resolve, reject) => {
+      this.getWxConfig().then(wx => {
+        let _info = Object.assign({}, _default, shareInfo)
+        wx.onMenuShareTimeline(_info)
+        wx.onMenuShareAppMessage(_info)
+        wx.onMenuShareQQ(_info)
+        wx.onMenuShareQZone(_info)
+        
+        resolve(wx)
+      }).catch(reject)
+    })
+  },
   user: {
     register(formData = {}) {
       return fetch.post('/interfaceShop/shopUsers/register', formData)
@@ -508,6 +528,15 @@ const api = {
       formData.page = page
       formData.rows = rows
       return fetch.post('/interfaceShop/goodsCarsActivity/activityList', formData)
+    },
+    getActiveInfo(goodsCarsActivityId = '') {
+      return fetch.post('/interfaceShop/goodsCarsActivity/activityInfo', { goodsCarsActivityId })
+    },
+    getFullPayment(carsId = '') {
+      return fetch.post('/interfaceShop/shopGoodsCars/fullPayment', { carsId })
+    },
+    getLoanPayment(formData = {}) {
+      return fetch.post('/interfaceShop/shopGoodsCars/loanPayment', formData)
     }
   },
   order: {

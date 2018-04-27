@@ -27,6 +27,8 @@ const OrderList1 = () => import('../pages/order-list1').then(m => m.default)
 const OrderInfo1 = () => import('../pages/order-info1').then(m => m.default)
 const OrderList2 = () => import('../pages/order-list2').then(m => m.default)
 const OrderInfo2 = () => import('../pages/order-info2').then(m => m.default)
+const OrderList3 = () => import('../pages/order-list3').then(m => m.default)
+const OrderInfo3 = () => import('../pages/order-info3').then(m => m.default)
 
 const routes = [
   {
@@ -43,7 +45,7 @@ const routes = [
     name: 'loan',
     component: Loan,
     meta: {
-      title: '金融购',
+      title: '加载中',
       tabbar: true
     }
   },
@@ -61,7 +63,7 @@ const routes = [
     name: 'loan2',
     component: Loan2,
     meta: {
-      title: '申请贷款',
+      title: '申请垫资',
       auth: true
     }
   },
@@ -70,7 +72,8 @@ const routes = [
     name: 'loan-list',
     component: LoanList,
     meta: {
-      title: '贷款申请'
+      title: '贷款申请',
+      auth: true
     }
   },
   {
@@ -78,7 +81,7 @@ const routes = [
     name: 'loan-info',
     component: LoanInfo,
     meta: {
-      title: '贷款详情'
+      title: '加载中'
     }
   },
   {
@@ -271,6 +274,24 @@ const routes = [
     path: '/order/info2',
     name: 'order-info2',
     component: OrderInfo2,
+    meta: {
+      title: '订购单详情',
+      auth: true
+    }
+  },
+  {
+    path: '/order/list3',
+    name: 'order-list3',
+    component: OrderList3,
+    meta: {
+      title: '订购单',
+      auth: true
+    }
+  },
+  {
+    path: '/order/info3',
+    name: 'order-info3',
+    component: OrderInfo3,
     meta: {
       title: '订购单详情',
       auth: true

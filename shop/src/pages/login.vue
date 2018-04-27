@@ -31,8 +31,8 @@ export default {
   data () {
     return {
       formData: {
-        phoneNumber: '18602029522',
-        password: '1'
+        phoneNumber: '',
+        password: ''
       }
     }
   },

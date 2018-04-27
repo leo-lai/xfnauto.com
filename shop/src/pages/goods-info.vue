@@ -12,23 +12,25 @@
           <span class="_tag1">内饰颜色：{{info.interiorName}}</span>
         </p>
         <p class="l-margin-t-s">
-          <span class="_tag2 l-fr" v-if="info.overInsurance">含强交险</span>
-          <span class="l-txt-theme">活动价：<i class="l-rmb">18.5</i>万</span>
-          <span class="l-txt-gray l-fs-s l-margin-l">指导价：<i class="l-rmb">18.5</i>万</span>
+          <span class="_tag2 l-fr" v-if="info.overInsurance">带交强险</span>
+          <span class="l-txt-theme">{{info.goodsCarsActivityId ? '活动价：' : '裸车价：' }}<i class="l-rmb">{{info.saleingPriceStr}}</i>万</span>
+          <span class="l-txt-gray l-fs-s l-margin-l">指导价：<i class="l-rmb">{{info.guidingPriceStr}}</i>万</span>
         </p>
         <p class="l-margin-t l-fs-s">
-          <span class="l-txt-icon l-fr" border style="margin-top:-4px;">
+          <span class="l-txt-icon l-fr" border style="margin-top:-4px;" @click="showCounter">
             <img src="../assets/images/icon-027.png" alt="">买车计算器
           </span>
           <span class="l-txt-gray">仓库：{{info.warehouseName || '--'}}</span>
-          <span class="l-txt-gray l-margin-l">库存：{{info.saleingNumber || '--'}} 辆</span>
+          <span class="l-txt-gray l-margin-l">{{info.goodsCarsActivityId ? '活动数量：' : '库存：' }}{{info.saleingNumber || '--'}} 辆</span>
         </p>
       </div>
 
       <div class="l-padding-btn l-bg-white l-flex-h l-margin-tb">
         <div class="l-thumb1 l-margin-r" radius :style="{'background-image': 'url('+ info.organization.imageUrl +')'}"></div>
         <div class="l-rest">
-          <p>客户经理：{{info.organization.serviceName || '--'}}</p>
+          <p>
+            {{info.organization.serviceName || '--'}} 
+            <span class="l-fs-s l-txt-gray">{{info.organization.shortName}}</span></p>
           <p>{{info.organization.servicePhone}}</p>
         </div>
         <div>
@@ -55,25 +57,22 @@
             </tr>
             <tr>
               <td class="_tit">开票价格：</td>
-              <td class="l-txt-right"><span class="l-rmb">{{info.invoicePrice || '--'}}</span></td>
+              <td class="l-txt-right">{{info.invoicePrice || '--'}} 元</td>
             </tr>
             <tr>
               <td class="_tit">开票周期：</td>
-              <td class="l-txt-right">{{info.invoiceCycle || '--'}}</td>
+              <td class="l-txt-right">{{info.invoiceCycle || '--'}} 天</td>
             </tr>
             <tr>
-              <td class="_tit">备注信息：</td>
+              <td class="_tit">{{info.goodsCarsActivityId ? '活动描述：' : '备注信息：' }}</td>
               <td class="l-txt-right">{{info.remarks || '--'}}</td>
             </tr>
-            <!-- <tr>
-              <td class="_tit">活动描述：</td>
-              <td class="l-txt-right"></td>
-            </tr> -->
           </table>
         </div>
         
-        <img class="l-img-block" :src="item" alt="" v-for="item in info.carsImageArr" :key="item">
+        <img class="l-img-block" :src="item" alt="" v-for="(item,index) in info.carsImageArr" :key="item" @click="$api.previewImage(info.carsImageArr, index)">
       </div>
+      
 
       <div class="l-goods-placeholder"></div>
       <div class="l-goods-fixed">
@@ -86,34 +85,113 @@
             <img src="../assets/images/icon-025.png" alt="">我要寻车
           </router-link>
           <div class="_btn1" @click="gotoOrder">
-            <img src="../assets/images/icon-026.png" alt="">预约下单
+            <img src="../assets/images/icon-026.png" alt="">我要留车
           </div>
         </div>
 
         <!-- 买车计算器 -->
-        
+        <div v-transfer-dom>
+          <popup v-model="counter.visible" position="bottom" height="70%">
+            <div class="l-buyway-tab l-scroll" style="height: 100%;">
+              <div class="l-flex-hc _tit">
+                <div class="_item l-rest" :class="{_active: counter.tabIndex === 0}" @click="counterTab(0)">
+                  全款购车
+                  <inline-loading :class="{_loading: counter.fullLoading}"></inline-loading>
+                </div>
+                <div class="_item l-rest" :class="{_active: counter.tabIndex === 1}" @click="counterTab(1)">
+                  分期贷款
+                  <inline-loading :class="{_loading: counter.loanLoading}"></inline-loading>
+                </div>
+              </div>
+              <div class="_cont" v-show="counter.tabIndex === 0">
+                <div class="_all l-fs-14 l-text-theme">预计总价：{{counter.fullPayment.fullPrice}}</div>
+                <group gutter="0">
+                  <cell title="官方指导价"><span class="l-rmb">{{counter.fullPayment.guidancePrice}}</span></cell>
+                  <cell title="购置税"><span class="l-rmb">{{counter.fullPayment.purchaseTax}}</span></cell>
+                  <cell title="上牌费用"><span class="l-rmb">{{counter.fullPayment.premium}}</span></cell>
+                  <cell title="车船税"><span class="l-rmb">{{counter.fullPayment.vehicleAndAesselTax}}</span></cell>
+                  <cell title="交强险"><span class="l-rmb">{{counter.fullPayment.strongInsurance}}</span></cell>
+                  <cell title="商业保险(全保）"><span class="l-rmb">{{counter.fullPayment.commercialInsurance}}</span></cell>
+                </group>
+              </div>
+              <div class="_cont" v-if="counter.tabIndex === 1">
+                <div class="_all">
+                  <span class="l-fs-14 l-text-theme">预计总价：{{counter.loanPayment.fullPrice}}</span>
+                  <div class="l-flex-hc l-margin-t-m l-fs-m" style="color: rgb(235, 97, 0);">
+                    <span class="l-rest" style="width:33%;text-align:left;">首付:￥{{counter.loanPayment.downPayments}}</span>
+                    <span class="l-rest" style="width:33%;text-align:center;">月供:￥{{counter.loanPayment.forTheMonth}}</span>
+                    <span class="l-rest" style="width:33%;text-align:right;">利息:￥{{counter.loanPayment.interest}}</span>
+                  </div>
+                </div>
+                <group gutter="0">
+                  <cell title="首付比列" primary="content">
+                    <div class="l-range-text">
+                      <div class="_text">
+                        <span>20%</span>
+                        <span>30%</span>
+                        <span>40%</span>
+                        <span>50%</span>
+                      </div>
+                      <range v-model="counter.percent" :min="20" :max="50" :step="10" @on-change="getLoanPayment"></range>
+                    </div>
+                  </cell>
+                  <cell title="贷款年限" primary="content">
+                    <div class="l-range-text">
+                      <div class="_text">
+                        <span>1年</span>
+                        <span>2年</span>
+                        <span>3年</span>
+                        <span>4年</span>
+                      </div>
+                      <range v-model="counter.year" :min="1" :max="4" :step="1" @on-change="getLoanPayment"></range>
+                    </div>
+                  </cell>
+                </group>
+                <group>
+                  <cell title="官方指导价"><span class="l-rmb">{{counter.loanPayment.guidancePrice}}</span></cell>
+                  <cell title="购置税"><span class="l-rmb">{{counter.loanPayment.purchaseTax}}</span></cell>
+                  <cell title="上牌费用"><span class="l-rmb">{{counter.loanPayment.premium}}</span></cell>
+                  <cell title="车船税"><span class="l-rmb">{{counter.loanPayment.vehicleAndAesselTax}}</span></cell>
+                  <cell title="交强险"><span class="l-rmb">{{counter.loanPayment.strongInsurance}}</span></cell>
+                  <cell title="商业保险(全保）"><span class="l-rmb">{{counter.loanPayment.commercialInsurance}}</span></cell>
+                </group>
+              </div>
+
+              <div class="l-txt-center l-txt-gray l-padding-btn l-fs-m">政策不同可能导致落地价格稍有偏差</div>
+            </div>
+          </popup>
+        </div>
       </div>
     </div>
   </view-box>
 </template>
 
 <script>
-import { Swiper } from 'vux'
+import { Swiper, Popup, Range, InlineLoading } from 'vux'
 export default {
   name: 'goods-info',
-  components: { Swiper },
+  components: { Swiper, Popup, Range, InlineLoading  },
   data () {
     return {
+      counter: {
+        visible: false,
+        tabIndex: 0,
+        percent: 30,
+        year: 3,
+        fullLoading: false,
+        fullPayment: {},
+        loanLoading: false,
+        loanPayment: {}
+      },
+      isActive: 0,
       bannerSwiper: {
-        list: [{ 
-          url: 'javascript:', 
-          img: require('../assets/images/20180402001.jpg'), 
-          title: '' 
-        }, { 
-          url: 'javascript:', 
-          img: require('../assets/images/20180402002.jpg'), 
-          title: ''
-        }]
+        list: [
+          { 
+            url: 'javascript:', 
+            img: require('../assets/images/20180402002.jpg'), 
+            title: ''
+          }
+        ]
       },
       info: null
     }
@@ -121,10 +199,54 @@ export default {
   methods: {
     getInfo() {
       this.$vux.loading.show()
-      this.$api.goods.getInfo(this.$route.query.id).then(({data}) => {
+      let promise = null
+
+      if(this.isActive) {
+        promise = this.$api.goods.getActiveInfo(this.$route.query.id)  
+      }else{
+        promise = this.$api.goods.getInfo(this.$route.query.id)
+      }
+
+      promise.then(({data}) => {
         data.thumb = this.$utils.imgThumb(data.image, 100, 100) || this.$config.thumb1
         data.carsImageArr = data.carsImage ? data.carsImage.split(',') : []
+        data.carsImagesArr = data.carsImages ? data.carsImages.split(',') : []
+        if(data.carsImagesArr.length > 0) {
+          this.bannerSwiper.list = data.carsImagesArr.map(item => {
+            return {
+              url: 'javascript:', 
+              img: this.$utils.imgThumb(item, 640, 400), 
+              title: ''
+            }
+          })
+        }
+        data.guidingPriceStr = (data.guidingPrice / 10000).toFixed(2)
+        
+        if(data.goodsCarsActivityId) {
+          data.goodsCarsId = data.goodsCarsActivityId
+          data.saleingPriceStr = (data.activityPrice / 10000).toFixed(2)
+        }else {
+          data.saleingPriceStr = (data.bareCarPriceOnLine / 10000).toFixed(2)
+        }
+
+        if(!data.discountPriceOnLine) {
+          data.discountPriceStr = ''
+        }else {
+          let discountPriceOnLine = Math.abs(data.discountPriceOnLine)
+          data.discountPriceStr = (data.discountPriceOnLine > 0 ? '加价 ' : '降价 ')
+          if(discountPriceOnLine >= 10000) {
+            data.discountPriceStr += (discountPriceOnLine / 10000).toFixed(2) + '万元'
+          }else {
+            data.discountPriceStr += discountPriceOnLine+ '元'
+          }
+        }
+        
         this.info = data
+
+        this.$api.wxShare({
+          title: data.carsName,
+          desc: '想批发价买新车，就上淘车网——您身边的汽车超市！'
+        })
       }).finally(_ => {
         this.$vux.loading.hide()
       })
@@ -132,15 +254,59 @@ export default {
     gotoOrder() {
       this.$storage.session.set('goods-info', this.info)
       this.$router.push('/goods/order')
+    },
+    showCounter() {
+      this.counter.visible = true
+      this.counterTab(this.counter.tabIndex)
+    },
+    counterTab(index = 0) {
+      this.counter.tabIndex = index
+      if(index == 0 && !this.counter.fullPayment.fullPrice) {
+        this.getFullPayment()
+      }
+    },
+    getFullPayment() {
+      if(this.counter.fullLoading) return
+      this.counter.fullLoading = true
+      this.$api.goods.getFullPayment(this.info.carsId).then(({data}) => {
+        this.counter.fullPayment = data
+      }).finally(_ => {
+        this.counter.fullLoading = false
+      })
+    },
+    getLoanPayment() {
+      if(this.counter.loanLoading) return
+      this.counter.loanLoading = true
+      this.$api.goods.getLoanPayment({
+        carsId: this.info.carsId,
+        paymentRatio: this.counter.percent / 100,
+        timeOfPayment: this.counter.year
+      }).then(({data}) => {
+        this.counter.loanPayment = data
+      }).finally(_ => {
+        this.counter.loanLoading = false
+      })
     }
+  },
+  created() {
+    this.isActive = this.$route.query.isActive == 1 ? 1 : 0
   },
   mounted() {
     this.getInfo()
   }
 }
 </script>
-
 <style lang="less" scoped>
+.l-buyway-tab{background-color: #f4fafa;}
+.l-buyway-tab ._tit {background-color: #fff; text-align: center; }
+.l-buyway-tab ._tit ._item{width: 50%; padding: 10px 0;position: relative;}
+.l-buyway-tab ._tit ._item::after{ content: ''; display: block; border: 8px solid transparent; 
+border-bottom-color:#ffe8d8; width: 0; height: 0; margin: 0 auto -10px; visibility: hidden;}
+.l-buyway-tab ._tit ._item._active{color: rgb(235, 97, 0);}
+.l-buyway-tab ._tit ._item._active::after{visibility: visible;}
+.l-buyway-tab ._all{background: #ffe8d8; text-align: center; padding:10px; box-shadow: 0 2px 3px 0 #ccc;position: relative;}
+.l-buyway-tab .weui-loading{visibility: hidden;}
+.l-buyway-tab ._loading{visibility: visible;}
 .l-goods-placeholder{height: 46px;}
 .l-goods-fixed{
   position: fixed; left: 0; right: 0; bottom: 0; z-index: 10; overflow: hidden;

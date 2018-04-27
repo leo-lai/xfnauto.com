@@ -12,18 +12,30 @@ const router = new Router({
   routes 
 })
 
-router.hostURL = window.location.origin + (router.options.base || '')
+router.hostURL = location.origin + (router.options.base || '')
+router.showLoading = autoClose => {
+  router.loading = true
+  Vue.$vux.loading.show()
+  if (autoClose) {
+    router.loadingId = setTimeout(() => {
+      router.loading = false
+      Vue.$vux.loading.hide()
+    }, autoClose)
+  }
+}
+router.hideLoading = _ => {
+  router.loading = false
+  Vue.$vux.loading.hide()
+  clearTimeout(router.loadingId)
+}
 
 // 记录滚动位置
 router.savedScroll = {}
-
 // 记录历史路由
-const pageHistory = storage.session.get('page_history') || []
-router.pageHistory = pageHistory
-
+router.pageHistory = storage.session.get('page_history') || []
 router.backHistory = (index = -2) => {
-  if(pageHistory.length > 1) {
-    router.push(pageHistory[index > -1 ? index : pageHistory.length + index])
+  if(router.pageHistory.length > 1) {
+    router.push(router.pageHistory[index > -1 ? index : router.pageHistory.length + index])
   }else {
     router.back()
   }
@@ -33,34 +45,41 @@ router.backHistory = (index = -2) => {
 let touchEndTime = Date.now()
 document.addEventListener('touchend', _ => touchEndTime = Date.now())
 
-let routerEventName = ''
-let routerEvent = ['push', 'replace', 'go', 'forward', 'back']
-routerEvent.forEach(key => {
+let routerEventName = ['push', 'replace', 'go', 'forward', 'back']
+routerEventName.forEach(key => {
   let method = router[key].bind(router)
   router[key] = function (...args) {
-    routerEventName = key
+    router.eventName = key
     method.apply(null, args)
   }
 })
 
 // 记录微信的Landing Page，用于IOS微信JSSDK授权路径
 router.landingUrl = location.href
+// ios 微信返回事件
+window.addEventListener('pageshow', _ => {
+  router.loading && router.hideLoading()
+})
 
 router.beforeEach((to, from, next) => {
   // 微信页面授权
   if(to.meta.scope && !to.query.code) {
-    window.location.href = getGrantUrl(to.fullPath, null, to.meta.scope)
+    location.assign(getGrantUrl(to.fullPath, null, to.meta.scope))
+    router.eventName = ''
+
+    // 如果网络过慢，跳转授权链接，显示loading
+    router.showLoading()
     return next(false)
   }
 
   // http直接跳转
   if (/\/?http/.test(to.fullPath)) {
     let url = to.fullPath.replace(/\/?(http)/, '$1')
-    if (routerEventName === 'replace') {
-      window.location.replace(url)
-    }else{
-      window.location.href = url
-    }
+    router.eventName === 'replace' ? location.replace(url) : location.assign(url)
+    router.eventName = ''
+
+    // 如果网络过慢，跳转第三方链接，显示loading
+    router.showLoading()
     return next(false)
   }
 
@@ -68,38 +87,38 @@ router.beforeEach((to, from, next) => {
   if (to.meta.auth && !storage.local.get('token')) {
     storage.local.remove('token')
     storage.local.remove('userinfo')
-    routerEventName = 'push'
+    router.eventName = 'push'
     store.commit('updateDirection', { direction: 'in' })
     return next(`/login?to=${to.fullPath || ''}`)
   }
 
   let direction = ''
   // 页面返回
-  if (pageHistory[pageHistory.length - 2] === to.path) {
+  if (router.pageHistory[router.pageHistory.length - 2] === to.path) {
     direction = 'out'
-    pageHistory.pop()
+    router.pageHistory.pop()
   // tabbar页面切换
   }else if (from.meta.tabbar && to.meta.tabbar) {
-    pageHistory[pageHistory.length - 1] = to.path
+    router.pageHistory[router.pageHistory.length - 1] = to.path
     direction = 'fade'
   // 第一个页面进入
   } else if (from.path === '/' && !from.name) {
-    if (pageHistory[pageHistory.length - 1] !== to.path) {
-      pageHistory.push(to.path)
+    if (router.pageHistory[router.pageHistory.length - 1] !== to.path) {
+      router.pageHistory.push(to.path)
     }
     direction = 'fade'
   // 正常页面进入
   }else {
     direction = 'in'
-    if (routerEventName === 'replace') {
-      pageHistory[pageHistory.length - 1] = to.path
+    if (router.eventName === 'replace') {
+      router.pageHistory[router.pageHistory.length - 1] = to.path
     }else{
-      pageHistory.push(to.path)
+      router.pageHistory.push(to.path)
     }
   }
 
   // 判断是否是ios左滑返回
-  if (!routerEventName && (Date.now() - touchEndTime) < 377) {
+  if (!router.eventName && (Date.now() - touchEndTime) < 377) {
     direction = ''
   }
 
@@ -110,9 +129,11 @@ router.beforeEach((to, from, next) => {
 })
 
 router.afterEach((to, from) => {
-  routerEventName = ''
+  router.eventName = ''
+  router.loading && router.hideLoading()
+
   store.commit('updateLoading', { loading: false })
-  storage.session.set('page_history', pageHistory)
+  storage.session.set('page_history', router.pageHistory)
   utils.setTitle(to.meta.title)
   router.from = from
 })

@@ -50,6 +50,19 @@ Vue.prototype.$storage = storage    // 本地存储
 Vue.prototype.$utils = utils        // 工具函数
 Vue.prototype.$toptip = toptip      // 顶部提示
 
+// 过滤器
+// 只显示年月日
+Vue.filter('Ymd', function (value) {
+  if (!value) return ''
+  value = value.toString()
+  return value.split(' ')[0]
+})
+// 万元
+Vue.filter('Wan', function (value) {
+  if (!value) return ''
+  return (value / 10000).toFixed(2)
+})
+
 /* eslint-disable no-new */
 import App from './App'
 new Vue({

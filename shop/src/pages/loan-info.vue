@@ -157,6 +157,8 @@ export default {
           this.businessLicense = data.organizationVo.businessLicense ? data.organizationVo.businessLicense.split(',') : []
           this.storeImages = data.organizationVo.imageUrl ? data.organizationVo.imageUrl.split(',') : []
         }
+
+        this.$utils.setTitle(data.loanType == 2 ? '垫资详情' : '贷款详情')
       }).finally(_ => {
         this.$vux.loading.hide()
       })

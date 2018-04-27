@@ -77,8 +77,10 @@ export default {
         }else{
           this.$refs.infinite.$emit('$InfiniteLoading:complete')
         }
-      }).catch(_ => {
-        this.$refs.infinite.$emit('$InfiniteLoading:complete')
+      }).catch(err => {
+        if(!err.abort) {
+          this.$refs.infinite.$emit('$InfiniteLoading:complete')
+        }
       })
     }
   }

@@ -78,7 +78,7 @@ export default {
   name: 'me-info',
   data () {
     return {
-      storeStatus: ['审核通过', '审核不通过', '审核中'],
+      storeStatus: ['店铺资料审核通过', '店铺资料审核不通过', '审核中'],
       userInfo: null,
       storeInfo: null,
       businessLicense: [],
@@ -87,7 +87,7 @@ export default {
   },
   methods: {
     getStoreType(key = 1) {
-      return this.$config.storeType.filter(item => item.key === key)[0].value
+      return (this.$config.storeType.filter(item => item.key === key)[0] || {}).value || ''
     },
     getAddress() {
       let {provinceName, cityName, areaName, address} = this.storeInfo
