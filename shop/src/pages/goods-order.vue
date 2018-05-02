@@ -62,7 +62,7 @@
       <!-- <x-input title="联系电话" placeholder="请填写" type="tel" :max="11" :show-clear="false" placeholder-align="right" v-model="formData.phoneNumber"></x-input> -->
       <cell title="联系电话" :value="formData.phoneNumber"></cell>
       <calendar title="预约到店日期" v-model="formData.appointmentDate" placeholder="请选择" disable-past></calendar>
-      <x-textarea class="vux-x-input-placeholder-right" title="备注" placeholder="请填写" :rows="3" v-model="formData.remarks"></x-textarea>
+      <x-textarea class="vux-x-input-placeholder-right" title="预约备注" placeholder="请填写" :rows="3" v-model="formData.remarks"></x-textarea>
     </group>
 
     <div class="l-goods-placeholder"></div>
@@ -114,8 +114,8 @@ export default {
       payInfo: {
         visible: false,
         way: [
-          { key: 1, value: '线上支付', desc: '定金留车，无车双倍订金赔付' }, 
-          { key: 2, value: '到店支付', desc: '请尽快到店下订留车'}
+          { key: 1, value: '线上支付', desc: '订金留车，无车双倍订金赔付' }, 
+          { key: 2, value: '到店支付', desc: '请尽快到店，下订留车'}
         ],
         money: '0.00'
       },
@@ -202,6 +202,7 @@ export default {
       console.log(data)
       this.userInfo = data
       this.formData.phoneNumber = data.phoneNumber
+      this.formData.realName = data.realName
     })
   }
 }

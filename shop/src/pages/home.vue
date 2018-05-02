@@ -1,7 +1,7 @@
 <template>
   <view-box>
     <swiper auto :list="bannerSwiper.list" dots-position="center" :show-desc-mask="false"></swiper>
-    <div class="l-bg-white l-padding">
+    <div v-if="!orgCode" class="l-bg-white l-padding">
       <flexbox>
         <flexbox-item>
           <router-link class="l-link-1" to="/wuliu/list" tag="div">
@@ -125,6 +125,7 @@
 
 <script>
 import { Swiper, Flexbox, FlexboxItem } from 'vux'
+import { mapGetters } from 'vuex'
 export default {
   name: 'home',
   components: {
@@ -147,6 +148,9 @@ export default {
       goodsActive: [],
       goodsNew: [],
     }
+  },
+  computed: {
+    ...mapGetters(['orgCode']),
   },
   methods: {
     getGoodsActive() {

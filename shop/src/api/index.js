@@ -1,14 +1,12 @@
+import config from '../config'
 import { toptip, device, storage, utils } from '../assets/utils'
 import Vue from 'vue'
 import axios from 'axios'
 import router from '../router'
-import { util } from 'node-forge';
 
-const resURl = 'https://res.xfnauto.com'
-const baseURL = window.location.host === 'shop.xfnauto.com' ? 'https://tomcat.xfnauto.com/tauto' : 'http://tomcat.mifengqiche.com/tauto'
 // 创建axios实例
 const service = axios.create({
-  baseURL,
+  baseURL: config.apiURL,
   timeout: 60000
 })
 // request拦截器
@@ -111,6 +109,7 @@ const fetch = {
     let source = axios.CancelToken.source()
     fetch.source[url] = source
     data.sessionId = storage.local.get('token')
+    data.orgCode = storage.session.get('org_code')
     return new Promise((resolve, reject) => {
       service({
         url, method, data,
@@ -153,8 +152,6 @@ const fetch = {
 }
 
 const api = {
-  resURl,
-  baseURL,
   pageSizes: [10, 20, 50, 100],
   abort(url = '') { // 取消接口请求
     if (url) {
@@ -452,7 +449,7 @@ const api = {
     let _default = {
       title: '喜蜂鸟·淘车网',
       desc: '想批发价买新车，就上淘车网——您身边的汽车超市！',
-      imgUrl: resURl + '/shop/logo-100x100.jpg',
+      imgUrl: config.thumb0,
       link: window.location.href
     }
     return new Promise((resolve, reject) => {
@@ -532,8 +529,8 @@ const api = {
     getActiveInfo(goodsCarsActivityId = '') {
       return fetch.post('/interfaceShop/goodsCarsActivity/activityInfo', { goodsCarsActivityId })
     },
-    getFullPayment(carsId = '') {
-      return fetch.post('/interfaceShop/shopGoodsCars/fullPayment', { carsId })
+    getFullPayment(formData = {}) {
+      return fetch.post('/interfaceShop/shopGoodsCars/fullPayment', formData)
     },
     getLoanPayment(formData = {}) {
       return fetch.post('/interfaceShop/shopGoodsCars/loanPayment', formData)
@@ -558,6 +555,21 @@ const api = {
     },
     getInfo2(orderId = '') { // 订购单详情
       return fetch.post('/interfaceShop/advanceOrder/myOrderInfo', { orderId })
+    },
+    getPayRecord(formData = {}, page = 1, rows = 50) {
+      formData.page = page
+      formData.rows = rows
+      return fetch.post('/interfaceShop/advanceOrder/myOrderPaymentList', formData).then(response => {
+        if (!response.data.list) {
+          response.data = {
+            page, 
+            rows: 1000,
+            total: 1,
+            list: response.data
+          }
+        }
+        return response
+      })
     }
   },
   loan: { // 贷款

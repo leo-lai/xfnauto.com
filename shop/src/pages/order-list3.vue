@@ -3,22 +3,27 @@
     <div class="l-search-placeholder">
       <search @on-submit="onSearch" @on-cancel="onSearch" v-model="list.filter.keywords" :auto-fixed="false" placeholder="输入单号或车型查询"></search>
     </div>
-    <router-link tag="div" :to="'/order/info3?id=' + item.customerOrderId" class="l-seek-item l-fs-m" v-for="item in list.data" :key="item.customerOrderId">
-      <div class="_hd l-flex-hc l-is-link">
-        <div class="l-rest">订购单号：{{item.customerOrderCode}}</div>
-        <div class="l-txt-theme">{{item.customerOrderStateName}}</div>
-      </div>
-      <div class="_bd l-flex-hc">
-        <img class="_thumb" :src="item.thumb" alt="">
-        <div class="l-rest">
-          <p class="l-txt-wrap1">{{item.carsName}}</p>
-          <p class="l-txt-gray l-margin-t-s">
-            <span>车身：{{item.colorName}}</span>
-            <span class="l-margin-l">内饰：{{item.interiorName}}</span>
-          </p>
+    <div class="l-seek-item l-fs-m" v-for="item in list.data" :key="item.customerOrderId">
+      <router-link tag="div" :to="'/order/info3?id=' + item.customerOrderId">
+        <div class="_hd l-flex-hc l-is-link">
+          <div class="l-rest">订购单号：{{item.customerOrderCode}}</div>
+          <div class="l-txt-theme">{{item.customerOrderStateName}}</div>
         </div>
+        <div class="_bd l-flex-hc">
+          <img class="_thumb" :src="item.thumb" alt="">
+          <div class="l-rest">
+            <p class="l-txt-wrap1">{{item.carsName}}</p>
+            <p class="l-txt-gray l-margin-t-s">
+              <span>车身：{{item.colorName}}</span>
+              <span class="l-margin-l">内饰：{{item.interiorName}}</span>
+            </p>
+          </div>
+        </div>
+      </router-link>
+      <div class="_ft l-txt-right l-margin-t">
+        <x-button :link="'/order/pay-record?id=' + item.customerOrderId" mini plain type="primary">支付记录</x-button>
       </div>
-    </router-link>
+    </div>
     <infinite-loading :on-infinite="onInfinite" ref="infinite"></infinite-loading>
   </view-box>
 </template>
@@ -27,7 +32,7 @@ import { Search } from 'vux'
 import infiniteLoading from '../components/vue-infinite-loading'
 
 export default {
-  name: 'order-list2',
+  name: 'order-list3',
   components: {
     infiniteLoading, Search
   },

@@ -2,14 +2,14 @@
   <view-box>
     <group gutter="0">
       <x-input class="l-ipt" type="tel" is-type="china-mobile" placeholder="请输入手机号码" :max="11" v-model="formData.phoneNumber">
-        <img class="_icon" slot="label" src="../assets/images/icon-005.png">
+        <i slot="label" class="l-icon">&#xe613;</i>
       </x-input>
       <x-input class="l-ipt" type="number" placeholder="请输入手机验证码" :max="6" v-model="formData.phoneCode">
-        <img class="_icon" slot="label" src="../assets/images/icon-006.png">
+        <i slot="label" class="l-icon">&#xe60f;</i>
         <x-button ref="sendBtn" type="primary" slot="right" mini @click.native="sendMobiCode">获取验证码</x-button>
       </x-input>
       <x-input class="l-ipt" type="text" placeholder="请输入新密码" :max="50" v-model="formData.password" @on-enter="changePwd">
-        <img class="_icon" slot="label" src="../assets/images/icon-007.png">
+        <i slot="label" class="l-icon">&#xe616;</i>
       </x-input>
     </group>
 

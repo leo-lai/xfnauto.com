@@ -3,11 +3,11 @@
     <img class="_logo" src="../assets/images/20180402013.png" alt="欢迎登录淘车网">
     <div class="l-login-form">
       <div class="_ipt l-flex-hc">
-        <img class="_icon" src="../assets/images/icon-005.png" alt="">
+        <i class="l-icon">&#xe613;</i>
         <input autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" type="tel" placeholder="请输入手机号码" maxlength="11" v-model="formData.phoneNumber">
       </div>
       <div class="_ipt l-flex-hc">
-        <img class="_icon" src="../assets/images/icon-007.png" alt="">
+        <i class="l-icon">&#xe60f;</i>
         <input autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" type="password" placeholder="请输入登录密码" maxlength="50" v-model="formData.password" @keyup.enter="login">
       </div>
       <div class="l-margin-t-m l-txt-right">
@@ -91,7 +91,7 @@ export default {
   width: 280px;
   ._ipt{
     background-color: #fdfdff; border: 1px solid #d5d8dd; border-radius: 5px; padding: 7px; margin-top: 15px;
-    ._icon{ width: 25px; height: 25px; margin-right: 10px; }
+    .l-icon{ display: inline-block; width: 30px; text-align: center; margin-right: 5px; color: #999;}
     input{border:none; background: none; padding: 5px 0; width: 100%; box-sizing: border-box; font-size: inherit;outline: none;}
   }
 }

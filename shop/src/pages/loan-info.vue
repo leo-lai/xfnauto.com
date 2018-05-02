@@ -1,20 +1,18 @@
 <template>
   <view-box>
-    <div class="l-bg-white l-zoom" v-if="info">
-      <div class="l-flex-hc l-padding vux-1px-b">
-        <img class="l-thumb l-margin-r" :src="info.thumb" alt="">
-        <div class="l-rest l-fs-m">
-          <h4>{{info.carsName}}</h4>
-          <p>
-            <span class="l-txt-gray">指导价：<i class="l-rmb">{{info.guidancePriceStr}}万</i></span>
-            <span class="l-txt-gray l-margin-l">数量：{{info.carNumber}}</span>
-          </p>
-        </div>
-        <!-- <div class="l-txt-theme l-fs-m">{{state[info.loneState]}}</div> -->
-      </div>
-    </div>
-
     <template v-if="info && info.loanType == 2">
+      <div class="l-bg-white l-zoom">
+        <div class="l-flex-hc l-padding vux-1px-b">
+          <img class="l-thumb l-margin-r" :src="info.thumb" alt="">
+          <div class="l-rest l-fs-m">
+            <h4>{{info.carsName}}</h4>
+            <p>
+              <span class="l-txt-gray">指导价：<i class="l-rmb">{{info.guidancePriceStr}}万</i></span>
+              <span v-if="info.carNumber" class="l-txt-gray l-margin-l">数量：{{info.carNumber}}</span>
+            </p>
+          </div>
+        </div>
+      </div>
       <div class="l-bg-white l-zoom l-margin-t">
         <div class="l-flex-hc l-padding-btn">
           <img class="l-img-icon l-margin-r-m" src="../assets/images/icon-022.png" alt="">
@@ -58,20 +56,41 @@
     </template>
 
     <template v-if="info && info.loanType == 1">
-      <div class="l-bg-white l-zoom">
-        <div class="l-margin">
-          <span class="l-seek-tag1">
-            <img class="_icon" src="../assets/images/icon-016.png" alt="">申请人：{{info.loanPeopleName}}
-          </span>
-          <span class="l-seek-tag1 l-margin-l-s">
-            <img class="_icon" src="../assets/images/icon-017.png" alt="">联系电话：{{info.loanPeoplePhone}}
-          </span>
+      <div class="l-bg-white">
+        <flow>
+          <flow-state state="1" title="申请金融贷" is-done>
+            <div class="l-fs-s" slot="title">申请<br>金融贷</div>
+          </flow-state>
+          <flow-line is-done></flow-line>
+          <flow-state state="2" title="提交个人资料" is-done>
+            <div class="l-fs-s" slot="title">提交<br>个人资料</div>
+          </flow-state>
+          <flow-line is-done></flow-line>
+          <flow-state state="3" title="初审结果通知" is-done>
+            <div class="l-fs-s" slot="title">初审<br>结果通知</div>
+          </flow-state>
+          <flow-line></flow-line>
+          <flow-state state="4" title="终审免签提车" :is-done="info.loneState == 1">
+            <div class="l-fs-s" slot="title">终审<br>免签提车</div>
+          </flow-state>
+        </flow><br>
+      </div>
+      <div class="l-bg-white l-zoom l-margin-t">
+        <div class="l-flex-hc l-padding vux-1px-b">
+          <img class="l-thumb l-margin-r" :src="info.thumb" alt="">
+          <div class="l-rest l-fs-m">
+            <h4>{{info.carsName}}</h4>
+            <p>
+              <span class="l-txt-gray">指导价：<i class="l-rmb">{{info.guidancePriceStr}}万</i></span>
+              <span v-if="info.carNumber" class="l-txt-gray l-margin-l">数量：{{info.carNumber}}</span>
+            </p>
+          </div>
         </div>
         <div class="l-margin l-fs-m">
-          <div>
+          <!-- <div>
             <span class="l-fr">{{info.institutionName}}</span>
             <span class="l-txt-gray">金融机构：</span>
-          </div>
+          </div> -->
           <div>
             <span class="l-fr">{{(info.downPayments * 100)}}%</span>
             <span class="l-txt-gray">首付比例：</span>
@@ -86,42 +105,39 @@
           </div>
         </div>
       </div>
-
-      <div class="l-flex-hc l-padding-btn l-bg-white l-margin-t">
-        <img class="l-img-icon l-margin-r-m" src="../assets/images/icon-022.png" alt="">
-        <h4 class="l-rest">审核资料</h4>
+      <div class="l-flex-hc l-margin-tit">
+        <img class="l-img-icon l-margin-r-s" src="../assets/images/icon-024.png" alt="">
+        <h4 class="l-rest">提交资料</h4>
       </div>
-      <group gutter="0" v-if="info" label-width="6em">
-        <cell title="申请人身份证" align-items="flex-start">
-          <div slot="title" style="width: 10em;">申请人身份证</div>
+      <group gutter="0">
+        <cell title="申请人姓名" :value="info.loanPeopleName"></cell>
+        <cell title="申请人电话" :value="info.loanPeoplePhone"></cell>
+        <cell title="上传身份证照片" align-items="flex-start">
+          <div slot="title" style="width: 10em;">上传身份证照片</div>
           <div class="l-idcard-upload l-flex-hc" slot="inline-desc">
-            <div class="_item">
+            <div class="_item" @click="$api.previewImage([info.idCardPicOn, info.idCardPicOff], 0)">
               <img :src="info.idCardPicOn" alt="">
               <p class="l-txt-gray l-fs-s">身份证正面</p>
             </div>
             <div class="l-margin-l"></div>
-            <div class="_item">
+            <div class="_item" @click="$api.previewImage([info.idCardPicOn, info.idCardPicOff], 1)">
               <img :src="info.idCardPicOff" alt="">
               <p class="l-txt-gray l-fs-s">身份证反面</p>
             </div>
           </div>
         </cell>
-        <cell title="收入证明" align-items="flex-start">
-          <div class="l-margin-t-m" slot="inline-desc">
-            <div class="l-preview-imgs">
-              <img class="_item" :src="item" v-for="item in annualIncomeImage" :key="item">
-            </div>
-          </div>
-        </cell>
       </group>
     </template>
-
   </view-box>
 </template>
 
 <script>
+import { Flow, FlowState, FlowLine } from 'vux'
 export default {
   name: 'loan-info',
+  components: {
+    Flow, FlowState, FlowLine
+  },
   data () {
     return {
       state: ['申请中', '已通过', '已拒绝'],

@@ -6,19 +6,22 @@
     </div>
     <group gutter="0">
       <x-input class="l-ipt" type="tel" is-type="china-mobile" placeholder="请输入手机号码" :max="11" v-model="formData.phoneNumber">
-        <img class="_icon" slot="label" src="../assets/images/icon-005.png">
+        <i slot="label" class="l-icon">&#xe613;</i>
       </x-input>
       <x-input class="l-ipt" type="number" placeholder="请输入手机验证码" :max="6" v-model="formData.phoneCode">
-        <img class="_icon" slot="label" src="../assets/images/icon-006.png">
+        <i slot="label" class="l-icon">&#xe60f;</i>
         <x-button ref="sendBtn" type="primary" slot="right" mini @click.native="sendMobiCode">获取验证码</x-button>
       </x-input>
     </group>
     <group>
+      <x-input class="l-ipt" type="text" placeholder="请输入您的真实姓名" :max="50" v-model="formData.realName">
+        <i slot="label" class="l-icon">&#xe60e;</i>
+      </x-input>
       <x-input class="l-ipt" type="password" placeholder="请输入登录密码" :max="50" v-model="formData.password">
-        <img class="_icon" slot="label" src="../assets/images/icon-007.png">
+        <i slot="label" class="l-icon">&#xe616;</i>
       </x-input>
       <x-input class="l-ipt" type="password" placeholder="请再次输入密码" :max="50" v-model="formData.password2">
-        <img class="_icon" slot="label" src="../assets/images/icon-007.png">
+        <i slot="label" class="l-icon">&#xe616;</i>
       </x-input>
     </group>
 
@@ -38,6 +41,7 @@ export default {
         userType: 1,
         phoneNumber: '',
         phoneCode: '',
+        realName: '',
         password: '',
         password2: '',
         code: ''
@@ -73,7 +77,7 @@ export default {
         return
       }
 
-      this.$vux.loading.show()
+      this.$vux.loading.show({text: '注册中...'})
       this.$api.user.register(this.formData).then(({data}) => {
         this.$vux.toast.show({
           text: '注册成功',
@@ -109,7 +113,6 @@ export default {
   }
   ._active::before{ border-bottom-color: #D9D9D9; transform: translate3d(-50%, -1px, 0)}
   ._active::after { border-bottom-color: #fff; transform: translate3d(-50%, 0, 0);}
-
 }
 </style>
 

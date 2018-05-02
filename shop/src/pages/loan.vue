@@ -4,14 +4,14 @@
       <div class="_bg2"></div>  
       <div class="_bottom">
         <a class="_btn2" @click="loan"></a>
-        <a href="tel:400-1639-989" class="_ask"></a>
+        <a :href="'tel:' + $config.tel" class="_ask"></a>
       </div>
     </template>
     <template v-else>
       <div class="_bg1"></div>
       <div class="_bottom">
         <a class="_btn1" @click="loan"></a>
-        <a href="tel:400-1639-989" class="_ask"></a>
+        <a :href="'tel:' + $config.tel" class="_ask"></a>
       </div>
     </template>
   </div>

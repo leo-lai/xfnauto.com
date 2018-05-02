@@ -64,8 +64,8 @@
           <div class="l-fs-m l-txt-gray l-margin-t-m">
             <p>车辆所在地：{{item.location}}</p>
             <p>
-              <a :href="'tel:' + item.systemUserPhone" class="l-fr l-seek-tag3">
-                <img class="_icon" src="../assets/images/icon-017.png" alt="">联系Ta
+              <a :href="'tel:'+ item.systemUserPhone" border class="l-txt-icon l-fr" title="联系Ta">
+                <i class="l-icon">&#xe613;</i>
               </a>
               有效期至：{{item.overdueDate | Ymd}}
             </p>
@@ -109,10 +109,6 @@ export default {
 .l-seek-tag1{
   display: inline-block; font-size: 12px; background-color: #f2f6f9; border-radius: 15px; padding: 3px 15px 3px 10px;
   ._icon{width: 20px; height: 20px; vertical-align: -4px; margin-right: 4px;}
-}
-.l-seek-tag3{
-  display: inline-block; font-size: 12px; border-radius: 15px; padding: 1px 10px 1px 5px; color:#333; border: 1px solid #d9d9d9; margin-top: -5px;
-  ._icon{width: 20px; height: 20px; vertical-align: -4px; margin-right: 1px;}
 }
 .l-seek-tag2{background-color: #d2d2d2; color: #fff; font-size: 11px; padding: 1px 5px; border-radius: 3px;}
 </style>

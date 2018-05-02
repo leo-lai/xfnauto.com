@@ -1,11 +1,11 @@
 <template>
   <view-box>
     <div class="l-search-placeholder">
-      <search @on-submit="onSearch" @on-cancel="onSearch" v-model="list.filter.keywords" :auto-fixed="false" placeholder="查找贷款记录"></search>
+      <search @on-submit="onSearch" @on-cancel="onSearch" v-model="list.filter.keywords" :auto-fixed="false" placeholder="输入车型查找"></search>
     </div>
     <router-link tag="div" :to="'/loan/info?id=' + item.applyLoanId" class="l-loan-item  l-fs-m" v-for="item in list.data" :key="item.applyLoanId">
       <div class="_hd l-flex-hc l-is-link">
-        <div class="l-rest">需贷款：<i class="l-rmb">{{item.loanAmount}}</i></div>
+        <div class="l-rest">{{userInfo && userInfo.userType == 2 ? '垫资' : '贷款'}}金额：<i class="l-rmb">{{item.loanAmount}}</i></div>
         <span class="l-txt-theme">{{state[item.loneState]}}</span>
       </div>
       <div class="_bd l-flex-hc">
@@ -42,7 +42,7 @@ export default {
   data () {
     return {
       userInfo: null,
-      state: ['申请中', '已通过', '已拒绝'],
+      state: ['初审通过', '已通过', '已拒绝'],
       list: {
         filter: {
           keywords: ''

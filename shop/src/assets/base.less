@@ -1,4 +1,28 @@
 @theme-color: rgb(235, 97, 0);
+@font-face {
+  font-family: 'l-iconfont';  /* project id 647105 */
+  src: url('//at.alicdn.com/t/font_647105_xeb7wv2f0tlqh0k9.eot');
+  src: url('//at.alicdn.com/t/font_647105_xeb7wv2f0tlqh0k9.eot?#iefix') format('embedded-opentype'),
+  url('//at.alicdn.com/t/font_647105_xeb7wv2f0tlqh0k9.woff') format('woff'),
+  url('//at.alicdn.com/t/font_647105_xeb7wv2f0tlqh0k9.ttf') format('truetype'),
+  url('//at.alicdn.com/t/font_647105_xeb7wv2f0tlqh0k9.svg#l-iconfont') format('svg');
+}
+[class^='l-icon']{
+  font-family: 'l-iconfont' !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  // -webkit-text-stroke: 1px #999;
+  // text-shadow: 0 0 1px;
+}
+.weui-cell__hd [class^='l-icon']{display: inline-block; width: 30px; text-align: center;color: #999;}
+.l-txt-icon{
+  font-size: 12px;color: inherit; 
+  .l-icon{font-size: 12px; margin-right: 3px; text-decoration: none;}
+  &[border]{border: 1px solid #eee; border-radius: 3px; padding: 2px 5px;}
+  &::after{content: attr(title); text-decoration: underline;}
+}
+.l-img-icon{width: 24px; height: 24px;}
 
 html, body { height: 100%; width: 100%; overflow: hidden; }
 body { background-color: #f4fafa; font-size: 16px; user-select: none;}
@@ -278,6 +302,7 @@ h1,h2,h3,h4,h5{font-weight: 500;}
 .l-margin-r-m{margin-right: 10px;}
 .l-margin-t-l{margin-top: 30px;}
 .l-margin-t-xl{margin-top: 40px;}
+.l-margin-tit{margin: 15px 15px 10px;}
 .l-btn-area{width: 80%; margin: 30px auto 15px;}
 .l-btn-w50{width: 50%; margin: auto;}
 .l-btn-radius{border-radius: 99px !important;}
@@ -285,7 +310,6 @@ h1,h2,h3,h4,h5{font-weight: 500;}
 .l-fixed-bottom{opacity: 0.95;}
 .l-fixed-bottom ._placeholder{visibility: hidden; opacity: 0; pointer-events: none; height: 72px;}
 .l-fixed-bottom ._inner{position: fixed; bottom: 0; left: 0; right: 0; z-index: 100;}
-.l-img-icon{width: 24px; height: 24px;}
 .l-link-main{color: @theme-color; text-decoration: underline;}
 .l-link-gray{color: #999; text-decoration: underline;}
 
@@ -386,7 +410,7 @@ h1,h2,h3,h4,h5{font-weight: 500;}
 .l-idcard-upload{
   padding: 10px 0 0;
   ._item{width: 50%; box-sizing: border-box; text-align: center;}
-  ._item img{display: block; width: 100%; height: 80px; background: #ddd url('./images/icon-009.png') no-repeat 50% 50%; margin-bottom: 5px; background-size: 25%;}
+  ._item img{display: block; width: 100%; height: 80px; background: #ddd url('./images/icon-009.png') no-repeat 50% 50%; margin-bottom: 5px; background-size: 20%;}
 }
 
 // 覆盖样式
@@ -395,6 +419,17 @@ h1,h2,h3,h4,h5{font-weight: 500;}
 .weui-btn_plain-primary{
   color:  @theme-color !important;
   border: 1px solid rgb(235, 97, 0) !important;
+}
+
+.l-flow_li{
+  width: 20px; height: 20px;
+  .weui-wepay-flow__state{
+    width: 20px; height: 20px; line-height: 20px; border-radius: 20px;
+  }
+}
+.weui-wepay-flow__bd{margin-top: -10px;}
+.weui-wepay-flow__li{
+  .l-flow_li() !important
 }
 .weui-btn{font-size: 16px !important;}
 .weui-btn_mini{font-size: 12px !important;}

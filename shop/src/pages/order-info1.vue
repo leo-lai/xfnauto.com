@@ -58,7 +58,7 @@
           </tr>
           <tr>
             <td class="_tit">预约到店日期：</td>
-            <td class="l-txt-right"><span >{{info.appointmentDate}}</span></td>
+            <td class="l-txt-right"><span >{{info.appointmentDate | Ymd}}</span></td>
           </tr>
         </table>
         <div v-if="info.remarks" class="l-remark l-margin-t">{{info.remarks}}</div>

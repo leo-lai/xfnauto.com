@@ -6,7 +6,7 @@
     <router-link tag="div" :to="'/order/info1?id=' + item.advanceOrderId" class="l-seek-item l-fs-m" v-for="item in list.data" :key="item.advanceOrderId">
       <div class="_hd l-flex-hc l-is-link">
         <div class="l-rest">预约单号：{{item.orderCode}}</div>
-        <div class="l-txt-theme">{{item.overPay ? '已付款' : '未付款'}}</div>
+        <!-- <div class="l-txt-theme">{{item.overPay ? '已付款' : '未付款'}}</div> -->
       </div>
       <div class="_bd l-flex-hc" v-if="item.carInfo">
         <img class="_thumb" :src="item.carInfo.thumb" alt="">

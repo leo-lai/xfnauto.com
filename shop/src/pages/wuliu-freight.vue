@@ -45,7 +45,7 @@
     </div>
     <div class="l-margin l-fs-s l-txt-gray">
       注意事项：各路线运费，仅供参考，以实际下单的运费为准。可随时咨询
-      <a class="l-txt-gray" href="tel:400-1639-989">400-1639-989</a>
+      <a class="l-txt-gray" :href="'tel:' + $config.tel">{{$config.tel}}</a>
     </div>
 
     <div v-transfer-dom>
@@ -76,13 +76,13 @@
             </div>
 
             <div class="l-flex-hc _man">
-              <img class="_thumb" src="../assets/images/20180402020.png" alt="">
+              <img class="_thumb" :src="$config.thumb3" alt="">
               <div class="l-rest">
                 <p>联系客户经理下单</p>
-                <p>400-1639-989</p>
+                <p>{{$config.tel}}</p>
               </div>
-              <a :href="'tel:400-1639-989'" class="_tag">
-                <img class="_icon" src="../assets/images/icon-017.png" alt="">联系Ta
+              <a :href="'tel:' + $config.tel" border class="l-txt-icon" title="联系Ta">
+                <i class="l-icon">&#xe613;</i>
               </a>
             </div>
           </div>

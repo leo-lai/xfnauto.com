@@ -12,7 +12,7 @@
             <img slot="icon-active" src="./assets/images/tabbar-01-active.png">
             <span slot="label">首页</span>
           </tabbar-item>
-          <tabbar-item :link="{path: '/loan', replace: true}" :selected="$route.path === '/loan'">
+          <tabbar-item v-if="!orgCode" :link="{path: '/loan', replace: true}" :selected="$route.path === '/loan'">
             <img slot="icon" src="./assets/images/tabbar-02.png">
             <img slot="icon-active" src="./assets/images/tabbar-02-active.png">
             <span slot="label">{{userInfo && userInfo.userType == 2 ? '找垫资' : '0-1成首付'}}</span>
@@ -41,7 +41,7 @@ export default {
     Loading
   },
   computed: {
-    ...mapGetters(['loading', 'scrollTop', 'direction']),
+    ...mapGetters(['orgCode', 'loading', 'scrollTop', 'direction']),
     viewTransition() {
       if (!this.direction) return ''
       return 'vux-pop-' + this.direction
@@ -64,6 +64,11 @@ export default {
       handler() {
         this.onScroll()
         this.$api.user.getInfo().then(data => this.userInfo = data)
+        let orgCode = this.$route.query.sc
+        if(orgCode) {
+          this.$store.commit('updateOrgCode', { orgCode })
+          this.$storage.session.set('org_code', orgCode)
+        }
       }
     }
   },

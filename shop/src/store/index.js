@@ -11,6 +11,7 @@ const store = new Vuex.Store({
   	// user, 
   },
   getters: {
+		orgCode: state => state.page.orgCode,
 		loading: state => state.page.loading,
 		scrollTop: state => state.page.scrollTop,
 		direction: state => state.page.direction

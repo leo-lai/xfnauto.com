@@ -29,6 +29,7 @@ const OrderList2 = () => import('../pages/order-list2').then(m => m.default)
 const OrderInfo2 = () => import('../pages/order-info2').then(m => m.default)
 const OrderList3 = () => import('../pages/order-list3').then(m => m.default)
 const OrderInfo3 = () => import('../pages/order-info3').then(m => m.default)
+const OrderPayRecord = () => import('../pages/order-pay-record').then(m => m.default)
 
 const routes = [
   {
@@ -294,6 +295,15 @@ const routes = [
     component: OrderInfo3,
     meta: {
       title: '订购单详情',
+      auth: true
+    }
+  },
+  {
+    path: '/order/pay-record',
+    name: 'order-pay-record',
+    component: OrderPayRecord,
+    meta: {
+      title: '支付记录',
       auth: true
     }
   },

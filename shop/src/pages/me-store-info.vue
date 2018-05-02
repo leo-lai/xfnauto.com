@@ -158,14 +158,14 @@ export default {
         this.$toptip('请填写店长联系电话')
         return
       }
-      if(!this.formData.serviceName) {
-        this.$toptip('请填写客服姓名')
-        return
-      }
-      if(!this.formData.servicePhone) {
-        this.$toptip('请填写客服联系电话')
-        return
-      }
+      // if(!this.formData.serviceName) {
+      //   this.$toptip('请填写客服姓名')
+      //   return
+      // }
+      // if(!this.formData.servicePhone) {
+      //   this.$toptip('请填写客服联系电话')
+      //   return
+      // }
       if(!this.formData.natureType) {
         this.$toptip('请选择商家类型')
         return
@@ -194,10 +194,10 @@ export default {
         this.$toptip('请上传营业执照')
         return
       }
-      if(!this.formData.imageUrl) {
-        this.$toptip('请上传店铺照片')
-        return
-      }
+      // if(!this.formData.imageUrl) {
+      //   this.$toptip('请上传店铺照片')
+      //   return
+      // }
 
       this.$vux.loading.show()
       this.$api.user.saveStoreInfo(this.formData).then(({data}) => {

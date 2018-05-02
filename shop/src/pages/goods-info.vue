@@ -17,8 +17,8 @@
           <span class="l-txt-gray l-fs-s l-margin-l">指导价：<i class="l-rmb">{{info.guidingPriceStr}}</i>万</span>
         </p>
         <p class="l-margin-t l-fs-s">
-          <span class="l-txt-icon l-fr" border style="margin-top:-4px;" @click="showCounter">
-            <img src="../assets/images/icon-027.png" alt="">买车计算器
+          <span class="l-txt-icon l-fr" border title="买车计算器" style="margin-top:-4px;" @click="showCounter">
+            <i class="l-icon">&#xe618;</i>
           </span>
           <span class="l-txt-gray">仓库：{{info.warehouseName || '--'}}</span>
           <span class="l-txt-gray l-margin-l">{{info.goodsCarsActivityId ? '活动数量：' : '库存：' }}{{info.saleingNumber || '--'}} 辆</span>
@@ -26,17 +26,24 @@
       </div>
 
       <div class="l-padding-btn l-bg-white l-flex-h l-margin-tb">
-        <div class="l-thumb1 l-margin-r" radius :style="{'background-image': 'url('+ info.organization.imageUrl +')'}"></div>
+        <div class="l-thumb1 l-margin-r" radius :style="{'background-image': 'url('+ info.usersVo.headPortrait +')'}"></div>
         <div class="l-rest">
           <p>
-            {{info.organization.serviceName || '--'}} 
-            <span class="l-fs-s l-txt-gray">{{info.organization.shortName}}</span></p>
-          <p>{{info.organization.servicePhone}}</p>
+            {{info.usersVo.realName || '--'}} 
+            <span class="l-fs-s l-txt-gray">{{info.usersVo.orgName}}</span></p>
+          <p>{{info.usersVo.phoneNumber}}</p>
         </div>
         <div>
-          <a :href="'tel:'+ info.organization.servicePhone" class="l-txt-icon" border>
-            <img src="../assets/images/icon-017.png" alt="">联系他
-          </a>
+          <p>
+            <a :href="'tel:'+ info.usersVo.phoneNumber" border class="l-txt-icon l-margin-l-s" title="联系Ta">
+              <i class="l-icon">&#xe613;</i>
+            </a>
+          </p>
+          <p v-if="qrcode.img">
+            <a @click="qrcode.visible =true" border class="l-txt-icon l-margin-l-s" title="加微信">
+              <i class="l-icon">&#xe617;</i>
+            </a>
+          </p>
         </div>
       </div>
 
@@ -72,14 +79,17 @@
         
         <img class="l-img-block" :src="item" alt="" v-for="(item,index) in info.carsImageArr" :key="item" @click="$api.previewImage(info.carsImageArr, index)">
       </div>
-      
 
       <div class="l-goods-placeholder"></div>
       <div class="l-goods-fixed">
         <div class="l-flex-hc l-bg-white">
-          <a :href="'tel:'+ info.organization.servicePhone" class="l-txt-icon l-margin-l-s">
-            <img src="../assets/images/icon-017.png" alt="">电话咨询
+          <a class="_btn3" :href="'tel:'+ info.usersVo.phoneNumber">
+            <i class="l-icon">&#xe606;</i>
           </a>
+          <a v-if="qrcode.img" class="_btn3" @click="qrcode.visible =true">
+            <i class="l-icon">&#xe62d;</i>
+          </a>
+
           <div class="l-rest"></div>
           <router-link class="_btn2" to="/car/seek">
             <img src="../assets/images/icon-025.png" alt="">我要寻车
@@ -105,14 +115,6 @@
               </div>
               <div class="_cont" v-show="counter.tabIndex === 0">
                 <div class="_all l-fs-14 l-text-theme">预计总价：{{counter.fullPayment.fullPrice}}</div>
-                <group gutter="0">
-                  <cell title="官方指导价"><span class="l-rmb">{{counter.fullPayment.guidancePrice}}</span></cell>
-                  <cell title="购置税"><span class="l-rmb">{{counter.fullPayment.purchaseTax}}</span></cell>
-                  <cell title="上牌费用"><span class="l-rmb">{{counter.fullPayment.premium}}</span></cell>
-                  <cell title="车船税"><span class="l-rmb">{{counter.fullPayment.vehicleAndAesselTax}}</span></cell>
-                  <cell title="交强险"><span class="l-rmb">{{counter.fullPayment.strongInsurance}}</span></cell>
-                  <cell title="商业保险(全保）"><span class="l-rmb">{{counter.fullPayment.commercialInsurance}}</span></cell>
-                </group>
               </div>
               <div class="_cont" v-if="counter.tabIndex === 1">
                 <div class="_all">
@@ -123,7 +125,7 @@
                     <span class="l-rest" style="width:33%;text-align:right;">利息:￥{{counter.loanPayment.interest}}</span>
                   </div>
                 </div>
-                <group gutter="0">
+                <group class="l-margin-b" gutter="0">
                   <cell title="首付比列" primary="content">
                     <div class="l-range-text">
                       <div class="_text">
@@ -147,19 +149,45 @@
                     </div>
                   </cell>
                 </group>
-                <group>
-                  <cell title="官方指导价"><span class="l-rmb">{{counter.loanPayment.guidancePrice}}</span></cell>
-                  <cell title="购置税"><span class="l-rmb">{{counter.loanPayment.purchaseTax}}</span></cell>
-                  <cell title="上牌费用"><span class="l-rmb">{{counter.loanPayment.premium}}</span></cell>
-                  <cell title="车船税"><span class="l-rmb">{{counter.loanPayment.vehicleAndAesselTax}}</span></cell>
-                  <cell title="交强险"><span class="l-rmb">{{counter.loanPayment.strongInsurance}}</span></cell>
-                  <cell title="商业保险(全保）"><span class="l-rmb">{{counter.loanPayment.commercialInsurance}}</span></cell>
-                </group>
               </div>
+
+              <group gutter="0">
+                <cell title="官方指导价"><span class="l-rmb">{{counter.data.guidancePrice}}</span></cell>
+                <cell title="购置税"><span class="l-rmb">{{counter.data.purchaseTax}}</span></cell>
+                <cell title="上牌费用"><span class="l-rmb">{{counter.data.premium}}</span></cell>
+                <cell title="车船税"><span class="l-rmb">{{counter.data.vehicleAndAesselTax}}</span></cell>
+                <cell title="交强险"><span class="l-rmb">{{counter.data.strongInsurance}}</span></cell>
+              </group>
+              
+              <group title="商业保险">
+                <popup-picker :popup-style="{zIndex: 502}" :data="insurance.list" v-model="insurance.slted" show-name placeholder="请选择" :display-format="insuranceFormat">
+                  <span slot="title">第三者责任险({{insurance.name}})</span>
+                </popup-picker>
+                <cell title="车辆损失险"><span class="l-rmb">{{counter.data.vehicleLossInsurance}}</span></cell>
+                <cell title="全车盗抢险"><span class="l-rmb">{{counter.data.robberyAndTheftInsurance}}</span></cell>
+                <cell title="玻璃单独破碎险"><span class="l-rmb">{{counter.data.riskOfGlassBreakage}}</span></cell>
+                <cell title="自燃损失险"><span class="l-rmb">{{counter.data.selfIgnitionLossInsurance}}</span></cell>
+                <cell title="不计免赔特约险"><span class="l-rmb">{{counter.data.exemptionFromSpecialContract}}</span></cell>
+                <cell title="无过责任险"><span class="l-rmb">{{counter.data.noLiabilityInsurance}}</span></cell>
+                <cell title="车上人员责任险"><span class="l-rmb">{{counter.data.personnelLiabilityInsurance}}</span></cell>
+                <cell title="车身划痕险"><span class="l-rmb">{{counter.data.bodyScratchRisk}}</span></cell>
+              </group>
 
               <div class="l-txt-center l-txt-gray l-padding-btn l-fs-m">政策不同可能导致落地价格稍有偏差</div>
             </div>
           </popup>
+        </div>
+
+        <!-- 微信二维码 -->
+        <div v-transfer-dom>
+          <x-dialog v-model="qrcode.visible" hide-on-blur :dialog-style="{'max-width': '100%', width: '100%', 'background-color': 'transparent'}">
+            <div class="l-qrcode">
+              <img :src="qrcode.img" alt="">
+            </div>
+            <div class="l-margin-t">
+              <x-icon type="ios-close-outline" style="fill:#fff;" @click="qrcode.visible = false"></x-icon>
+            </div>
+          </x-dialog>
         </div>
       </div>
     </div>
@@ -167,12 +195,27 @@
 </template>
 
 <script>
-import { Swiper, Popup, Range, InlineLoading } from 'vux'
+import { Swiper, Popup, Range, InlineLoading, PopupPicker, XDialog } from 'vux'
 export default {
   name: 'goods-info',
-  components: { Swiper, Popup, Range, InlineLoading  },
+  components: { Swiper, Popup, Range, InlineLoading, PopupPicker, XDialog },
   data () {
     return {
+      qrcode: {
+        img: '',
+        visible: false,
+      },
+      insurance: {
+        name: '20万',
+        slted: ['200000'],
+        list: [[
+          {name: '5万', value: '50000', price: 516},
+          {name: '10万', value: '100000', price: 746},
+          {name: '20万', value: '200000', price: 924},
+          {name: '50万', value: '500000', price: 1252},
+          {name: '100万', value: '1000000', price: 1630},
+        ]]
+      },
       counter: {
         visible: false,
         tabIndex: 0,
@@ -181,7 +224,8 @@ export default {
         fullLoading: false,
         fullPayment: {},
         loanLoading: false,
-        loanPayment: {}
+        loanPayment: {},
+        data: {}
       },
       isActive: 0,
       bannerSwiper: {
@@ -196,7 +240,25 @@ export default {
       info: null
     }
   },
+  watch: {
+    'insurance.slted': {
+      deep: true,
+      handler(value) {
+        if(value && value[0]){
+          let slted = this.insurance.list[0].filter(item => item.value == value[0])[0]
+          this.insurance.name = slted.name
+          this.counter.tabIndex == 0 ? this.getFullPayment() : this.getLoanPayment()
+        }
+      }
+    }
+  },
   methods: {
+    insuranceFormat(value) {
+      if(value && value[0]){
+        return '￥' + this.insurance.list[0].filter(item => item.value == value[0])[0].price
+      }
+      return ''
+    },
     getInfo() {
       this.$vux.loading.show()
       let promise = null
@@ -240,7 +302,8 @@ export default {
             data.discountPriceStr += discountPriceOnLine+ '元'
           }
         }
-        
+
+        this.qrcode.img = data.usersVo && data.usersVo.weixinQrImage ? data.usersVo.weixinQrImage : ''
         this.info = data
 
         this.$api.wxShare({
@@ -261,15 +324,20 @@ export default {
     },
     counterTab(index = 0) {
       this.counter.tabIndex = index
-      if(index == 0 && !this.counter.fullPayment.fullPrice) {
+      if(index == 0) {
         this.getFullPayment()
       }
     },
     getFullPayment() {
       if(this.counter.fullLoading) return
+
       this.counter.fullLoading = true
-      this.$api.goods.getFullPayment(this.info.carsId).then(({data}) => {
+      this.$api.goods.getFullPayment({
+        carsId: this.info.carsId,
+        thirdPartyLiabilityInsuranceTopBack: this.insurance.slted[0]
+      }).then(({data}) => {
         this.counter.fullPayment = data
+        this.counter.data = data
       }).finally(_ => {
         this.counter.fullLoading = false
       })
@@ -280,9 +348,11 @@ export default {
       this.$api.goods.getLoanPayment({
         carsId: this.info.carsId,
         paymentRatio: this.counter.percent / 100,
-        timeOfPayment: this.counter.year
+        timeOfPayment: this.counter.year,
+        thirdPartyLiabilityInsuranceTopBack: this.insurance.slted[0]
       }).then(({data}) => {
         this.counter.loanPayment = data
+        this.counter.data = data
       }).finally(_ => {
         this.counter.loanLoading = false
       })
@@ -297,6 +367,11 @@ export default {
 }
 </script>
 <style lang="less" scoped>
+.l-qrcode{
+  background-color: #fff; padding: 15px; width: 200px; height: 200px;
+  border-radius: 5px; margin: auto;
+  img{width: 100%; height: 100%;}
+}
 .l-buyway-tab{background-color: #f4fafa;}
 .l-buyway-tab ._tit {background-color: #fff; text-align: center; }
 .l-buyway-tab ._tit ._item{width: 50%; padding: 10px 0;position: relative;}
@@ -318,12 +393,11 @@ border-bottom-color:#ffe8d8; width: 0; height: 0; margin: 0 auto -10px; visibili
     font-size: 14px; padding: 12px 15px; background-color: #eef3f6; color: inherit;
     img{width: 20px; height: 20px; vertical-align: -4px; margin-right: 5px;}
   }
+  ._btn3{
+    margin: 0 0 0 15px; color: #999;
+    .l-icon{font-size: 22px !important;}
+  }
 
-}
-.l-txt-icon{
-  font-size: 12px; padding: 2px 5px; color: inherit; text-decoration: underline;
-  img{width: 14px; height: 14px; vertical-align: -2px; margin-right: 4px;}
-  &[border]{border: 1px solid #eee; border-radius: 5px;}
 }
 .l-goods-info{
   ._tag0 {

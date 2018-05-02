@@ -94,7 +94,7 @@
 import { Divider } from 'vux'
 
 export default {
-  name: "order-info2",
+  name: "order-info3",
   components: {
     Divider
   },

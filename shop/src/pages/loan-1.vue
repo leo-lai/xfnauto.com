@@ -1,5 +1,25 @@
 <template>
   <view-box>
+    <div class="l-bg-white">
+      <flow>
+        <flow-state state="1" title="申请金融贷" is-done>
+          <div class="l-fs-s" slot="title">申请<br>金融贷</div>
+        </flow-state>
+        <flow-line is-done></flow-line>
+        <flow-state state="2" title="提交个人资料" is-done>
+          <div class="l-fs-s" slot="title">提交<br>个人资料</div>
+        </flow-state>
+        <flow-line></flow-line>
+        <flow-state state="3" title="初审结果通知">
+          <div class="l-fs-s" slot="title">初审<br>结果通知</div>
+        </flow-state>
+        <flow-line></flow-line>
+        <flow-state state="4" title="终审免签提车">
+          <div class="l-fs-s" slot="title">终审<br>免签提车</div>
+        </flow-state>
+      </flow><br>
+    </div>
+
     <div class="l-flex-hc l-padding-btn">
       <img class="l-img-icon l-margin-r-m" src="../assets/images/icon-010.png" alt="">
       <h4 class="l-rest">车辆信息</h4>
@@ -75,11 +95,11 @@
 </template>
 
 <script>
-import { PopupRadio } from 'vux'
+import { PopupRadio, Flow, FlowState, FlowLine } from 'vux'
 export default {
   name: 'loan-1',
   components: {
-    PopupRadio
+    PopupRadio, Flow, FlowState, FlowLine
   },
   data () {
     return {
@@ -99,7 +119,7 @@ export default {
         carsId: '',
         carsName: '',
         guidancePrice: '',
-        institutionId: '',
+        // institutionId: '',
         downPayments: '',
         loanPeriod: '',
         loanAmount: '',
@@ -153,10 +173,10 @@ export default {
         this.$toptip('请选择车型')
         return
       }
-      if(!this.formData.institutionId) {
-        this.$toptip('请选择金融机构')
-        return
-      }
+      // if(!this.formData.institutionId) {
+      //   this.$toptip('请选择金融机构')
+      //   return
+      // }
       if(!this.formData.downPayments) {
         this.$toptip('请选择首付比例')
         return
@@ -180,12 +200,13 @@ export default {
 
       this.$vux.loading.show()
       this.$api.loan.apply1(this.formData).then(({data}) => {
-        this.$vux.toast.show({
-          text: '提交申请成功',
-          onHide: _ => {
-            this.$router.back()
-          }
-        })
+        // this.$vux.toast.show({
+        //   text: '提交申请成功',
+        //   onHide: _ => {
+        //     this.$router.back()
+        //   }
+        // })
+        this.$router.replace('/msg?type=2')
       }).finally(_ => {
         this.$vux.loading.hide()
       })
