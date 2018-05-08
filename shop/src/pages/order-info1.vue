@@ -49,6 +49,10 @@
             <td class="l-txt-right"><span>{{expectPayWay[info.expectPayWay]}}</span></td>
           </tr>
           <tr>
+            <td class="_tit">定金支付状态：</td>
+            <td class="l-txt-right l-txt-theme"><span>{{info.overPay ? '已支付' : '未支付'}}</span></td>
+          </tr>
+          <tr>
             <td class="_tit">客户姓名：</td>
             <td class="l-txt-right"><span>{{info.realName}}</span></td>
           </tr>
@@ -105,7 +109,7 @@ export default {
         number: this.carInfo.number,
         money: this.info.depositPrice
       })
-      this.$router.replace(this.$utils.url.join(this.$router.hostURL, '/pay'))
+      this.$router.replace('/' + this.$router.hostURL + 'pay/')
     }
   },
   mounted() {

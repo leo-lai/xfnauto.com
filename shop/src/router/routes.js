@@ -145,7 +145,7 @@ const routes = [
     }
   },
   {
-    path: '/pay',
+    path: '/pay/',
     name: 'pay',
     component: Pay,
     meta: {

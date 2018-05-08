@@ -1,0 +1,101 @@
+@charset 'utf-8';
+html, body{background-color: #f5f3f4; color: #333;}
+html{overflow-y: auto;}
+body{font-size: 0.8rem; overflow: hidden; min-width: 1200px;}
+p{margin:0;}
+
+/*字体与图标*/
+@font-face {
+  font-family: 'l-iconfont';  /* project id 328644 */
+  src: url('https://at.alicdn.com/t/font_42yotd8xpjuoko6r.eot');
+  src: url('https://at.alicdn.com/t/font_42yotd8xpjuoko6r.eot?#iefix') format('embedded-opentype'),
+  url('https://at.alicdn.com/t/font_42yotd8xpjuoko6r.woff') format('woff'),
+  url('https://at.alicdn.com/t/font_42yotd8xpjuoko6r.ttf') format('truetype'),
+  url('https://at.alicdn.com/t/font_42yotd8xpjuoko6r.svg#l-iconfont') format('svg');
+}
+
+[class^=l-icon]{
+  font-family: 'l-iconfont' !important;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+}
+.l-page{margin: auto; }
+.l-page-bd{/* background: #eff3f5; */ }
+.l-page-bd>._inner{width: 1200px; margin: auto; padding: 1rem 0; }
+
+.l-page-bd:before, .l-page-bd:after{
+	content: ''; height: 1px; font-size: 0; visibility: hidden; clear: both;
+}
+.l-page-banner{
+	background-repeat: no-repeat; background-position: 50% 50%;
+	img{visibility: hidden;}
+}
+
+.l-column-tit{
+	text-align: center; margin: 1rem 0;
+	>._inner{
+		display: inline-block;
+		h3{margin: 5px 0; font-size: 1rem; color: rgba(102,102,102,1);}
+		p{color: #999;}
+	}
+}
+.l-column-tit:before, .l-column-tit:after{
+	content: ''; display: inline-block; width: 6rem; border-top: 1px solid #ccc; margin: 0 2rem; vertical-align: 36px;
+}
+
+
+.fade-enter-active,
+.fade-leave-active {
+	transition: all .2s ease;
+}
+
+.fade-enter,
+.fade-leave-active {
+	opacity: 0;
+}
+
+.viewport-flip {
+	-webkit-perspective: 1000;
+	perspective: 1000;
+	position: absolute;
+}
+.flip {
+	backface-visibility: hidden;
+	transform: translateX(0);
+}
+.flip.out {
+	transform: rotateY(-90deg) scale(.9);
+	animation-name: flipouttoleft;
+	animation-duration: 175ms;
+}
+.flip.in {
+	animation-name: flipintoright;
+	animation-duration: 225ms;
+}
+.flip.out.reverse {
+	transform: rotateY(90deg) scale(.9);
+	animation-name: flipouttoright;
+}
+.flip.in.reverse {
+	animation-name: flipintoleft;
+}
+
+@keyframes flipouttoleft {
+  from { transform: rotateY(0); }
+  to { transform: rotateY(-90deg) scale(.9); }
+}
+
+@keyframes flipouttoright {
+  from { transform: rotateY(0); }
+  to { transform: rotateY(90deg) scale(.9); }
+}
+
+@keyframes flipintoleft {
+  from { transform: rotateY(-90deg) scale(.9); }
+  to { transform: rotateY(0); }
+}
+
+@keyframes flipintoright {
+  from { transform: rotateY(90deg) scale(.9); }
+  to { transform: rotateY(0); }
+}

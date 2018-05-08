@@ -144,7 +144,7 @@ export default {
       this.$router.replace('/order/list1')
     },
     gotoPay() {
-      this.$router.replace(this.$utils.url.join(this.$router.hostURL, '/pay'))
+      this.$router.replace('/' + this.$router.hostURL + 'pay/')
     },
     submit() {
       if(!this.formData.expectBuyWay) {

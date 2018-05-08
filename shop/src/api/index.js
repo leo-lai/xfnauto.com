@@ -283,7 +283,7 @@ const api = {
 
     let promise = new Promise((resolve, reject) => {
       fetch.post('/interfaceShop/advanceOrder/orgAdvanceOrderInpay', formData).then(({ data }) => {
-        resolve(data.payInfo)
+        resolve(data.payinfo || data.payInfo)
       }).catch(reject)
     })
 

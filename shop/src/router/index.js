@@ -72,8 +72,8 @@ router.beforeEach((to, from, next) => {
   }
 
   // http直接跳转
-  if (/\/?http/.test(to.fullPath)) {
-    let url = to.fullPath.replace(/\/?(http)/, '$1')
+  if (/^\/?http/.test(to.fullPath)) {
+    let url = to.fullPath.replace(/^\/?(http)/, '$1')
     router.eventName === 'replace' ? location.replace(url) : location.assign(url)
     router.eventName = ''
 

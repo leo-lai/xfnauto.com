@@ -27,7 +27,7 @@ export default {
           style: 'primary',
           text: '确定支付',
           onButtonClick: name => {
-            
+            this.submit()
           }
         }
       ]
@@ -36,23 +36,20 @@ export default {
   methods: {
     submit() {
       this.$vux.loading.show()
-      this.$api.getWxPayConfig({ orderId: this.orderId }).then(payInfo => {
-        this.$api.chooseWXPay2(payInfo).then(_ => {
-          this.$vux.toast.show({
-            text: '支付成功',
-            onHide: _ => {
-              this.$router.back()
-            }
-          })
-        }).catch(_ => {
-          this.$vux.loading.hide()
-          this.$vux.toast.show({
-            type: 'warn',
-            text: '支付失败'
-          })
+      this.$api.chooseWXPay2({ orderId: this.orderId }).then(_ => {
+        this.$vux.loading.hide()
+        this.$vux.toast.show({
+          text: '支付成功',
+          onHide: _ => {
+            this.$router.back()
+          }
         })
       }).catch(_ => {
         this.$vux.loading.hide()
+        this.$vux.toast.show({
+          type: 'warn',
+          text: '支付失败'
+        })
       })
     }
   },
