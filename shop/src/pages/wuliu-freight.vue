@@ -61,14 +61,14 @@
               <span class="l-fr">{{freightInfo.number}}辆</span>
               <span class="l-txt-gray">运输数量：</span>
             </div>
-            <div class="l-margin-t-m">
+            <!-- <div class="l-margin-t-m">
               <span class="l-fr"><i class="l-rmb">{{freightInfo.amountLine}}</i></span>
               <span class="l-txt-gray">运费：</span>
-            </div>
-            <div class="l-margin-t-m" v-if="freightInfo.grade">
+            </div> -->
+            <!-- <div class="l-margin-t-m" v-if="freightInfo.grade">
               <span class="l-fr"><i class="l-rmb">{{freightInfo.grade}}</i></span>
               <span class="l-txt-gray">附加费：</span>
-            </div>
+            </div> -->
 
             <div class="l-margin-t">
               <span class="l-fr"><i class="l-rmb l-txt-theme l-fs-l">{{freightInfo.amount}}</i></span>
