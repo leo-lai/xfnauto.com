@@ -36,14 +36,14 @@
       <cell title="上传营业执照" align-items="flex-start">
         <div slot="title" style="width: 7em;">上传营业执照</div>
         <div class="l-preview-imgs">
-          <img class="_item" :src="item" v-for="item in businessLicense" :key="item">
+          <img class="_item" :src="item" v-for="(item,index) in businessLicense" :key="item" @click="$api.previewImage(businessLicense, index)">
           <i class="_add" src="../assets/images/icon-009.png" @click="chooseImage(3, 9)"></i>
         </div>
       </cell>
       <cell title="上传店铺照片" align-items="flex-start">
         <div slot="title" style="width: 7em;">上传店铺照片</div>
         <div class="l-preview-imgs">
-          <img class="_item" :src="item" v-for="item in storeImages" :key="item">
+          <img class="_item" :src="item" v-for="(item, index) in storeImages" :key="item" @click="$api.previewImage(storeImages, index)">
           <i class="_add" src="../assets/images/icon-009.png" @click="chooseImage(4, 9)"></i>
         </div>
       </cell>
@@ -210,6 +210,12 @@ export default {
   mounted() {
     this.storeType = this.$config.storeType
     this.isRegister = !!this.$route.query.register
+
+    this.$api.user.getInfo().then(data => {
+      console.log(data)
+      this.formData.linkMan = data.realName
+      this.formData.telePhone = data.phoneNumber
+    })
   }
 }
 </script>

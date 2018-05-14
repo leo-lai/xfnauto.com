@@ -31,12 +31,12 @@
       <cell title="企业法人身份证" align-items="flex-start">
         <div slot="title" style="width: 10em;">企业法人身份证</div>
         <div class="l-idcard-upload l-flex-hc" slot="inline-desc">
-          <div class="_item">
+          <div class="_item" @click="$api.previewImage([storeInfo.idCardPicOn, storeInfo.idCardPicOff], 0)">
             <img :src="storeInfo.idCardPicOn" alt="">
             <p class="l-txt-gray l-fs-s">身份证正面</p>
           </div>
           <div class="l-margin-l"></div>
-          <div class="_item">
+          <div class="_item" @click="$api.previewImage([storeInfo.idCardPicOn, storeInfo.idCardPicOff], 1)">
             <img :src="storeInfo.idCardPicOff" alt="">
             <p class="l-txt-gray l-fs-s">身份证反面</p>
           </div>
@@ -45,14 +45,14 @@
       <cell title="营业执照" align-items="flex-start">
         <div class="l-margin-t-m" slot="inline-desc">
           <div class="l-preview-imgs">
-            <img class="_item" :src="item" v-for="item in businessLicense" :key="item">
+            <img class="_item" :src="item" v-for="(item, index) in businessLicense" :key="item" @click="$api.previewImage(businessLicense, index)">
           </div>
         </div>
       </cell>
       <cell title="店铺照片" align-items="flex-start">
         <div class="l-margin-t-m" slot="inline-desc">
           <div class="l-preview-imgs">
-            <img class="_item" :src="item" v-for="item in storeImages" :key="item">
+            <img class="_item" :src="item" v-for="(item, index) in storeImages" :key="item" @click="$api.previewImage(storeImages, index)">
           </div>
         </div>
       </cell>
