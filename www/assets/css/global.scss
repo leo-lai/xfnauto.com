@@ -28,7 +28,8 @@ p{margin:0;}
 }
 .l-page-banner{
 	background-repeat: no-repeat; background-position: 50% 50%;
-	img{visibility: hidden;}
+	a{display: block;}
+	img{display: block; visibility: hidden;}
 }
 
 .l-column-tit{
@@ -100,6 +101,6 @@ p{margin:0;}
   to { transform: rotateY(0); }
 }
 
-.l-btn-1{border:none; outline: none; background-color: #ec6e3a; color: #fff;  padding: 10px 30px;}
+.l-btn-1{display: inline-block; font-size: 14px; border:none; outline: none; background-color: #ec6e3a; color: #fff;  padding: 10px 30px;}
 .l-btn-1[mini]{padding: 5px 30px;}
 .l-btn-1[round]{border-radius: 50px;}

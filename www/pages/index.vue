@@ -2,7 +2,7 @@
   <div class="l-page-bd">
   	<el-carousel class="l-page-banner" trigger="click" height="600px">
       <el-carousel-item style="background: url('/images/20180527002.jpg') 50% 50% no-repeat;">
-        <img src="~static/images/20180527002.jpg" >
+        <a href="/joinus"><img src="~static/images/20180527002.jpg" ></a>
       </el-carousel-item>
     </el-carousel>
     
@@ -11,14 +11,13 @@
       <img style="float:right;" src="~static/images/20180527003.png">
       <div class="_inner">
         <p class="l-text-center"><img src="~static/images/20180527005.jpg" alt=""></p>
-        <p class="l-margin-t">广州喜蜂鸟网络科技服务有限公司成立于2017年，隶属于传创投资控股集团旗下品牌。是一个专注于汽车产业互联网技术开发、新零售连锁品牌运营管理、人工智能产业技术研发与投
-资、汽车供应链服务平台开发与运营的创新型科技服务公司。</p>
+        <p class="l-margin-t">广州喜蜂鸟网络科技服务有限公司成立于2017年，隶属于传创投资控股集团旗下品牌。是一个专注于汽车产业互联网技术开发、新零售连锁品牌运营管理、人工智能产业技术研发与投资、汽车供应链服务平台开发与运营的创新型科技服务公司。</p>
         <p class="l-margin-t">公司打造以线上商城、资源、物流、SaaS系统、整店输出、售后服务六位一体的一站式标准化服务。</p>
         <p class="l-margin-t">公司以用户体验为核心，在线上通过技术与科技的完美结合，实现用户之间实时信息交换，优化全国车源配置，为传统门店降低成本，提升效率。在线下，公司以发展“喜蜂鸟淘车网”
 汽车品牌6S服务综合门店为主要业务，集汽车批发、零售、物流、金融、保险、维修保养、精品为一体，为客户提供管家式贴心服务。</p>
         <br>
         <p class="l-margin-t l-text-center">
-          <button class="l-btn-1" mini round>了解更多 >></button>
+          <a href="/about" class="l-btn-1" mini round>了解更多 >></a>
         </p>
       </div>
       <img style="float:left;" src="~static/images/20180527004.png">

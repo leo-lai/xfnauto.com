@@ -3,27 +3,27 @@
 		<div class="_inner">
 			<div class="_nav">
 				<dl>
-					<dt>合作优势</dt>
-					<dd>商业模式</dd>
-					<dd>盈利优势</dd>
-					<dd>运营优势</dd>
-					<dd>供应链优势</dd>
-					<dd>数据优势</dd>
-					<dd>资金优势</dd>
-					<dd>资源优势</dd>
+					<dt><a href="/youshi">合作优势</a></dt>
+					<dd><a href="/youshi">商业模式</a></dd>
+					<dd><a href="/youshi">盈利优势</a></dd>
+					<dd><a href="/youshi">运营优势</a></dd>
+					<dd><a href="/youshi">供应链优势</a></dd>
+					<dd><a href="/youshi">数据优势</a></dd>
+					<dd><a href="/youshi">资金优势</a></dd>
+					<dd><a href="/youshi">资源优势</a></dd>
 				</dl>
 				<dl>
-					<dt>新闻资讯</dt>
-					<dd><a>公司新闻</a></dd>
-					<dd><a>行业动态</a></dd>
-					<dd><a>汽车商学院</a></dd>
+					<dt><a href="/news">新闻资讯</a></dt>
+					<dd><a href="/news?type=1">公司新闻</a></dd>
+					<dd><a href="/news?type=2">行业动态</a></dd>
+					<dd><a href="/news?type=3">汽车商学院</a></dd>
 				</dl>
 				<dl>
-					<dt>关于我们</dt>
-					<dd><a>企业介绍</a></dd>
-					<dd><a>品牌概念</a></dd>
-					<dd><a>项目优势</a></dd>
-					<dd><a>店铺形象</a></dd>
+					<dt><a href="/about">关于我们</a></dt>
+					<dd><a href="/about">企业介绍</a></dd>
+					<dd><a href="/about">品牌概念</a></dd>
+					<dd><a href="/about">项目优势</a></dd>
+					<dd><a href="/about">店铺形象</a></dd>
 				</dl>
 				<dl style="border-left: 1px solid rgb(77, 85, 93); width: 140px;"></dl>
 				<dl style="width: 390px;">

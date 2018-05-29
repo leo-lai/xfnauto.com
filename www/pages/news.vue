@@ -66,7 +66,7 @@ export default {
   },
   data() {
     return {
-      type: 1,
+      type: '',
       top3: [],
       list: []
     }
@@ -89,7 +89,7 @@ export default {
     }
   },
   mounted() {
-    this.tabClick()
+    this.tabClick(this.$route.query.type)
   }
 }
 </script>

@@ -8,13 +8,13 @@
     </div>
 
     <div class="_inner">
-      <div class="l-margin-tb-m l-text-gray">当前位置：新闻资讯 > {{info.subType}}</div>
+      <div class="l-margin-tb-m l-text-gray">当前位置：新闻资讯 > {{info.type}}</div>
       <div class="l-bg-white" style="padding: 60px;" v-html="info.content"></div>
 
       <div class="l-news-ft l-flex-hc">
-        <router-link v-if="info.preId" :to="'/infos?id=' + info.preId.id">上一篇：{{ info.preId.id === info.id ? '没有了' : info.preId.title}}</router-link>
+        <a v-if="info.nextId" :href="'/infos?id=' + info.nextId.id">上一篇：{{ info.nextId.id === info.id ? '没有了' : info.nextId.title }}</a>
         <div class="l-rest"></div>
-        <router-link v-if="info.nextId" :to="'/infos?id=' + info.nextId.id">下一篇：{{ info.nextId.id === info.id ? '没有了' : info.nextId.title }}</router-link>
+        <a v-if="info.preId" :href="'/infos?id=' + info.preId.id">下一篇：{{ info.preId.id === info.id ? '没有了' : info.preId.title}}</a>
       </div>
     </div>
   </div>
@@ -30,6 +30,17 @@ export default {
       info: {}
     }
   },
+  watch: {
+    '$route.path': {
+      immediate: false,
+      // deep: true,
+      handler() {
+        setTimeout(() => {
+          this.getInfo()  
+        }, 1000)
+      }
+    }
+  },
 	methods: {
 		getInfo() {
       const loading = this.$loading()
@@ -42,7 +53,10 @@ export default {
   },
   mounted() {
     this.getInfo()
-  }
+  },
+  // updated() {
+  //   this.getInfo()
+  // }
 }
 </script>
 <style scoped lang="scss">
