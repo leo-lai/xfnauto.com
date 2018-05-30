@@ -2,10 +2,10 @@
   <div id="app-content">
     <div id="app-body">
       <div class="l-app-hd">
-        <div class="l-flex-hc">
+        <div class="l-flex-hc" @click="showMenu = !showMenu">
           <div class="_logo">喜蜂鸟网络科技服务有限公司</div>
           <div class="l-rest"></div>
-          <div class="_mbtn" @click="showMenu = !showMenu"></div>
+          <div class="_mbtn"></div>
         </div>
         <div class="l-app-menu" v-show="showMenu" @click="showMenu = false">
           <router-link to="/" class="_item" :class="{_active: $route.path == '/'}">首页</router-link>
@@ -20,34 +20,15 @@
         <router-view class="page-view"></router-view>
       </transition>
       <div class="l-ft-ask l-flex-hc">
-        <div class="l-rest">
+        <a :href="'tel:' + $config.tel" class="l-rest">
           <img src="./assets/images/20180529006.jpg" alt="">
           <span>立即咨询</span>
-        </div>
-        <div class="l-rest">
+        </a>
+        <router-link to="/joinus" class="l-rest">
           <img src="./assets/images/20180529007.jpg" alt="">
           <span>我要加盟</span>
-        </div>
+        </router-link>
       </div>
-      <!-- <transition :name="viewTransition" :css="!!direction || direction === 'fade'">
-        <tabbar v-show="$route.meta.tabbar">
-          <tabbar-item :link="{path: '/', replace: true}" :selected="$route.path === '/'">
-            <img slot="icon" src="./assets/images/tabbar-01.png">
-            <img slot="icon-active" src="./assets/images/tabbar-01-active.png">
-            <span slot="label">首页</span>
-          </tabbar-item>
-          <tabbar-item v-if="!orgCode" :link="{path: '/loan', replace: true}" :selected="$route.path === '/loan'">
-            <img slot="icon" src="./assets/images/tabbar-02.png">
-            <img slot="icon-active" src="./assets/images/tabbar-02-active.png">
-            <span slot="label">{{userInfo && userInfo.userType == 2 ? '找垫资' : '0-1成首付'}}</span>
-          </tabbar-item>
-          <tabbar-item :link="{path: '/me', replace: true}" :selected="$route.path === '/me'">
-            <img slot="icon" src="./assets/images/tabbar-03.png">
-            <img slot="icon-active" src="./assets/images/tabbar-03-active.png">
-            <span slot="label">我的</span>
-          </tabbar-item>
-        </tabbar>
-      </transition> -->
     </div>
 
     <loading v-model="loading"></loading>
@@ -85,15 +66,9 @@ export default {
   watch: {
     '$route.path': {
       immediate: true,
-      // deep: true,
+      deep: true,
       handler() {
         this.onScroll()
-        this.$api.user.getInfo().then(data => this.userInfo = data)
-        let orgCode = this.$route.query.sc
-        if(orgCode) {
-          this.$store.commit('updateOrgCode', { orgCode })
-          this.$storage.session.set('org_code', orgCode)
-        }
       }
     }
   },
@@ -191,8 +166,9 @@ export default {
 }
 
 .l-ft-ask{
-  height: 50px; background-color: #fff; padding: 10px; text-align: center; position: fixed; left: 0; right: 0; bottom: 0; box-sizing: border-box;
+  height: 50px; background-color: #fff; padding: 10px; text-align: center; box-sizing: border-box;
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 1000;
   img{width: 20px; height: 20px; vertical-align: -4px; margin-right: 5px;}
+  a{color: inherit;}
 }
-
 </style>

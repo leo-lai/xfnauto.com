@@ -10,7 +10,7 @@
       <p class="l-margin-t">公司打造以线上商城、资源、物流、SaaS系统、整店输出、售后服务六位一体的一站式标准化...</p>
       <br>
       <p class="l-margin-t l-txt-center">
-        <router-link to="" class="l-btn-1" round mini>了解更多 >></router-link>
+        <router-link to="/about" class="l-btn-1" round mini>了解更多 >></router-link>
       </p>
     </div>
     <br>

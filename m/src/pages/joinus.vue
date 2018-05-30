@@ -15,12 +15,7 @@
 
 <script>
 export default {
-  name: 'joinus',
-  data () {
-    return {
-    
-    }
-  }
+  name: 'joinus'
 }
 </script>
 
@@ -28,6 +23,5 @@ export default {
 .l-img-block{
   img{display: block;}
 }
-
 </style>
 

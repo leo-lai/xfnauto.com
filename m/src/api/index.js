@@ -108,23 +108,32 @@ const fetch = {
   ajax(url = '', data = {}, method = 'GET', contentType = 'form') {
     let source = axios.CancelToken.source()
     fetch.source[url] = source
-    data.sessionId = storage.local.get('token')
-    data.orgCode = storage.session.get('org_code')
+
     return new Promise((resolve, reject) => {
-      service({
-        url, method, data,
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        cancelToken: source.token,
-        transformRequest: [function(data) {
-          let ret = []
-          for (let key in data) {
-            ret.push(encodeURIComponent(key) + '=' + encodeURIComponent(data[key]))
+      let ajaxParams = {
+        url, method
+      }
+      switch (method) {
+        case 'POST':
+          ajaxParams.data = data
+          ajaxParams.headers = {
+            'Content-Type': 'application/x-www-form-urlencoded'
           }
-          return ret.join('&')
-        }]
-      }).then(data => {
+          ajaxParams.transformRequest = [function (data) {
+            let ret = []
+            for (let key in data) {
+              ret.push(encodeURIComponent(key) + '=' + encodeURIComponent(data[key]))
+            }
+            return ret.join('&')
+          }]
+          break
+        default:
+          ajaxParams.params = data
+          break
+      }
+
+      ajaxParams.cancelToken = source.token
+      service(ajaxParams).then(data => {
         fetch.source[url] = null
         resolve(data)
       }).catch(error => {
@@ -463,156 +472,9 @@ const api = {
         resolve(wx)
       }).catch(reject)
     })
-  },
-  user: {
-    register(formData = {}) {
-      return fetch.post('/interfaceShop/shopUsers/register', formData)
-    },
-    login(formData = {}) {
-      return fetch.post('/interfaceShop/shopUsers/loginPassword', formData)
-    },
-    logout() {
-      storage.local.remove('token')
-      storage.local.remove('userinfo')
-      router.replace('/login')
-    },
-    getInfo() {
-      return Promise.resolve(storage.local.get('userinfo'))
-    },
-    getStoreInfo() {
-      return fetch.post('/interfaceShop/shopUsers/myOrgInfo')
-    },
-    saveStoreInfo(formData = {}) {
-      return fetch.post('/interfaceShop/shopUsers/supplementOrg', formData)
-    },
-    forgotPwd(formData = {}) {
-      return fetch.post('/interfaceShop/shopUsers/forgetPassword', formData)
-    }
-  },
-  car: {
-    getBrandList() {
-      return fetch.post('/common/carsBrandList')
-    },
-    getFamilyList(brandId = '') {
-      return fetch.post('/common/carsFamilyList', { brandId })
-    },
-    getCarList(familyId = '') {
-      return fetch.post('/common/carsListList', { familyId })
-    },
-    getChenShenList(familyId = '') {
-      return fetch.post('/common/carColourList', { familyId })
-    },
-    getNeishiList(familyId = '') {
-      return fetch.post('/common/carInteriorList', { familyId })
-    }
-  },
-  goods: {
-    getList(formData = {}, page = 1, rows = 50) {
-      formData.page = page
-      formData.rows = rows
-      return fetch.post('/interfaceShop/shopGoodsCars/shopGoodsCarsList', formData)
-    },
-    getInfo(goodsCarsId = '') {
-      return fetch.post('/interfaceShop/shopGoodsCars/shopGoodsCarsInfo', { goodsCarsId })
-    },
-    getBrandList() {
-      return fetch.post('/interfaceShop/shopGoodsCars/brandListList')
-    },
-    getCityList() {
-      return fetch.post('/interfaceShop/shopGoodsCars/cityListList')
-    },
-    getActiveList(formData = {}, page = 1, rows = 50) {
-      formData.page = page
-      formData.rows = rows
-      return fetch.post('/interfaceShop/goodsCarsActivity/activityList', formData)
-    },
-    getActiveInfo(goodsCarsActivityId = '') {
-      return fetch.post('/interfaceShop/goodsCarsActivity/activityInfo', { goodsCarsActivityId })
-    },
-    getFullPayment(formData = {}) {
-      return fetch.post('/interfaceShop/shopGoodsCars/fullPayment', formData)
-    },
-    getLoanPayment(formData = {}) {
-      return fetch.post('/interfaceShop/shopGoodsCars/loanPayment', formData)
-    }
-  },
-  order: {
-    add(formData = {}) { // 预约下单
-      return fetch.post('/interfaceShop/advanceOrder/advanceOrderEdit', formData)
-    },
-    getList1(formData = {}, page = 1, rows = 50) { // 预约单
-      formData.page = page
-      formData.rows = rows
-      return fetch.post('/interfaceShop/advanceOrder/myOrgAdvanceOrderList', formData)
-    },
-    getInfo1(advanceOrderId = '') { // 预约单详情
-      return fetch.post('/interfaceShop/advanceOrder/orgAdvanceOrderInfo', { advanceOrderId })
-    },
-    getList2(formData = {}, page = 1, rows = 50) { // 订购单
-      formData.page = page
-      formData.rows = rows
-      return fetch.post('/interfaceShop/advanceOrder/myOrderList', formData)
-    },
-    getInfo2(orderId = '') { // 订购单详情
-      return fetch.post('/interfaceShop/advanceOrder/myOrderInfo', { orderId })
-    },
-    getPayRecord(formData = {}, page = 1, rows = 50) {
-      formData.page = page
-      formData.rows = rows
-      return fetch.post('/interfaceShop/advanceOrder/myOrderPaymentList', formData).then(response => {
-        if (!response.data.list) {
-          response.data = {
-            page, 
-            rows: 1000,
-            total: 1,
-            list: response.data
-          }
-        }
-        return response
-      })
-    }
-  },
-  loan: { // 贷款
-    apply1(formData = {}) { // 个人贷款
-      return fetch.post('/interfaceShop/applyLoan/applyLoanEdit', formData)
-    },
-    apply2(formData = {}) { // 商家垫资
-      return fetch.post('/interfaceShop/applyLoan/applyLoanMerchant', formData)
-    },
-    getList(formData = {}, page = 1, rows = 50) { // 贷款申请记录
-      formData.page = page
-      formData.rows = rows
-      return fetch.post('/interfaceShop/applyLoan/myApplyLoanList', formData)
-    },
-    getInfo(applyLoanId = '') {
-      return fetch.post('/interfaceShop/applyLoan/applyLoanInfo', { applyLoanId })
-    }
-  },
-  seek: { // 寻车
-    add(formData = {}) {
-      return fetch.post('/interfaceShop/shopFindCar/shopFindCarEdit', formData)
-    },
-    getList(formData = {}, page = 1, rows = 50) { // 寻车记录
-      formData.page = page
-      formData.rows = rows
-      return fetch.post('/interfaceShop/shopFindCar/myShopFindCarList', formData)
-    },
-    getInfo(findTheCarId = '') { // 寻车详情
-      return fetch.post('/interfaceShop/shopFindCar/shopFindCarInfo', { findTheCarId })
-    },
-    cancel(findTheCarId = '') { // 取消寻车
-      return fetch.post('/interfaceShop/shopFindCar/shopFindCarDel', { findTheCarId })
-    }
-  },
-  wuliu: { // 物流
-    getList() {
-      return fetch.post('/interfaceShop/consignment/logisticsLineList')
-    },
-    getFreight(formData = {}) { // 查询运费
-      return fetch.post('/interfaceShop/consignment/expensesCount', formData)
-    }
   }
 }
 
+Vue.prototype.$http = fetch
 Vue.prototype.$api = api
 export default api

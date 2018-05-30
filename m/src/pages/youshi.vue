@@ -110,48 +110,80 @@
     <div style="padding: 5%;">
       <img src="../assets/images/20180529022.jpg" alt="">
     </div>
-    
-    
   </view-box>
 </template>
 
 <script>
 export default {
-  name: 'youshi',
-  data () {
-    return {
-    
-    }
-  }
+  name: "youshi"
 }
 </script>
 
 <style lang="less" scoped>
-.l-img-title{
+.l-img-title {
   text-align: center;
-  img{ vertical-align: top; height: 50px;}
+  img {
+    vertical-align: top;
+    height: 50px;
+  }
 }
-.l-yingli{
-  background: url('../assets/images/20180529013.jpg') no-repeat; background-size: cover; color: #fff;
+.l-yingli {
+  background: url("../assets/images/20180529013.jpg") no-repeat;
+  background-size: cover;
+  color: #fff;
 }
-.l-diyun, .l-zhuda{
-  width: 50%; height: 270px; box-sizing: border-box;  padding: 20px; font-size: 14px;
-  img{width: 40px; height: 40px; vertical-align: -13px; margin-right: 10px;}
-  p{margin-top: 10px;}
+.l-diyun,
+.l-zhuda {
+  width: 50%;
+  height: 270px;
+  box-sizing: border-box;
+  padding: 20px;
+  font-size: 14px;
+  img {
+    width: 40px;
+    height: 40px;
+    vertical-align: -13px;
+    margin-right: 10px;
+  }
+  p {
+    margin-top: 10px;
+  }
 }
 
-.l-shuju{
-  background: url('../assets/images/20180529020.jpg') no-repeat; background-size: cover; color: #fff;
+.l-shuju {
+  background: url("../assets/images/20180529020.jpg") no-repeat;
+  background-size: cover;
+  color: #fff;
   height: 260px;
 }
 
-.l-operate-list{
+.l-operate-list {
   overflow: hidden;
-  ._item{float: left; text-align: center; width: 50%; height: 180px; padding: 10px 20px; box-sizing: border-box; }
-  img{width: 40px; height: 40px;}
-  ._t{color: #5c5c5c; font-weight: 500; font-size: 13px; margin-top: 10px;}
-  ._c{text-align: left; color: #898989; font-size: 13px; margin-top: 10px; min-height: 4em;}
+  ._item {
+    float: left;
+    text-align: center;
+    width: 50%;
+    height: 180px;
+    padding: 10px 20px;
+    box-sizing: border-box;
+  }
+  img {
+    width: 40px;
+    height: 40px;
+  }
+  ._t {
+    color: #5c5c5c;
+    font-weight: 500;
+    font-size: 13px;
+    margin-top: 10px;
+  }
+  ._c {
+    text-align: left;
+    color: #898989;
+    font-size: 13px;
+    margin-top: 10px;
+    min-height: 4em;
+  }
 }
-
 </style>
 

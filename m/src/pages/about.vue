@@ -54,12 +54,7 @@
 
 <script>
 export default {
-  name: 'about',
-  data () {
-    return {
-    
-    }
-  }
+  name: 'about'
 }
 </script>
 
@@ -74,12 +69,9 @@ export default {
     background-color: rgba(255, 255, 255, 0.6); padding:0 20px 20px 20px; font-size: 14px;
   }
 }
-
-
 .l-shop-img{
   background: url('../assets/images/20180527020.jpg') 50% 50% no-repeat; background-size: cover; padding: 20px;
   img{width: 250px; background-color: #fff;}
 }
-
 </style>
 

@@ -1,5 +1,5 @@
 const resURL = 'https://res.xfnauto.com'
-const apiURL = window.location.host === 'shop.xfnauto.com' ? 'https://tomcat.xfnauto.com/tauto' : 'http://tomcat.mifengqiche.com/tauto'
+const apiURL = window.location.host.indexOf('xfnauto.com') !== -1 ? 'https://api.xfnauto.com' : 'http://api.mifengqiche.com'
 let config = {
   resURL,
   apiURL,

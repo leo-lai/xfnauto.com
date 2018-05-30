@@ -33,11 +33,9 @@ export default {
   watch: {
     '$route.path': {
       immediate: false,
-      // deep: true,
+      deep: true,
       handler() {
-        setTimeout(() => {
-          this.getInfo()  
-        }, 1000)
+        this.getInfo()  
       }
     }
   },
