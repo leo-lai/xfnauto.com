@@ -1,6 +1,6 @@
 <template>
   <view-box class="l-bg-white">
-    <swiper auto :list="bannerSwiper.list" dots-position="center" :show-desc-mask="false"></swiper>
+    <swiper :show-dots="false" auto :list="bannerSwiper.list" dots-position="center" :show-desc-mask="false"></swiper>
     <br>
     <div class="l-img-title">
       <img src="../assets/images/20180529002.jpg" alt="">
@@ -110,7 +110,7 @@ export default {
       userInfo: null,
       bannerSwiper: {
         list: [{ 
-          url: 'javascript:', 
+          url: '/joinus', 
           img: require('../assets/images/20180529001.jpg'), 
           title: '' 
         }]
