@@ -1,0 +1,651 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="main.com.weixinHtml.dao.po.ShopGoodsCarsActivity" >
+
+  <resultMap id="BaseResultMap" type="main.com.weixinHtml.dao.vo.ShopGoodsCarsActivityVo" >
+    <id column="goods_cars_activity_id" property="goodsCarsActivityId" jdbcType="INTEGER" />
+    <result column="org_id" property="orgId" jdbcType="INTEGER" />
+    <result column="cars_id" property="carsId" jdbcType="INTEGER" />
+    <result column="over_delete" property="overDelete" jdbcType="TINYINT" />
+    <result column="unit_price" property="unitPrice" jdbcType="DECIMAL" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="invoice_price" property="invoicePrice" jdbcType="DECIMAL" />
+    <result column="deposit_price" property="depositPrice" jdbcType="DECIMAL" />
+    <result column="discount_price_on_line" property="discountPriceOnLine" jdbcType="DECIMAL" />
+    <result column="guiding_price" property="guidingPrice" jdbcType="DECIMAL" />
+    <result column="family_id" property="familyId" jdbcType="INTEGER" />
+    <result column="brand_id" property="brandId" jdbcType="INTEGER" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+    <result column="colour_id" property="colourId" jdbcType="INTEGER" />
+    <result column="cars_name" property="carsName" jdbcType="VARCHAR" />
+    <result column="colour_name" property="colourName" jdbcType="VARCHAR" />
+    <result column="over_off_shelf" property="overOffShelf" jdbcType="TINYINT" />
+    <result column="org_name" property="orgName" jdbcType="VARCHAR" />
+    <result column="saleing_number" property="saleingNumber" jdbcType="INTEGER" />
+    <result column="discount_price_under_line" property="discountPriceUnderLine" jdbcType="DECIMAL" />
+    <result column="over_insurance" property="overInsurance" jdbcType="TINYINT" />
+    <result column="bare_car_price_on_line" property="bareCarPriceOnLine" jdbcType="DECIMAL" />
+    <result column="bare_car_price_under_line" property="bareCarPriceUnderLine" jdbcType="DECIMAL" />
+    <result column="warehouse_id" property="warehouseId" jdbcType="INTEGER" />
+    <result column="warehouse_name" property="warehouseName" jdbcType="VARCHAR" />
+    <result column="logistics_cycle" property="logisticsCycle" jdbcType="INTEGER" />
+    <result column="logistics_price" property="logisticsPrice" jdbcType="DECIMAL" />
+    <result column="invoice_cycle" property="invoiceCycle" jdbcType="INTEGER" />
+    <result column="state" property="state" jdbcType="INTEGER" />
+    <result column="date_of_manufacture" property="dateOfManufacture" jdbcType="TIMESTAMP" />
+    <result column="cars_image" property="carsImage" jdbcType="VARCHAR" />
+    <result column="interior_id" property="interiorId" jdbcType="INTEGER" />
+    <result column="interior_name" property="interiorName" jdbcType="VARCHAR" />
+    <result column="province_id" property="provinceId" jdbcType="VARCHAR" />
+    <result column="city_id" property="cityId" jdbcType="VARCHAR" />
+    <result column="area_id" property="areaId" jdbcType="VARCHAR" />
+    <result column="on_shelf_date" property="onShelfDate" jdbcType="TIMESTAMP" />
+<!--     <result column="overdue" property="overdue" jdbcType="TINYINT" /> -->
+    <result column="activity_price" property="activityPrice" jdbcType="DECIMAL" />
+    <result column="cars_images" property="carsImages" jdbcType="DECIMAL" />
+    <result column="image" jdbcType="VARCHAR" property="image" />
+    <result column="province_name" jdbcType="VARCHAR" property="provinceName" />
+    <result column="city_name" jdbcType="VARCHAR" property="cityName" />
+    <result column="area_name" jdbcType="VARCHAR" property="areaName" />
+    <result column="org_code" property="orgCode" jdbcType="VARCHAR" />
+    <result column="longitude" property="longitude" jdbcType="DOUBLE" />
+    <result column="latitude" property="latitude" jdbcType="DOUBLE" />
+    <result column="system_users_id" property="systemUsersId" jdbcType="INTEGER" />
+  </resultMap>
+  
+  <resultMap id="BaseResultMapJoin" type="main.com.weixinHtml.dao.vo.ShopGoodsCarsActivityVo" >
+    <id column="goods_cars_activity_id" property="goodsCarsActivityId" jdbcType="INTEGER" />
+    <result column="org_id" property="orgId" jdbcType="INTEGER" />
+    <result column="cars_id" property="carsId" jdbcType="INTEGER" />
+    <result column="over_delete" property="overDelete" jdbcType="TINYINT" />
+    <result column="unit_price" property="unitPrice" jdbcType="DECIMAL" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="invoice_price" property="invoicePrice" jdbcType="DECIMAL" />
+    <result column="deposit_price" property="depositPrice" jdbcType="DECIMAL" />
+    <result column="discount_price_on_line" property="discountPriceOnLine" jdbcType="DECIMAL" />
+    <result column="guiding_price" property="guidingPrice" jdbcType="DECIMAL" />
+    <result column="family_id" property="familyId" jdbcType="INTEGER" />
+    <result column="brand_id" property="brandId" jdbcType="INTEGER" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+    <result column="colour_id" property="colourId" jdbcType="INTEGER" />
+    <result column="cars_name" property="carsName" jdbcType="VARCHAR" />
+    <result column="colour_name" property="colourName" jdbcType="VARCHAR" />
+    <result column="over_off_shelf" property="overOffShelf" jdbcType="TINYINT" />
+    <result column="org_name" property="orgName" jdbcType="VARCHAR" />
+    <result column="saleing_number" property="saleingNumber" jdbcType="INTEGER" />
+    <result column="discount_price_under_line" property="discountPriceUnderLine" jdbcType="DECIMAL" />
+    <result column="over_insurance" property="overInsurance" jdbcType="TINYINT" />
+    <result column="bare_car_price_on_line" property="bareCarPriceOnLine" jdbcType="DECIMAL" />
+    <result column="bare_car_price_under_line" property="bareCarPriceUnderLine" jdbcType="DECIMAL" />
+    <result column="warehouse_id" property="warehouseId" jdbcType="INTEGER" />
+    <result column="warehouse_name" property="warehouseName" jdbcType="VARCHAR" />
+    <result column="logistics_cycle" property="logisticsCycle" jdbcType="INTEGER" />
+    <result column="logistics_price" property="logisticsPrice" jdbcType="DECIMAL" />
+    <result column="invoice_cycle" property="invoiceCycle" jdbcType="INTEGER" />
+    <result column="state" property="state" jdbcType="INTEGER" />
+    <result column="date_of_manufacture" property="dateOfManufacture" jdbcType="TIMESTAMP" />
+    <result column="cars_image" property="carsImage" jdbcType="VARCHAR" />
+    <result column="interior_id" property="interiorId" jdbcType="INTEGER" />
+    <result column="interior_name" property="interiorName" jdbcType="VARCHAR" />
+    <result column="province_id" property="provinceId" jdbcType="VARCHAR" />
+    <result column="city_id" property="cityId" jdbcType="VARCHAR" />
+    <result column="area_id" property="areaId" jdbcType="VARCHAR" />
+    <result column="on_shelf_date" property="onShelfDate" jdbcType="TIMESTAMP" />
+    <result column="activity_price" property="activityPrice" jdbcType="DECIMAL" />
+    <result column="cars_images" property="carsImages" jdbcType="DECIMAL" />
+    <result column="image" jdbcType="VARCHAR" property="image" />
+    <result column="province_name" jdbcType="VARCHAR" property="provinceName" />
+    <result column="city_name" jdbcType="VARCHAR" property="cityName" />
+    <result column="area_name" jdbcType="VARCHAR" property="areaName" />
+    <result column="org_code" property="orgCode" jdbcType="VARCHAR" />
+    <result column="system_users_id" property="systemUsersId" jdbcType="INTEGER" />
+    <result column="longitude" property="longitude" jdbcType="DOUBLE" />
+    <result column="latitude" property="latitude" jdbcType="DOUBLE" />
+    <association property="organization" column="org_id" select="getOrganization"></association>
+    <association property="usersVo" column="system_users_id" select="getSystemUsers"></association>
+  </resultMap>
+  
+   <resultMap id="orgResultMap" type="main.com.system.dao.vo.OrganizationVo">
+		<id column="orgId" property="orgId" jdbcType="INTEGER" />
+		<result column="parentId" property="parentId" jdbcType="INTEGER" />
+		<result column="orgCode" property="orgCode" jdbcType="VARCHAR" />
+		<result column="shortName" property="shortName" jdbcType="VARCHAR" />	
+		<result column="service_phone" property="servicePhone" jdbcType="VARCHAR" />
+		<result column="service_name" property="serviceName" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	  <resultMap id="systemUsers" type="main.com.system.dao.vo.SystemUsersVo">
+		<id column="usersId" property="usersId" jdbcType="INTEGER" />
+		<result column="headPortrait" property="headPortrait" jdbcType="VARCHAR" />
+		<result column="realName" property="realName" jdbcType="VARCHAR" />
+		<result column="phoneNumberber" property="phoneNumber" jdbcType="VARCHAR" />
+		<result column="weixin_qr_image" property="weixinQrImage" jdbcType="VARCHAR" />
+  </resultMap>
+  
+    <sql id="Where_Condition">
+		<where>
+			<trim prefixOverrides="and">
+				<!-- 匹配查询 -->
+				<if test="goodsCarsActivityId != null">and shop_goods_cars_activity.goods_cars_activity_id = #{goodsCarsActivityId}</if>	<!-- 金融机构 -->	
+				<if test="systemUsersId != null">and shop_goods_cars_activity.system_users_id = #{systemUsersId}</if>						
+				<if test="overDelete == null">and shop_goods_cars_activity.over_delete = 0</if>				
+				<if test="state != null">and shop_goods_cars_activity.state = #{state}</if>				
+				<if test="overOffShelf == null">and shop_goods_cars_activity.over_off_shelf = 0</if>				
+				<if test="overOffShelf != null">and shop_goods_cars_activity.over_off_shelf = #{overOffShelf}</if>				
+				<if test="orgCode != null and orgCode !=''">and shop_goods_cars_activity.org_code = #{orgCode}</if>				
+                <if test="keywords != null and keywords != ''">and replace(shop_goods_cars_activity.cars_name,' ','') like CONCAT('%',#{keywords},'%')</if>	
+				<!-- list查询 -->
+				<if test="ids != null">and shop_goods_cars_activity.goods_cars_activity_id in
+                    <foreach item="item" index="index" collection="ids"
+                             open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+			</trim>
+		</where>
+	</sql>
+
+	<!-- 查询总数 -->
+	<select id="selectCount" resultType="java.lang.Long"
+		parameterType="java.util.Map">
+		select count(goods_cars_activity_id) from shop_goods_cars_activity
+		<include refid="Where_Condition" />
+	</select>
+
+	<!-- 查询 -->
+	<select id="select" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select 
+    		shop_goods_cars_activity.*
+    	from shop_goods_cars_activity
+		<include refid="Where_Condition" />
+		<if test="createOder != null"> order by shop_goods_cars_activity.create_date desc </if>
+		<if test="shelfOder != null"> order by shop_goods_cars_activity.on_shelf_date desc </if>
+		<if test="isPage== true and offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+	</select>
+	<!-- 查询 -->
+	<select id="selectJoin" resultMap="BaseResultMapJoin" parameterType="java.util.Map">
+		select 
+    		shop_goods_cars_activity.*
+    	from shop_goods_cars_activity
+		<include refid="Where_Condition" />
+		<if test="createOder != null"> order by shop_goods_cars_activity.create_date desc </if>
+		<if test="shelfOder != null"> order by shop_goods_cars_activity.on_shelf_date desc </if>
+		<if test="isPage== true and offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+	</select>
+  
+  <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    shop_goods_cars_activity.*
+    from shop_goods_cars_activity
+    where goods_cars_activity_id = #{goodsCarsActivityId,jdbcType=INTEGER}
+  </select>
+  
+    <select id="selectByIdJoin" resultMap="BaseResultMapJoin" parameterType="java.lang.Integer" >
+     select 
+    shop_goods_cars_activity.*
+    from shop_goods_cars_activity
+    where goods_cars_activity_id = #{goodsCarsActivityId,jdbcType=INTEGER}
+  </select>
+  
+  	<!-- 查询通过Id -->
+	<select id="getOrganization" resultMap="orgResultMap" parameterType="java.lang.Integer">
+		select
+		org.*
+		FROM system_organization as org
+		where org.orgId = #{org_id}
+	</select>
+  
+  <delete id="deleteById" parameterType="java.lang.Integer" >
+    delete from shop_goods_cars_activity
+    where goods_cars_activity_id = #{goodsCarsActivityId,jdbcType=INTEGER}
+  </delete>
+  
+  	<!-- 根据ID查询 -->
+	<select id="getSystemUsers" resultMap="systemUsers" parameterType="java.lang.Integer">
+		select
+			system_user.*
+		from system_user where system_user.usersId = #{system_users_id}
+	</select>
+  
+  <insert id="insert" parameterType="main.com.weixinHtml.dao.po.ShopGoodsCarsActivity" useGeneratedKeys="true" keyProperty="goodsCarsActivityId" >
+    insert into shop_goods_cars_activity
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="orgId != null" >
+        org_id,
+      </if>
+      <if test="carsId != null" >
+        cars_id,
+      </if>
+      <if test="overDelete != null" >
+        over_delete,
+      </if>
+      <if test="unitPrice != null" >
+        unit_price,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="invoicePrice != null" >
+        invoice_price,
+      </if>
+      <if test="depositPrice != null" >
+        deposit_price,
+      </if>
+      <if test="discountPriceOnLine != null" >
+        discount_price_on_line,
+      </if>
+      <if test="guidingPrice != null" >
+        guiding_price,
+      </if>
+      <if test="familyId != null" >
+        family_id,
+      </if>
+      <if test="brandId != null" >
+        brand_id,
+      </if>
+      <if test="remarks != null" >
+        remarks,
+      </if>
+      <if test="colourId != null" >
+        colour_id,
+      </if>
+      <if test="carsName != null" >
+        cars_name,
+      </if>
+      <if test="colourName != null" >
+        colour_name,
+      </if>
+      <if test="overOffShelf != null" >
+        over_off_shelf,
+      </if>
+      <if test="orgName != null" >
+        org_name,
+      </if>
+      <if test="saleingNumber != null" >
+        saleing_number,
+      </if>
+      <if test="discountPriceUnderLine != null" >
+        discount_price_under_line,
+      </if>
+      <if test="overInsurance != null" >
+        over_insurance,
+      </if>
+      <if test="bareCarPriceOnLine != null" >
+        bare_car_price_on_line,
+      </if>
+      <if test="bareCarPriceUnderLine != null" >
+        bare_car_price_under_line,
+      </if>
+      <if test="warehouseId != null" >
+        warehouse_id,
+      </if>
+      <if test="warehouseName != null" >
+        warehouse_name,
+      </if>
+      <if test="logisticsCycle != null" >
+        logistics_cycle,
+      </if>
+      <if test="logisticsPrice != null" >
+        logistics_price,
+      </if>
+      <if test="invoiceCycle != null" >
+        invoice_cycle,
+      </if>
+      <if test="dateOfManufacture != null" >
+        date_of_manufacture,
+      </if>
+      <if test="carsImage != null" >
+        cars_image,
+      </if>
+      <if test="interiorId != null" >
+        interior_id,
+      </if>
+      <if test="interiorName != null" >
+        interior_name,
+      </if>
+      <if test="provinceId != null" >
+        province_id,
+      </if>
+      <if test="cityId != null" >
+        city_id,
+      </if>
+      <if test="areaId != null" >
+        area_id,
+      </if>
+      <if test="onShelfDate != null" >
+        on_shelf_date,
+      </if>
+      <if test="activityPrice != null" >
+        activity_price,
+      </if>
+<!--       <if test="overdue != null" > -->
+<!--         overdue, -->
+<!--       </if> -->
+      <if test="state != null" >
+        state,
+      </if>
+      <if test="carsImages != null" >
+        cars_images,
+      </if>
+      <if test="image != null">
+        image,
+      </if>
+      <if test="provinceName != null">
+        province_name,
+      </if>
+      <if test="cityName != null">
+        city_name,
+      </if>
+      <if test="areaName != null">
+        area_name,
+      </if>
+      <if test="orgCode != null" >
+        org_code,
+      </if>
+      <if test="systemUsersId != null" >
+        system_users_id,
+      </if>
+      <if test="longitude != null" >
+        longitude,
+      </if>
+      <if test="latitude != null" >
+        latitude,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="orgId != null" >
+        #{orgId,jdbcType=INTEGER},
+      </if>
+      <if test="carsId != null" >
+        #{carsId,jdbcType=INTEGER},
+      </if>
+      <if test="overDelete != null" >
+        #{overDelete,jdbcType=TINYINT},
+      </if>
+      <if test="unitPrice != null" >
+        #{unitPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="invoicePrice != null" >
+        #{invoicePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="depositPrice != null" >
+        #{depositPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="discountPriceOnLine != null" >
+        #{discountPriceOnLine,jdbcType=DECIMAL},
+      </if>
+      <if test="guidingPrice != null" >
+        #{guidingPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="familyId != null" >
+        #{familyId,jdbcType=INTEGER},
+      </if>
+      <if test="brandId != null" >
+        #{brandId,jdbcType=INTEGER},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="colourId != null" >
+        #{colourId,jdbcType=INTEGER},
+      </if>
+      <if test="carsName != null" >
+        #{carsName,jdbcType=VARCHAR},
+      </if>
+      <if test="colourName != null" >
+        #{colourName,jdbcType=VARCHAR},
+      </if>
+      <if test="overOffShelf != null" >
+        #{overOffShelf,jdbcType=TINYINT},
+      </if>
+      <if test="orgName != null" >
+        #{orgName,jdbcType=VARCHAR},
+      </if>
+      <if test="saleingNumber != null" >
+        #{saleingNumber,jdbcType=INTEGER},
+      </if>
+      <if test="discountPriceUnderLine != null" >
+        #{discountPriceUnderLine,jdbcType=DECIMAL},
+      </if>
+      <if test="overInsurance != null" >
+        #{overInsurance,jdbcType=TINYINT},
+      </if>
+      <if test="bareCarPriceOnLine != null" >
+        #{bareCarPriceOnLine,jdbcType=DECIMAL},
+      </if>
+      <if test="bareCarPriceUnderLine != null" >
+        #{bareCarPriceUnderLine,jdbcType=DECIMAL},
+      </if>
+      <if test="warehouseId != null" >
+        #{warehouseId,jdbcType=INTEGER},
+      </if>
+      <if test="warehouseName != null" >
+        #{warehouseName,jdbcType=VARCHAR},
+      </if>
+      <if test="logisticsCycle != null" >
+        #{logisticsCycle,jdbcType=INTEGER},
+      </if>
+      <if test="logisticsPrice != null" >
+        #{logisticsPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="invoiceCycle != null" >
+        #{invoiceCycle,jdbcType=INTEGER},
+      </if>
+      <if test="dateOfManufacture != null" >
+        #{dateOfManufacture,jdbcType=TIMESTAMP},
+      </if>
+      <if test="carsImage != null" >
+        #{carsImage,jdbcType=VARCHAR},
+      </if>
+      <if test="interiorId != null" >
+        #{interiorId,jdbcType=INTEGER},
+      </if>
+      <if test="interiorName != null" >
+        #{interiorName,jdbcType=VARCHAR},
+      </if>
+      <if test="provinceId != null" >
+        #{provinceId,jdbcType=VARCHAR},
+      </if>
+      <if test="cityId != null" >
+        #{cityId,jdbcType=VARCHAR},
+      </if>
+      <if test="areaId != null" >
+        #{areaId,jdbcType=VARCHAR},
+      </if>
+      <if test="onShelfDate != null" >
+        #{onShelfDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="activityPrice != null" >
+        #{activityPrice,jdbcType=DECIMAL},
+      </if>
+<!--       <if test="overdue != null" > -->
+<!--         #{overdue}, -->
+<!--       </if> -->
+      <if test="state != null" >
+        #{state},
+      </if>
+      <if test="carsImages != null" >
+        #{carsImages},
+      </if>
+      <if test="image != null">
+        #{image,jdbcType=VARCHAR},
+      </if>
+      <if test="provinceName != null">
+        #{provinceName,jdbcType=VARCHAR},
+      </if>
+      <if test="cityName != null">
+        #{cityName,jdbcType=VARCHAR},
+      </if>
+      <if test="areaName != null">
+        #{areaName,jdbcType=VARCHAR},
+      </if>
+      <if test="orgCode != null" >
+        #{orgCode},
+      </if>
+      <if test="systemUsersId != null" >
+        #{systemUsersId},
+      </if>
+      <if test="longitude != null" >
+        #{longitude},
+      </if>
+      <if test="latitude != null" >
+        #{latitude},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateById" parameterType="main.com.weixinHtml.dao.po.ShopGoodsCarsActivity" >
+    update shop_goods_cars_activity
+    <set >
+      <if test="orgId != null" >
+        org_id = #{orgId,jdbcType=INTEGER},
+      </if>
+      <if test="carsId != null" >
+        cars_id = #{carsId,jdbcType=INTEGER},
+      </if>
+      <if test="overDelete != null" >
+        over_delete = #{overDelete,jdbcType=TINYINT},
+      </if>
+      <if test="unitPrice != null" >
+        unit_price = #{unitPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="invoicePrice != null" >
+        invoice_price = #{invoicePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="depositPrice != null" >
+        deposit_price = #{depositPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="discountPriceOnLine != null" >
+        discount_price_on_line = #{discountPriceOnLine,jdbcType=DECIMAL},
+      </if>
+      <if test="guidingPrice != null" >
+        guiding_price = #{guidingPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="familyId != null" >
+        family_id = #{familyId,jdbcType=INTEGER},
+      </if>
+      <if test="brandId != null" >
+        brand_id = #{brandId,jdbcType=INTEGER},
+      </if>
+      <if test="remarks != null" >
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="colourId != null" >
+        colour_id = #{colourId,jdbcType=INTEGER},
+      </if>
+      <if test="carsName != null" >
+        cars_name = #{carsName,jdbcType=VARCHAR},
+      </if>
+      <if test="colourName != null" >
+        colour_name = #{colourName,jdbcType=VARCHAR},
+      </if>
+      <if test="overOffShelf != null" >
+        over_off_shelf = #{overOffShelf,jdbcType=TINYINT},
+      </if>
+      <if test="orgName != null" >
+        org_name = #{orgName,jdbcType=VARCHAR},
+      </if>
+      <if test="saleingNumber != null" >
+        saleing_number = #{saleingNumber,jdbcType=INTEGER},
+      </if>
+      <if test="discountPriceUnderLine != null" >
+        discount_price_under_line = #{discountPriceUnderLine,jdbcType=DECIMAL},
+      </if>
+      <if test="overInsurance != null" >
+        over_insurance = #{overInsurance,jdbcType=TINYINT},
+      </if>
+      <if test="bareCarPriceOnLine != null" >
+        bare_car_price_on_line = #{bareCarPriceOnLine,jdbcType=DECIMAL},
+      </if>
+      <if test="bareCarPriceUnderLine != null" >
+        bare_car_price_under_line = #{bareCarPriceUnderLine,jdbcType=DECIMAL},
+      </if>
+      <if test="warehouseId != null" >
+        warehouse_id = #{warehouseId,jdbcType=INTEGER},
+      </if>
+      <if test="warehouseName != null" >
+        warehouse_name = #{warehouseName,jdbcType=VARCHAR},
+      </if>
+      <if test="logisticsCycle != null" >
+        logistics_cycle = #{logisticsCycle,jdbcType=INTEGER},
+      </if>
+      <if test="logisticsPrice != null" >
+        logistics_price = #{logisticsPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="invoiceCycle != null" >
+        invoice_cycle = #{invoiceCycle,jdbcType=INTEGER},
+      </if>
+      <if test="dateOfManufacture != null" >
+        date_of_manufacture = #{dateOfManufacture,jdbcType=TIMESTAMP},
+      </if>
+      <if test="carsImage != null" >
+        cars_image = #{carsImage,jdbcType=VARCHAR},
+      </if>
+      <if test="interiorId != null" >
+        interior_id = #{interiorId,jdbcType=INTEGER},
+      </if>
+      <if test="interiorName != null" >
+        interior_name = #{interiorName,jdbcType=VARCHAR},
+      </if>
+      <if test="provinceId != null" >
+        province_id = #{provinceId,jdbcType=VARCHAR},
+      </if>
+      <if test="cityId != null" >
+        city_id = #{cityId,jdbcType=VARCHAR},
+      </if>
+      <if test="areaId != null" >
+        area_id = #{areaId,jdbcType=VARCHAR},
+      </if>
+      <if test="onShelfDate != null" >
+        on_shelf_date = #{onShelfDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="activityPrice != null" >
+        activity_price = #{activityPrice,jdbcType=DECIMAL},
+      </if>
+<!--       <if test="overdue != null" > -->
+<!--         overdue = #{overdue}, -->
+<!--       </if> -->
+      <if test="state != null" >
+        state = #{state},
+      </if>
+      <if test="carsImages != null" >
+        cars_images = #{carsImages},
+      </if>
+      <if test="image != null">
+        image = #{image,jdbcType=VARCHAR},
+      </if>
+      <if test="provinceName != null">
+        province_name = #{provinceName,jdbcType=VARCHAR},
+      </if>
+      <if test="cityName != null">
+        city_name = #{cityName,jdbcType=VARCHAR},
+      </if>
+      <if test="areaName != null">
+        area_name = #{areaName,jdbcType=VARCHAR},
+      </if>
+      <if test="orgCode != null">
+        org_code = #{orgCode,jdbcType=VARCHAR},
+      </if>
+      <if test="systemUsersId != null">
+        system_users_id = #{systemUsersId},
+      </if>
+      <if test="longitude != null">
+        longitude = #{longitude},
+      </if>
+      <if test="latitude != null">
+        latitude = #{latitude},
+      </if>
+    </set>
+    where goods_cars_activity_id = #{goodsCarsActivityId,jdbcType=INTEGER}
+  </update>
+</mapper>

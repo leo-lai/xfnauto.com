@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="main.com.allInPay.dao.po.AllInPayWeb">
+	<!-- <cache type="org.mybatis.caches.ehcache.LoggingEhcache" readOnly="true" 
+		/> -->
+
+	<resultMap id="ResultMap" type="main.com.allInPay.dao.vo.AllInPayWebVo">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="orderCode" property="orderCode" jdbcType="VARCHAR" />
+		<result column="orderId" property="orderId" jdbcType="INTEGER" />
+		<result column="amount" property="amount" jdbcType="DECIMAL" />
+		<result column="createDate" property="createDate" jdbcType="TIMESTAMP" />
+<!-- 		<result column="payUserId" property="payUserId" jdbcType="INTEGER" /> -->
+	
+		<result column="merchantId" property="merchantId" jdbcType="VARCHAR" />
+		<result column="version" property="version" jdbcType="VARCHAR" />
+		<result column="language" property="language" jdbcType="VARCHAR" />
+		<result column="signType" property="signType" jdbcType="VARCHAR" />
+		<result column="payType" property="payType" jdbcType="VARCHAR" />
+		<result column="orderNo" property="orderNo" jdbcType="VARCHAR" />
+		<result column="orderDatetime" property="orderDatetime" jdbcType="VARCHAR" />
+		<result column="orderAmount" property="orderAmount" jdbcType="VARCHAR" />
+		<result column="payDatetime" property="payDatetime" jdbcType="VARCHAR" />
+		<result column="payAmount" property="payAmount" jdbcType="VARCHAR" />
+		<result column="payResult" property="payResult" jdbcType="VARCHAR" />
+		<result column="errorCode" property="errorCode" jdbcType="VARCHAR" />
+		<result column="returnDatetime" property="returnDatetime" jdbcType="VARCHAR" />
+		<result column="issuerId" property="issuerId" jdbcType="VARCHAR" />
+		<result column="ext1" property="ext1" jdbcType="VARCHAR" />
+		<result column="ext2" property="ext2" jdbcType="VARCHAR" />
+		<result column="paymentOrderId" property="paymentOrderId" jdbcType="VARCHAR" />		
+	</resultMap>
+
+	<sql id="DB_Column_List">
+	stock_allInpayweb.id,
+	stock_allInpayweb.orderCode,
+	stock_allInpayweb.orderId,
+	stock_allInpayweb.amount,
+	stock_allInpayweb.createDate,
+<!-- 	stock_allInpayweb.payUserId, -->
+	stock_allInpayweb.merchantId,
+	stock_allInpayweb.version,
+	stock_allInpayweb.language,
+	stock_allInpayweb.signType,
+	stock_allInpayweb.payType,
+	stock_allInpayweb.orderNo,
+	stock_allInpayweb.orderDatetime,
+	stock_allInpayweb.orderAmount,
+	stock_allInpayweb.payDatetime,
+	stock_allInpayweb.payAmount,
+	stock_allInpayweb.payResult,
+	stock_allInpayweb.errorCode,
+	stock_allInpayweb.returnDatetime,
+	stock_allInpayweb.issuerId,
+	stock_allInpayweb.ext1,
+	stock_allInpayweb.ext2,
+	stock_allInpayweb.paymentOrderId
+	</sql>
+
+	<sql id="Where_Condition">
+		<where>
+			<trim prefixOverrides="and">
+				<!-- 匹配查询 -->
+				<if test="id != null">and stock_allInpayweb.id = #{id}</if>
+				<if test="orderId != null">and stock_allInpayweb.orderId = #{orderId}</if>
+<!-- 				<if test="payUserId != null">and stock_allInpayweb.payUserId = #{payUserId}</if> -->
+				<if test="orderCode != null and orderCode != ''">and stock_allInpayweb.orderCode = #{orderCode}</if>
+				<if test="version != null and version != ''">and stock_allInpayweb.version = #{version}</if>
+				<!-- 模糊查询 -->
+				<if test="orderCodeList != null and orderCodeList != ''">and stock_allInpayweb.orderCode like CONCAT("%",#{orderCode},"%")</if>
+				<if test="orderNo != null and orderNo != ''">and stock_allInpayweb.orderNo like CONCAT("%",#{orderNo},"%")</if>
+				<!-- list查询 -->
+				<if test="orderCodes != null">and stock_allInpayweb.orderCode in
+                    <foreach item="item" index="index" collection="orderCodes"
+                             open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+                <!-- 时间段 -->
+                <if test="createTimeStart != null and createTimeStart != ''"> and stock_allInpayweb.createDate <![CDATA[>=]]> #{createTimeStart} </if>
+				<if test="createTimeEnd != null and createTimeEnd != ''"> and stock_allInpayweb.createDate <![CDATA[<=]]> #{createTimeEnd} </if>
+			</trim>
+		</where>
+	</sql>
+
+
+	<!-- 查询总数 -->
+	<select id="selectCount" resultType="java.lang.Long"
+		parameterType="java.util.Map">
+		select count(id) from stock_allInpayweb
+		<include refid="Where_Condition" />
+	</select>
+
+	<!-- 查询 -->
+	<select id="select" resultMap="ResultMap" parameterType="java.util.Map">
+		select
+		<include refid="DB_Column_List" />
+		from stock_allInpayweb
+		<include refid="Where_Condition" />
+		order by  stock_allInpayweb.createDate desc
+		<if test="isPage == true">
+            limit #{offset}, #{limit}
+        </if>
+	</select>
+
+	<!-- 根据ID查询 -->
+	<select id="selectById" resultMap="ResultMap" parameterType="java.lang.Integer">
+		select
+		<include refid="DB_Column_List" />
+		from stock_allInpayweb
+		where id = #{id}
+	</select>
+
+	<!-- 添加 -->
+	<insert id="insert" parameterType="main.com.allInPay.dao.po.AllInPayWeb" useGeneratedKeys="true" keyProperty="brandId">
+		insert into stock_allInpayweb
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="orderCode != null"> orderCode, </if>
+			<if test="orderId != null"> orderId, </if>
+			<if test="amount != null"> amount, </if>
+			<if test="createDate != null"> createDate, </if>
+<!-- 			<if test="payUserId != null"> payUserId, </if> -->
+			<if test="merchantId != null"> merchantId, </if>
+			<if test="version != null"> version, </if>
+			<if test="language != null"> language, </if>
+			<if test="signType != null"> signType, </if>
+			<if test="payType != null"> payType, </if>
+			<if test="orderNo != null"> orderNo, </if>
+			<if test="orderDatetime != null"> orderDatetime, </if>
+			<if test="orderAmount != null"> orderAmount, </if>
+			<if test="payDatetime != null"> payDatetime, </if>
+			<if test="payAmount != null"> payAmount, </if>
+			<if test="payResult != null"> payResult, </if>
+			<if test="errorCode != null"> errorCode, </if>
+			<if test="returnDatetime != null"> returnDatetime, </if>
+			<if test="ext1 != null"> ext1, </if>
+			<if test="ext2 != null"> ext2, </if>
+			<if test="paymentOrderId != null"> paymentOrderId, </if>
+			
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="orderCode != null"> #{orderCode}, </if>
+			<if test="orderId != null"> #{orderId}, </if>
+			<if test="amount != null"> #{amount},</if>
+			<if test="createDate != null"> #{createDate}, </if>
+<!-- 			<if test="payUserId != null"> #{payUserId}, </if> -->
+			<if test="merchantId != null"> #{merchantId},</if>
+			<if test="version != null"> #{version},</if>
+			<if test="language != null"> #{language},</if>
+			<if test="signType != null"> #{signType},</if>
+			<if test="payType != null"> #{payType},</if>
+			<if test="orderNo != null"> #{orderNo}, </if>
+			<if test="orderDatetime != null"> #{orderDatetime}, </if>
+			<if test="orderAmount != null"> #{orderAmount}, </if>
+			<if test="payDatetime != null"> #{payDatetime}, </if>
+			<if test="payAmount != null"> #{payAmount}, </if>
+			<if test="payResult != null"> #{payResult}, </if>
+			<if test="errorCode != null"> #{errorCode},</if>
+			<if test="returnDatetime != null"> #{returnDatetime}, </if>
+			<if test="ext1 != null"> #{ext1}, </if>
+			<if test="ext2 != null"> #{ext2}, </if>
+			<if test="paymentOrderId != null"> #{paymentOrderId}, </if>
+		</trim>
+	</insert>
+	
+	<insert id="add" parameterType="main.com.allInPay.dao.po.AllInPayWeb" useGeneratedKeys="true" keyProperty="id">
+		insert into stock_allInpayweb
+			<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="orderCode != null"> orderCode, </if>
+			<if test="orderId != null"> orderId, </if>
+			<if test="amount != null"> amount, </if>
+			<if test="createDate != null"> createDate, </if>
+<!-- 			<if test="payUserId != null"> payUserId, </if> -->
+			<if test="merchantId != null"> merchantId, </if>
+			<if test="version != null"> version, </if>
+			<if test="language != null"> language, </if>
+			<if test="signType != null"> signType, </if>
+			<if test="payType != null"> payType, </if>
+			<if test="orderNo != null"> orderNo, </if>
+			<if test="orderDatetime != null"> orderDatetime, </if>
+			<if test="orderAmount != null"> orderAmount, </if>
+			<if test="payDatetime != null"> payDatetime, </if>
+			<if test="payAmount != null"> payAmount, </if>
+			<if test="payResult != null"> payResult, </if>
+			<if test="errorCode != null"> errorCode, </if>
+			<if test="returnDatetime != null"> returnDatetime, </if>
+			<if test="ext1 != null"> ext1, </if>
+			<if test="ext2 != null"> ext2, </if>
+			<if test="paymentOrderId != null"> paymentOrderId, </if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="orderCode != null"> #{orderCode}, </if>
+			<if test="orderId != null"> #{orderId}, </if>
+			<if test="amount != null"> #{amount},</if>
+			<if test="createDate != null"> #{createDate}, </if>
+<!-- 			<if test="payUserId != null"> #{payUserId}, </if> -->
+			<if test="merchantId != null"> #{merchantId},</if>
+			<if test="version != null"> #{version},</if>
+			<if test="language != null"> #{language},</if>
+			<if test="signType != null"> #{signType},</if>
+			<if test="payType != null"> #{payType},</if>
+			<if test="orderNo != null"> #{orderNo}, </if>
+			<if test="orderDatetime != null"> #{orderDatetime}, </if>
+			<if test="orderAmount != null"> #{orderAmount}, </if>
+			<if test="payDatetime != null"> #{payDatetime}, </if>
+			<if test="payAmount != null"> #{payAmount}, </if>
+			<if test="payResult != null"> #{payResult}, </if>
+			<if test="errorCode != null"> #{errorCode},</if>
+			<if test="returnDatetime != null"> #{returnDatetime}, </if>
+			<if test="ext1 != null"> #{ext1}, </if>
+			<if test="ext2 != null"> #{ext2}, </if>
+			<if test="paymentOrderId != null"> #{paymentOrderId}, </if>
+		</trim>
+</insert>
+
+	<!-- 更新 -->
+	<update id="updateById" parameterType="main.com.allInPay.dao.po.AllInPayWeb">
+		update
+		stock_allInpayweb
+		<set>
+			<if test="orderCode != null"> orderCode = #{orderCode}, </if>
+			<if test="orderId != null"> orderId = #{orderId}, </if>
+			<if test="amount != null"> amount = #{amount},</if>
+			<if test="createDate != null"> createDate = #{createDate}, </if>
+<!-- 			<if test="payUserId != null"> payUserId = #{payUserId}, </if> -->
+			<if test="merchantId != null"> merchantId = #{merchantId},</if>
+			<if test="version != null"> version = #{version},</if>
+			<if test="language != null"> language = #{language},</if>
+			<if test="signType != null"> signType = #{signType},</if>
+			<if test="payType != null"> payType = #{payType},</if>
+			<if test="orderNo != null"> orderNo = #{orderNo}, </if>
+			<if test="orderDatetime != null"> orderDatetime = #{orderDatetime}, </if>
+			<if test="orderAmount != null"> orderAmount = #{orderAmount}, </if>
+			<if test="payDatetime != null"> payDatetime = #{payDatetime}, </if>
+			<if test="payAmount != null"> payAmount = #{payAmount}, </if>
+			<if test="payResult != null"> payResult = #{payResult}, </if>
+			<if test="errorCode != null"> errorCode = #{errorCode},</if>
+			<if test="returnDatetime != null"> returnDatetime = #{returnDatetime}, </if>
+			<if test="ext1 != null"> ext1 = #{ext1}, </if>
+			<if test="ext2 != null"> ext2 = #{ext2}, </if>
+			<if test="paymentOrderId != null">paymentOrderId = #{paymentOrderId}, </if>
+		</set>
+		where id = #{id}
+	</update>
+
+	<!-- 根据ID删除 -->
+	<delete id="deleteById" parameterType="java.lang.Integer">
+		delete from stock_allInpayweb
+		where
+		id = #{id}
+	</delete>
+
+	<!-- 删除 -->
+	<delete id="delete" parameterType="java.util.Map">
+		delete from stock_allInpayweb
+		<include refid="Where_Condition" />
+	</delete>
+
+</mapper>

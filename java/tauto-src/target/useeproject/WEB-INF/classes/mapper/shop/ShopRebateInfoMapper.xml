@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="main.com.weixinshop.dao.po.ShopRebateInfo">
+	<!-- <cache type="org.mybatis.caches.ehcache.LoggingEhcache" readOnly="true" 
+		/> -->
+
+	<resultMap id="ResultMap" type="main.com.weixinshop.dao.vo.ShopRebateInfoVo">
+		<id column="rebateInfoId" property="rebateInfoId" jdbcType="INTEGER" />
+		<result column="goodsTypeId" property="goodsTypeId" jdbcType="INTEGER" />
+		<result column="agentId" property="agentId" jdbcType="INTEGER" />
+		<result column="salesRebateroPortion" property="salesRebateroPortion" jdbcType="INTEGER" />
+		<result column="fristSalesPortion" property="fristSalesPortion" jdbcType="INTEGER" />
+		<result column="fristSalesNumber" property="fristSalesNumber" jdbcType="INTEGER" />
+		<result column="storageTime" property="storageTime" jdbcType="INTEGER" />
+		<result column="minSalesOfYear" property="minSalesOfYear" jdbcType="INTEGER" />
+		<result column="isSalesPortion" property="isSalesPortion" jdbcType="INTEGER" />
+		<result column="salesSatisfyNumber" property="salesSatisfyNumber" jdbcType="INTEGER" />
+		<result column="salesSatisfyPortion" property="salesSatisfyPortion" jdbcType="INTEGER" />
+		<result column="isAgentAreaAward" property="isAgentAreaAward" jdbcType="TINYINT" />
+		<result column="isGroupBonus" property="isGroupBonus" jdbcType="TINYINT" />
+		<result column="isShareRecommendPortion" property="isShareRecommendPortion" jdbcType="TINYINT" />
+<!-- 		<result column="isDelete" property="isDelete" jdbcType="TINYINT" /> -->
+		<result column="onlineShopPortion" property="onlineShopPortion" jdbcType="INTEGER" />
+		<result column="offlineShopPortion" property="offlineShopPortion" jdbcType="INTEGER" />
+		<result column="shareRecommendPortion" property="shareRecommendPortion" jdbcType="INTEGER" />
+		</resultMap>
+
+	<sql id="DB_Column_List">
+		shop_rebateInfo.rebateInfoId,
+		shop_rebateInfo.goodsTypeId,
+		shop_rebateInfo.agentId,
+		shop_rebateInfo.salesRebateroPortion,
+		shop_rebateInfo.fristSalesPortion,
+		shop_rebateInfo.fristSalesNumber,
+		shop_rebateInfo.storageTime,
+		shop_rebateInfo.minSalesOfYear,
+		shop_rebateInfo.isSalesPortion,
+		shop_rebateInfo.salesSatisfyNumber,
+		shop_rebateInfo.salesSatisfyPortion,
+		shop_rebateInfo.isAgentAreaAward,
+		shop_rebateInfo.onlineShopPortion,
+		shop_rebateInfo.offlineShopPortion,
+		shop_rebateInfo.isGroupBonus,
+		shop_rebateInfo.isShareRecommendPortion,
+		shop_rebateInfo.shareRecommendPortion
+	</sql>
+
+	<sql id="Where_Condition">
+		<where>
+			<trim prefixOverrides="and">
+				<!-- 匹配查询 -->
+				<if test="rebateInfoId != null">and shop_rebateInfo.rebateInfoId = #{rebateInfoId}</if>
+				<if test="goodsTypeId != null">and shop_rebateInfo.goodsTypeId = #{goodsTypeId}</if>
+				<if test="agentId != null">and shop_rebateInfo.agentId = #{agentId}</if>								
+				<!-- 模糊查询 -->
+<!-- 				<if test="1==1">and shop_rebateInfo.isDelete = 0</if> -->
+			</trim>
+		</where>
+	</sql>
+
+
+	<!-- 查询总数 -->
+	<select id="selectCount" resultType="java.lang.Long"
+		parameterType="java.util.Map">
+		select count(rebateInfoId) from shop_rebateInfo
+		<include refid="Where_Condition" />
+	</select>
+
+	<!-- 查询 -->
+	<select id="select" resultMap="ResultMap" parameterType="java.util.Map">
+		select
+		<include refid="DB_Column_List" />
+		from shop_rebateInfo
+		<include refid="Where_Condition" />
+		<if test="isPage== true and offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+	</select>
+
+	<!-- 根据ID查询 -->
+	<select id="selectById" resultMap="ResultMap" parameterType="java.lang.Integer">
+		select
+		<include refid="DB_Column_List" />
+		from shop_rebateInfo
+		where shop_rebateInfo.rebateInfoId = #{rebateInfoId}
+	</select>
+
+	<!-- 添加 -->
+	<insert id="insert" parameterType="main.com.weixinshop.dao.po.ShopRebateInfo" useGeneratedKeys="true" keyProperty="rebateInfoId">
+		insert into shop_rebateInfo
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="goodsTypeId != null"> goodsTypeId, </if>
+			<if test="agentId != null"> agentId, </if>
+			<if test="salesRebateroPortion != null"> salesRebateroPortion, </if>
+			<if test="fristSalesPortion != null"> fristSalesPortion, </if>
+			<if test="fristSalesNumber != null"> fristSalesNumber, </if>
+			<if test="storageTime != null"> storageTime, </if>
+			<if test="minSalesOfYear != null"> minSalesOfYear, </if>
+			<if test="isSalesPortion != null"> isSalesPortion, </if>
+			<if test="salesSatisfyNumber != null"> salesSatisfyNumber, </if>
+			<if test="salesSatisfyPortion != null"> salesSatisfyPortion, </if>
+			<if test="isAgentAreaAward != null"> isAgentAreaAward, </if>
+			<if test="onlineShopPortion != null"> onlineShopPortion, </if>
+			<if test="offlineShopPortion != null"> offlineShopPortion, </if>
+			<if test="isGroupBonus != null"> isGroupBonus, </if>
+			<if test="isShareRecommendPortion != null"> isShareRecommendPortion, </if>
+			<if test="shareRecommendPortion != null"> shareRecommendPortion, </if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="goodsTypeId != null"> #{goodsTypeId}, </if>
+			<if test="agentId != null"> #{agentId}, </if>
+			<if test="salesRebateroPortion != null"> #{salesRebateroPortion}, </if>
+			<if test="fristSalesPortion != null"> #{fristSalesPortion}, </if>
+			<if test="fristSalesNumber != null"> #{fristSalesNumber}, </if>
+			<if test="storageTime != null"> #{storageTime}, </if>
+			<if test="minSalesOfYear != null"> #{minSalesOfYear}, </if>
+			<if test="isSalesPortion != null"> #{isSalesPortion}, </if>
+			<if test="salesSatisfyNumber != null"> #{salesSatisfyNumber}, </if>
+			<if test="salesSatisfyPortion != null"> #{salesSatisfyPortion}, </if>
+			<if test="isAgentAreaAward != null"> #{isAgentAreaAward}, </if>
+			<if test="onlineShopPortion != null"> #{onlineShopPortion}, </if>
+			<if test="offlineShopPortion != null"> #{offlineShopPortion}, </if>
+			<if test="isGroupBonus != null"> #{isGroupBonus}, </if>
+			<if test="isShareRecommendPortion != null"> #{isShareRecommendPortion}, </if>
+			<if test="shareRecommendPortion != null"> #{shareRecommendPortion}, </if>
+		</trim>
+	</insert>
+
+	<!-- 更新 -->
+	<update id="updateById" parameterType="main.com.weixinshop.dao.po.ShopRebateInfo">
+		update
+		shop_rebateInfo
+		<set>
+			<if test="goodsTypeId != null"> goodsTypeId = #{goodsTypeId}, </if>
+			<if test="agentId != null"> agentId = #{agentId}, </if>
+			<if test="salesRebateroPortion != null"> salesRebateroPortion = #{salesRebateroPortion}, </if>
+			<if test="fristSalesPortion != null"> fristSalesPortion = #{fristSalesPortion}, </if>
+			<if test="fristSalesNumber != null"> fristSalesNumber = #{fristSalesNumber}, </if>
+			<if test="storageTime != null"> storageTime = #{storageTime}, </if>
+			<if test="minSalesOfYear != null"> minSalesOfYear =  #{minSalesOfYear}, </if>
+			<if test="isSalesPortion != null"> isSalesPortion = #{isSalesPortion}, </if>
+			<if test="salesSatisfyNumber != null"> salesSatisfyNumber = #{salesSatisfyNumber}, </if>
+			<if test="salesSatisfyPortion != null"> salesSatisfyPortion = #{salesSatisfyPortion}, </if>
+			<if test="isAgentAreaAward != null"> isAgentAreaAward = #{isAgentAreaAward}, </if>
+			<if test="onlineShopPortion != null"> onlineShopPortion = #{onlineShopPortion}, </if>
+			<if test="offlineShopPortion != null"> offlineShopPortion = #{offlineShopPortion}, </if>
+			<if test="isGroupBonus != null"> isGroupBonus = #{isGroupBonus}, </if>
+			<if test="isShareRecommendPortion != null"> isShareRecommendPortion = #{isShareRecommendPortion}, </if>
+			<if test="shareRecommendPortion != null">  shareRecommendPortion = #{shareRecommendPortion}, </if>
+		</set>
+		where rebateInfoId = #{rebateInfoId}
+	</update>
+	
+	
+	<!-- 批量更新 -->
+	<update id="batchUpdate"  parameterType="java.util.List">
+          <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            update 
+				shop_rebateInfo 
+			<set>
+			<if test="item.goodsTypeId != null"> goodsTypeId = #{item.goodsTypeId}, </if>
+			<if test="item.agentId != null"> agentId = #{item.agentId}, </if>
+			<if test="item.salesRebateroPortion != null"> salesRebateroPortion = #{item.salesRebateroPortion}, </if>
+			<if test="item.fristSalesPortion != null"> fristSalesPortion = #{item.fristSalesPortion}, </if>
+			<if test="item.fristSalesNumber != null"> fristSalesNumber = #{item.fristSalesNumber}, </if>
+			<if test="item.storageTime != null"> storageTime = #{item.storageTime}, </if>
+			<if test="item.minSalesOfYear != null"> minSalesOfYear =  #{item.minSalesOfYear}, </if>
+			<if test="item.isSalesPortion != null"> isSalesPortion = #{item.isSalesPortion}, </if>
+			<if test="item.salesSatisfyNumber != null"> salesSatisfyNumber = #{item.salesSatisfyNumber}, </if>
+			<if test="item.salesSatisfyPortion != null"> salesSatisfyPortion = #{item.salesSatisfyPortion}, </if>
+			<if test="item.isAgentAreaAward != null"> isAgentAreaAward = #{item.isAgentAreaAward}, </if>
+			<if test="item.onlineShopPortion != null"> onlineShopPortion = #{item.onlineShopPortion}, </if>
+			<if test="item.offlineShopPortion != null"> offlineShopPortion = #{item.offlineShopPortion}, </if>
+			<if test="item.isGroupBonus != null"> isGroupBonus = #{item.isGroupBonus}, </if>
+			<if test="item.isShareRecommendPortion != null"> isShareRecommendPortion = #{item.isShareRecommendPortion}, </if>
+			<if test="item.shareRecommendPortion != null">  shareRecommendPortion = #{item.shareRecommendPortion}, </if>
+			</set> 
+			 where rebateInfoId = #{item.rebateInfoId} 
+         </foreach>
+    </update>
+    
+	<!-- 根据ID删除 -->
+	<delete id="deleteById" parameterType="java.lang.Integer">
+		delete from shop_rebateInfo
+		where
+		rebateInfoId = #{rebateInfoId}
+	</delete>
+
+	<!-- 删除 -->
+	<delete id="delete" parameterType="java.util.Map">
+		delete from shop_rebateInfo
+		<include refid="Where_Condition" />
+	</delete>
+</mapper>

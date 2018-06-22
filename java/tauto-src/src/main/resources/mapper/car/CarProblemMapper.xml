@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="main.com.car.dao.po.CarProblem" >
+
+  <resultMap id="BaseResultMap" type="main.com.car.dao.vo.CarProblemVo" >
+    <id column="problem_id" property="problemId" jdbcType="INTEGER" />
+    <result column="problem_problem" property="problemProblem" jdbcType="VARCHAR" />
+    <result column="is_delete" property="isDelete" jdbcType="TINYINT" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="problem_answer" property="problemAnswer" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    problem_id, problem_problem, is_delete, create_date,problem_answer
+  </sql>
+  
+  
+  	<sql id="Where_Condition">
+		<where>
+			<trim prefixOverrides="and">
+				<!-- 匹配查询 -->
+				<if test="problemId != null">and car_problem.problem_id = #{problemId}</if>
+				<if test="1 == 1">and car_problem.is_delete = 0</if>													
+				<!-- list查询 -->
+				<if test="ids != null">and car_problem.problem_id in
+                    <foreach item="item" index="index" collection="ids"
+                             open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+			</trim>
+		</where>
+	</sql>
+
+
+	<!-- 查询总数 -->
+	<select id="selectCount" resultType="java.lang.Long"
+		parameterType="java.util.Map">
+		select count(problem_id) from car_problem
+		<include refid="Where_Condition" />
+	</select>
+
+	<!-- 查询 -->
+	<select id="select" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List" />
+		from car_problem
+		<include refid="Where_Condition" />
+		<if test="sortField != null"> order by car_problem.create_date desc </if>
+		<if test="isPage== true and offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+	</select>
+  
+  <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from car_problem
+    where problem_id = #{problemId,jdbcType=INTEGER}
+  </select>
+  
+  <delete id="deleteById" parameterType="java.lang.Integer" >
+    delete from car_problem
+    where problem_id = #{problemId,jdbcType=INTEGER}
+  </delete>
+  
+
+  <insert id="insert" parameterType="main.com.car.dao.po.CarProblem" useGeneratedKeys="true" keyProperty="problemId" >
+    insert into car_problem
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="problemProblem != null" >
+        problem_problem,
+      </if>
+      <if test="isDelete != null" >
+        is_delete,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="problemAnswer != null" >
+        problem_answer,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="problemProblem != null" >
+        #{problemProblem,jdbcType=VARCHAR},
+      </if>
+      <if test="isDelete != null" >
+        #{isDelete,jdbcType=TINYINT},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="problemAnswer != null" >
+        #{problemAnswer,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateById" parameterType="main.com.car.dao.po.CarProblem" >
+    update car_problem
+    <set >
+      <if test="problemProblem != null" >
+        problem_problem = #{problemProblem,jdbcType=VARCHAR},
+      </if>
+      <if test="isDelete != null" >
+        is_delete = #{isDelete,jdbcType=TINYINT},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="problemAnswer != null" >
+        problem_answer = #{problemAnswer,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where problem_id = #{problemId,jdbcType=INTEGER}
+  </update>
+</mapper>

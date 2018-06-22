@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/tx 
+	http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+	http://www.springframework.org/schema/aop 
+	http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+	http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+	http://www.springframework.org/schema/context 
+	http://www.springframework.org/schema/context/spring-context-4.0.xsd
+	http://www.springframework.org/schema/mvc  
+    http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd"
+    >
+	<!-- 配置映射媒体类型的策略 -->
+	<bean name="mvcContentNegotiationManager"
+		class="org.springframework.web.accept.ContentNegotiationManager">
+		<constructor-arg>
+			<list>
+				<!-- 扩展名映射 -->
+				<bean
+					class="org.springframework.web.accept.PathExtensionContentNegotiationStrategy">
+					<constructor-arg>
+						<props>
+							<prop key="json">application/json</prop>
+						</props>
+					</constructor-arg>
+				</bean>
+				<!-- Header accept属性映射 -->
+				<bean
+					class="org.springframework.web.accept.HeaderContentNegotiationStrategy">
+				</bean>
+			</list>
+		</constructor-arg>
+	</bean>
+
+<!-- 数据库配置文件位置 -->
+	<context:property-placeholder location="classpath:/jdbc.properties" />
+	
+	<!-- 配置dbcp数据源 -->
+	<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="${jdbc.driverClassName}" />
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+		<property name="minIdle" value="${jdbc.minIdle}" />        <!-- 队列中的最小等待数 -->
+		<property name="maxIdle" value="${jdbc.maxIdle}" />        <!-- 队列中的最大等待数 -->
+		<property name="maxWaitMillis" value="${jdbc.maxWait}" />  <!-- 最长等待时间，单位毫秒 -->
+		<property name="maxTotal" value="${jdbc.maxActive}" />     <!-- 最大活跃数 -->
+		<property name="initialSize" value="${jdbc.initialSize}" /><!-- 
+			初始大小 -->
+		<property name="testWhileIdle" value="true"></property>
+	</bean>
+
+	<!-- 注解驱动WebMvc -->
+	<mvc:annotation-driven
+		content-negotiation-manager="mvcContentNegotiationManager">
+<!-- 		 <mvc:message-converters register-defaults="true">   -->
+<!--         <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">   -->
+<!--             <property name="objectMapper">   -->
+<!--                 <bean class="com.fasterxml.jackson.databind.ObjectMapper">   -->
+<!--                     <property name="serializationInclusion">   -->
+<!--                         <value type="com.fasterxml.jackson.annotation.JsonInclude.Include">NON_NULL</value>   -->
+<!--                     </property>   -->
+<!--                 </bean>   -->
+<!--             </property>   -->
+<!--         </bean>   -->
+<!--     </mvc:message-converters>   -->
+		<mvc:message-converters> 
+	        <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"> 
+	            <property name="objectMapper"> 
+	                <bean class="main.com.frame.constants.JsonObjectMapper">		               
+	                </bean>
+	                
+	            </property>
+	        </bean> 
+	        
+<!-- 	        <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">   -->
+<!--         objectMapper配置   -->
+<!--         <property name="objectMapper">       -->
+<!--              <bean class="com.test.MyObjectMapper" />   -->
+<!--                          <bean class="main.com.frame.constants.JsonObjectMapper">   -->
+<!--                             驼峰命名法转换为小写加下划线   --> 
+<!--                             <property name="propertyNamingStrategy">   -->
+<!--                                 <bean class="com.fasterxml.jackson.databind.PropertyNamingStrategy.LowerCaseWithUnderscoresStrategy" />   -->
+<!--                             </property>   -->
+<!--                              为null字段时不输出   --> 
+<!--                             <property name="serializationInclusion">   -->
+<!--                                 <value type="com.fasterxml.jackson.annotation.JsonInclude.Include">NON_NULL</value>   -->
+<!--                             </property>    -->
+<!--                              禁用空对象转换json校验   --> 
+<!--                             <property name="configure">   -->
+<!--                                 <value type="com.fasterxml.jackson.databind.SerializationFeature">FAIL_ON_EMPTY_BEANS</value>   -->
+<!--                             </property>   -->
+<!--                              忽略未知的字段   --> 
+<!--                             <property name="configure">   -->
+<!--                                 <value type="com.fasterxml.jackson.databind.DeserializationFeature">FAIL_ON_UNKNOWN_PROPERTIES</value>   -->
+<!--                             </property>   -->
+<!--                         </bean>     -->
+<!--             </property>   -->
+<!-- </bean>    -->
+
+
+
+	    </mvc:message-converters> 
+	</mvc:annotation-driven>
+	
+<!-- 	<bean id="doctorsDao" class="com.tentcoo.dao.impl.DoctorsDaoImpl"> -->
+<!-- 		<property name="sessionFactory" ref="sessionFactory" /> -->
+<!-- 	</bean>  -->
+	<!--
+	<bean id="myFilter" class="com.tentcoo.Interceptor.DecrypFilter">
+    	<property name="doctorsDao" ref="doctorsDao" />
+	</bean> -->
+	
+
+	<!-- 拦截器，依赖注入 --> <!--  
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/*" />
+			<bean class="com.tentcoo.Interceptor.DecrypFilter">
+			<property name="doctorsDao" ref="doctorsDao" />
+			</bean>
+		</mvc:interceptor> 
+	</mvc:interceptors> -->
+
+	<!-- 配置静态资源路径，缓存一周 -->
+	<mvc:resources location="/res/" mapping="/res/**"
+		 /><!--cache-period="604800"-->
+
+	<!-- 视图导航解释器，默认根据http头accept属性查找对应 -->
+	<bean
+		class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+		<property name="contentNegotiationManager" ref="mvcContentNegotiationManager"></property>
+		<property name="defaultViews">
+			<list>
+				<bean
+					class="org.springframework.web.servlet.view.json.MappingJackson2JsonView">
+					<property name="modelKey" value="data"></property>
+					<property name="extractValueFromSingleKeyModel" value="true"></property>
+				</bean>
+			</list>
+		</property>
+		<property name="order" value="0"></property>
+	</bean>
+
+	<!-- JSTL视图解释器 -->
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/jsp/"></property>
+		<property name="suffix" value=".jsp"></property>
+		<property name="order" value="10"></property>
+	</bean>
+
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<!-- 设置上传文件的最大尺寸为100kb -->
+<!-- 		<property name="maxUploadSize"> -->
+<!-- 			<value>10240000</value> -->
+<!-- 		</property> -->
+		<!--resolveLazily属性启用是为了推迟文件解析，以便在UploadAction 中捕获文件大小异常-->  
+        <property name="resolveLazily" value="true"/>  
+	</bean>
+	<!-- 异常处理-->
+<!-- 	<bean id="exceptionResolver" class="com.tentcoo.handler.ExceptionHandler"/>  -->
+
+	<!-- 控制器扫描 -->
+	
+<!-- 	<context:component-scan base-package="com.**.controller" /> -->
+
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation" value="classpath:/sqlMapConfig.xml"></property>
+		<property name="mapperLocations" value="classpath:main/resources/mapper/**/*Mapper.xml"></property>
+		
+	</bean>
+
+	<!-- 配置SQLSession模板 -->
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg index="0" ref="sqlSessionFactory" />
+	</bean>
+
+<!-- 使用事务 -->
+	<bean id="appTransactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+      <property name="dataSource" ref="dataSource" />
+    </bean>
+    <tx:annotation-driven proxy-target-class="false" transaction-manager="appTransactionManager" />
+
+
+
+	<mvc:interceptors>
+		<!--定义在mvc:interceptor下面的表示是对特定的请求才进行拦截的 --> 
+<!-- 		<bean class="main.com.Interceptor.RequestInterceptor" /> -->
+
+			<!-- 定义在mvc:interceptor下面的表示是对特定的请求才进行拦截的  -->
+			<mvc:interceptor> <mvc:mapping path="/**" /> 
+				<bean class="main.com.Interceptor.CharacterInterceptor" /> 
+			</mvc:interceptor>
+			<mvc:interceptor> <mvc:mapping path="/interface/**" /> 
+				<bean class="main.com.Interceptor.InterfaceInterceptor" /> 
+			</mvc:interceptor>
+			<mvc:interceptor> 
+				<mvc:mapping path="/management/**" /> 
+				<bean class="main.com.Interceptor.ManagerInterceptor" /> 
+			</mvc:interceptor>
+			<mvc:interceptor> 
+				<mvc:mapping path="/driver/**" /> 
+				<mvc:exclude-mapping path="/driver/login"/>
+				<bean class="main.com.Interceptor.DriverInterceptor" /> 
+			</mvc:interceptor>
+			<mvc:interceptor> 
+				<mvc:mapping path="/emInterface/**" /> 
+				<mvc:exclude-mapping path="/emInterface/employee/consumerOrder/getContractInfo"/>
+				<bean class="main.com.Interceptor.EyeInterfaceInterceptor" /> 
+			</mvc:interceptor>
+			<mvc:interceptor> 
+				<mvc:mapping path="/interfaceShop/**" /> 
+				<bean class="main.com.Interceptor.ShopInterfaceInterceptor" /> 
+			</mvc:interceptor>
+	</mvc:interceptors>
+	
+	
+		<!-- 扫描控制器类 -->
+	<!-- <context:component-scan base-package="com.qbs.crazybird.service.impl" /> -->
+	<!-- 扫描控制器类 -->
+	<context:component-scan base-package="main.com/**/controller/**" />
+<!-- 	<context:component-scan base-package="main.com/**/service/**" /> -->
+<!-- 	<context:component-scan base-package="main.com/**/dao/**" /> -->
+	<!-- 配置静态资源 -->
+	<mvc:resources location="/static/" mapping="/static/**" />
+	
+	  <!-- Scans for application @Components to deploy 开启对切点的扫描-->
+	<context:component-scan base-package="main.com/**">
+<!-- 		<context:exclude-filter type="annotation" -->
+<!-- 			expression="org.springframework.stereotype.Controller" /> -->
+	</context:component-scan>
+	
+		<!-- 配置beanFactory 管理类 -->
+	<bean id="springBeanManager" class="main.com.frame.base.SpringBeanManager">
+	</bean>
+	
+		<!-- 启动对@AspectJ注解的支持(开启代理)  通知spring使用cglib而不是jdk的来生成代理方法 AOP可以拦截到Controller-->  
+<!--     <aop:aspectj-autoproxy/>   -->
+    <aop:aspectj-autoproxy proxy-target-class="true" />
+
+</beans>
+	
+	

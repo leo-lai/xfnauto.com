@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="main.com.car.dao.po.CarSupplier" >
+
+  <resultMap id="BaseResultMap" type="main.com.car.dao.vo.CarSupplierVo" >
+    <id column="supplier_id" property="supplierId" jdbcType="INTEGER" />
+    <result column="supplier_name" property="supplierName" jdbcType="VARCHAR" />
+    <result column="phone_number" property="phoneNumber" jdbcType="VARCHAR" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+    <result column="org_id" property="orgId" jdbcType="INTEGER" />
+    <result column="org_name" property="orgName" jdbcType="VARCHAR" />
+    <result column="is_delete" property="isDelete" jdbcType="TINYINT" />
+    <result column="creater_date" property="createrDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    supplier_id, supplier_name, phone_number, remarks, org_id, org_name, is_delete, creater_date
+  </sql>
+  
+  <sql id="Where_Condition">
+		<where>
+			<trim prefixOverrides="and">
+				<!-- 匹配查询 -->
+				<if test="supplierId != null">and car_supplier.supplier_id = #{supplierId}</if>
+				<if test="orgId != null">and car_supplier.org_id = #{orgId}</if>
+				<if test="1==1">and car_supplier.is_delete = 0</if>
+				<if test="orgCode != null and orgCode != ''">and (car_supplier.org_id IN (select orgId from system_organization where system_organization.orgCodeLevel like
+                    CONCAT('%',#{orgCode},'%')))
+                </if>
+                <if test="orgName != null and orgName != ''">and car_supplier.org_name like CONCAT('%',#{orgName},'%')</if>
+                <if test="supplierName != null and supplierName != ''">and car_supplier.supplier_name like CONCAT('%',#{supplierName},'%')</if>
+                
+				<!-- list查询 -->
+				<if test="ids != null">and car_supplier.supplier_id in
+                    <foreach item="item" index="index" collection="ids"
+                             open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+			</trim>
+		</where>
+	</sql>
+
+
+	<!-- 查询总数 -->
+	<select id="selectCount" resultType="java.lang.Long"
+		parameterType="java.util.Map">
+		select count(supplier_id) from car_supplier
+		<include refid="Where_Condition" />
+	</select>
+
+	<!-- 查询 -->
+	<select id="select" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List" />
+		from car_supplier
+		<include refid="Where_Condition" />
+		<if test="sortField != null"> order by supplier_id desc </if>
+		<if test="isPage== true and offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+	</select>
+  
+  
+  <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from car_supplier
+    where supplier_id = #{supplierId,jdbcType=INTEGER} and car_supplier.is_delete = 0
+  </select>
+  
+  <delete id="deleteById" parameterType="java.lang.Integer" >
+    delete from car_supplier
+    where supplier_id = #{supplierId,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="main.com.car.dao.po.CarSupplier" useGeneratedKeys="true" keyProperty="supplierId" >
+    insert into car_supplier
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="supplierName != null" >
+        supplier_name,
+      </if>
+      <if test="phoneNumber != null" >
+        phone_number,
+      </if>
+      <if test="remarks != null" >
+        remarks,
+      </if>
+      <if test="orgId != null" >
+        org_id,
+      </if>
+      <if test="orgName != null" >
+        org_name,
+      </if>
+      <if test="isDelete != null" >
+        is_delete,
+      </if>
+      <if test="createrDate != null" >
+        creater_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="supplierName != null" >
+        #{supplierName,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneNumber != null" >
+        #{phoneNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="orgId != null" >
+        #{orgId,jdbcType=INTEGER},
+      </if>
+      <if test="orgName != null" >
+        #{orgName,jdbcType=VARCHAR},
+      </if>
+      <if test="isDelete != null" >
+        #{isDelete,jdbcType=TINYINT},
+      </if>
+      <if test="createrDate != null" >
+        #{createrDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateById" parameterType="main.com.car.dao.po.CarSupplier" >
+    update car_supplier
+    <set >
+      <if test="supplierName != null" >
+        supplier_name = #{supplierName,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneNumber != null" >
+        phone_number = #{phoneNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="orgId != null" >
+        org_id = #{orgId,jdbcType=INTEGER},
+      </if>
+      <if test="orgName != null" >
+        org_name = #{orgName,jdbcType=VARCHAR},
+      </if>
+      <if test="isDelete != null" >
+        is_delete = #{isDelete,jdbcType=TINYINT},
+      </if>
+      <if test="createrDate != null" >
+        creater_date = #{createrDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where supplier_id = #{supplierId,jdbcType=INTEGER}
+  </update>
+</mapper>

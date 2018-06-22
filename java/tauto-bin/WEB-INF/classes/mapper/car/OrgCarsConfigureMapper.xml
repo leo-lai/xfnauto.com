@@ -1,0 +1,405 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="main.com.car.dao.po.OrgCarsConfigure" >
+
+  <resultMap id="BaseResultMap" type="main.com.car.dao.vo.OrgCarsConfigureVo" >
+    <id column="org_cars_configure_id" property="orgCarsConfigureId" jdbcType="INTEGER" />
+    <result column="org_id" property="orgId" jdbcType="INTEGER" />
+    <result column="cars_id" property="carsId" jdbcType="INTEGER" />
+    <result column="is_delete" property="isDelete" jdbcType="TINYINT" />
+    <result column="unit_price" property="unitPrice" jdbcType="DECIMAL" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="is_on_line" property="isOnLine" jdbcType="TINYINT" />
+    <result column="invoice_price" property="invoicePrice" jdbcType="DECIMAL" />
+    <result column="deposit_price" property="depositPrice" jdbcType="DECIMAL" />
+    <result column="discount_price" property="discountPrice" jdbcType="DECIMAL" />
+    <result column="guiding_price" property="guidingPrice" jdbcType="DECIMAL" />
+    <result column="brand_id" property="brandId" jdbcType="INTEGER" />
+    <result column="family_id" property="familyId" jdbcType="INTEGER" />
+    <result column="vehicle_name" property="vehicleName" jdbcType="VARCHAR" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+<!--     <result column="interior_id" property="interiorId" jdbcType="INTEGER" /> -->
+    <result column="colour_id" property="colourId" jdbcType="INTEGER" />
+    <result column="cars_info" property="carsInfo" jdbcType="VARCHAR" />
+    <result column="colour_name" property="colourName" jdbcType="VARCHAR" />
+<!--     <result column="interior_name" property="interiorName" jdbcType="VARCHAR" /> -->
+    <result column="org_level" property="orgLevel" jdbcType="INTEGER" />
+    <result column="maxDiscount" property="maxDiscount" jdbcType="DECIMAL" />
+  </resultMap>
+  
+  <resultMap id="BaseResultMapJoin" type="main.com.car.dao.vo.OrgCarsConfigureVo" >
+    <id column="org_cars_configure_id" property="orgCarsConfigureId" jdbcType="INTEGER" />
+    <result column="org_id" property="orgId" jdbcType="INTEGER" />
+    <result column="cars_id" property="carsId" jdbcType="INTEGER" />
+    <result column="is_delete" property="isDelete" jdbcType="TINYINT" />
+    <result column="unit_price" property="unitPrice" jdbcType="DECIMAL" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="is_on_line" property="isOnLine" jdbcType="TINYINT" />
+    <result column="invoice_price" property="invoicePrice" jdbcType="DECIMAL" />
+    <result column="deposit_price" property="depositPrice" jdbcType="DECIMAL" />
+    <result column="discount_price" property="discountPrice" jdbcType="DECIMAL" />
+    <result column="guiding_price" property="guidingPrice" jdbcType="DECIMAL" />
+    <result column="brand_id" property="brandId" jdbcType="INTEGER" />
+    <result column="family_id" property="familyId" jdbcType="INTEGER" />
+    <result column="vehicle_name" property="vehicleName" jdbcType="VARCHAR" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+<!--     <result column="interior_id" property="interiorId" jdbcType="INTEGER" /> -->
+    <result column="colour_id" property="colourId" jdbcType="INTEGER" />
+    <result column="cars_info" property="carsInfo" jdbcType="VARCHAR" />
+    <result column="colour_name" property="colourName" jdbcType="VARCHAR" />
+<!--     <result column="interior_name" property="interiorName" jdbcType="VARCHAR" /> -->
+    <result column="org_level" property="orgLevel" jdbcType="INTEGER" />
+    <result column="maxDiscount" property="maxDiscount" jdbcType="DECIMAL" />
+     <association property="carsVo" column="cars_id" select="getCars"/>
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    org_cars_configure_id, org_id, cars_id, is_delete, unit_price, create_date, is_on_line, 
+    invoice_price, deposit_price, discount_price, guiding_price, brand_id, family_id, 
+    vehicle_name, remarks, colour_id, cars_info, colour_name,org_level
+  </sql>
+  
+  <sql id="Where_Condition">
+		<where>
+			<trim prefixOverrides="and">
+				<!-- 匹配查询 -->
+				<if test="orgCarsConfigureId != null">and org_cars_configure.org_cars_configure_id = #{orgCarsConfigureId}</if>
+				<if test="orgId != null">and org_cars_configure.org_id = #{orgId}</if>
+				<if test="carsId != null">and org_cars_configure.cars_id = #{carsId}</if>
+<!-- 				<if test="interiorId != null">and org_cars_configure.interior_id = #{interiorId}</if> -->
+				<if test="colourId != null">and org_cars_configure.colour_id = #{colourId}</if>
+				<if test="orgLevel != null">and org_cars_configure.org_level = #{orgLevel}</if>
+				<if test="brandId != null">and org_cars_configure.brand_id = #{brandId}</if>
+				<if test="orgLevel == null and orgId == null">and org_cars_configure.org_level = 3</if>
+				<if test="1==1">and org_cars_configure.is_delete = 0 </if>   
+				<if test="isOnLineNull == null">and org_cars_configure.is_on_line = 1</if>   
+				<if test="isOnLine != null">and org_cars_configure.is_on_line = #{isOnLine}</if>   
+				<if test="orgCodeLevel != null and orgCodeLevel != null">and (org_cars_configure.org_id IN (select orgId from system_organization where system_organization.orgCodeLevel like
+                    CONCAT('%',#{orgCodeLevel},'%')))
+                </if>
+                <if test="minPrice != null">and org_cars_configure.guiding_price &gt;= #{minPrice}</if>																
+				<if test="maxPrice != null">and org_cars_configure.guiding_price &lt;= #{maxPrice}</if>	
+																						
+				<if test="carsName != null">and REPLACE(org_cars_configure.cars_info,' ','') like CONCAT('%',#{carsName},'%')</if>
+				
+				<if test="familyId != null">and org_cars_configure.family_id = #{familyId}</if>														
+				<if test="yearPattern != null">and org_cars_configure.cars_info like CONCAT('%',#{yearPattern},'%')</if>
+				<if test="vehicleName != null">and org_cars_configure.vehicle_name like CONCAT('%',#{vehicleName},'%')</if>
+				             
+				<!-- list查询 -->
+				<if test="ids != null">and org_cars_configure.org_cars_configure_id in
+                    <foreach item="item" index="index" collection="ids"
+                             open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+				<!-- list查询 -->
+				<if test="carsIds != null">and org_cars_configure.cars_id in
+                    <foreach item="item" index="index" collection="carsIds"
+                             open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+			</trim>
+		</where>
+	</sql>
+
+
+	<!-- 查询总数 -->
+	<select id="selectCount" resultType="java.lang.Long"
+		parameterType="java.util.Map">
+		select count(org_cars_configure_id) from org_cars_configure
+		<include refid="Where_Condition" />
+	</select>
+	
+		<!-- 查询总数 -->
+<!-- 	<select id="selectCountIndex" resultType="java.lang.Long" -->
+<!-- 		parameterType="java.util.Map"> -->
+<!-- 		SELECT count(cars_id) from (select count(cars_id) AS cars_id from org_cars_configure  WHERE org_cars_configure.is_delete = 0 group by family_id) as p	 -->
+<!-- 	</select> -->
+		<!-- 查询总数 -->
+	<select id="selectCountIndex" resultType="java.lang.Long"
+		parameterType="java.util.Map">
+		SELECT count(cars_id) from (
+		select count(cars_id) AS cars_id from org_cars_configure 
+		<include refid="Where_Condition" />
+		<if test="isfamilyIdgroup == true"> group by family_id </if>
+		<if test="isCarsgroup == true"> group by cars_id </if>
+		) as p	
+	</select>
+
+	<!-- 查询 -->
+	<select id="select" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List" />
+		,org_cars_configure.discount_price as maxDiscount <!-- 为了兼容 -->
+		from org_cars_configure
+		<include refid="Where_Condition" />
+		<if test="isfamilyIdgroup == true"> group by family_id </if>
+		<if test="isCarsgroup == true"> group by cars_id </if>
+		<if test="sortField != null"> order by org_cars_configure.create_date desc </if>
+		<if test="isPage== true and offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+	</select>
+	
+	<!-- 查询 -->
+	<select id="selectJoin" resultMap="BaseResultMapJoin" parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List" />
+		,org_cars_configure.discount_price as maxDiscount <!-- 为了兼容 -->
+		from org_cars_configure
+		<include refid="Where_Condition" />
+		<if test="isfamilyIdgroup == true"> group by family_id </if>
+		<if test="isCarsgroup == true"> group by cars_id </if>
+		<if test="sortField != null"> order by org_cars_configure.create_date desc </if>
+		<if test="isPage== true and offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+	</select>
+	
+	<select id="getCars" parameterType="java.lang.Integer" resultType="main.com.car.dao.vo.CarsVo">
+	 	select 
+		car_cars.carId,
+		car_cars.indexImage,
+		car_cars.carName
+		from car_cars
+		where car_cars.carId = #{cars_id}
+    </select>
+	
+	<!-- 查询 -->
+	<select id="selectMax" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List" />
+		from org_cars_configure
+		where org_cars_configure.is_on_line = 1 and org_cars_configure.is_delete = 0 and org_cars_configure.org_level = 3 and org_cars_configure.discount_price = any(
+		select
+		max(discount_price)
+		from org_cars_configure
+		where org_cars_configure.is_on_line = 1 and org_cars_configure.is_delete = 0 and org_cars_configure.org_level = 3 and org_cars_configure.cars_id in
+                    <foreach item="item" index="index" collection="carsIds"
+                             open="(" separator="," close=")">
+                        #{item}
+                    </foreach> group by org_cars_configure.cars_id
+		) and org_cars_configure.cars_id in
+                    <foreach item="item" index="index" collection="carsIds"
+                             open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+	</select>
+  
+  <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from org_cars_configure
+    where org_cars_configure_id = #{orgCarsConfigureId,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectTopDiscount" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+   	select
+	<include refid="Base_Column_List" />
+	,max(org_cars_configure.discount_price) as maxDiscount
+	from org_cars_configure where org_cars_configure.family_id = #{familyId} and 
+	org_cars_configure.is_on_line = 1 and org_cars_configure.is_delete = 0 and org_cars_configure.org_level = 3
+  </select>
+  
+  <delete id="deleteById" parameterType="java.lang.Integer" >
+    delete from org_cars_configure
+    where org_cars_configure_id = #{orgCarsConfigureId,jdbcType=INTEGER}
+  </delete>
+  
+  <insert id="insert" parameterType="main.com.car.dao.po.OrgCarsConfigure" useGeneratedKeys="true" keyProperty="orgCarsConfigureId" >
+    insert into org_cars_configure
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="orgId != null" >
+        org_id,
+      </if>
+      <if test="carsId != null" >
+        cars_id,
+      </if>
+      <if test="isDelete != null" >
+        is_delete,
+      </if>
+      <if test="unitPrice != null" >
+        unit_price,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="isOnLine != null" >
+        is_on_line,
+      </if>
+      <if test="invoicePrice != null" >
+        invoice_price,
+      </if>
+      <if test="depositPrice != null" >
+        deposit_price,
+      </if>
+      <if test="discountPrice != null" >
+        discount_price,
+      </if>
+      <if test="guidingPrice != null" >
+        guiding_price,
+      </if>
+      <if test="brandId != null" >
+        brand_id,
+      </if>
+      <if test="familyId != null" >
+        family_id,
+      </if>
+      <if test="vehicleName != null" >
+        vehicle_name,
+      </if>
+      <if test="remarks != null" >
+        remarks,
+      </if>
+<!--       <if test="interiorId != null" > -->
+<!--         interior_id, -->
+<!--       </if> -->
+      <if test="colourId != null" >
+        colour_id,
+      </if>
+      <if test="carsInfo != null" >
+        cars_info,
+      </if>
+      <if test="colourName != null" >
+        colour_name,
+      </if>
+<!--       <if test="interiorName != null" > -->
+<!--         interior_name, -->
+<!--       </if> -->
+      <if test="orgLevel != null" >
+        org_level,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="orgId != null" >
+        #{orgId,jdbcType=INTEGER},
+      </if>
+      <if test="carsId != null" >
+        #{carsId,jdbcType=INTEGER},
+      </if>
+      <if test="isDelete != null" >
+        #{isDelete,jdbcType=TINYINT},
+      </if>
+      <if test="unitPrice != null" >
+        #{unitPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isOnLine != null" >
+        #{isOnLine,jdbcType=TINYINT},
+      </if>
+      <if test="invoicePrice != null" >
+        #{invoicePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="depositPrice != null" >
+        #{depositPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="discountPrice != null" >
+        #{discountPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="guidingPrice != null" >
+        #{guidingPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="brandId != null" >
+        #{brandId,jdbcType=INTEGER},
+      </if>
+      <if test="familyId != null" >
+        #{familyId,jdbcType=INTEGER},
+      </if>
+      <if test="vehicleName != null" >
+        #{vehicleName},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+<!--       <if test="interiorId != null" > -->
+<!--         #{interiorId,jdbcType=INTEGER}, -->
+<!--       </if> -->
+      <if test="colourId != null" >
+        #{colourId,jdbcType=INTEGER},
+      </if>
+      <if test="carsInfo != null" >
+        #{carsInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="colourName != null" >
+        #{colourName,jdbcType=VARCHAR},
+      </if>
+<!--       <if test="interiorName != null" > -->
+<!--         #{interiorName,jdbcType=VARCHAR}, -->
+<!--       </if> -->
+      <if test="orgLevel != null" >
+        #{orgLevel},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateById" parameterType="main.com.car.dao.po.OrgCarsConfigure" >
+    update org_cars_configure
+    <set >
+      <if test="orgId != null" >
+        org_id = #{orgId,jdbcType=INTEGER},
+      </if>
+      <if test="carsId != null" >
+        cars_id = #{carsId,jdbcType=INTEGER},
+      </if>
+      <if test="isDelete != null" >
+        is_delete = #{isDelete,jdbcType=TINYINT},
+      </if>
+      <if test="unitPrice != null" >
+        unit_price = #{unitPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isOnLine != null" >
+        is_on_line = #{isOnLine,jdbcType=TINYINT},
+      </if>
+      <if test="invoicePrice != null" >
+        invoice_price = #{invoicePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="depositPrice != null" >
+        deposit_price = #{depositPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="discountPrice != null" >
+        discount_price = #{discountPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="guidingPrice != null" >
+        guiding_price = #{guidingPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="brandId != null" >
+        brand_id = #{brandId,jdbcType=INTEGER},
+      </if>
+      <if test="familyId != null" >
+        family_id = #{familyId,jdbcType=INTEGER},
+      </if>
+      <if test="vehicleName != null" >
+        vehicle_name = #{vehicleName},
+      </if>
+      <if test="remarks != null" >
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+<!--       <if test="interiorId != null" > -->
+<!--         interior_id = #{interiorId,jdbcType=INTEGER}, -->
+<!--       </if> -->
+      <if test="colourId != null" >
+        colour_id = #{colourId,jdbcType=INTEGER},
+      </if>
+      <if test="carsInfo != null" >
+        cars_info = #{carsInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="colourName != null" >
+        colour_name = #{colourName,jdbcType=VARCHAR},
+      </if>
+<!--       <if test="interiorName != null" > -->
+<!--         interior_name = #{interiorName,jdbcType=VARCHAR}, -->
+<!--       </if> -->
+      <if test="orgLevel != null" >
+        org_level = #{orgLevel},
+      </if>
+    </set>
+    where org_cars_configure_id = #{orgCarsConfigureId,jdbcType=INTEGER}
+  </update>
+</mapper>

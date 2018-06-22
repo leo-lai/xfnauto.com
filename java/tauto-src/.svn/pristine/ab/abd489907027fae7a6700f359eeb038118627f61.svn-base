@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="main.com.system.dao.po.SystemRegion">
+	<!-- <cache type="org.mybatis.caches.ehcache.LoggingEhcache" readOnly="true" 
+		/> -->
+
+	<resultMap id="ResultMap" type="main.com.system.dao.vo.SystemRegionVo">
+		<id column="regionId" property="regionId" jdbcType="VARCHAR" />
+		<result column="parentId" property="parentId" jdbcType="INTEGER" />
+		<result column="regionName" property="regionName" jdbcType="VARCHAR" />
+		<result column="shortName" property="shortName" jdbcType="VARCHAR" />
+		<result column="longitude" property="longitude" jdbcType="FLOAT" />
+		<result column="latitude" property="latitude" jdbcType="FLOAT" />
+		<result column="level" property="level" jdbcType="INTEGER" />
+		<result column="status" property="status" jdbcType="INTEGER" />
+		</resultMap>
+
+	<sql id="DB_Column_List">
+		system_region.regionId,
+		system_region.parentId,
+		system_region.regionName,
+		system_region.shortName,
+<!-- 		system_region.longitude, -->
+<!-- 		system_region.latitude, -->
+		system_region.level
+<!-- 		system_region.status -->
+	</sql>
+
+	<sql id="Where_Condition">
+		<where>
+			<trim prefixOverrides="and">
+				<!-- 匹配查询 -->
+				<if test="regionId != null">and system_region.regionId = #{regionId}</if>
+				<if test="parentId != null"> and system_region.parentId = #{parentId} </if>
+				<if test="regionName != null and regionName != ''"> and system_region.region_name like CONCAT("%",#{regionName},"%") </if>				
+				<if test="level != null"> and system_region.level = #{level} </if>
+				<!-- 模糊查询 -->
+			</trim>
+		</where>
+	</sql>
+
+
+	<!-- 查询总数 -->
+	<select id="selectCount" resultType="java.lang.Long"
+		parameterType="java.util.Map">
+		select count(regionId) from system_region
+		<include refid="Where_Condition" />
+	</select>
+
+	<!-- 查询 -->
+	<select id="select" resultMap="ResultMap" parameterType="java.util.Map">
+		select
+		<include refid="DB_Column_List" />
+		from system_region
+		<include refid="Where_Condition" />
+	</select>
+
+	<!-- 根据ID查询 -->
+	<select id="selectById" resultMap="ResultMap" parameterType="java.lang.String">
+		select
+		<include refid="DB_Column_List" />
+		from system_region
+		where system_region.regionId = #{regionId}
+	</select>
+	<!-- 添加 -->
+<!-- 	<insert id="insert" parameterType="main.com.system.dao.po.SystemRegion" useGeneratedKeys="true" keyProperty="id"> -->
+<!-- 		insert into system_region -->
+<!-- 		<trim prefix="(" suffix=")" suffixOverrides=","> -->
+<!-- 			<if test="parentId != null"> parent_id, </if> -->
+<!-- 			<if test="regionName != null"> region_name, </if> -->
+<!-- 			<if test="regionType != null"> region_type, </if> -->
+<!-- 			<if test="agencyId != null"> agency_id, </if> -->
+<!-- 			<if test="regionCode != null"> region_code, </if> -->
+<!-- 		</trim> -->
+<!-- 		<trim prefix="values (" suffix=")" suffixOverrides=","> -->
+<!-- 			<if test="parentId != null"> #{parentId}, </if> -->
+<!-- 			<if test="regionName != null"> #{regionName}, </if> -->
+<!-- 			<if test="regionType != null"> #{regionType}, </if> -->
+<!-- 			<if test="agencyId != null"> #{agencyId}, </if> -->
+<!-- 			<if test="regionCode != null"> #{regionCode}, </if> -->
+<!-- 		</trim> -->
+<!-- 	</insert> -->
+
+	<!-- 更新 -->
+<!-- 	<update id="updateById" parameterType="main.com.system.dao.po.SystemRegion"> -->
+<!-- 		update -->
+<!-- 		system_region -->
+<!-- 		<set> -->
+<!-- 			<if test="parentId != null"> parent_id = #{carouselFigureUrl}, </if> -->
+<!-- 			<if test="regionName != null"> region_name = #{carouselFigurePath}, </if> -->
+<!-- 			<if test="regionType != null"> region_type = #{regionType}, </if> -->
+<!-- 			<if test="agencyId != null"> agency_id = #{agencyId}, </if> -->
+<!-- 			<if test="regionCode != null"> region_code = #{regionCode}, </if> -->
+<!-- 		</set> -->
+<!-- 		where regionId = #{regionId} -->
+<!-- 	</update> -->
+	
+	
+	<!-- 批量更新 -->
+<!-- 	<update id="batchUpdate"  parameterType="java.util.List"> -->
+<!--           <foreach collection="list" item="item" index="index" open="" close="" separator=";"> -->
+<!--             update  -->
+<!-- 				system_region  -->
+<!-- 			<set> -->
+<!-- 			<if test="item.parentId != null"> parent_id = #{item.parentId}, </if> -->
+<!-- 			<if test="item.regionName != null"> region_name = #{item.regionName}, </if> -->
+<!-- 			<if test="item.regionType != null"> region_type = #{item.regionType}, </if> -->
+<!-- 			<if test="item.agencyId != null"> agency_id = #{item.agencyId}, </if> -->
+<!-- 			<if test="item.regionCode != null"> region_code = #{item.regionCode}, </if> -->
+<!-- 			</set>  -->
+<!-- 			 where regionId = #{item.regionId}  -->
+<!--          </foreach> -->
+<!--     </update> -->
+
+	<!-- 根据ID删除 -->
+	<delete id="deleteById" parameterType="java.lang.Integer">
+		delete from system_region
+		where
+		regionId = #{regionId}
+	</delete>
+
+	<!-- 删除 -->
+	<delete id="delete" parameterType="java.util.Map">
+		delete from system_region
+		<include refid="Where_Condition" />
+	</delete>
+</mapper>

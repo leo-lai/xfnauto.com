@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="main.com.weixinshop.dao.po.ShopWeiXinPayAccount">
+	<!-- <cache type="org.mybatis.caches.ehcache.LoggingEhcache" readOnly="true" 
+		/> -->
+
+	<resultMap id="ResultMap" type="main.com.weixinshop.dao.vo.ShopWeiXinPayAccountVo">
+		<id column="weiXinPayId" property="weiXinPayId" jdbcType="INTEGER" />
+		<result column="transaction_id" property="transaction_id" jdbcType="VARCHAR" />
+		<result column="nonce_str" property="nonce_str" jdbcType="VARCHAR" />
+		<result column="bank_type" property="bank_type" jdbcType="VARCHAR" />
+		<result column="openid" property="openid" jdbcType="VARCHAR" />
+		<result column="sign" property="sign" jdbcType="VARCHAR" />
+		<result column="fee_type" property="fee_type" jdbcType="VARCHAR" />
+		<result column="mch_id" property="mch_id" jdbcType="VARCHAR" />
+		<result column="cash_fee" property="cash_fee" jdbcType="VARCHAR" />
+		<result column="out_trade_no" property="out_trade_no" jdbcType="VARCHAR" />
+		<result column="appid" property="appid" jdbcType="VARCHAR" />
+		<result column="total_fee" property="total_fee" jdbcType="VARCHAR" />
+		<result column="trade_type" property="trade_type" jdbcType="VARCHAR" />
+		<result column="result_code" property="result_code" jdbcType="VARCHAR" />
+		<result column="time_end" property="time_end" jdbcType="VARCHAR" />
+		<result column="is_subscribe" property="is_subscribe" jdbcType="VARCHAR" />
+		<result column="return_code" property="return_code" jdbcType="VARCHAR" />
+		</resultMap>
+
+	<sql id="DB_Column_List">
+		shop_weixinpayaccount.weiXinPayId,
+		shop_weixinpayaccount.transaction_id,
+		shop_weixinpayaccount.nonce_str,
+		shop_weixinpayaccount.bank_type,
+		shop_weixinpayaccount.openid,
+		shop_weixinpayaccount.sign,
+		shop_weixinpayaccount.fee_type,
+		shop_weixinpayaccount.mch_id,
+		shop_weixinpayaccount.cash_fee,
+		shop_weixinpayaccount.out_trade_no,
+		shop_weixinpayaccount.appid,
+		shop_weixinpayaccount.total_fee,
+		shop_weixinpayaccount.trade_type,
+		shop_weixinpayaccount.result_code,
+		shop_weixinpayaccount.time_end,
+		shop_weixinpayaccount.is_subscribe,
+		shop_weixinpayaccount.return_code
+	</sql>
+
+	<sql id="Where_Condition">
+		<where>
+			<trim prefixOverrides="and">
+				<!-- 匹配查询 -->
+				<if test="weiXinPayId != null">and shop_weixinpayaccount.weiXinPayId = #{weiXinPayId}</if>
+				<if test="out_trade_no != null">and shop_weixinpayaccount.out_trade_no = #{out_trade_no}</if>
+				<!-- 模糊查询 -->
+			</trim>
+		</where>
+	</sql>
+
+
+	<!-- 查询总数 -->
+	<select id="selectCount" resultType="java.lang.Long"
+		parameterType="java.util.Map">
+		select count(weiXinPayId) from shop_weixinpayaccount
+		<include refid="Where_Condition" />
+	</select>
+
+	<!-- 查询 -->
+	<select id="select" resultMap="ResultMap" parameterType="java.util.Map">
+		select
+		<include refid="DB_Column_List" />
+		from shop_weixinpayaccount
+		<include refid="Where_Condition" />
+		<if test="isPage== true and offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+	</select>
+
+	<!-- 根据ID查询 -->
+	<select id="selectById" resultMap="ResultMap" parameterType="java.lang.Integer">
+		select
+		<include refid="DB_Column_List" />
+		from shop_weixinpayaccount
+		where shop_weixinpayaccount.weiXinPayId = #{weiXinPayId}
+	</select>
+	<!-- 根据ID查询 -->
+	<select id="selectBySessionId" resultMap="ResultMap" parameterType="java.lang.String">
+		select
+		<include refid="DB_Column_List" />
+		from shop_weixinpayaccount
+		where shop_weixinpayaccount.sessionId = #{sessionId}
+	</select>
+	<!-- 添加 -->
+	<insert id="insert" parameterType="main.com.weixinshop.dao.po.ShopWeiXinPayAccount" useGeneratedKeys="true" keyProperty="weiXinPayId">
+		insert into shop_weixinpayaccount
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="transaction_id != null"> transaction_id, </if>
+			<if test="nonce_str != null"> nonce_str, </if>
+			<if test="bank_type != null"> bank_type, </if>
+			<if test="openid != null"> openid, </if>
+			<if test="sign != null"> sign, </if>
+			<if test="fee_type != null"> fee_type, </if>
+			<if test="mch_id != null"> mch_id, </if>
+			<if test="cash_fee != null"> cash_fee, </if>
+			<if test="out_trade_no != null"> out_trade_no, </if>
+			<if test="appid != null"> appid, </if>
+			<if test="total_fee != null"> total_fee, </if>
+			<if test="trade_type != null"> trade_type, </if>
+			<if test="result_code != null"> result_code, </if>
+			<if test="time_end != null"> time_end, </if>
+			<if test="is_subscribe != null"> is_subscribe, </if>
+			<if test="return_code != null"> return_code, </if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="transaction_id != null"> #{transaction_id}, </if>
+			<if test="nonce_str != null"> #{nonce_str}, </if>
+			<if test="bank_type != null"> #{bank_type}, </if>
+			<if test="openid != null"> #{openid}, </if>
+			<if test="sign != null"> #{sign}, </if>
+			<if test="fee_type != null"> #{fee_type}, </if>
+			<if test="mch_id != null"> #{mch_id}, </if>
+			<if test="cash_fee != null"> #{cash_fee}, </if>
+			<if test="out_trade_no != null"> #{out_trade_no}, </if>
+			<if test="appid != null"> #{appid}, </if>
+			<if test="total_fee != null"> #{total_fee}, </if>
+			<if test="trade_type != null"> #{trade_type}, </if>
+			<if test="result_code != null"> #{result_code}, </if>
+			<if test="time_end != null"> #{time_end}, </if>
+			<if test="is_subscribe != null"> #{is_subscribe}, </if>
+			<if test="return_code != null"> #{return_code}, </if>
+		</trim>
+	</insert>
+
+	<!-- 更新 -->
+	<update id="updateById" parameterType="main.com.weixinshop.dao.po.ShopWeiXinPayAccount">
+		update
+		shop_weixinpayaccount
+		<set>
+			<if test="transaction_id != null"> transaction_id = #{transaction_id}, </if>
+			<if test="nonce_str != null"> nonce_str = #{nonce_str}, </if>
+			<if test="bank_type != null"> bank_type = #{bank_type}, </if>
+			<if test="openid != null"> openid = #{openid}, </if>
+			<if test="sign != null"> sign = #{sign}, </if>
+			<if test="fee_type != null"> fee_type = #{fee_type}, </if>
+			<if test="mch_id != null"> mch_id = #{mch_id}, </if>
+			<if test="cash_fee != null"> cash_fee = #{cash_fee}, </if>
+			<if test="out_trade_no != null"> out_trade_no = #{out_trade_no}, </if>
+			<if test="appid != null"> appid = #{appid}, </if>
+			<if test="total_fee != null"> total_fee = #{total_fee}, </if>
+			<if test="trade_type != null"> trade_type = #{trade_type}, </if>
+			<if test="result_code != null"> result_code = #{result_code}, </if>
+			<if test="time_end != null"> time_end = #{time_end}, </if>
+			<if test="is_subscribe != null"> is_subscribe = #{is_subscribe}, </if>
+			<if test="return_code != null"> return_code = #{return_code}, </if>
+		</set>
+		where weiXinPayId = #{weiXinPayId}
+	</update>
+	
+	
+	<!-- 批量更新 -->
+	<update id="batchUpdate"  parameterType="java.util.List">
+          <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            update 
+				shop_weixinpayaccount 
+			<set>
+			<if test="item.transaction_id != null"> transaction_id = #{item.transaction_id}, </if>
+			<if test="item.nonce_str != null"> nonce_str = #{item.nonce_str}, </if>
+			<if test="item.bank_type != null"> bank_type = #{item.bank_type}, </if>
+			<if test="item.openid != null"> openid = #{item.openid}, </if>
+			<if test="item.sign != null"> sign = #{item.sign}, </if>
+			<if test="item.fee_type != null"> fee_type = #{item.fee_type}, </if>
+			<if test="item.mch_id != null"> mch_id = #{item.mch_id}, </if>
+			<if test="item.cash_fee != null"> cash_fee = #{item.cash_fee}, </if>
+			<if test="item.out_trade_no != null"> out_trade_no = #{item.out_trade_no}, </if>
+			<if test="item.appid != null"> appid = #{item.appid}, </if>
+			<if test="item.total_fee != null"> total_fee = #{item.total_fee}, </if>
+			<if test="item.trade_type != null"> trade_type = #{item.trade_type}, </if>
+			<if test="item.result_code != null"> result_code = #{item.result_code}, </if>
+			<if test="item.time_end != null"> time_end = #{item.time_end}, </if>
+			<if test="item.is_subscribe != null"> is_subscribe = #{item.is_subscribe}, </if>
+			<if test="item.return_code != null"> return_code = #{item.return_code}, </if>
+			</set> 
+			 where weiXinPayId = #{item.weiXinPayId} 
+         </foreach>
+    </update>
+
+	<!-- 根据ID删除 -->
+	<delete id="deleteById" parameterType="java.lang.Integer">
+		delete from shop_weixinpayaccount
+		where
+		weiXinPayId = #{weiXinPayId}
+	</delete>
+
+	<!-- 删除 -->
+	<delete id="delete" parameterType="java.util.Map">
+		delete from shop_weixinpayaccount
+		<include refid="Where_Condition" />
+	</delete>
+</mapper>

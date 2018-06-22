@@ -1,0 +1,571 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="main.com.customer.dao.po.CustomerUsers">
+	<!-- <cache type="org.mybatis.caches.ehcache.LoggingEhcache" readOnly="true" 
+		/> -->
+
+	<resultMap id="ResultMap" type="main.com.customer.dao.vo.CustomerUsersVo">
+		<id column="customerUsersId" property="customerUsersId" jdbcType="INTEGER" />
+		<result column="agentGender" property="agentGender" jdbcType="INTEGER" />
+		<result column="publicSignIsPush" property="publicSignIsPush" jdbcType="TINYINT" />
+		<result column="publicSignIsFollow" property="publicSignIsFollow" jdbcType="TINYINT" />
+		<result column="isHasDriversLicense" property="isHasDriversLicense" jdbcType="TINYINT" />
+		<result column="createDate" property="createDate" jdbcType="TIMESTAMP" />
+		<result column="customerUsersName" property="customerUsersName" jdbcType="VARCHAR" />
+		<result column="phoneNumber" property="phoneNumber" jdbcType="VARCHAR" />
+		<result column="headPortrait" property="headPortrait" jdbcType="VARCHAR" />
+		<result column="sessionId" property="sessionId" jdbcType="VARCHAR" />
+		<result column="state" property="state" jdbcType="VARCHAR" />
+		<result column="publicSignOpenId" property="publicSignOpenId" jdbcType="VARCHAR" />
+		<result column="publicSignOpendId" property="publicSignOpendId" jdbcType="VARCHAR" />
+		<result column="customerUserCode" property="customerUserCode" jdbcType="VARCHAR" />
+		<result column="unionId" property="unionId" jdbcType="VARCHAR" />
+		<result column="appProgramOpenId" property="appProgramOpenId" jdbcType="VARCHAR" />
+		<result column="annualIncome" property="annualIncome" jdbcType="VARCHAR" />
+		<result column="cardNo" property="cardNo" jdbcType="VARCHAR" />
+		<result column="incomeSource" property="incomeSource" jdbcType="VARCHAR" />
+		<result column="maritalStatus" property="maritalStatus" jdbcType="VARCHAR" />
+		<result column="housingSource" property="housingSource" jdbcType="VARCHAR" />
+		<result column="email" property="email" jdbcType="VARCHAR" />
+		<result column="education" property="education" jdbcType="VARCHAR" />
+		<result column="address" property="address" jdbcType="VARCHAR" />
+		<result column="emergencyAContact" property="emergencyAContact" jdbcType="VARCHAR" />
+		<result column="emergencyBContact" property="emergencyBContact" jdbcType="VARCHAR" />
+		<result column="emergencyARelationship" property="emergencyARelationship" jdbcType="VARCHAR" />
+		<result column="emergencyBRelationship" property="emergencyBRelationship" jdbcType="VARCHAR" />
+		<result column="emergencyAPhone" property="emergencyAPhone" jdbcType="VARCHAR" />
+		<result column="emergencyBPhone" property="emergencyBPhone" jdbcType="VARCHAR" />
+		<result column="workUnit" property="workUnit" jdbcType="VARCHAR" />
+		<result column="annualIncomeAfterTax" property="annualIncomeAfterTax" jdbcType="VARCHAR" />
+		<result column="workingPlace" property="workingPlace" jdbcType="VARCHAR" />
+		<result column="entryTime" property="entryTime" jdbcType="VARCHAR" />
+		<result column="position" property="position" jdbcType="VARCHAR" />
+		<result column="companyTelephone" property="companyTelephone" jdbcType="VARCHAR" />
+		
+		<result column="bankAuditsImage" property="bankAuditsImage" jdbcType="VARCHAR" />
+		<result column="bankAuditsvideo" property="bankAuditsvideo" jdbcType="VARCHAR" />
+		<result column="buyCarAlready" property="buyCarAlready" jdbcType="TINYINT" />
+		</resultMap>
+		
+	<resultMap id="ResultMapJoin" type="main.com.customer.dao.vo.CustomerUsersVo">
+		<id column="customerUsersId" property="customerUsersId" jdbcType="INTEGER" />
+		<result column="agentGender" property="agentGender" jdbcType="INTEGER" />
+		<result column="publicSignIsPush" property="publicSignIsPush" jdbcType="TINYINT" />
+		<result column="publicSignIsFollow" property="publicSignIsFollow" jdbcType="TINYINT" />
+		<result column="isHasDriversLicense" property="isHasDriversLicense" jdbcType="TINYINT" />
+		<result column="createDate" property="createDate" jdbcType="TIMESTAMP" />
+		<result column="customerUsersName" property="customerUsersName" jdbcType="VARCHAR" />
+		<result column="phoneNumber" property="phoneNumber" jdbcType="VARCHAR" />
+		<result column="headPortrait" property="headPortrait" jdbcType="VARCHAR" />
+		<result column="sessionId" property="sessionId" jdbcType="VARCHAR" />
+		<result column="state" property="state" jdbcType="VARCHAR" />
+		<result column="publicSignOpenId" property="publicSignOpenId" jdbcType="VARCHAR" />
+		<result column="publicSignOpendId" property="publicSignOpendId" jdbcType="VARCHAR" />
+		<result column="customerUserCode" property="customerUserCode" jdbcType="VARCHAR" />
+		<result column="unionId" property="unionId" jdbcType="VARCHAR" />
+		<result column="appProgramOpenId" property="appProgramOpenId" jdbcType="VARCHAR" />
+		<result column="annualIncome" property="annualIncome" jdbcType="VARCHAR" />
+		<result column="cardNo" property="cardNo" jdbcType="VARCHAR" />
+		<result column="incomeSource" property="incomeSource" jdbcType="VARCHAR" />
+		<result column="maritalStatus" property="maritalStatus" jdbcType="VARCHAR" />
+		<result column="housingSource" property="housingSource" jdbcType="VARCHAR" />
+		<result column="email" property="email" jdbcType="VARCHAR" />
+		<result column="education" property="education" jdbcType="VARCHAR" />
+		<result column="address" property="address" jdbcType="VARCHAR" />
+		<result column="emergencyAContact" property="emergencyAContact" jdbcType="VARCHAR" />
+		<result column="emergencyBContact" property="emergencyBContact" jdbcType="VARCHAR" />
+		<result column="emergencyARelationship" property="emergencyARelationship" jdbcType="VARCHAR" />
+		<result column="emergencyBRelationship" property="emergencyBRelationship" jdbcType="VARCHAR" />
+		<result column="emergencyAPhone" property="emergencyAPhone" jdbcType="VARCHAR" />
+		<result column="emergencyBPhone" property="emergencyBPhone" jdbcType="VARCHAR" />
+		<result column="workUnit" property="workUnit" jdbcType="VARCHAR" />
+		<result column="annualIncomeAfterTax" property="annualIncomeAfterTax" jdbcType="VARCHAR" />
+		<result column="workingPlace" property="workingPlace" jdbcType="VARCHAR" />
+		<result column="entryTime" property="entryTime" jdbcType="VARCHAR" />
+		<result column="position" property="position" jdbcType="VARCHAR" />
+		<result column="companyTelephone" property="companyTelephone" jdbcType="VARCHAR" />		
+		<result column="bankAuditsImage" property="bankAuditsImage" jdbcType="VARCHAR" />
+		<result column="bankAuditsvideo" property="bankAuditsvideo" jdbcType="VARCHAR" />
+		<result column="buyCarAlready" property="buyCarAlready" jdbcType="TINYINT" />
+		<collection property="customerOrderVos" ofType="main.com.customer.dao.vo.CustomerOrderVo" column="customer_id">  
+			<id column="customer_order_id" property="customerOrderId" jdbcType="INTEGER" />
+		    <result column="customer_order_code" property="customerOrderCode" jdbcType="VARCHAR" />
+		    <result column="customer_order_state" property="customerOrderState" jdbcType="INTEGER" />
+		    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+		    <result column="is_delete" property="isDelete" jdbcType="TINYINT" />
+		    <result column="customer_id" property="customerId" jdbcType="INTEGER" />
+		    <result column="customer_name" property="customerName" jdbcType="VARCHAR" />
+		    <result column="customer_phone_number" property="customerPhoneNumber" jdbcType="VARCHAR" />
+		    <result column="cars_id" property="carsId" jdbcType="INTEGER" />
+		    <result column="cars_name" property="carsName" jdbcType="VARCHAR" />
+		    <result column="cars_index_image" property="carsIndexImage" jdbcType="VARCHAR" />
+		    <result column="brand_id" property="brandId" jdbcType="INTEGER" />
+		    <result column="family_id" property="familyId" jdbcType="INTEGER" />
+		    <result column="invoice_price" property="invoicePrice" jdbcType="DECIMAL" />
+		    <result column="deposit_price" property="depositPrice" jdbcType="DECIMAL" />
+		    <result column="discount_price" property="discountPrice" jdbcType="DECIMAL" />
+		    <result column="interior_id" property="interiorId" jdbcType="INTEGER" />
+		    <result column="colour_id" property="colourId" jdbcType="INTEGER" />
+		    <result column="follow_information" property="followInformation" jdbcType="VARCHAR" />
+		    <result column="balance_price" property="balancePrice" jdbcType="DECIMAL" />
+		    <result column="org_id" property="orgId" jdbcType="INTEGER" />
+		    <result column="org_name" property="orgName" jdbcType="VARCHAR" />
+		    <result column="stock_car_id" property="stockCarId" jdbcType="INTEGER" />
+		    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+		    <result column="payment_way" property="paymentWay" jdbcType="INTEGER" />
+		    <result column="down_payments" property="downPayments" jdbcType="DECIMAL" />
+		    <result column="loan" property="loan" jdbcType="DECIMAL" />
+		    <result column="loan_pay_back_stages" property="loanPayBackStages" jdbcType="INTEGER" />
+		    <result column="amount" property="amount" jdbcType="DECIMAL" />
+		    <result column="is_purchase_tax" property="isPurchaseTax" jdbcType="TINYINT" />
+		    <result column="is_take_license_plate" property="isTakeLicensePlate" jdbcType="TINYINT" />
+		    <result column="license_plate_priace" property="licensePlatePriace" jdbcType="DECIMAL" />
+		    <result column="is_insurance" property="isInsurance" jdbcType="TINYINT" />
+		    <result column="insurance_priace" property="insurancePriace" jdbcType="DECIMAL" />
+		    <result column="system_user_id" property="systemUserId" jdbcType="INTEGER" />
+		    <result column="system_user_name" property="systemUserName" jdbcType="VARCHAR" />
+		    <result column="system_user_phone" property="systemUserPhone" jdbcType="VARCHAR" />
+		    <result column="extract_car_image" property="extractCarImage" jdbcType="VARCHAR" />
+		    <result column="colour_name" property="colourName" jdbcType="VARCHAR" />
+		    <result column="interior_name" property="interiorName" jdbcType="VARCHAR" /> 
+		    <result column="is_mortgage" property="isMortgage" jdbcType="TINYINT" /> 
+		    <result column="estimate_Date" property="estimateDate" jdbcType="TIMESTAMP" /> 
+		    <result column="audit_time" property="auditTime" jdbcType="TIMESTAMP" /> 
+		    <result column="audit_status" property="auditStatus" jdbcType="INTEGER" /> 
+   		</collection>
+   		<collection property="customerOrgVos" ofType="main.com.customer.dao.vo.CustomerCustomerOrgVo" column="customer_users_id"> 
+   			 <id column="customer_users_org_id" property="customerUsersOrgId" jdbcType="INTEGER" />
+		    <result column="customer_users_name" property="customerUsersName" jdbcType="VARCHAR" />
+		    <result column="phone_number" property="phoneNumber" jdbcType="VARCHAR" />
+		    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+		    <result column="org_id" property="orgId" jdbcType="INTEGER" />
+		    <result column="org_short_name" property="orgShortName" jdbcType="VARCHAR" />
+		    <result column="car_purchase_intention" property="carPurchaseIntention" jdbcType="VARCHAR" />
+		    <result column="is_edit" property="isEdit" jdbcType="TINYINT" />
+		    <result column="expect_way_id" property="expectWayId" jdbcType="INTEGER" />
+		    <result column="intention_car_id" property="intentionCarId" jdbcType="INTEGER" />
+		    <result column="intention_car_info" property="intentionCarInfo" jdbcType="VARCHAR" />
+		    <result column="time_of_appointment" property="timeOfAppointment" jdbcType="VARCHAR" />
+		    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+		    <result column="system_user_id" property="systemUserId" jdbcType="INTEGER" />
+		    <result column="system_user_name" property="systemUserName" jdbcType="VARCHAR" />
+		    <result column="system_user_phone" property="systemUserPhone" jdbcType="VARCHAR" />
+		    <result column="customer_users_id" property="customerUsersId" jdbcType="INTEGER" />
+		    <result column="expect_way_name" property="expectWayName" jdbcType="VARCHAR" />
+		    <result column="is_track" property="isTrack" jdbcType="TINYINT" />
+		    <result column="is_not_buy" property="isNotBuy" jdbcType="TINYINT" />
+		    <result column="time_of_appointment_date" property="timeOfAppointmentDate" jdbcType="TIMESTAMP" />
+		    <result column="appointment_date" property="appointmentDate" jdbcType="TIMESTAMP" />
+		    <result column="is_appointment" property="isAppointment" jdbcType="TINYINT" />
+   		</collection>
+		</resultMap>
+
+	<sql id="DB_Column_List">
+		customer_customerusers.customerUsersId,
+		customer_customerusers.customerUsersName,
+		customer_customerusers.phoneNumber,
+		customer_customerusers.agentGender,
+		customer_customerusers.headPortrait,
+		customer_customerusers.sessionId,
+		customer_customerusers.state,
+		customer_customerusers.publicSignOpenId,
+		customer_customerusers.createDate,
+		customer_customerusers.publicSignOpendId,
+		customer_customerusers.customerUserCode,
+		customer_customerusers.publicSignIsPush,
+		customer_customerusers.publicSignIsFollow,
+		customer_customerusers.unionId,
+		customer_customerusers.appProgramOpenId,
+		customer_customerusers.annualIncome,
+		customer_customerusers.cardNo,
+		customer_customerusers.incomeSource,
+		customer_customerusers.maritalStatus,
+		customer_customerusers.housingSource,
+		customer_customerusers.isHasDriversLicense,
+		customer_customerusers.email,
+		customer_customerusers.education,
+		customer_customerusers.address,
+		customer_customerusers.emergencyAContact,
+		customer_customerusers.emergencyBContact,
+		customer_customerusers.emergencyARelationship,
+		customer_customerusers.emergencyBRelationship,
+		customer_customerusers.emergencyAPhone,
+		customer_customerusers.emergencyBPhone,
+		customer_customerusers.workUnit,
+		customer_customerusers.annualIncomeAfterTax,
+		customer_customerusers.workingPlace,
+		customer_customerusers.entryTime,
+		customer_customerusers.position,
+		customer_customerusers.companyTelephone,
+		customer_customerusers.bankAuditsImage,
+		customer_customerusers.bankAuditsvideo,
+		customer_customerusers.buyCarAlready
+	</sql>
+	<sql id="DB_Column_List_join">
+		customer_customerusers.customerUsersId,
+		customer_customerusers.customerUsersName,
+		customer_customerusers.phoneNumber,
+		customer_customerusers.agentGender,
+		customer_customerusers.headPortrait,
+		customer_customerusers.sessionId,
+		customer_customerusers.state,
+		customer_customerusers.publicSignOpenId,
+		customer_customerusers.createDate,
+		customer_customerusers.publicSignOpendId,
+		customer_customerusers.customerUserCode,
+		customer_customerusers.publicSignIsPush,
+		customer_customerusers.publicSignIsFollow,
+		customer_customerusers.unionId,
+		customer_customerusers.appProgramOpenId,
+		customer_customerusers.annualIncome,
+		customer_customerusers.cardNo,
+		customer_customerusers.incomeSource,
+		customer_customerusers.maritalStatus,
+		customer_customerusers.housingSource,
+		customer_customerusers.isHasDriversLicense,
+		customer_customerusers.email,
+		customer_customerusers.education,
+		customer_customerusers.address,
+		customer_customerusers.emergencyAContact,
+		customer_customerusers.emergencyBContact,
+		customer_customerusers.emergencyARelationship,
+		customer_customerusers.emergencyBRelationship,
+		customer_customerusers.emergencyAPhone,
+		customer_customerusers.emergencyBPhone,
+		customer_customerusers.workUnit,
+		customer_customerusers.annualIncomeAfterTax,
+		customer_customerusers.workingPlace,
+		customer_customerusers.entryTime,
+		customer_customerusers.position,
+		customer_customerusers.companyTelephone,
+		customer_customerusers.bankAuditsImage,
+		customer_customerusers.bankAuditsvideo,
+		customer_customerusers.buyCarAlready,
+		customer_order.customer_order_id, customer_order.customer_order_code, customer_order.customer_order_state, customer_order.create_date, customer_order.is_delete, 
+    customer_order.customer_id, customer_order.customer_name, customer_order.customer_phone_number, customer_order.cars_id, customer_order.cars_name, customer_order.cars_index_image, 
+    customer_order.brand_id, customer_order.family_id, customer_order.invoice_price, customer_order.deposit_price, customer_order.discount_price, customer_order.interior_id, customer_order.colour_id, 
+    customer_order.follow_information, customer_order.balance_price, customer_order.org_id, customer_order.org_name, customer_order.stock_car_id, customer_order.remarks, customer_order.payment_way, 
+    customer_order.down_payments, customer_order.loan, customer_order.loan_pay_back_stages, customer_order.amount, customer_order.is_purchase_tax, customer_order.is_take_license_plate, 
+    customer_order.license_plate_priace, customer_order.is_insurance, customer_order.insurance_priace,customer_order.system_user_id,customer_order.system_user_name,
+    customer_order.system_user_phone,customer_order.extract_car_image,customer_order.colour_name,customer_order.interior_name,customer_order.is_mortgage,customer_order.estimate_Date,
+    customer_order.audit_time,customer_order.audit_status,
+    customer_customerorg.customer_users_org_id, customer_customerorg.customer_users_name, customer_customerorg.phone_number, customer_customerorg.create_date,
+    customer_customerorg.org_id, customer_customerorg.org_short_name, customer_customerorg.customer_users_id,
+    customer_customerorg.car_purchase_intention, customer_customerorg.is_edit, customer_customerorg.expect_way_id, customer_customerorg.expect_way_name,
+    customer_customerorg.intention_car_id, customer_customerorg.intention_car_info, customer_customerorg.time_of_appointment, 
+    customer_customerorg.remarks, customer_customerorg.system_user_id, customer_customerorg.system_user_name, customer_customerorg.system_user_phone, 
+    customer_customerorg.is_track,customer_customerorg.is_not_buy, customer_customerorg.time_of_appointment_date,customer_customerorg.appointment_date,customer_customerorg.is_appointment
+	</sql>
+
+	<sql id="Where_Condition">
+		<where>
+			<trim prefixOverrides="and">
+				<!-- 匹配查询 -->
+				<if test="customerUsersId != null">and customer_customerusers.customerUsersId = #{customerUsersId}</if>
+				<if test="customerUsersName != null">and customer_customerusers.customerUsersName = #{customerUsersName}</if>				
+				<if test="phoneNumber != null and phoneNumber != ''">and customer_customerusers.phoneNumber = #{phoneNumber}</if>				
+				<if test="phoneSearch != null and phoneSearch != ''">and customer_customerusers.phoneNumber like CONCAT('%',#{phoneSearch},'%')</if>				
+				<!-- 模糊查询 -->
+				 
+				<if test="customerUsersNameSearch != null and customerUsersNameSearch != ''">and customer_customerusers.customerUsersName like CONCAT('%',#{customerUsersName},'%')</if>
+<!-- 				<if test="customerUsersSearch != null and customerUsersSearch != ''">and (customer_customerusers.customerUsersName like CONCAT('%',#{customerUsersSearch},'%') or customer_customerusers.phoneNumber like CONCAT('%',#{customerUsersSearch},'%'))</if> -->
+<!-- 				<if test="buyCarAlready != null">and customer_customerusers.buyCarAlready = 1</if> -->
+<!-- 				<if test="paymentWay != null">and customer_order.payment_way = #{paymentWay}</if> -->
+<!-- 				<if test="orgCode != null and orgCode != null">and (customer_order.org_id IN (select orgId from system_organization where system_organization.orgCodeLevel like -->
+<!--                     CONCAT('%',#{orgCode},'%'))) and (customer_customerorg.org_id IN (select orgId from system_organization where system_organization.orgCodeLevel like -->
+<!--                     CONCAT('%',#{orgCode},'%'))) -->
+<!--                 </if> -->
+                
+                <!-- list查询 -->
+<!-- 				<if test="orderStates != null">and customer_order.customer_order_state in -->
+<!--                     <foreach item="item" index="index" collection="orderStates" -->
+<!--                              open="(" separator="," close=")"> -->
+<!--                         #{item} -->
+<!--                     </foreach> -->
+<!--                 </if> -->
+				<!-- list查询 -->
+				<if test="ids != null">and customer_customerusers.customerUsersId in
+                    <foreach item="item" index="index" collection="ids"
+                             open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+			</trim>
+		</where>
+	</sql>
+
+
+	<!-- 查询总数 -->
+	<select id="selectCount" resultType="java.lang.Long"
+		parameterType="java.util.Map">
+		select count(customerUsersId) from customer_customerusers
+		<include refid="Where_Condition" />
+	</select>
+
+	<!-- 查询 -->
+	<select id="select" resultMap="ResultMap" parameterType="java.util.Map">
+		select
+		<include refid="DB_Column_List" />
+		from customer_customerusers
+		<include refid="Where_Condition" />
+		<if test="sortField != null"> order by createDate desc </if>
+		<if test="isPage== true and offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+	</select>
+	
+		<!-- 查询总数 -->
+	<select id="selectCountJoin" resultType="java.lang.Long"
+		parameterType="java.util.Map">
+		select count(customer_customerusers.customerUsersId) customer_customerusers LEFT JOIN customer_customerorg ON customer_customerusers.customerUsersId = customer_customerorg.customer_users_Id LEFT JOIN 
+			customer_order ON customer_customerusers.customerUsersId = customer_order.customer_id
+		<include refid="Where_Condition" />
+	</select>
+	
+	<select id="selectJoin" resultMap="ResultMapJoin" parameterType="java.util.Map">
+		select
+		<include refid="DB_Column_List_join" />
+		from customer_customerusers LEFT JOIN customer_customerorg ON customer_customerusers.customerUsersId = customer_customerorg.customer_users_Id LEFT JOIN 
+			customer_order ON customer_customerusers.customerUsersId = customer_order.customer_id
+		<include refid="Where_Condition" />
+		<if test="sortField != null"> order by customer_customerusers.createDate desc </if>
+		<if test="isPage== true and offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+	</select>
+
+	<!-- 根据ID查询 -->
+	<select id="selectById" resultMap="ResultMap" parameterType="java.lang.Integer">
+		select
+		<include refid="DB_Column_List" />
+		from customer_customerusers
+		where customer_customerusers.customerUsersId = #{customerUsersId}
+	</select>
+	
+	<!-- 根据selectByPhone查询 -->
+	<select id="selectByPhone" resultMap="ResultMap" parameterType="java.lang.String">
+		select
+		<include refid="DB_Column_List" />
+		from customer_customerusers
+		where customer_customerusers.phoneNumber = #{phoneNumber}
+	</select>
+	<!-- 根据查询 -->
+	<select id="selectByCode" resultMap="ResultMap" parameterType="java.lang.String">
+		select
+		<include refid="DB_Column_List" />
+		from customer_customerusers
+		where customer_customerusers.customerUserCode = #{customerUserCode}
+	</select>
+	
+	<!-- 添加 -->
+	<insert id="insert" parameterType="main.com.customer.dao.po.CustomerUsers" useGeneratedKeys="true" keyProperty="customerUsersId">
+		insert into customer_customerusers
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="customerUsersName != null"> customerUsersName, </if>
+			<if test="phoneNumber != null"> phoneNumber, </if>
+			<if test="agentGender != null"> agentGender, </if>
+			<if test="headPortrait != null"> headPortrait, </if>
+			<if test="sessionId != null"> sessionId, </if>
+			<if test="state != null"> state, </if>
+			<if test="publicSignOpenId != null"> publicSignOpenId, </if>
+			<if test="createDate != null"> createDate, </if>
+			<if test="publicSignOpendId != null"> publicSignOpendId, </if>
+			<if test="customerUserCode != null"> customerUserCode, </if>
+			<if test="publicSignIsPush != null"> publicSignIsPush, </if>
+			<if test="publicSignIsFollow != null"> publicSignIsFollow, </if>
+			<if test="unionId != null"> unionId, </if>
+			<if test="appProgramOpenId != null"> appProgramOpenId, </if>
+			<if test="annualIncome != null"> annualIncome, </if>
+			<if test="cardNo != null"> cardNo, </if>
+			<if test="incomeSource != null"> incomeSource, </if>
+			<if test="maritalStatus != null"> maritalStatus, </if>
+			<if test="housingSource != null"> housingSource, </if>
+			<if test="isHasDriversLicense != null"> isHasDriversLicense, </if>
+			<if test="email != null"> email, </if>
+			<if test="education != null"> education, </if>
+			<if test="address != null"> address, </if>
+			<if test="emergencyAContact != null"> emergencyAContact, </if>
+			<if test="emergencyBContact != null"> emergencyBContact, </if>
+			<if test="emergencyARelationship != null"> emergencyARelationship, </if>
+			<if test="emergencyBRelationship != null"> emergencyBRelationship, </if>
+			<if test="emergencyAPhone != null"> emergencyAPhone, </if>
+			<if test="emergencyBPhone != null"> emergencyBPhone, </if>
+			<if test="workUnit != null"> workUnit, </if>
+			<if test="annualIncomeAfterTax != null"> annualIncomeAfterTax, </if>
+			<if test="workingPlace != null"> workingPlace, </if>
+			<if test="position != null"> position, </if>
+			<if test="companyTelephone != null"> companyTelephone, </if>
+			<if test="entryTime != null"> entryTime, </if>
+			<if test="bankAuditsImage != null"> bankAuditsImage, </if>
+			<if test="bankAuditsvideo != null"> bankAuditsvideo, </if>
+			<if test="buyCarAlready != null"> buyCarAlready, </if>
+<!-- 			<if test="remarks != null"> remarks, </if> -->
+<!-- 			<if test="orgIds != null"> orgIds, </if> -->
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="customerUsersName != null"> #{customerUsersName}, </if>
+			<if test="phoneNumber != null"> #{phoneNumber}, </if>
+			<if test="agentGender != null"> #{agentGender}, </if>
+			<if test="headPortrait != null"> #{headPortrait}, </if>
+			<if test="sessionId != null"> #{sessionId}, </if>
+			<if test="state != null"> #{state}, </if>
+			<if test="publicSignOpenId != null"> #{publicSignOpenId}, </if>
+			<if test="createDate != null"> #{createDate}, </if>
+			<if test="publicSignOpendId != null"> #{publicSignOpendId}, </if>
+			<if test="customerUserCode != null"> #{customerUserCode}, </if>
+			<if test="publicSignIsPush != null"> #{publicSignIsPush}, </if>
+			<if test="publicSignIsFollow != null"> #{publicSignIsFollow}, </if>
+			<if test="unionId != null"> #{unionId}, </if>
+			<if test="appProgramOpenId != null"> #{appProgramOpenId}, </if>
+			<if test="annualIncome != null"> #{annualIncome}, </if>
+			<if test="cardNo != null"> #{cardNo}, </if>
+			<if test="incomeSource != null"> #{incomeSource}, </if>
+			<if test="maritalStatus != null"> #{maritalStatus}, </if>
+			<if test="housingSource != null"> #{housingSource}, </if>
+			<if test="isHasDriversLicense != null"> #{isHasDriversLicense}, </if>
+			<if test="email != null"> #{email}, </if>
+			<if test="education != null"> #{education}, </if>
+			<if test="address != null"> #{address}, </if>
+			<if test="emergencyAContact != null"> #{emergencyAContact}, </if>
+			<if test="emergencyBContact != null"> #{emergencyBContact}, </if>
+			<if test="emergencyARelationship != null"> #{emergencyARelationship}, </if>
+			<if test="emergencyBRelationship != null"> #{emergencyBRelationship}, </if>
+			<if test="emergencyAPhone != null"> #{emergencyAPhone}, </if>
+			<if test="emergencyBPhone != null"> #{emergencyBPhone}, </if>
+			<if test="workUnit != null"> #{workUnit}, </if>
+			<if test="annualIncomeAfterTax != null"> #{annualIncomeAfterTax}, </if>
+			<if test="workingPlace != null"> #{workingPlace}, </if>
+			<if test="position != null"> #{position}, </if>
+			<if test="companyTelephone != null"> #{companyTelephone}, </if>
+			<if test="entryTime != null"> #{entryTime}, </if>
+			<if test="bankAuditsImage != null"> #{bankAuditsImage}, </if>
+			<if test="bankAuditsvideo != null"> #{bankAuditsvideo}, </if>
+			<if test="buyCarAlready != null"> #{buyCarAlready}, </if>
+<!-- 			<if test="remarks != null"> #{remarks}, </if> -->
+<!-- 			<if test="orgIds != null"> #{orgIds}, </if> -->
+		</trim>
+	</insert>
+
+	<!-- 更新 -->
+	<update id="updateById" parameterType="main.com.customer.dao.po.CustomerUsers">
+		update
+		customer_customerusers
+		<set>
+			<if test="customerUsersName != null"> customerUsersName = #{customerUsersName}, </if>
+			<if test="phoneNumber != null"> phoneNumber = #{phoneNumber}, </if>
+			<if test="agentGender != null"> agentGender = #{agentGender}, </if>
+			<if test="headPortrait != null"> headPortrait = #{headPortrait}, </if>
+			<if test="sessionId != null"> sessionId = #{sessionId}, </if>
+			<if test="state != null"> state = #{state}, </if>
+			<if test="publicSignOpenId != null"> publicSignOpenId = #{publicSignOpenId}, </if>
+			<if test="createDate != null"> createDate = #{createDate}, </if>
+			<if test="publicSignOpendId != null"> publicSignOpendId = #{publicSignOpendId}, </if>
+			<if test="customerUserCode != null"> customerUserCode = #{customerUserCode}, </if>
+			<if test="publicSignIsPush != null"> publicSignIsPush = #{publicSignIsPush}, </if>
+			<if test="publicSignIsFollow != null"> publicSignIsFollow = #{publicSignIsFollow}, </if>
+			<if test="unionId != null"> unionId = #{unionId}, </if>
+			<if test="appProgramOpenId != null"> appProgramOpenId = #{appProgramOpenId}, </if>
+			<if test="annualIncome != null"> annualIncome = #{annualIncome}, </if>
+			<if test="cardNo != null"> cardNo = #{cardNo}, </if>
+			<if test="incomeSource != null"> incomeSource = #{incomeSource}, </if>
+			<if test="maritalStatus != null"> maritalStatus = #{maritalStatus}, </if>
+			<if test="housingSource != null"> housingSource = #{housingSource}, </if>
+			<if test="isHasDriversLicense != null"> isHasDriversLicense = #{isHasDriversLicense}, </if>
+			<if test="email != null"> email = #{email}, </if>
+			<if test="education != null"> education = #{education}, </if>
+			<if test="address != null"> address = #{address}, </if>
+			<if test="emergencyAContact != null"> emergencyAContact = #{emergencyAContact}, </if>
+			<if test="emergencyBContact != null"> emergencyBContact = #{emergencyBContact}, </if>
+			<if test="emergencyARelationship != null"> emergencyARelationship = #{emergencyARelationship}, </if>
+			<if test="emergencyBRelationship != null"> emergencyBRelationship = #{emergencyBRelationship}, </if>
+			<if test="emergencyAPhone != null"> emergencyAPhone = #{emergencyAPhone}, </if>
+			<if test="emergencyBPhone != null"> emergencyBPhone = #{emergencyBPhone}, </if>
+			<if test="workUnit != null"> workUnit = #{workUnit}, </if>
+			<if test="annualIncomeAfterTax != null"> annualIncomeAfterTax = #{annualIncomeAfterTax}, </if>
+			<if test="workingPlace != null"> workingPlace = #{workingPlace}, </if>
+			<if test="position != null"> position = #{position}, </if>
+			<if test="companyTelephone != null"> companyTelephone = #{companyTelephone}, </if>
+			<if test="entryTime != null"> entryTime = #{entryTime}, </if>
+			<if test="bankAuditsImage != null"> bankAuditsImage = #{bankAuditsImage}, </if>
+			<if test="bankAuditsvideo != null"> bankAuditsvideo = #{bankAuditsvideo}, </if>
+			<if test="buyCarAlready != null"> buyCarAlready = #{buyCarAlready}, </if>
+<!-- 			<if test="remarks != null"> remarks = #{remarks}, </if> -->
+<!-- 			<if test="orgIds != null"> orgIds = #{orgIds}, </if> -->
+		</set>
+		where customerUsersId = #{customerUsersId}
+	</update>
+	
+	
+	<!-- 批量更新 -->
+	<update id="batchUpdate"  parameterType="java.util.List">
+          <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            update 
+				customer_customerusers 
+			<set>
+			<if test="item.customerUsersName != null"> customerUsersName = #{item.customerUsersName}, </if>
+			<if test="item.phoneNumber != null"> phoneNumber = #{item.phoneNumber}, </if>
+			<if test="item.agentGender != null"> agentGender = #{item.agentGender}, </if>
+			<if test="item.headPortrait != null"> headPortrait = #{item.headPortrait}, </if>
+			<if test="item.sessionId != null"> sessionId = #{item.sessionId}, </if>
+			<if test="item.state != null"> state = #{item.state}, </if>
+			<if test="item.publicSignOpenId != null"> publicSignOpenId = #{item.publicSignOpenId}, </if>
+			<if test="item.createDate != null"> createDate = #{item.createDate}, </if>
+			<if test="item.publicSignOpendId != null"> publicSignOpendId = #{item.publicSignOpendId}, </if>
+			<if test="item.customerUserCode != null"> customerUserCode = #{item.customerUserCode}, </if>
+			<if test="item.publicSignIsPush != null"> publicSignIsPush = #{item.publicSignIsPush}, </if>
+			<if test="item.publicSignIsFollow != null"> publicSignIsFollow = #{item.publicSignIsFollow}, </if>
+			<if test="item.unionId != null"> unionId = #{item.unionId}, </if>
+			<if test="item.appProgramOpenId != null"> appProgramOpenId = #{item.appProgramOpenId}, </if>
+			<if test="item.annualIncome != null"> annualIncome = #{item.annualIncome}, </if>
+			<if test="item.cardNo != null"> cardNo = #{item.cardNo}, </if>
+			<if test="item.incomeSource != null"> incomeSource = #{item.incomeSource}, </if>
+			<if test="item.maritalStatus != null"> maritalStatus = #{item.maritalStatus}, </if>
+			<if test="item.housingSource != null"> housingSource = #{item.housingSource}, </if>
+			<if test="item.isHasDriversLicense != null"> isHasDriversLicense = #{item.isHasDriversLicense}, </if>
+			<if test="item.email != null"> email = #{item.email}, </if>
+			<if test="item.education != null"> education = #{item.education}, </if>
+			<if test="item.address != null"> address = #{item.address}, </if>
+			<if test="item.emergencyAContact != null"> emergencyAContact = #{item.emergencyAContact}, </if>
+			<if test="item.emergencyBContact != null"> emergencyBContact = #{item.emergencyBContact}, </if>
+			<if test="item.emergencyARelationship != null"> emergencyARelationship = #{item.emergencyARelationship}, </if>
+			<if test="item.emergencyBRelationship != null"> emergencyBRelationship = #{item.emergencyBRelationship}, </if>
+			<if test="item.emergencyAPhone != null"> emergencyAPhone = #{item.emergencyAPhone}, </if>
+			<if test="item.emergencyBPhone != null"> emergencyBPhone = #{item.emergencyBPhone}, </if>
+			<if test="item.workUnit != null"> workUnit = #{item.workUnit}, </if>
+			<if test="item.annualIncomeAfterTax != null"> annualIncomeAfterTax = #{item.annualIncomeAfterTax}, </if>
+			<if test="item.workingPlace != null"> workingPlace = #{item.workingPlace}, </if>
+			<if test="item.position != null"> position = #{item.position}, </if>
+			<if test="item.companyTelephone != null"> companyTelephone = #{item.companyTelephone}, </if>
+			<if test="item.entryTime != null"> entryTime = #{item.entryTime}, </if>
+			<if test="item.bankAuditsImage != null"> bankAuditsImage = #{item.bankAuditsImage}, </if>
+			<if test="item.bankAuditsvideo != null"> bankAuditsvideo = #{item.bankAuditsvideo}, </if>
+			<if test="item.buyCarAlready != null"> buyCarAlready = #{item.buyCarAlready}, </if>
+			</set> 
+			 where customerUsersId = #{item.customerUsersId} 
+         </foreach>
+    </update>
+    
+	<update id="batchUpdateByOne"  parameterType="java.util.List">
+          <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            update 
+				customer_customerusers 
+			<set>
+			<if test="item.isDefault != null"> isDefault = #{item.isDefault}, </if>
+			</set> 
+			 where customerUsersId = #{item.customerUsersId} 
+         </foreach>
+    </update>
+
+	<!-- 根据ID删除 -->
+	<delete id="deleteById" parameterType="java.lang.Integer">
+		delete from customer_customerusers
+		where
+		customerUsersId = #{customerUsersId}
+	</delete>
+
+	<!-- 删除 -->
+	<delete id="delete" parameterType="java.util.Map">
+		delete from customer_customerusers
+		<include refid="Where_Condition" />
+	</delete>
+</mapper>

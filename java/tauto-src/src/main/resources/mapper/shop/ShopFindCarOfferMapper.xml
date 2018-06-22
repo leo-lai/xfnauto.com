@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="main.com.weixinHtml.dao.po.ShopFindCarOffer" >
+
+  <resultMap id="BaseResultMap" type="main.com.weixinHtml.dao.vo.ShopFindCarOfferVo" >
+    <id column="find_car_offer_id" property="findCarOfferId" jdbcType="INTEGER" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="overdue_date" property="overdueDate" jdbcType="TIMESTAMP" />
+    <result column="offer_amount" property="offerAmount" jdbcType="DECIMAL" />
+    <result column="system_user_id" property="systemUserId" jdbcType="INTEGER" />
+    <result column="system_user_name" property="systemUserName" jdbcType="VARCHAR" />
+    <result column="system_user_phone" property="systemUserPhone" jdbcType="VARCHAR" />
+    <result column="org_id" property="orgId" jdbcType="INTEGER" />
+    <result column="find_car_id" property="findCarId" jdbcType="INTEGER" />
+    <result column="org_name" property="orgName" jdbcType="VARCHAR" />
+    <result column="offer_state" property="offerState" jdbcType="INTEGER" />
+    <result column="location" property="location" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <resultMap id="BaseResultMapJoin" type="main.com.weixinHtml.dao.vo.ShopFindCarOfferVo" >
+    <id column="find_car_offer_id" property="findCarOfferId" jdbcType="INTEGER" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="overdue_date" property="overdueDate" jdbcType="TIMESTAMP" />
+    <result column="offer_amount" property="offerAmount" jdbcType="DECIMAL" />
+    <result column="system_user_id" property="systemUserId" jdbcType="INTEGER" />
+    <result column="system_user_name" property="systemUserName" jdbcType="VARCHAR" />
+    <result column="system_user_phone" property="systemUserPhone" jdbcType="VARCHAR" />
+    <result column="org_id" property="orgId" jdbcType="INTEGER" />
+    <result column="find_car_id" property="findCarId" jdbcType="INTEGER" />
+    <result column="org_name" property="orgName" jdbcType="VARCHAR" />
+    <result column="offer_state" property="offerState" jdbcType="INTEGER" />
+    <result column="location" property="location" jdbcType="VARCHAR" />
+    <association property="shopFindCar" column="find_car_id" select="getShopFindCar"></association>
+  </resultMap>
+  
+   <resultMap id="shopFindCarVo" type="main.com.weixinHtml.dao.vo.ShopFindCarVo" >
+    <id column="find_the_car_id" property="findTheCarId" jdbcType="INTEGER" />
+    <result column="cars_id" property="carsId" jdbcType="INTEGER" />
+    <result column="cars_name" property="carsName" jdbcType="VARCHAR" />
+    <result column="guidance_price" property="guidancePrice" jdbcType="DECIMAL" />
+    <result column="colour_id" property="colourId" jdbcType="INTEGER" />
+    <result column="colour_name" property="colourName" jdbcType="VARCHAR" />
+    <result column="interior_id" property="interiorId" jdbcType="INTEGER" />
+    <result column="interior_name" property="interiorName" jdbcType="VARCHAR" />
+    <result column="expectation_amount" property="expectationAmount" jdbcType="DECIMAL" />
+    <result column="sign_city" property="signCity" jdbcType="VARCHAR" />
+    <result column="expectation_haveing_car_time" property="expectationHaveingCarTime" jdbcType="TIMESTAMP" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+    <result column="shop_user_id" property="shopUserId" jdbcType="INTEGER" />
+    <result column="linkman_name" property="linkmanName" jdbcType="VARCHAR" />
+    <result column="linkman_phone" property="linkmanPhone" jdbcType="VARCHAR" />
+    <result column="state" property="state" jdbcType="INTEGER" />
+    <result column="over_del" property="overDel" jdbcType="TINYINT" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="system_user_id" property="systemUserId" jdbcType="INTEGER" />
+    <result column="system_user_name" property="systemUserName" jdbcType="VARCHAR" />
+  </resultMap>
+  
+   <sql id="Where_Condition">
+		<where>
+			<trim prefixOverrides="and">
+				<!-- 匹配查询 -->
+				<if test="findCarOfferId != null">and shop_find_car_offer.find_car_offer_id = #{findCarOfferId}</if>		
+				<if test="offerState != null">and shop_find_car_offer.offer_state = #{offerState}</if>				
+				<if test="findCarId != null">and shop_find_car_offer.find_car_id = #{findCarId}</if>				
+				<if test="findTheCarId != null">and shop_find_car_offer.find_car_id = #{findTheCarId}</if>				
+				<if test="systemUserId != null">and shop_find_car_offer.system_user_id = #{systemUserId}</if>				
+				<if test="overDel != null">and shop_find_car_offer.over_del = 0</if>				
+                
+				<!-- list查询 -->
+				<if test="ids != null">and shop_find_car_offer.find_car_offer_id in
+                    <foreach item="item" index="index" collection="ids"
+                             open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+			</trim>
+		</where>
+	</sql>
+
+	<!-- 查询总数 -->
+	<select id="selectCount" resultType="java.lang.Long"
+		parameterType="java.util.Map">
+		select count(find_car_offer_id) from shop_find_car_offer
+		<include refid="Where_Condition" />
+	</select>
+
+	<!-- 查询 -->
+	<select id="select" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select 
+    		shop_find_car_offer.*
+    	from shop_find_car_offer
+		<include refid="Where_Condition" />
+		<if test="sortField != null"> order by shop_find_car_offer.create_date desc </if>
+		<if test="isPage== true and offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+	</select>
+	
+	<!-- 查询 -->
+	<select id="selectJoin" resultMap="BaseResultMapJoin" parameterType="java.util.Map">
+		select 
+    		shop_find_car_offer.*
+    	from shop_find_car_offer
+		<include refid="Where_Condition" />
+		<if test="sortField != null"> order by shop_find_car_offer.create_date desc </if>
+		<if test="isPage== true and offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+	</select>
+
+  <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    fco.*
+    from shop_find_car_offer as fco
+    where fco.find_car_offer_id = #{findCarOfferId,jdbcType=INTEGER}
+  </select>
+  
+  <delete id="deleteById" parameterType="java.lang.Integer" >
+    delete from shop_find_car_offer
+    where find_car_offer_id = #{findCarOfferId,jdbcType=INTEGER}
+  </delete>
+  
+   <select id="getShopFindCar" resultMap="shopFindCarVo" parameterType="java.lang.Integer" >
+    select 
+   		 sfc.*
+    from shop_find_car sfc
+    where sfc.find_the_car_id = #{find_car_id}
+  </select>
+  
+  <insert id="insert" parameterType="main.com.weixinHtml.dao.po.ShopFindCarOffer" useGeneratedKeys="true" keyProperty="findCarOfferId" >
+    insert into shop_find_car_offer
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="overdueDate != null" >
+        overdue_date,
+      </if>
+      <if test="offerAmount != null" >
+        offer_amount,
+      </if>
+      <if test="systemUserId != null" >
+        system_user_id,
+      </if>
+      <if test="systemUserName != null" >
+        system_user_name,
+      </if>
+      <if test="systemUserPhone != null" >
+        system_user_phone,
+      </if>
+      <if test="orgId != null" >
+        org_id,
+      </if>
+      <if test="orgName != null" >
+        org_name,
+      </if>
+      <if test="offerState != null" >
+        offer_state,
+      </if>
+      <if test="findCarId != null" >
+        find_car_id,
+      </if>
+      <if test="location != null" >
+        location,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="overdueDate != null" >
+        #{overdueDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="offerAmount != null" >
+        #{offerAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="systemUserId != null" >
+        #{systemUserId,jdbcType=INTEGER},
+      </if>
+      <if test="systemUserName != null" >
+        #{systemUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="systemUserPhone != null" >
+        #{systemUserPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="orgId != null" >
+        #{orgId,jdbcType=INTEGER},
+      </if>
+      <if test="orgName != null" >
+        #{orgName,jdbcType=VARCHAR},
+      </if>
+      <if test="offerState != null" >
+        #{offerState,jdbcType=INTEGER},
+      </if>
+      <if test="findCarId != null" >
+        #{findCarId},
+      </if>
+      <if test="location != null" >
+        #{location},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateById" parameterType="main.com.weixinHtml.dao.po.ShopFindCarOffer" >
+    update shop_find_car_offer
+    <set >
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="overdueDate != null" >
+        overdue_date = #{overdueDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="offerAmount != null" >
+        offer_amount = #{offerAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="systemUserId != null" >
+        system_user_id = #{systemUserId,jdbcType=INTEGER},
+      </if>
+      <if test="systemUserName != null" >
+        system_user_name = #{systemUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="systemUserPhone != null" >
+        system_user_phone = #{systemUserPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="orgId != null" >
+        org_id = #{orgId,jdbcType=INTEGER},
+      </if>
+      <if test="orgName != null" >
+        org_name = #{orgName,jdbcType=VARCHAR},
+      </if>
+      <if test="offerState != null" >
+        offer_state = #{offerState,jdbcType=INTEGER},
+      </if>
+      <if test="findCarId != null" >
+        find_car_id = #{findCarId},
+      </if>
+      <if test="location != null" >
+        location = #{location},
+      </if>
+    </set>
+    where find_car_offer_id = #{findCarOfferId,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="main.com.weixinshop.dao.po.ShopActionRecord">
+	<!-- <cache type="org.mybatis.caches.ehcache.LoggingEhcache" readOnly="true" 
+		/> -->
+
+	<resultMap id="ResultMap" type="main.com.weixinshop.dao.vo.ShopActionRecordVo">
+		<id column="actionRecordId" property="actionRecordId" jdbcType="INTEGER" />
+		<result column="qrCodeUserId" property="qrCodeUserId" jdbcType="INTEGER" />
+		<result column="actionRecord" property="actionRecord" jdbcType="VARCHAR" />
+		<result column="actionDate" property="actionDate" jdbcType="TIMESTAMP" />
+		<result column="nickname" property="nickname" jdbcType="VARCHAR" />
+		<result column="isBinding" property="isBinding" jdbcType="TINYINT" />
+		</resultMap>
+
+	<sql id="DB_Column_List">
+		shop_actionrecord.actionRecordId,
+		shop_actionrecord.qrCodeUserId,
+		shop_actionrecord.actionRecord,
+		shop_actionrecord.actionDate,
+		shop_actionrecord.nickname,
+		shop_actionrecord.isBinding
+	</sql>
+
+	<sql id="Where_Condition">
+		<where>
+			<trim prefixOverrides="and">
+				<!-- 匹配查询 -->
+				<if test="actionRecordId != null">and shop_actionrecord.actionRecordId = #{actionRecordId}</if>
+				<if test="qrCodeUserId != null">and shop_actionrecord.qrCodeUserId = #{qrCodeUserId}</if>
+				<if test="isBinding != null">and shop_actionrecord.isBinding = #{isBinding}</if>								
+				<!-- 模糊查询 -->
+<!-- 				<if test="1==1">and shop_actionrecord.isDelete = 0</if> -->
+			</trim>
+		</where>
+	</sql>
+
+
+	<!-- 查询总数 -->
+	<select id="selectCount" resultType="java.lang.Long"
+		parameterType="java.util.Map">
+		select count(actionRecordId) from shop_actionrecord
+		<include refid="Where_Condition" />
+	</select>
+
+	<!-- 查询 -->
+	<select id="select" resultMap="ResultMap" parameterType="java.util.Map">
+		select
+		<include refid="DB_Column_List" />
+		from shop_actionrecord
+		<include refid="Where_Condition" />
+		<if test="isPage== true and offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+	</select>
+
+	<!-- 根据ID查询 -->
+	<select id="selectById" resultMap="ResultMap" parameterType="java.lang.Integer">
+		select
+		<include refid="DB_Column_List" />
+		from shop_actionrecord
+		where shop_actionrecord.actionRecordId = #{actionRecordId}
+	</select>
+	
+	<!-- 添加 -->
+	<insert id="insert" parameterType="main.com.weixinshop.dao.po.ShopActionRecord" useGeneratedKeys="true" keyProperty="actionRecordId">
+		insert into shop_actionrecord
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="qrCodeUserId != null"> qrCodeUserId, </if>
+			<if test="actionRecord != null"> actionRecord, </if>
+			<if test="actionDate != null"> actionDate, </if>
+			<if test="nickname != null"> nickname, </if>
+			<if test="isBinding != null"> isBinding, </if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="qrCodeUserId != null"> #{qrCodeUserId}, </if>
+			<if test="actionRecord != null"> #{actionRecord}, </if>
+			<if test="actionDate != null"> #{actionDate}, </if>
+			<if test="nickname != null"> #{nickname}, </if>
+			<if test="isBinding != null"> #{isBinding}, </if>
+		</trim>
+	</insert>
+
+	<!-- 更新 -->
+	<update id="updateById" parameterType="main.com.weixinshop.dao.po.ShopActionRecord">
+		update
+		shop_actionrecord
+		<set>
+			<if test="qrCodeUserId != null"> qrCodeUserId = #{qrCodeUserId}, </if>
+			<if test="actionRecord != null"> actionRecord = #{actionRecord}, </if>
+			<if test="actionDate != null"> actionDate = #{actionDate}, </if>
+			<if test="nickname != null"> nickname = #{nickname}, </if>
+			<if test="isBinding != null"> isBinding = #{isBinding}, </if>
+		</set>
+		where actionRecordId = #{actionRecordId}
+	</update>
+	
+	
+	<!-- 批量更新 -->
+	<update id="batchUpdate"  parameterType="java.util.List">
+          <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            update 
+				shop_actionrecord 
+			<set>
+			<if test="item.qrCodeUserId != null"> qrCodeUserId = #{item.qrCodeUserId}, </if>
+			<if test="item.actionRecord != null"> actionRecord = #{item.actionRecord}, </if>
+			<if test="item.actionDate != null"> actionDate = #{item.actionDate}, </if>
+			<if test="item.nickname != null"> nickname = #{item.nickname}, </if>
+			<if test="item.isBinding != null"> isBinding = #{item.isBinding}, </if>
+			</set> 
+			 where actionRecordId = #{item.actionRecordId} 
+         </foreach>
+    </update>
+  
+	<!-- 根据ID删除 -->
+	<delete id="deleteById" parameterType="java.lang.Integer">
+		delete from shop_actionrecord
+		where
+		actionRecordId = #{actionRecordId}
+	</delete>
+
+	<!-- 删除 -->
+	<delete id="delete" parameterType="java.util.Map">
+		delete from shop_actionrecord
+		<include refid="Where_Condition" />
+	</delete>
+</mapper>

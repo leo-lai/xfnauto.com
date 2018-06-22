@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="main.com.car.dao.po.CarBrowseRecord" >
+
+  <resultMap id="BaseResultMap" type="main.com.car.dao.vo.CarBrowseRecordVo" >
+    <id column="car_browse_record_id" property="carBrowseRecordId" jdbcType="INTEGER" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="user_temp_id" property="userTempId" jdbcType="INTEGER" />
+    <result column="cars_id" property="carsId" jdbcType="INTEGER" />
+    <result column="customer_id" property="customerId" jdbcType="INTEGER" />
+    <result column="cars_name" property="carsName" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    car_browse_record_id, create_date, user_temp_id, cars_id, customer_id, cars_name
+  </sql>
+  
+  <sql id="Where_Condition">
+		<where>
+			<trim prefixOverrides="and">
+				<!-- 匹配查询 -->
+				<if test="carBrowseRecordId != null">and car_browse_record.car_browse_record_id = #{carBrowseRecordId}</if>
+
+				<!-- list查询 -->
+				<if test="ids != null">and org_cars_configure.car_browse_record_id in
+                    <foreach item="item" index="index" collection="ids"
+                             open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+			</trim>
+		</where>
+	</sql>
+
+	<!-- 查询总数 -->
+	<select id="selectCount" resultType="java.lang.Long"
+		parameterType="java.util.Map">
+		select count(car_browse_record_id) from car_browse_record
+		<include refid="Where_Condition" />
+	</select>
+
+	<!-- 查询 -->
+	<select id="select" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List" />
+		from car_browse_record
+		<include refid="Where_Condition" />
+		<if test="sortField != null"> order by car_browse_record.create_date desc </if>
+		<if test="isPage== true and offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+	</select>
+  
+  <select id="enbinding" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from car_browse_record
+    where user_temp_id = #{usersTmplId,jdbcType=INTEGER} and customer_id is null
+  </select>
+  
+  <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from car_browse_record
+    where car_browse_record_id = #{carBrowseRecordId,jdbcType=INTEGER}
+  </select>
+  
+  <delete id="deleteById" parameterType="java.lang.Integer" >
+    delete from car_browse_record
+    where car_browse_record_id = #{carBrowseRecordId,jdbcType=INTEGER}
+  </delete>
+  
+  <insert id="insert" parameterType="main.com.car.dao.po.CarBrowseRecord" useGeneratedKeys="true" keyProperty="carBrowseRecordId" >
+    insert into car_browse_record
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="userTempId != null" >
+        user_temp_id,
+      </if>
+      <if test="carsId != null" >
+        cars_id,
+      </if>
+      <if test="customerId != null" >
+        customer_id,
+      </if>
+      <if test="carsName != null" >
+        cars_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userTempId != null" >
+        #{userTempId,jdbcType=INTEGER},
+      </if>
+      <if test="carsId != null" >
+        #{carsId,jdbcType=INTEGER},
+      </if>
+      <if test="customerId != null" >
+        #{customerId,jdbcType=INTEGER},
+      </if>
+      <if test="carsName != null" >
+        #{carsName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateById" parameterType="main.com.car.dao.po.CarBrowseRecord" >
+    update car_browse_record
+    <set >
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userTempId != null" >
+        user_temp_id = #{userTempId,jdbcType=INTEGER},
+      </if>
+      <if test="carsId != null" >
+        cars_id = #{carsId,jdbcType=INTEGER},
+      </if>
+      <if test="customerId != null" >
+        customer_id = #{customerId,jdbcType=INTEGER},
+      </if>
+      <if test="carsName != null" >
+        cars_name = #{carsName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where car_browse_record_id = #{carBrowseRecordId,jdbcType=INTEGER}
+  </update>
+</mapper>

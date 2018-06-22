@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="main.com.weixinshop.dao.po.ShopAgentInfo">
+	<!-- <cache type="org.mybatis.caches.ehcache.LoggingEhcache" readOnly="true" 
+		/> -->
+
+	<resultMap id="ResultMap" type="main.com.weixinshop.dao.vo.ShopAgentInfoVo">
+		<id column="agentInfoId" property="agentInfoId" jdbcType="INTEGER" />
+		<result column="userId" property="userId" jdbcType="INTEGER" />
+		<result column="agentId" property="agentId" jdbcType="INTEGER" />
+		<result column="agentInfoName" property="agentInfoName" jdbcType="VARCHAR" />
+		<result column="phoneNumber" property="phoneNumber" jdbcType="VARCHAR" />
+		<result column="agentInfAreas" property="agentInfAreas" jdbcType="VARCHAR" />
+		<result column="numberOfPeople" property="numberOfPeople" jdbcType="INTEGER" />
+		<result column="accumulatedIncome" property="accumulatedIncome" jdbcType="DOUBLE" />
+		<result column="accountBalance" property="accountBalance" jdbcType="DOUBLE" />
+		<result column="relationAgentId" property="relationAgentId" jdbcType="INTEGER" />
+		<result column="becomeAgentDate" property="becomeAgentDate" jdbcType="TIMESTAMP" />
+		<result column="agentState" property="agentState" jdbcType="INTEGER" />
+		<result column="isDelete" property="isDelete" jdbcType="TINYINT" />
+		<result column="isRecommend" property="isRecommend" jdbcType="TINYINT" />
+		<result column="agentInfAreas" property="agentInfAreas" jdbcType="VARCHAR" />
+		<result column="recommendInfo" property="recommendInfo" jdbcType="VARCHAR" />
+		<result column="agentCompany" property="agentCompany" jdbcType="VARCHAR" />
+		<result column="businessLicenseImage" property="businessLicenseImage" jdbcType="VARCHAR" />
+		<result column="agentCode" property="agentCode" jdbcType="VARCHAR" />
+		<result column="agentQRCodeImage" property="agentQRCodeImage" jdbcType="VARCHAR" />
+		<result column="remarks" property="remarks" jdbcType="VARCHAR" />
+		<result column="contractScanner" property="contractScanner" jdbcType="VARCHAR" />
+		<result column="agentIDNumber" property="agentIDNumber" jdbcType="VARCHAR" />
+		<result column="agentAddress" property="agentAddress" jdbcType="VARCHAR" />
+		<result column="agentGender" property="agentGender" jdbcType="INTEGER" />
+		</resultMap>
+
+	<sql id="DB_Column_List">
+		shop_agentinfo.agentInfoId,
+		shop_agentinfo.userId,
+		shop_agentinfo.agentId,
+		shop_agentinfo.agentInfoName,
+		shop_agentinfo.phoneNumber,
+		shop_agentinfo.agentInfAreas,
+		shop_agentinfo.numberOfPeople,
+		shop_agentinfo.accumulatedIncome,
+		shop_agentinfo.accountBalance,
+		shop_agentinfo.relationAgentId,
+		shop_agentinfo.becomeAgentDate,
+		shop_agentinfo.agentState,
+		shop_agentinfo.isRecommend,
+		shop_agentinfo.recommendInfo,
+		shop_agentinfo.agentCompany,
+		shop_agentinfo.businessLicenseImage,
+		shop_agentinfo.agentCode,
+		shop_agentinfo.agentQRCodeImage,
+		shop_agentinfo.remarks,
+		shop_agentinfo.contractScanner,
+		shop_agentinfo.agentGender,
+		shop_agentinfo.agentIDNumber,
+		shop_agentinfo.agentAddress,
+		shop_agentinfo.isDelete
+	</sql>
+
+	<sql id="Where_Condition">
+		<where>
+			<trim prefixOverrides="and">
+				<!-- 匹配查询 -->
+				<if test="agentInfoId != null">and shop_agentinfo.agentInfoId = #{agentInfoId}</if>
+				<if test="userId != null">and shop_agentinfo.userId = #{userId}</if>
+				<if test="agentId != null">and shop_agentinfo.agentId = #{agentId}</if>								
+				<!-- 模糊查询 -->
+				<if test="1==1">and shop_agentinfo.isDelete = 0</if>
+				<if test="agentInfoIds != null">and shop_agentinfo.agentInfoId in
+                    <foreach item="item" index="index" collection="agentInfoIds"
+                             open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+			</trim>
+		</where>
+	</sql>
+
+
+	<!-- 查询总数 -->
+	<select id="selectCount" resultType="java.lang.Long"
+		parameterType="java.util.Map">
+		select count(agentInfoId) from shop_agentinfo
+		<include refid="Where_Condition" />
+	</select>
+
+	<!-- 查询 -->
+	<select id="select" resultMap="ResultMap" parameterType="java.util.Map">
+		select
+		<include refid="DB_Column_List" />
+		from shop_agentinfo
+		<include refid="Where_Condition" />
+		<if test="isPage== true and offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+	</select>
+
+	<!-- 根据ID查询 -->
+	<select id="selectById" resultMap="ResultMap" parameterType="java.lang.Integer">
+		select
+		<include refid="DB_Column_List" />
+		from shop_agentinfo
+		where shop_agentinfo.agentInfoId = #{agentInfoId}
+	</select>
+	<!-- 根据ID查询 -->
+	<select id="selectBySessionId" resultMap="ResultMap" parameterType="java.lang.String">
+		select
+		<include refid="DB_Column_List" />
+		from shop_agentinfo
+		where shop_agentinfo.sessionId = #{sessionId}
+	</select>
+	<!-- 添加 -->
+	<insert id="insert" parameterType="main.com.weixinshop.dao.po.ShopAgentInfo" useGeneratedKeys="true" keyProperty="agentInfoId">
+		insert into shop_agentinfo
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="userId != null"> userId, </if>
+			<if test="agentId != null"> agentId, </if>
+			<if test="agentInfoName != null"> agentInfoName, </if>
+			<if test="phoneNumber != null"> phoneNumber, </if>
+			<if test="agentInfAreas != null"> agentInfAreas, </if>
+			<if test="numberOfPeople != null"> numberOfPeople, </if>
+			<if test="accumulatedIncome != null"> accumulatedIncome, </if>
+			<if test="accountBalance != null"> accountBalance, </if>
+			<if test="relationAgentId != null"> relationAgentId, </if>
+			<if test="becomeAgentDate != null"> becomeAgentDate, </if>
+			<if test="agentState != null"> agentState, </if>
+			<if test="isRecommend != null"> isRecommend, </if>
+			<if test="recommendInfo != null"> recommendInfo, </if>
+			<if test="agentCompany != null"> agentCompany, </if>
+			<if test="businessLicenseImage != null"> businessLicenseImage, </if>
+			<if test="agentCode != null"> agentCode, </if>
+			<if test="agentQRCodeImage != null"> agentQRCodeImage, </if>
+			<if test="contractScanner != null"> contractScanner, </if>
+			<if test="agentGender != null"> agentGender, </if>
+			<if test="agentIDNumber != null"> agentIDNumber, </if>
+			<if test="agentAddress != null"> agentAddress, </if>
+			<if test="isDelete != null"> isDelete, </if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="userId != null"> #{userId}, </if>
+			<if test="agentId != null"> #{agentId}, </if>
+			<if test="agentInfoName != null"> #{agentInfoName}, </if>
+			<if test="phoneNumber != null"> #{phoneNumber}, </if>
+			<if test="agentInfAreas != null"> #{agentInfAreas}, </if>
+			<if test="numberOfPeople != null"> #{numberOfPeople}, </if>
+			<if test="accumulatedIncome != null"> #{accumulatedIncome}, </if>
+			<if test="accountBalance != null"> #{accountBalance}, </if>
+			<if test="relationAgentId != null"> #{relationAgentId}, </if>
+			<if test="becomeAgentDate != null"> #{becomeAgentDate}, </if>
+			<if test="agentState != null"> #{agentState}, </if>
+			<if test="isRecommend != null"> #{isRecommend}, </if>
+			<if test="recommendInfo != null"> #{recommendInfo}, </if>
+			<if test="agentCompany != null"> #{agentCompany}, </if>
+			<if test="businessLicenseImage != null"> #{businessLicenseImage}, </if>
+			<if test="agentCode != null"> #{agentCode}, </if>
+			<if test="agentQRCodeImage != null"> #{agentQRCodeImage}, </if>
+			<if test="contractScanner != null"> #{contractScanner}, </if>
+			<if test="agentGender != null"> #{agentGender}, </if>
+			<if test="agentIDNumber != null"> #{agentIDNumber}, </if>
+			<if test="agentAddress != null"> #{agentAddress}, </if>
+			<if test="isDelete != null"> #{isDelete}, </if>
+		</trim>
+	</insert>
+
+	<!-- 更新 -->
+	<update id="updateById" parameterType="main.com.weixinshop.dao.po.ShopAgentInfo">
+		update
+		shop_agentinfo
+		<set>
+			<if test="userId != null"> userId = #{userId}, </if>
+			<if test="agentId != null"> agentId = #{agentId}, </if>
+			<if test="agentInfoName != null"> agentInfoName = #{agentInfoName}, </if>
+			<if test="phoneNumber != null"> phoneNumber = #{phoneNumber}, </if>
+			<if test="agentInfAreas != null"> agentInfAreas = #{agentInfAreas}, </if>
+			<if test="numberOfPeople != null"> numberOfPeople = #{numberOfPeople}, </if>
+			<if test="accumulatedIncome != null"> accumulatedIncome = #{accumulatedIncome}, </if>
+			<if test="accountBalance != null"> accountBalance = #{accountBalance}, </if>
+			<if test="relationAgentId != null"> relationAgentId = #{relationAgentId}, </if>
+			<if test="becomeAgentDate != null"> becomeAgentDate = #{becomeAgentDate}, </if>
+			<if test="agentState != null"> agentState = #{agentState}, </if>
+			<if test="isRecommend != null"> isRecommend = #{isRecommend}, </if>
+			<if test="recommendInfo != null"> recommendInfo = #{recommendInfo}, </if>
+			<if test="agentCompany != null"> agentCompany = #{agentCompany}, </if>
+			<if test="businessLicenseImage != null"> businessLicenseImage = #{businessLicenseImage}, </if>
+			<if test="agentCode != null"> agentCode = #{agentCode}, </if>
+			<if test="agentQRCodeImage != null"> agentQRCodeImage = #{agentQRCodeImage}, </if>
+			<if test="contractScanner != null"> contractScanner = #{contractScanner}, </if>
+			<if test="agentGender != null"> agentGender = #{agentGender}, </if>
+			<if test="agentIDNumber != null"> agentIDNumber = #{agentIDNumber}, </if>
+			<if test="agentAddress != null"> agentAddress = #{agentAddress}, </if>
+			<if test="isDelete != null"> isDelete = #{isDelete}, </if>
+		</set>
+		where agentInfoId = #{agentInfoId}
+	</update>
+	
+	
+	<!-- 批量更新 -->
+	<update id="batchUpdate"  parameterType="java.util.List">
+          <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            update 
+				shop_agentinfo 
+			<set>
+			<if test="item.userId != null"> userId = #{item.userId}, </if>
+			<if test="item.agentId != null"> agentId = #{item.agentId}, </if>
+			<if test="item.agentInfoName != null"> agentInfoName = #{item.agentInfoName}, </if>
+			<if test="item.phoneNumber != null"> phoneNumber = #{item.phoneNumber}, </if>
+			<if test="item.agentInfAreas != null"> agentInfAreas = #{item.agentInfAreas}, </if>
+			<if test="item.numberOfPeople != null"> numberOfPeople = #{item.numberOfPeople}, </if>
+			<if test="item.accumulatedIncome != null"> accumulatedIncome = #{item.accumulatedIncome}, </if>
+			<if test="item.accountBalance != null"> accountBalance = #{item.accountBalance}, </if>
+			<if test="item.relationAgentId != null"> relationAgentId = #{item.relationAgentId}, </if>
+			<if test="item.becomeAgentDate != null"> becomeAgentDate = #{item.becomeAgentDate}, </if>
+			<if test="item.agentState != null"> agentState = #{item.agentState}, </if>
+			<if test="item.isRecommend != null"> isRecommend = #{item.isRecommend}, </if>
+			<if test="item.recommendInfo != null"> recommendInfo = #{item.recommendInfo}, </if>
+			<if test="item.agentCompany != null"> agentCompany = #{item.agentCompany}, </if>
+			<if test="item.businessLicenseImage != null"> businessLicenseImage = #{item.businessLicenseImage}, </if>
+			<if test="item.agentCode != null"> agentCode = #{item.agentCode}, </if>
+			<if test="item.agentQRCodeImage != null"> agentQRCodeImage = #{item.agentQRCodeImage}, </if>
+			<if test="item.contractScanner != null"> contractScanner = #{item.contractScanner}, </if>
+			<if test="item.agentGender != null"> agentGender = #{item.agentGender}, </if>
+			<if test="item.agentIDNumber != null"> agentIDNumber = #{item.agentIDNumber}, </if>
+			<if test="item.agentAddress != null"> agentAddress = #{item.agentAddress}, </if>
+			<if test="item.isDelete != null"> isDelete = #{item.isDelete}, </if>
+			</set> 
+			 where agentInfoId = #{item.agentInfoId} 
+         </foreach>
+    </update>
+
+	<!-- 根据ID删除 -->
+	<delete id="deleteById" parameterType="java.lang.Integer">
+		delete from shop_agentinfo
+		where
+		agentInfoId = #{agentInfoId}
+	</delete>
+
+	<!-- 删除 -->
+	<delete id="delete" parameterType="java.util.Map">
+		delete from shop_agentinfo
+		<include refid="Where_Condition" />
+	</delete>
+</mapper>

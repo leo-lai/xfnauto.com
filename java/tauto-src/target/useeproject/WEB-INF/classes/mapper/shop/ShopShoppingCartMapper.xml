@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="main.com.weixinshop.dao.po.ShopShoppingCart">
+	<!-- <cache type="org.mybatis.caches.ehcache.LoggingEhcache" readOnly="true" 
+		/> -->
+
+	<resultMap id="ResultMap" type="main.com.weixinshop.dao.vo.ShopShoppingCartVo">
+		<id column="shoppingCartId" property="shoppingCartId" jdbcType="INTEGER" />
+		<result column="userId" property="userId" jdbcType="INTEGER" />
+		<result column="goodsName" property="goodsName" jdbcType="VARCHAR" />
+		<result column="goodsId" property="goodsId" jdbcType="INTEGER" />
+		<result column="goodType" property="goodType" jdbcType="INTEGER" />
+		<result column="imageMax" property="imageMax" jdbcType="VARCHAR" />
+		<result column="startDate" property="startDate" jdbcType="TIMESTAMP" />
+		<result column="isBeoverdue" property="isBeoverdue" jdbcType="TINYINT" />
+		<result column="isDepreciate" property="isDepreciate" jdbcType="TINYINT" />
+		<result column="goodsPrice" property="goodsPrice" jdbcType="DOUBLE" />
+<!-- 		<result column="salestagId" property="salestagId" jdbcType="VARCHAR" /> -->
+<!-- 		<result column="salestagName" property="salestagName" jdbcType="VARCHAR" /> -->
+		<result column="goodsNumber" property="goodsNumber" jdbcType="INTEGER" />
+		<result column="isDelete" property="isDelete" jdbcType="TINYINT" />
+		<result column="goodsBrief" property="goodsBrief" jdbcType="VARCHAR" />
+		<result column="colorTypeId" property="colorTypeId" jdbcType="INTEGER" />
+		<result column="colorTypeName" property="colorTypeName" jdbcType="VARCHAR" />
+
+		</resultMap>
+		
+	    <resultMap id="ResultCartGoodsMap" type="main.com.weixinshop.dao.vo.ShopShoppingCartVo">
+			<id column="shoppingCartId" property="shoppingCartId" jdbcType="INTEGER" />
+			<result column="userId" property="userId" jdbcType="INTEGER" />
+			<result column="goodsName" property="goodsName" jdbcType="VARCHAR" />
+			<result column="goodsId" property="goodsId" jdbcType="INTEGER" />
+			<result column="goodType" property="goodType" jdbcType="INTEGER" />
+			<result column="imageMax" property="imageMax" jdbcType="VARCHAR" />
+			<result column="startDate" property="startDate" jdbcType="TIMESTAMP" />
+			<result column="isBeoverdue" property="isBeoverdue" jdbcType="TINYINT" />
+			<result column="isDepreciate" property="isDepreciate" jdbcType="TINYINT" />
+			<result column="goodsPrice" property="goodsPrice" jdbcType="DOUBLE" />
+	<!-- 		<result column="salestagId" property="salestagId" jdbcType="VARCHAR" /> -->
+	<!-- 		<result column="salestagName" property="salestagName" jdbcType="VARCHAR" /> -->
+			<result column="goodsNumber" property="goodsNumber" jdbcType="INTEGER" />
+			<result column="isDelete" property="isDelete" jdbcType="TINYINT" />
+			<result column="goodsBrief" property="goodsBrief" jdbcType="VARCHAR" />
+			<result column="colorTypeId" property="colorTypeId" jdbcType="INTEGER" />
+			<result column="colorTypeName" property="colorTypeName" jdbcType="VARCHAR" />
+			
+		
+			<collection property="shopGoodsVo" ofType="main.com.weixinshop.dao.vo.ShopGoodsVo" column="goodsId">  
+	            <id column="g_goodsId" property="goodsId" jdbcType="INTEGER" />
+				<result column="g_price" property="price" jdbcType="DOUBLE" />
+				<result column="g_goodsName" property="goodsName" jdbcType="VARCHAR" />
+				<result column="g_goodsCode" property="goodsCode" jdbcType="VARCHAR" />
+				<result column="g_isIndex" property="isIndex" jdbcType="TINYINT" />
+				<result column="g_goodTypeId" property="goodTypeId" jdbcType="INTEGER" />
+				<result column="g_goodTypeName" property="goodTypeName" jdbcType="VARCHAR" />
+				<result column="g_imageMax" property="imageMax" jdbcType="VARCHAR" />
+				<result column="g_goodsIntroduce" property="goodsIntroduce" jdbcType="VARCHAR" />
+				<result column="g_imageMin" property="imageMin" jdbcType="VARCHAR" />
+				<result column="g_goodsStock" property="goodsStock" jdbcType="INTEGER" />
+				<result column="g_salestagId" property="salesTagId" jdbcType="VARCHAR" />
+				<result column="g_salestagName" property="salesTagName" jdbcType="VARCHAR" />
+				<result column="g_originalPrice" property="originalPrice" jdbcType="DOUBLE" />
+				<result column="g_isUpShelves" property="isUpShelves" jdbcType="TINYINT" />
+				<result column="g_startDate" property="startDate" jdbcType="TIMESTAMP" />
+				<result column="g_upShelvesDate" property="upShelvesDate" jdbcType="TIMESTAMP" />
+				<result column="g_costPrice" property="costPrice" jdbcType="DOUBLE" />
+				<result column="g_colorTypeId" property="colorTypeId" jdbcType="INTEGER" />
+				<result column="g_takeMaxNumber" property="takeMaxNumber" jdbcType="INTEGER" />
+				<result column="g_isPaperCheck" property="isPaperCheck" jdbcType="TINYINT" />
+				<result column="g_goodsBrief" property="goodsBrief" jdbcType="VARCHAR" />
+				<result column="g_expressInfo" property="expressInfo" jdbcType="VARCHAR" />
+        	</collection>
+	</resultMap>
+
+	<sql id="DB_Column_List">
+		shop_shoppingcart.shoppingCartId,
+		shop_shoppingcart.userId,
+		shop_shoppingcart.goodsName,
+		shop_shoppingcart.goodsId,
+		shop_shoppingcart.startDate,
+		shop_shoppingcart.isBeoverdue,
+		shop_shoppingcart.isDepreciate,
+		shop_shoppingcart.goodsPrice,
+		shop_shoppingcart.goodsNumber,
+		shop_shoppingcart.isDelete,
+		shop_shoppingcart.goodType,
+		shop_shoppingcart.imageMax,
+		shop_shoppingcart.goodsBrief,
+		shop_shoppingcart.colorTypeId,
+		shop_shoppingcart.colorTypeName
+	</sql>
+	
+		<sql id="DB_Column_List_Record">
+		shop_shoppingcart.shoppingCartId,
+		shop_shoppingcart.userId,
+		shop_shoppingcart.goodsName,
+		shop_shoppingcart.goodsId,
+		shop_shoppingcart.startDate,
+		shop_shoppingcart.isBeoverdue,
+		shop_shoppingcart.isDepreciate,
+		shop_shoppingcart.goodsPrice,
+		shop_shoppingcart.goodsNumber,
+		shop_shoppingcart.isDelete,
+		shop_shoppingcart.goodType,
+		shop_shoppingcart.imageMax,
+		shop_shoppingcart.goodsBrief,
+		shop_shoppingcart.colorTypeId,
+		shop_shoppingcart.colorTypeName,
+		
+		shop_goods.goodsId as g_goodsId,
+		shop_goods.price as g_price,
+		shop_goods.goodsName as g_goodsName,
+		shop_goods.goodTypeId as g_goodTypeId,
+		shop_goods.goodTypeName as g_goodTypeName,
+		shop_goods.isIndex as g_isIndex,
+		shop_goods.imageMax as g_imageMax,
+		shop_goods.goodsIntroduce as g_goodsIntroduce,
+		shop_goods.imageMin as g_imageMin,
+		shop_goods.goodsStock as g_goodsStock,
+		shop_goods.salesTagId as g_salesTagId,
+		shop_goods.salesTagName as g_salesTagName,
+		shop_goods.originalPrice as g_originalPrice,
+		shop_goods.isUpShelves as g_isUpShelves,
+		shop_goods.startDate as g_startDate,
+		shop_goods.upShelvesDate as g_upShelvesDate,
+		shop_goods.costPrice as g_costPrice,
+		shop_goods.goodsBrief as g_goodsBrief,
+		shop_goods.isPaperCheck as g_isPaperCheck,
+		shop_goods.colorTypeId as g_colorTypeId,
+		shop_goods.takeMaxNumber as g_takeMaxNumber,
+		shop_goods.expressInfo as g_expressInfo,
+		shop_goods.goodsCode as g_goodsCode
+	</sql>
+
+	<sql id="Where_Condition">
+		<where>
+			<trim prefixOverrides="and">
+				<!-- 匹配查询 -->
+				<if test="shoppingCartId != null">and shop_shoppingcart.shoppingCartId = #{shoppingCartId}</if>							
+				<if test="goodsId != null">and shop_shoppingcart.goodsId = #{goodsId}</if>							
+				<if test="userId != null">and shop_shoppingcart.userId = #{userId}</if>							
+				<if test="goodType != null">and shop_shoppingcart.goodType = #{goodType}</if>							
+				<!-- 模糊查询 -->
+				
+				<!-- list查询 -->
+				<if test="ids != null">and shop_shoppingcart.shoppingCartId in
+                    <foreach item="item" index="index" collection="ids"
+                             open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+                
+                <if test="1==1">and shop_shoppingcart.isDelete = 0</if>
+			</trim>
+		</where>
+	</sql>
+
+	<!-- 查询总数 -->
+	<select id="selectCount" resultType="java.lang.Long"
+		parameterType="java.util.Map">
+		select count(shoppingCartId) from shop_shoppingcart
+		<include refid="Where_Condition" />
+	</select>
+
+	<!-- 查询 -->
+	<select id="select" resultMap="ResultMap" parameterType="java.util.Map">
+		select
+		<include refid="DB_Column_List" />
+		from shop_shoppingcart
+		<include refid="Where_Condition" />
+		<if test="isPage == true and offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+	</select>
+	
+		<!--联合订单记录查询订单 -->
+	<select id="selectJoinRecord" resultMap="ResultCartGoodsMap" parameterType="java.util.Map">
+		select
+		<include refid="DB_Column_List_Record" />
+		from shop_shoppingcart left join shop_goods on shop_shoppingcart.goodsId = shop_goods.goodsId
+		<include refid="Where_Condition" />
+		<if test="isPage== true">
+            limit #{offset}, #{limit}
+        </if>
+	</select>
+
+	<!-- 根据ID查询 -->
+	<select id="selectById" resultMap="ResultMap" parameterType="java.lang.Integer">
+		select
+		<include refid="DB_Column_List" />
+		from shop_shoppingcart
+		where shop_shoppingcart.shoppingCartId = #{shoppingCartId}
+	</select>
+	<!-- 添加 -->
+	<insert id="insert" parameterType="main.com.weixinshop.dao.po.ShopShoppingCart" useGeneratedKeys="true" keyProperty="shoppingCartId">
+		insert into shop_shoppingcart
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="userId != null"> userId, </if>
+			<if test="goodsName != null"> goodsName, </if>
+			<if test="goodsId != null"> goodsId, </if>
+			<if test="imageMax != null"> imageMax, </if>
+			<if test="goodsBrief != null"> goodsBrief, </if>
+			<if test="startDate != null"> startDate, </if>
+			<if test="isBeoverdue != null"> isBeoverdue, </if>
+			<if test="isDepreciate != null"> isDepreciate, </if>
+			<if test="goodsPrice != null"> goodsPrice, </if>
+			<if test="goodsNumber != null"> goodsNumber, </if>
+			<if test="isDelete != null"> isDelete, </if>
+			<if test="goodType != null"> goodType, </if>
+			<if test="colorTypeId != null"> colorTypeId, </if>
+			<if test="colorTypeName != null"> colorTypeName, </if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="userId != null"> #{userId}, </if>
+			<if test="goodsName != null"> #{goodsName}, </if>
+			<if test="goodsId != null"> #{goodsId}, </if>
+			<if test="imageMax != null"> #{imageMax}, </if>
+			<if test="goodsBrief != null"> #{goodsBrief}, </if>
+			<if test="startDate != null"> #{startDate}, </if>
+			<if test="isBeoverdue != null"> #{isBeoverdue}, </if>
+			<if test="isDepreciate != null"> #{isDepreciate}, </if>
+			<if test="goodsPrice != null"> #{goodsPrice}, </if>
+			<if test="goodsNumber != null"> #{goodsNumber}, </if>
+			<if test="isDelete != null"> #{isDelete}, </if>
+			<if test="goodType != null"> #{goodType}, </if>
+			<if test="colorTypeId != null"> #{colorTypeId}, </if>
+			<if test="colorTypeName != null"> #{colorTypeName}, </if>
+		</trim>
+	</insert>
+
+	<!-- 更新 -->
+	<update id="updateById" parameterType="main.com.weixinshop.dao.po.ShopShoppingCart">
+		update
+		shop_shoppingcart
+		<set>
+			<if test="userId != null"> userId = #{userId}, </if>
+			<if test="goodsName != null"> goodsName = #{goodsName}, </if>
+			<if test="goodsId != null"> goodsId = #{goodsId}, </if>
+			<if test="imageMax != null"> imageMax = #{imageMax}, </if>
+			<if test="goodsBrief != null"> goodsBrief = #{goodsBrief}, </if>
+			<if test="startDate != null"> startDate = #{startDate}, </if>
+			<if test="isBeoverdue != null"> isBeoverdue = #{isBeoverdue}, </if>
+			<if test="isDepreciate != null"> isDepreciate = #{isDepreciate}, </if>
+			<if test="goodsPrice != null"> goodsPrice = #{goodsPrice}, </if>
+			<if test="goodsNumber != null"> goodsNumber = #{goodsNumber}, </if>
+			<if test="isDelete != null"> isDelete = #{isDelete}, </if>
+			<if test="goodType != null"> goodType = #{goodType}, </if>
+			<if test="colorTypeId != null"> colorTypeId= #{colorTypeId}, </if>
+			<if test="colorTypeName != null"> colorTypeName = #{colorTypeName}, </if>
+		</set>
+		where shoppingCartId = #{shoppingCartId}
+	</update>
+	
+	
+	<!-- 批量更新 -->
+	<update id="batchUpdate"  parameterType="java.util.List">
+          <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            update 
+				shop_shoppingcart 
+			<set>
+			<if test="item.userId != null"> userId = #{item.userId}, </if>
+			<if test="item.goodsName != null"> goodsName = #{item.goodsName}, </if>
+			<if test="item.goodsId != null"> goodsId = #{item.goodsId}, </if>
+			<if test="item.imageMax != null"> imageMax = #{item.imageMax}, </if>
+			<if test="item.goodsBrief != null"> goodsBrief = #{item.goodsBrief}, </if>
+			<if test="item.startDate != null"> startDate = #{item.startDate}, </if>
+			<if test="item.isBeoverdue != null"> isBeoverdue = #{item.isBeoverdue}, </if>
+			<if test="item.isDepreciate != null"> isDepreciate = #{item.isDepreciate}, </if>
+			<if test="item.goodsPrice != null"> goodsPrice = #{item.goodsPrice}, </if>
+			<if test="item.goodsNumber != null"> goodsNumber = #{item.goodsNumber}, </if>
+			<if test="item.isDelete != null"> isDelete = #{item.isDelete}, </if>
+			<if test="item.goodType != null"> goodType = #{item.goodType}, </if>
+			<if test="item.colorTypeId != null"> colorTypeId= #{item.colorTypeId}, </if>
+			<if test="item.colorTypeName != null"> colorTypeName = #{item.colorTypeName}, </if>
+			</set> 
+			 where shoppingCartId = #{item.shoppingCartId} 
+         </foreach>
+    </update>
+
+	<!-- 根据ID删除 -->
+	<delete id="deleteById" parameterType="java.lang.Integer">
+		delete from shop_shoppingcart
+		where
+		shoppingCartId = #{shoppingCartId}
+	</delete>
+
+	<!-- 删除 -->
+	<delete id="delete" parameterType="java.util.Map">
+		delete from shop_shoppingcart
+		<include refid="Where_Condition" />
+	</delete>
+</mapper>

@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="main.com.weixinshop.dao.po.ShopOrdersInfo">
+	<!-- <cache type="org.mybatis.caches.ehcache.LoggingEhcache" readOnly="true" 
+		/> -->
+
+	<resultMap id="ResultMap" type="main.com.weixinshop.dao.vo.ShopOrdersInfoVo">
+		<id column="orderInfoId" property="orderInfoId" jdbcType="INTEGER" />
+		<result column="ordersId" property="ordersId" jdbcType="INTEGER" />
+		<result column="goodsId" property="goodsId" jdbcType="INTEGER" />
+		<result column="amount" property="amount" jdbcType="DOUBLE" />
+		<result column="totalAmount" property="totalAmount" jdbcType="DOUBLE" />
+		<result column="startDate" property="startDate" jdbcType="TIMESTAMP" />
+		<result column="goodsName" property="goodsName" jdbcType="VARCHAR" />
+		<result column="salesTagId" property="salesTagId" jdbcType="INTEGER" />
+		<result column="isPaperCheck" property="isPaperCheck" jdbcType="TINYINT" />
+		<result column="colorTypeId" property="colorTypeId" jdbcType="INTEGER" />
+		<result column="goodsNumber" property="goodsNumber" jdbcType="INTEGER" />
+		<result column="isJudge" property="isJudge" jdbcType="TINYINT" />
+		<result column="judgeId" property="judgeId" jdbcType="INTEGER" />
+		<result column="goodsBrief" property="goodsBrief" jdbcType="VARCHAR" />
+		
+		<result column="colorTypeName" property="colorTypeName" jdbcType="VARCHAR" />
+		<result column="goodsImage" property="goodsImage" jdbcType="VARCHAR" />
+		<result column="goodsTypeId" property="goodsTypeId" jdbcType="INTEGER" />
+		<result column="goodsTypeName" property="goodsTypeName" jdbcType="VARCHAR" />
+		</resultMap>
+	
+	<sql id="DB_Column_List">
+		shop_ordersinfo.orderInfoId,
+		shop_ordersinfo.ordersId,
+		shop_ordersinfo.goodsId,
+		shop_ordersinfo.amount,
+		shop_ordersinfo.totalAmount,
+		shop_ordersinfo.startDate,
+		shop_ordersinfo.goodsName,
+		shop_ordersinfo.salesTagId,
+		shop_ordersinfo.colorTypeId,
+		shop_ordersinfo.isPaperCheck,
+		shop_ordersinfo.isJudge,
+		shop_ordersinfo.judgeId,
+		shop_ordersinfo.goodsBrief,
+		shop_ordersinfo.goodsNumber,
+		shop_ordersinfo.colorTypeName,
+		shop_ordersinfo.goodsImage,
+		shop_ordersinfo.goodsTypeId,
+		shop_ordersinfo.goodsTypeName
+	</sql>
+
+	<sql id="Where_Condition">
+		<where>
+			<trim prefixOverrides="and">
+				<!-- 匹配查询 -->
+				<if test="orderInfoId != null">and shop_ordersinfo.orderInfoId = #{orderInfoId}</if>
+				<if test="ordersId != null">and shop_ordersinfo.ordersId = #{ordersId}</if>
+				<if test="goodsId != null">and shop_ordersinfo.goodsId = #{goodsId}</if>								
+				<if test="goodsTypeId != null">and shop_ordersinfo.goodsTypeId = #{goodsTypeId}</if>								
+<!-- 				<if test="goodsName != null">and shop_ordersinfo.goodsName = #{goodsName}</if>								 -->
+				<!-- 模糊查询 -->
+			</trim>
+		</where>
+	</sql>
+
+
+	<!-- 查询总数 -->
+	<select id="selectCount" resultType="java.lang.Long"
+		parameterType="java.util.Map">
+		select count(orderInfoId) from shop_ordersinfo
+		<include refid="Where_Condition" />
+	</select>
+
+	<!-- 查询 -->
+	<select id="select" resultMap="ResultMap" parameterType="java.util.Map">
+		select
+		<include refid="DB_Column_List" />
+		from shop_ordersinfo
+		<include refid="Where_Condition" />
+		<if test="isPage== true and offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+	</select>
+
+	<!-- 根据ID查询 -->
+	<select id="selectById" resultMap="ResultMap" parameterType="java.lang.Integer">
+		select
+		<include refid="DB_Column_List" />
+		from shop_ordersinfo
+		where shop_ordersinfo.orderInfoId = #{orderInfoId}
+	</select>
+	
+	<!-- 根据ID查询 -->
+	<select id="selectByCode" resultMap="ResultMap" parameterType="java.lang.String">
+		select
+		<include refid="DB_Column_List" />
+		from shop_ordersinfo
+		where shop_ordersinfo.orderCode = #{orderCode}
+	</select>
+	
+	<!-- 根据ID查询 -->
+	<select id="selectBySessionId" resultMap="ResultMap" parameterType="java.lang.String">
+		select
+		<include refid="DB_Column_List" />
+		from shop_ordersinfo
+		where shop_ordersinfo.sessionId = #{sessionId}
+	</select>
+	<!-- 添加 -->
+	<insert id="insert" parameterType="main.com.weixinshop.dao.po.ShopOrdersInfo" useGeneratedKeys="true" keyProperty="orderInfoId">
+		insert into shop_ordersinfo
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="ordersId != null"> ordersId, </if>
+			<if test="goodsId != null"> goodsId, </if>
+			<if test="amount != null"> amount, </if>
+			<if test="totalAmount != null"> totalAmount, </if>
+			<if test="startDate != null"> startDate, </if>
+			<if test="goodsName != null"> goodsName, </if>
+			<if test="salesTagId != null"> salesTagId, </if>
+			<if test="colorTypeId != null"> colorTypeId, </if>
+			<if test="isPaperCheck != null"> isPaperCheck, </if>
+			<if test="goodsNumber != null"> goodsNumber, </if>
+			<if test="isJudge != null"> isJudge, </if>
+			<if test="judgeId != null"> judgeId, </if>
+			<if test="goodsBrief != null"> goodsBrief, </if>
+			<if test="colorTypeName != null"> colorTypeName, </if>
+			<if test="goodsImage != null"> goodsImage, </if>
+			<if test="goodsTypeId != null"> goodsTypeId, </if>
+			<if test="goodsTypeName != null"> goodsTypeName, </if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="ordersId != null"> #{ordersId}, </if>
+			<if test="goodsId != null"> #{goodsId}, </if>
+			<if test="amount != null"> #{amount}, </if>
+			<if test="totalAmount != null"> #{totalAmount}, </if>
+			<if test="startDate != null"> #{startDate}, </if>
+			<if test="goodsName != null"> #{goodsName}, </if>
+			<if test="salesTagId != null"> #{salesTagId}, </if>
+			<if test="colorTypeId != null"> #{colorTypeId}, </if>
+			<if test="isPaperCheck != null"> #{isPaperCheck}, </if>
+			<if test="goodsNumber != null"> #{goodsNumber}, </if>
+			<if test="isJudge != null"> #{isJudge}, </if>
+			<if test="judgeId != null"> #{judgeId}, </if>
+			<if test="goodsBrief != null"> #{goodsBrief}, </if>
+			<if test="colorTypeName != null"> #{colorTypeName}, </if>
+			<if test="goodsImage != null"> #{goodsImage}, </if>
+			<if test="goodsTypeId != null"> #{goodsTypeId}, </if>
+			<if test="goodsTypeName != null"> #{goodsTypeName}, </if>
+		</trim>
+	</insert>
+
+	<!-- 更新 -->
+	<update id="updateById" parameterType="main.com.weixinshop.dao.po.ShopOrdersInfo">
+		update
+		shop_ordersinfo
+		<set>
+			<if test="ordersId != null">ordersId = #{ordersId}, </if>
+			<if test="goodsId != null"> goodsId = #{goodsId}, </if>
+			<if test="amount != null"> amount = #{amount}, </if>
+			<if test="totalAmount != null"> totalAmount = #{totalAmount}, </if>
+			<if test="startDate != null"> startDate = #{startDate}, </if>
+			<if test="goodsName != null"> goodsName = #{goodsName}, </if>
+			<if test="salesTagId != null"> salesTagId = #{salesTagId}, </if>
+			<if test="colorTypeId != null"> colorTypeId = #{colorTypeId}, </if>
+			<if test="isPaperCheck != null"> isPaperCheck = #{isPaperCheck}, </if>
+			<if test="goodsNumber != null"> goodsNumber = #{goodsNumber}, </if>
+			<if test="isJudge != null"> isJudge = #{isJudge}, </if>
+			<if test="judgeId != null"> judgeId = #{judgeId}, </if>
+			<if test="goodsBrief != null"> goodsBrief = #{goodsBrief}, </if>
+			<if test="colorTypeName != null"> colorTypeName = #{colorTypeName}, </if>
+			<if test="goodsImage != null"> goodsImage = #{goodsImage}, </if>
+			<if test="goodsTypeId != null"> goodsTypeId = #{goodsTypeId}, </if>
+			<if test="goodsTypeName != null"> goodsTypeName = #{goodsTypeName}, </if>
+		</set>
+		where orderInfoId = #{orderInfoId}
+	</update>
+	
+	
+	<!-- 批量更新 -->
+	<update id="batchUpdate"  parameterType="java.util.List">
+          <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            update 
+				shop_ordersinfo 
+			<set>
+			<if test="item.ordersId != null">ordersId = #{item.ordersId}, </if>
+			<if test="item.goodsId != null"> goodsId = #{item.goodsId}, </if>
+			<if test="item.amount != null"> amount = #{item.amount}, </if>
+			<if test="item.totalAmount != null"> totalAmount = #{item.totalAmount}, </if>
+			<if test="item.startDate != null"> startDate = #{item.startDate}, </if>
+			<if test="item.goodsName != null"> goodsName = #{item.goodsName}, </if>
+			<if test="item.salesTagId != null"> salesTagId = #{item.salesTagId}, </if>
+			<if test="item.colorTypeId != null"> colorTypeId = #{item.colorTypeId}, </if>
+			<if test="item.isPaperCheck != null"> isPaperCheck = #{item.isPaperCheck}, </if>
+			<if test="item.goodsNumber != null"> goodsNumber = #{item.goodsNumber}, </if>
+			<if test="item.isJudge != null"> isJudge = #{item.isJudge}, </if>
+			<if test="item.judgeId != null"> judgeId = #{item.judgeId}, </if>
+			<if test="item.goodsBrief != null"> goodsBrief = #{item.goodsBrief}, </if>
+			<if test="item.colorTypeName != null"> colorTypeName = #{item.colorTypeName}, </if>
+			<if test="item.goodsImage != null"> goodsImage = #{item.goodsImage}, </if>
+			<if test="item.goodsTypeId != null"> goodsTypeId = #{item.goodsTypeId}, </if>
+			<if test="item.goodsTypeName != null"> goodsTypeName = #{item.goodsTypeName}, </if>
+			</set> 
+			 where orderInfoId = #{item.orderInfoId} 
+         </foreach>
+    </update>
+
+	<!-- 根据ID删除 -->
+	<delete id="deleteById" parameterType="java.lang.Integer">
+		delete from shop_ordersinfo
+		where
+		orderInfoId = #{orderInfoId}
+	</delete>
+
+	<!-- 删除 -->
+	<delete id="delete" parameterType="java.util.Map">
+		delete from shop_ordersinfo
+		<include refid="Where_Condition" />
+	</delete>
+</mapper>

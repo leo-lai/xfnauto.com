@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="main.com.customer.dao.po.UsersTmpl">
+
+  <resultMap id="BaseResultMap" type="main.com.customer.dao.vo.UsersTmplVo">
+    <id column="users_temp_id" jdbcType="INTEGER" property="usersTempId" />
+    <result column="customer_users_name" jdbcType="VARCHAR" property="customerUsersName" />
+    <result column="nike_name" jdbcType="VARCHAR" property="nikeName" />
+    <result column="phone_number" jdbcType="VARCHAR" property="phoneNumber" />
+    <result column="agent_gender" jdbcType="INTEGER" property="agentGender" />
+    <result column="head_portrait" jdbcType="VARCHAR" property="headPortrait" />
+    <result column="session_id" jdbcType="VARCHAR" property="sessionId" />
+    <result column="state" jdbcType="INTEGER" property="state" />
+    <result column="public_sign_open_id" jdbcType="VARCHAR" property="publicSignOpenId" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="public_sign_opend_id" jdbcType="VARCHAR" property="publicSignOpendId" />
+    <result column="public_sign_is_push" jdbcType="VARCHAR" property="publicSignIsPush" />
+    <result column="public_sign_is_follow" jdbcType="VARCHAR" property="publicSignIsFollow" />
+    <result column="union_id" jdbcType="VARCHAR" property="unionId" />
+    <result column="app_program_open_id" jdbcType="VARCHAR" property="appProgramOpenId" />
+    <result column="customer_users_id" jdbcType="VARCHAR" property="customerUsersId" />
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    users_temp_id, customer_users_name, nike_name, phone_number, agent_gender, head_portrait, 
+    session_id, state, public_sign_open_id, create_date, public_sign_opend_id, public_sign_is_push, 
+    public_sign_is_follow, union_id, app_program_open_id,customer_users_id
+  </sql>
+  
+  <sql id="Where_Condition">
+		<where>
+			<trim prefixOverrides="and">
+				<!-- 匹配查询 -->
+				<if test="customerUsersId != null">and customer_userstemp.customer_users_id = #{customerUsersId}</if>
+				<if test="usersTempId != null">and customer_userstemp.users_temp_id = #{usersTempId}</if>
+				<!-- 模糊查询 -->
+				
+				<!-- list查询 -->
+				<if test="ids != null">and customer_userstemp.users_temp_id in
+                    <foreach close=")" collection="ids" index="index" item="item" open="(" separator=",">
+                        #{item}
+                    </foreach>
+                </if>
+			</trim>
+		</where>
+	</sql>
+
+
+	<!-- 查询总数 -->
+	<select id="selectCount" parameterType="java.util.Map" resultType="java.lang.Long">
+		select count(users_temp_id) from customer_userstemp
+		<include refid="Where_Condition" />
+	</select>
+
+	<!-- 查询 -->
+	<select id="select" parameterType="java.util.Map" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from customer_userstemp
+		<include refid="Where_Condition" />
+		<if test="sortField != null"> order by users_temp_id desc </if>
+		<if test="isPage== true and offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+	</select>
+  
+  <select id="selectById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from customer_userstemp
+    where users_temp_id = #{customerUsersId,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectByCode" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from customer_userstemp
+    where customer_userstemp.app_program_open_id = #{appProgramOpenId}
+  </select>
+  
+  <select id="selectByPhone" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from customer_userstemp
+    where customer_userstemp.phone_number = #{phone}
+  </select>
+  
+  <select id="selectBySessionId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from customer_userstemp
+    where customer_userstemp.session_id = #{sessionId}
+  </select>
+  
+  <delete id="deleteById" parameterType="java.lang.Integer">
+    delete from customer_userstemp
+    where users_temp_id = #{customerUsersId,jdbcType=INTEGER}
+  </delete>
+  
+  <insert id="insert" keyProperty="customerUsersId" parameterType="main.com.customer.dao.po.UsersTmpl" useGeneratedKeys="true">
+    insert into customer_userstemp
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="customerUsersName != null">
+        customer_users_name,
+      </if>
+      <if test="nikeName != null">
+        nike_name,
+      </if>
+      <if test="phoneNumber != null">
+        phone_number,
+      </if>
+      <if test="agentGender != null">
+        agent_gender,
+      </if>
+      <if test="headPortrait != null">
+        head_portrait,
+      </if>
+      <if test="sessionId != null">
+        session_id,
+      </if>
+      <if test="state != null">
+        state,
+      </if>
+      <if test="publicSignOpenId != null">
+        public_sign_open_id,
+      </if>
+      <if test="createDate != null">
+        create_date,
+      </if>
+      <if test="publicSignOpendId != null">
+        public_sign_opend_id,
+      </if>
+      <if test="publicSignIsPush != null">
+        public_sign_is_push,
+      </if>
+      <if test="publicSignIsFollow != null">
+        public_sign_is_follow,
+      </if>
+      <if test="unionId != null">
+        union_id,
+      </if>
+      <if test="appProgramOpenId != null">
+        app_program_open_id,
+      </if>
+      <if test="customerUsersId != null">
+        customer_users_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="customerUsersName != null">
+        #{customerUsersName,jdbcType=VARCHAR},
+      </if>
+      <if test="nikeName != null">
+        #{nikeName,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneNumber != null">
+        #{phoneNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="agentGender != null">
+        #{agentGender,jdbcType=INTEGER},
+      </if>
+      <if test="headPortrait != null">
+        #{headPortrait,jdbcType=VARCHAR},
+      </if>
+      <if test="sessionId != null">
+        #{sessionId,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=INTEGER},
+      </if>
+      <if test="publicSignOpenId != null">
+        #{publicSignOpenId,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="publicSignOpendId != null">
+        #{publicSignOpendId,jdbcType=VARCHAR},
+      </if>
+      <if test="publicSignIsPush != null">
+        #{publicSignIsPush,jdbcType=VARCHAR},
+      </if>
+      <if test="publicSignIsFollow != null">
+        #{publicSignIsFollow,jdbcType=VARCHAR},
+      </if>
+      <if test="unionId != null">
+        #{unionId,jdbcType=VARCHAR},
+      </if>
+      <if test="appProgramOpenId != null">
+        #{appProgramOpenId,jdbcType=VARCHAR},
+      </if>
+      <if test="customerUsersId != null">
+        #{customerUsersId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateById" parameterType="main.com.customer.dao.po.UsersTmpl">
+    update customer_userstemp
+    <set>
+      <if test="customerUsersName != null">
+        customer_users_name = #{customerUsersName,jdbcType=VARCHAR},
+      </if>
+      <if test="nikeName != null">
+        nike_name = #{nikeName,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneNumber != null">
+        phone_number = #{phoneNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="agentGender != null">
+        agent_gender = #{agentGender,jdbcType=INTEGER},
+      </if>
+      <if test="headPortrait != null">
+        head_portrait = #{headPortrait,jdbcType=VARCHAR},
+      </if>
+      <if test="sessionId != null">
+        session_id = #{sessionId,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null">
+        state = #{state,jdbcType=INTEGER},
+      </if>
+      <if test="publicSignOpenId != null">
+        public_sign_open_id = #{publicSignOpenId,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="publicSignOpendId != null">
+        public_sign_opend_id = #{publicSignOpendId,jdbcType=VARCHAR},
+      </if>
+      <if test="publicSignIsPush != null">
+        public_sign_is_push = #{publicSignIsPush,jdbcType=VARCHAR},
+      </if>
+      <if test="publicSignIsFollow != null">
+        public_sign_is_follow = #{publicSignIsFollow,jdbcType=VARCHAR},
+      </if>
+      <if test="unionId != null">
+        union_id = #{unionId,jdbcType=VARCHAR},
+      </if>
+      <if test="appProgramOpenId != null">
+        app_program_open_id = #{appProgramOpenId},
+      </if>
+      <if test="customerUsersId != null">
+        customer_users_id = #{customerUsersId},
+      </if>
+    </set>
+    where users_temp_id = #{usersTempId,jdbcType=INTEGER}
+  </update>
+</mapper>

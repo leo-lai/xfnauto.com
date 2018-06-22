@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="main.com.stock.dao.po.ConsumerOrderUser" >
+  <resultMap id="BaseResultMap" type="main.com.stock.dao.po.ConsumerOrderUser" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="order_id" property="orderId" jdbcType="INTEGER" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="user_phone" property="userPhone" jdbcType="VARCHAR" />
+    <result column="id_card" property="idCard" jdbcType="VARCHAR" />
+    <result column="id_card_pic_on" property="idCardPicOn" jdbcType="VARCHAR" />
+    <result column="id_card_pic_off" property="idCardPicOff" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="TINYINT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="is_del" property="isDel" jdbcType="TINYINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, order_id, user_name, user_phone, id_card, id_card_pic_on, id_card_pic_off, type, 
+    create_time, is_del
+  </sql>
+  <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from consumer_order_user
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectByCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from consumer_order_user
+    where user_phone = #{phoneNumber}
+  </select>
+  <delete id="deleteById" parameterType="java.lang.Integer" >
+    delete from consumer_order_user
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="main.com.stock.dao.po.ConsumerOrderUser" useGeneratedKeys="true" keyProperty="id" >
+    insert into consumer_order_user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="orderId != null" >
+        order_id,
+      </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="userPhone != null" >
+        user_phone,
+      </if>
+      <if test="idCard != null" >
+        id_card,
+      </if>
+      <if test="idCardPicOn != null" >
+        id_card_pic_on,
+      </if>
+      <if test="idCardPicOff != null" >
+        id_card_pic_off,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="isDel != null" >
+        is_del,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="orderId != null" >
+        #{orderId,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userPhone != null" >
+        #{userPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="idCard != null" >
+        #{idCard,jdbcType=VARCHAR},
+      </if>
+      <if test="idCardPicOn != null" >
+        #{idCardPicOn,jdbcType=VARCHAR},
+      </if>
+      <if test="idCardPicOff != null" >
+        #{idCardPicOff,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDel != null" >
+        #{isDel,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateById" parameterType="main.com.stock.dao.po.ConsumerOrderUser" >
+    update consumer_order_user
+    <set >
+      <if test="orderId != null" >
+        order_id = #{orderId,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="userPhone != null" >
+        user_phone = #{userPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="idCard != null" >
+        id_card = #{idCard,jdbcType=VARCHAR},
+      </if>
+      <if test="idCardPicOn != null" >
+        id_card_pic_on = #{idCardPicOn,jdbcType=VARCHAR},
+      </if>
+      <if test="idCardPicOff != null" >
+        id_card_pic_off = #{idCardPicOff,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=TINYINT},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDel != null" >
+        is_del = #{isDel,jdbcType=TINYINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="main.com.stock.dao.po.ConsumerOrderUser" >
+    update consumer_order_user
+    set order_id = #{orderId,jdbcType=INTEGER},
+      user_name = #{userName,jdbcType=VARCHAR},
+      user_phone = #{userPhone,jdbcType=VARCHAR},
+      id_card = #{idCard,jdbcType=VARCHAR},
+      id_card_pic_on = #{idCardPicOn,jdbcType=VARCHAR},
+      id_card_pic_off = #{idCardPicOff,jdbcType=VARCHAR},
+      type = #{type,jdbcType=TINYINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      is_del = #{isDel,jdbcType=TINYINT}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <sql id="where">
+  	<where>
+  		<trim prefixOverrides="and">
+  			<if test="type != null">
+	  			and u.type = #{type}
+	  		</if>
+	  		<if test="orderId != null">
+	  			and u.order_id = #{orderId}
+	  		</if>
+	  		<if test="isDel != null">
+	  			and u.is_del = #{isDel}
+	  		</if>
+	  		<if test="userPhone != null">
+	  			and u.user_phone = #{userPhone}
+	  		</if>
+	  		<!-- list查询 -->
+				<if test="ids != null">and u.id in
+                    <foreach item="item" index="index" collection="ids"
+                             open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+  		</trim>
+  		
+  	</where>
+  </sql>
+  
+  <select id="select" parameterType="java.util.Map" resultMap="BaseResultMap">
+  	select u.*
+  	from consumer_order_user u
+  	<include refid="where" />
+  </select>
+</mapper>

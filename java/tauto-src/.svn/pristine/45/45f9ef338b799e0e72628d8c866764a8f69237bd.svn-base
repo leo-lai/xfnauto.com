@@ -1,0 +1,57 @@
+#debug config  is debug model
+isdebug = true
+#defaule companyRate if not config comapanyRate return 
+defaultRate = 1.0
+#All in pay appId
+appId=
+#All in pay MD5Key
+MD5Key=1234567890
+#All in pay inputCharset(1UTF8,2GBK,3GB2312)
+inputCharset=1
+#All in pay pickup URL
+pickupUrl=
+#All in pay receive URL
+receiveUrl=https://tomcat.xfnauto.com/tauto/allInPayWeb/resultPayWeb
+#ALL in pay version 
+version=v1.0
+#ALL in pay version
+queryVersion=v1.5
+#All in pay return pay version
+returnPayVersion=v2.3
+#All in pay query return pay version
+queryreturnPayVersion=v2.4
+#All in pay page language(1CN,2HK,3EN)
+language=1
+#All in pay signType
+signType=0
+#All in pay merchantId
+merchantId=109127551712002
+#All in pay orderCurrency(0and156RMB,840$,344HKD)
+orderCurrency=0
+#All in pay orderExpireDatetime in minute
+orderExpireDatetime=9999
+#All in pay payType
+payType=0
+#All in pay homeUrl of test
+homeQueryTest=http://ceshi.allinpay.com/gateway/index.do
+#All in pay homeUrl of real
+homeQueryReal=https://service.allinpay.com/gateway/index.do
+#All in pay payUrl of test
+payUrlTest=http://ceshi.allinpay.com/gateway/index.do
+#All in pay payUrl of real
+payUrlreal=https://service.allinpay.com/gateway/index.do
+
+homeQuery=http://ceshi.allinpay.com/gateway/index.do
+payUrl=https://service.allinpay.com/gateway/index.do
+
+#All in pay query return pay of test
+returnPayQueryTest=http://ceshi.allinpay.com/mchtoq/refundQuery
+#All in pay query return pay of real
+returnPayQueryReal=https://service.allinpay.com/mchtoq/refundQuery
+
+returnPayQuery=https://service.allinpay.com/mchtoq/refundQuery
+
+partyA=广州传创投资有限公司
+bankAccountName=林泽群
+bankBranch=招商银行广州市海珠区新港支行
+bankCardNum=6214851203629618

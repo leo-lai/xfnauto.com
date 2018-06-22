@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+  PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+  "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<!-- 利用数据库自动生成 bean/xml文件-->
+    <generatorConfiguration>
+    <classPathEntry location="C:/Users/Zwen/maven/mysql/mysql-connector-java/5.1.38/mysql-connector-java-5.1.38.jar" />
+    <context id="DB2Tables" targetRuntime="MyBatis3">
+    
+		<!-- 生成的Java文件的编码-->
+	  <property name="javaFileEncoding" value="UTF-8"/>
+	     <!-- 格式化java代码-->
+    <property name="javaFormatter" value="org.mybatis.generator.api.dom.DefaultJavaFormatter"/>
+    
+       <!-- 格式化XML代码-->
+    <property name="xmlFormatter" value="org.mybatis.generator.api.dom.DefaultXmlFormatter"/>
+    
+    <!-- 拓展配置，自动提取数据库的注释变成字段的注释 -->
+      <commentGenerator type="main.com.Test.MyCommentGenerator"></commentGenerator> 
+  
+  <!-- 数据库链接配置 -->
+      <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://gz-cdb-b1xeazxc.sql.tencentcdb.com:63840/tautotest" userId="root" password="Tauto_wang2017"></jdbcConnection>
+            
+      <javaTypeResolver>
+         <property name="forceBigDecimals" value="false"/>
+      </javaTypeResolver>
+      
+         <!-- 指定生成 Java 模型对象所属的包 -->
+    <javaModelGenerator targetPackage="weixinHtml.dao.po" targetProject="src/main/com">
+      <property name="enableSubPackages" value="false" />
+      <property name="trimStrings" value="false" />
+    </javaModelGenerator>
+    
+    <!-- 指定生成 SQL 映射文件所属的包和的目标项目 -->
+    <sqlMapGenerator targetPackage="mapper.share"  targetProject="src/main/resources">
+      <property name="enableSubPackages" value="false" />
+      <property name="trimStrings" value="false" />
+    </sqlMapGenerator>
+    
+    <!-- 指定目标包和目标项目生成的客户端接口和类 -->
+<!--     <javaClientGenerator type="XMLMAPPER" targetPackage="customer.dao.po"  targetProject="src/main/com"> -->
+<!--       <property name="enableSubPackages" value="true" /> -->
+<!--     </javaClientGenerator> -->
+
+
+    
+	<table  tableName="shop_goods_cars" domainObjectName="ShopGoodsCars" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false">
+     	<generatedKey column="goods_cars_id" sqlStatement="JDBC"/>
+	</table>
+
+<!--        <table  tableName="logistics_goods_car_costs" domainObjectName="LogisticsGoodsCarCosts" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false"> -->
+<!--      <generatedKey column="logistics_goods_car_costs_id" sqlStatement="JDBC"/> -->
+<!--       </table> -->
+     
+    </context>
+  </generatorConfiguration>

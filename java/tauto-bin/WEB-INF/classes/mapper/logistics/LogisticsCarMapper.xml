@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="main.com.logistics.dao.po.LogisticsCar" >
+
+  <resultMap id="BaseResultMap" type="main.com.logistics.dao.vo.LogisticsCarVo" >
+    <id column="logistics_car_id" property="logisticsCarId" jdbcType="INTEGER" />
+    <result column="logistics_car_address" property="logisticsCarAddress" jdbcType="VARCHAR" />
+    <result column="org_id" property="orgId" jdbcType="INTEGER" />
+    <result column="org_name" property="orgName" jdbcType="VARCHAR" />
+    <result column="logistics_car_type" property="logisticsCarType" jdbcType="INTEGER" />
+    <result column="logistics_car_vacancy" property="logisticsCarVacancy" jdbcType="INTEGER" />
+    <result column="logistics_car_nature" property="logisticsCarNature" jdbcType="INTEGER" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+    <result column="logistics_car_state" property="logisticsCarState" jdbcType="INTEGER" />
+    <result column="is_enable" property="isEnable" jdbcType="TINYINT" />
+    <result column="is_delete" property="isDelete" jdbcType="TINYINT" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="license_plate_number" property="licensePlateNumber" jdbcType="VARCHAR" />
+    <result column="gps_name" property="gpsName" jdbcType="VARCHAR" />
+    <result column="gps_pin" property="gpsPIN" jdbcType="VARCHAR" />
+    <result column="consignment_type" property="consignmentType" jdbcType="INTEGER" />    
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    logistics_car_id, logistics_car_address, org_id, org_name, logistics_car_type, logistics_car_vacancy, 
+    logistics_car_nature, remarks, logistics_car_state, is_enable, is_delete, create_date,gps_name,gps_pin,
+    license_plate_number,consignment_type
+  </sql>
+  
+   <sql id="Where_Condition">
+		<where>
+			<trim prefixOverrides="and">
+				<!-- 匹配查询 -->
+				<if test="logisticsCarId != null">and logistics_car.logistics_car_id = #{logisticsCarId}</if>				
+				<if test="licensePlateNumber != null and licensePlateNumber != ''">and logistics_car.license_plate_number like CONCAT('%',#{licensePlateNumber},'%')</if>	
+				<if test="gpsPin != null and gpsPin != ''">and logistics_car.gps_pin = #{gpsPin}</if>	
+				<if test="keywords != null and keywords != ''">and logistics_car.license_plate_number like CONCAT('%',#{keywords},'%')</if>	
+				<if test="1 == 1">and logistics_car.is_delete = 0</if>	
+				<if test="isEnable == true">and logistics_car.is_enable = 1</if>	
+				
+				<if test="orgCodeLevel != null and orgCodeLevel != null">and (logistics_car.org_id IN (select orgId from system_organization where system_organization.orgCodeLevel like
+                    CONCAT('%',#{orgCodeLevel},'%')))
+                </if>
+                
+				<!-- list查询 -->
+				<if test="ids != null">and logistics_car.logistics_car_id in
+                    <foreach item="item" index="index" collection="ids"
+                             open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+			</trim>
+		</where>
+	</sql>
+
+	<!-- 查询总数 -->
+	<select id="selectCount" resultType="java.lang.Long"
+		parameterType="java.util.Map">
+		select count(logistics_car_id) from logistics_car
+		<include refid="Where_Condition" />
+	</select>
+
+	<!-- 查询 -->
+	<select id="select" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List" />
+		from logistics_car
+		<include refid="Where_Condition" />
+		<if test="sortField != null"> order by logistics_car.create_date desc </if>
+		<if test="isPage== true and offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+	</select>
+  
+  <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from logistics_car
+    where logistics_car_id = #{logisticsCarId,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectByGpsPin" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from logistics_car
+    where gps_pin = #{gpsPin} and is_enable = 1 and is_delete = 0
+  </select>
+  
+  <delete id="deleteById" parameterType="java.lang.Integer" >
+    delete from logistics_car
+    where logistics_car_id = #{logisticsCarId,jdbcType=INTEGER}
+  </delete>
+  
+  <insert id="insert" parameterType="main.com.logistics.dao.po.LogisticsCar" useGeneratedKeys="true" keyProperty="logisticsCarId" >
+    insert into logistics_car
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="logisticsCarAddress != null" >
+        logistics_car_address,
+      </if>
+      <if test="orgId != null" >
+        org_id,
+      </if>
+      <if test="orgName != null" >
+        org_name,
+      </if>
+      <if test="logisticsCarType != null" >
+        logistics_car_type,
+      </if>
+      <if test="logisticsCarVacancy != null" >
+        logistics_car_vacancy,
+      </if>
+      <if test="logisticsCarNature != null" >
+        logistics_car_nature,
+      </if>
+      <if test="remarks != null" >
+        remarks,
+      </if>
+      <if test="logisticsCarState != null" >
+        logistics_car_state,
+      </if>
+      <if test="isEnable != null" >
+        is_enable,
+      </if>
+      <if test="isDelete != null" >
+        is_delete,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="licensePlateNumber != null" >
+        license_plate_number,
+      </if>
+      <if test="gpsName != null" >
+        gps_name,
+      </if>
+      <if test="gpsPIN != null" >
+        gps_pin,
+      </if>
+      <if test="consignmentType != null" >
+        consignment_type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="logisticsCarAddress != null" >
+        #{logisticsCarAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="orgId != null" >
+        #{orgId,jdbcType=INTEGER},
+      </if>
+      <if test="orgName != null" >
+        #{orgName,jdbcType=VARCHAR},
+      </if>
+      <if test="logisticsCarType != null" >
+        #{logisticsCarType,jdbcType=INTEGER},
+      </if>
+      <if test="logisticsCarVacancy != null" >
+        #{logisticsCarVacancy,jdbcType=INTEGER},
+      </if>
+      <if test="logisticsCarNature != null" >
+        #{logisticsCarNature,jdbcType=INTEGER},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="logisticsCarState != null" >
+        #{logisticsCarState,jdbcType=INTEGER},
+      </if>
+      <if test="isEnable != null" >
+        #{isEnable,jdbcType=TINYINT},
+      </if>
+      <if test="isDelete != null" >
+        #{isDelete,jdbcType=TINYINT},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="licensePlateNumber != null" >
+        #{licensePlateNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="gpsName != null" >
+        #{gpsName,jdbcType=VARCHAR},
+      </if>
+      <if test="gpsPIN != null" >
+        #{gpsPIN,jdbcType=VARCHAR},
+      </if>
+      <if test="consignmentType != null" >
+        #{consignmentType,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateById" parameterType="main.com.logistics.dao.po.LogisticsCar" >
+    update logistics_car
+    <set >
+      <if test="logisticsCarAddress != null" >
+        logistics_car_address = #{logisticsCarAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="orgId != null" >
+        org_id = #{orgId,jdbcType=INTEGER},
+      </if>
+      <if test="orgName != null" >
+        org_name = #{orgName,jdbcType=VARCHAR},
+      </if>
+      <if test="logisticsCarType != null" >
+        logistics_car_type = #{logisticsCarType,jdbcType=INTEGER},
+      </if>
+      <if test="logisticsCarVacancy != null" >
+        logistics_car_vacancy = #{logisticsCarVacancy,jdbcType=INTEGER},
+      </if>
+      <if test="logisticsCarNature != null" >
+        logistics_car_nature = #{logisticsCarNature,jdbcType=INTEGER},
+      </if>
+      <if test="remarks != null" >
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="logisticsCarState != null" >
+        logistics_car_state = #{logisticsCarState,jdbcType=INTEGER},
+      </if>
+      <if test="isEnable != null" >
+        is_enable = #{isEnable,jdbcType=TINYINT},
+      </if>
+      <if test="isDelete != null" >
+        is_delete = #{isDelete,jdbcType=TINYINT},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="licensePlateNumber != null" >
+        license_plate_number = #{licensePlateNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="gpsName != null" >
+        gps_name = #{gpsName,jdbcType=VARCHAR},
+      </if>
+      <if test="gpsPIN != null" >
+        gps_pin = #{gpsPIN,jdbcType=VARCHAR},
+      </if>
+      <if test="consignmentType != null" >
+        consignment_type = #{consignmentType,jdbcType=INTEGER},
+      </if>
+    </set>
+    where logistics_car_id = #{logisticsCarId,jdbcType=INTEGER}
+  </update>
+</mapper>

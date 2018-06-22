@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="main.com.system.dao.po.Dictionary">
+	<!-- <cache type="org.mybatis.caches.ehcache.LoggingEhcache" readOnly="true" 
+		/> -->
+
+	<resultMap id="ResultMap" type="main.com.system.dao.vo.DictionaryVo">
+		<id column="dictionaryId" property="dictionaryId" jdbcType="INTEGER" />
+		<result column="dictionaryName" property="dictionaryName" jdbcType="VARCHAR" />
+		<result column="isPaperCheck" property="isPaperCheck" jdbcType="TINYINT" />
+		<result column="dictionaryValue" property="dictionaryValue" jdbcType="VARCHAR" />
+		<result column="dictionaryGrouping" property="dictionaryGrouping" jdbcType="VARCHAR" />
+		<result column="dictionaryTile" property="dictionaryTile" jdbcType="VARCHAR" />
+		<result column="dictionaryContent" property="dictionaryContent" jdbcType="VARCHAR" />
+		<result column="dictionaryState" property="dictionaryState" jdbcType="VARCHAR" />
+		<result column="dictionaryShopTypesId" property="dictionaryShopTypesId" jdbcType="INTEGER" />
+		</resultMap>
+
+	<sql id="DB_Column_List">
+		system_datadictionary.dictionaryId,
+		system_datadictionary.dictionaryName,
+		system_datadictionary.dictionaryValue,
+		system_datadictionary.dictionaryGrouping,
+		system_datadictionary.dictionaryTile,
+		system_datadictionary.dictionaryContent,
+		system_datadictionary.dictionaryShopTypesId,
+		system_datadictionary.dictionaryState
+
+	</sql>
+
+	<sql id="Where_Condition">
+		<where>
+			<trim prefixOverrides="and">
+				<!-- 匹配查询 -->
+				<if test="dictionaryId != null">and system_datadictionary.dictionaryId = #{dictionaryId}</if>
+				<if test="dictionaryName != null">and system_datadictionary.dictionaryName = #{dictionaryName}</if>
+				<if test="dictionaryGrouping != null">and system_datadictionary.dictionaryGrouping = #{dictionaryGrouping}</if>								
+				<if test="dictionaryShopTypesId != null">and system_datadictionary.dictionaryShopTypesId = #{dictionaryShopTypesId}</if>								
+				<if test="dictionaryState != null">and system_datadictionary.dictionaryState = #{dictionaryState}</if>								
+				<!-- 模糊查询 -->
+				
+				<!-- list查询 -->
+				<if test="ids != null">and system_datadictionary.dictionaryId in
+                    <foreach item="item" index="index" collection="ids"
+                             open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+			</trim>
+		</where>
+	</sql>
+
+
+	<!-- 查询总数 -->
+	<select id="selectCount" resultType="java.lang.Long"
+		parameterType="java.util.Map">
+		select count(dictionaryId) from system_datadictionary
+		<include refid="Where_Condition" />
+	</select>
+
+	<!-- 查询 -->
+	<select id="select" resultMap="ResultMap" parameterType="java.util.Map">
+		select
+		<include refid="DB_Column_List" />
+		from system_datadictionary
+		<include refid="Where_Condition" />
+		<if test="isPage== true and offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+	</select>
+
+	<!-- 根据ID查询 -->
+	<select id="selectById" resultMap="ResultMap" parameterType="java.lang.Integer">
+		select
+		<include refid="DB_Column_List" />
+		from system_datadictionary
+		where system_datadictionary.dictionaryId = #{dictionaryId}
+	</select>
+	<!-- 添加 -->
+	<insert id="insert" parameterType="main.com.system.dao.po.Dictionary" useGeneratedKeys="true" keyProperty="dictionaryId">
+		insert into system_datadictionary
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="dictionaryName != null"> dictionaryName, </if>
+			<if test="dictionaryValue != null"> dictionaryValue, </if>
+			<if test="dictionaryGrouping != null"> dictionaryGrouping, </if>
+			<if test="dictionaryTile != null"> dictionaryTile, </if>
+			<if test="dictionaryContent != null"> dictionaryContent, </if>
+			<if test="dictionaryState != null"> dictionaryState, </if>
+			<if test="dictionaryShopTypesId != null"> dictionaryShopTypesId, </if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="dictionaryName != null">  #{dictionaryName}, </if>
+			<if test="dictionaryValue != null">  #{dictionaryValue}, </if>
+			<if test="dictionaryGrouping != null">  #{dictionaryGrouping}, </if>
+			<if test="dictionaryTile != null">  #{dictionaryTile}, </if>
+			<if test="dictionaryContent != null">  #{dictionaryContent}, </if>
+			<if test="dictionaryState != null">  #{dictionaryState}, </if>
+			<if test="dictionaryShopTypesId != null">  #{dictionaryShopTypesId}, </if>
+		</trim>
+	</insert>
+
+	<!-- 更新 -->
+	<update id="updateById" parameterType="main.com.system.dao.po.Dictionary">
+		update
+		system_datadictionary
+		<set>
+			<if test="dictionaryName != null">  dictionaryName = #{dictionaryName}, </if>
+			<if test="dictionaryValue != null">  dictionaryValue = #{dictionaryValue}, </if>
+			<if test="dictionaryGrouping != null">  dictionaryGrouping = #{dictionaryGrouping}, </if>
+			<if test="dictionaryTile != null">  dictionaryTile = #{dictionaryTile}, </if>
+			<if test="dictionaryContent != null">  dictionaryContent = #{dictionaryContent}, </if>
+			<if test="dictionaryState != null">  dictionaryState = #{dictionaryState}, </if>
+			<if test="dictionaryShopTypesId != null">  dictionaryShopTypesId = #{dictionaryShopTypesId}, </if>
+		</set>
+		where dictionaryId = #{dictionaryId}
+	</update>
+	
+	
+	<!-- 批量更新 -->
+	<update id="batchUpdate"  parameterType="java.util.List">
+          <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            update 
+				system_datadictionary 
+			<set>
+			<if test="item.dictionaryName != null">  dictionaryName = #{item.dictionaryName}, </if>
+			<if test="item.dictionaryValue != null">  dictionaryValue = #{item.dictionaryValue}, </if>
+			<if test="item.dictionaryGrouping != null">  dictionaryGrouping = #{item.dictionaryGrouping}, </if>
+			<if test="item.dictionaryTile != null">  dictionaryTile = #{item.dictionaryTile}, </if>
+			<if test="item.dictionaryContent != null">  dictionaryContent = #{item.dictionaryContent}, </if>
+			<if test="item.dictionaryState != null">  dictionaryState = #{item.dictionaryState}, </if>
+			<if test="item.dictionaryShopTypesId != null">  dictionaryShopTypesId = #{item.dictionaryShopTypesId}, </if>
+			</set> 
+			 where dictionaryId = #{item.dictionaryId} 
+         </foreach>
+    </update>
+    
+	<update id="batchUpdateByOne"  parameterType="java.util.List">
+          <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            update 
+				system_datadictionary 
+			<set>
+			<if test="item.isDefault != null"> isDefault = #{item.isDefault}, </if>
+			</set> 
+			 where dictionaryId = #{item.dictionaryId} 
+         </foreach>
+    </update>
+
+	<!-- 根据ID删除 -->
+	<delete id="deleteById" parameterType="java.lang.Integer">
+		delete from system_datadictionary
+		where
+		dictionaryId = #{dictionaryId}
+	</delete>
+
+	<!-- 删除 -->
+	<delete id="delete" parameterType="java.util.Map">
+		delete from system_datadictionary
+		<include refid="Where_Condition" />
+	</delete>
+</mapper>

@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="main.com.weixinshop.dao.po.ShopBecomeAgent">
+	<!-- <cache type="org.mybatis.caches.ehcache.LoggingEhcache" readOnly="true" 
+		/> -->
+
+	<resultMap id="ResultMap" type="main.com.weixinshop.dao.vo.ShopBecomeAgentVo">
+		<id column="becomeAgentId" property="becomeAgentId" jdbcType="INTEGER" />
+		<result column="goodsTypeId" property="goodsTypeId" jdbcType="VARCHAR" />
+		<result column="goodsNumber" property="goodsNumber" jdbcType="INTEGER" />
+		<result column="rebateInfoId" property="rebateInfoId" jdbcType="INTEGER" />
+		<result column="isAutomatic" property="isAutomatic" jdbcType="INTEGER" />
+		<result column="isDelete" property="isDelete" jdbcType="TINYINT" />
+		<result column="agentId" property="agentId" jdbcType="INTEGER" />
+		</resultMap>
+
+	<sql id="DB_Column_List">
+		shop_becomeagent.becomeAgentId,
+		shop_becomeagent.goodsTypeId,
+		shop_becomeagent.goodsNumber,
+		shop_becomeagent.rebateInfoId,
+		shop_becomeagent.isAutomatic,
+		shop_becomeagent.agentId,
+		shop_becomeagent.isDelete
+	</sql>
+
+	<sql id="Where_Condition">
+		<where>
+			<trim prefixOverrides="and">
+				<!-- 匹配查询 -->
+				<if test="becomeAgentId != null">and shop_becomeagent.becomeAgentId = #{becomeAgentId}</if>
+				<if test="goodsTypeId != null">and shop_becomeagent.goodsTypeId like CONCAT('%',#{goodsTypeId},'%')</if>
+<!-- 				<if test="phoneNum != null">and mem_personal_attribute.phonenum like CONCAT('%',#{phoneNum},'%')</if>				 -->
+				<if test="rebateInfoId != null">and shop_becomeagent.rebateInfoId = #{rebateInfoId}</if>
+				<if test="agentId != null">and shop_becomeagent.agentId = #{agentId}</if>
+				<if test="isAutomatic != null">and shop_becomeagent.isAutomatic = #{isAutomatic}</if>								
+				<!-- 模糊查询 -->
+				<if test="1==1">and shop_becomeagent.isDelete = 0</if>
+			</trim>
+		</where>
+	</sql>
+
+
+	<!-- 查询总数 -->
+	<select id="selectCount" resultType="java.lang.Long"
+		parameterType="java.util.Map">
+		select count(becomeAgentId) from shop_becomeagent
+		<include refid="Where_Condition" />
+	</select>
+
+	<!-- 查询 -->
+	<select id="select" resultMap="ResultMap" parameterType="java.util.Map">
+		select
+		<include refid="DB_Column_List" />
+		from shop_becomeagent
+		<include refid="Where_Condition" />
+		<if test="isPage== true and offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+	</select>
+
+	<!-- 根据ID查询 -->
+	<select id="selectById" resultMap="ResultMap" parameterType="java.lang.Integer">
+		select
+		<include refid="DB_Column_List" />
+		from shop_becomeagent
+		where shop_becomeagent.becomeAgentId = #{becomeAgentId}
+	</select>
+	<!-- 根据ID查询 -->
+	<select id="selectBySessionId" resultMap="ResultMap" parameterType="java.lang.String">
+		select
+		<include refid="DB_Column_List" />
+		from shop_becomeagent
+		where shop_becomeagent.sessionId = #{sessionId}
+	</select>
+	<!-- 添加 -->
+	<insert id="insert" parameterType="main.com.weixinshop.dao.po.ShopBecomeAgent" useGeneratedKeys="true" keyProperty="becomeAgentId">
+		insert into shop_becomeagent
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="goodsTypeId != null"> goodsTypeId, </if>
+			<if test="goodsNumber != null"> goodsNumber, </if>
+			<if test="rebateInfoId != null"> rebateInfoId, </if>
+			<if test="isAutomatic != null"> isAutomatic, </if>
+			<if test="isDelete != null"> isDelete, </if>
+			<if test="agentId != null"> agentId, </if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="goodsTypeId != null"> #{goodsTypeId}, </if>
+			<if test="goodsNumber != null"> #{goodsNumber}, </if>
+			<if test="rebateInfoId != null"> #{rebateInfoId}, </if>
+			<if test="isAutomatic != null"> #{isAutomatic}, </if>
+			<if test="isDelete != null"> #{isDelete}, </if>
+			<if test="agentId != null"> #{agentId}, </if>
+		</trim>
+	</insert>
+
+	<!-- 更新 -->
+	<update id="updateById" parameterType="main.com.weixinshop.dao.po.ShopBecomeAgent">
+		update
+		shop_becomeagent
+		<set>
+			<if test="goodsTypeId != null"> goodsTypeId = #{goodsTypeId}, </if>
+			<if test="goodsNumber != null"> goodsNumber = #{goodsNumber}, </if>
+			<if test="rebateInfoId != null"> rebateInfoId = #{rebateInfoId}, </if>
+			<if test="isAutomatic != null"> isAutomatic = #{isAutomatic}, </if>
+			<if test="isDelete != null"> isDelete = #{isDelete}, </if>
+			<if test="agentId != null"> agentId = #{agentId}, </if>
+		</set>
+		where becomeAgentId = #{becomeAgentId}
+	</update>
+	
+	
+	<!-- 批量更新 -->
+	<update id="batchUpdate"  parameterType="java.util.List">
+          <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            update 
+				shop_becomeagent 
+			<set>
+			<if test="item.goodsTypeId != null"> goodsTypeId = #{item.goodsTypeId}, </if>
+			<if test="item.goodsNumber != null"> goodsNumber = #{item.goodsNumber}, </if>
+			<if test="item.rebateInfoId != null"> rebateInfoId = #{item.rebateInfoId}, </if>
+			<if test="item.isAutomatic != null"> isAutomatic = #{item.isAutomatic}, </if>
+			<if test="item.isDelete != null"> isDelete = #{item.isDelete}, </if>
+			<if test="item.agentId != null"> agentId = #{item.agentId}, </if>
+			</set> 
+			 where becomeAgentId = #{item.becomeAgentId} 
+         </foreach>
+    </update>
+    
+	<update id="batchUpdateByOne"  parameterType="java.util.List">
+          <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            update 
+				shop_becomeagent 
+			<set>
+			<if test="item.isDelete != null"> isDelete = #{item.isDelete}, </if>
+			</set> 
+			 where becomeAgentId = #{item.becomeAgentId} 
+         </foreach>
+    </update>
+
+	<!-- 根据ID删除 -->
+	<delete id="deleteById" parameterType="java.lang.Integer">
+		delete from shop_becomeagent
+		where
+		becomeAgentId = #{becomeAgentId}
+	</delete>
+
+	<!-- 删除 -->
+	<delete id="delete" parameterType="java.util.Map">
+		delete from shop_becomeagent
+		<include refid="Where_Condition" />
+	</delete>
+</mapper>

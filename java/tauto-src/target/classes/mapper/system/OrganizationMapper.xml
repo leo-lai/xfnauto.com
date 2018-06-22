@@ -1,0 +1,383 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="main.com.system.dao.po.Organization">
+<!-- 	<cache type="org.mybatis.caches.ehcache.LoggingEhcache" readOnly="true" /> -->
+
+	<resultMap id="OrgResultMap" type="main.com.system.dao.vo.OrganizationVo">
+		<id column="orgId" property="orgId" jdbcType="INTEGER" />
+		<result column="parentId" property="parentId" jdbcType="INTEGER" />
+		<result column="seq" property="seq" jdbcType="INTEGER" />
+		<result column="orgCode" property="orgCode" jdbcType="VARCHAR" />
+		<result column="name" property="text" jdbcType="VARCHAR" />
+		<result column="shortName" property="shortName" jdbcType="VARCHAR" />
+		<result column="provinceId" property="provinceId" jdbcType="VARCHAR" />
+		<result column="cityId" property="cityId" jdbcType="VARCHAR" />
+		<result column="areaId" property="areaId" jdbcType="VARCHAR" />
+		<result column="provinceName" property="provinceName" jdbcType="VARCHAR" />
+		<result column="cityName" property="cityName" jdbcType="VARCHAR" />
+		<result column="areaName" property="areaName" jdbcType="VARCHAR" />
+		<result column="address" property="address" jdbcType="VARCHAR" />
+		<result column="zipcode" property="zipCode" jdbcType="VARCHAR" />
+		<result column="linkman" property="linkMan" jdbcType="VARCHAR" />
+		<result column="telephone" property="telePhone" jdbcType="VARCHAR" />
+		<result column="orgtype" property="orgType" jdbcType="INTEGER" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+		<result column="status" property="status" jdbcType="INTEGER" />
+		<result column="longitude" property="longitude" jdbcType="DOUBLE" />
+		<result column="latitude" property="latitude" jdbcType="DOUBLE" />
+		<result column="orgLink" property="orgLink" jdbcType="VARCHAR" />
+		<result column="imageurl" property="imageUrl" jdbcType="VARCHAR" />
+		<result column="orgLevel" property="orgLevel" jdbcType="INTEGER" />
+		<result column="imgIntroduce" property="imgIntroduce" jdbcType="VARCHAR" />
+		<result column="orgCodeLevel" property="orgCodeLevel" jdbcType="VARCHAR" />
+		<result column="bankAccount" property="bankAccount" jdbcType="VARCHAR" />
+		<result column="bankName" property="bankName" jdbcType="VARCHAR" />
+		<result column="openingBranch" property="openingBranch" jdbcType="VARCHAR" />
+		<result column="nameOfAccount" property="nameOfAccount" jdbcType="VARCHAR" />
+		<result column="introduce" property="introduce" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<resultMap id="OrgResultParentMap" type="main.com.system.dao.vo.OrganizationVo">
+		<id column="orgId" property="orgId" jdbcType="INTEGER" />
+		<result column="parentId" property="parentId" jdbcType="INTEGER" />
+		<result column="seq" property="seq" jdbcType="INTEGER" />
+		<result column="orgCode" property="orgCode" jdbcType="VARCHAR" />
+		<result column="name" property="text" jdbcType="VARCHAR" />
+		<result column="shortName" property="shortName" jdbcType="VARCHAR" />
+		<result column="provinceId" property="provinceId" jdbcType="VARCHAR" />
+		<result column="cityId" property="cityId" jdbcType="VARCHAR" />
+		<result column="areaId" property="areaId" jdbcType="VARCHAR" />
+		<result column="provinceName" property="provinceName" jdbcType="VARCHAR" />
+		<result column="cityName" property="cityName" jdbcType="VARCHAR" />
+		<result column="areaName" property="areaName" jdbcType="VARCHAR" />
+		<result column="address" property="address" jdbcType="VARCHAR" />
+		<result column="zipcode" property="zipCode" jdbcType="VARCHAR" />
+		<result column="linkman" property="linkMan" jdbcType="VARCHAR" />
+		<result column="telephone" property="telePhone" jdbcType="VARCHAR" />
+		<result column="orgtype" property="orgType" jdbcType="INTEGER" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+		<result column="status" property="status" jdbcType="INTEGER" />
+		<result column="longitude" property="longitude" jdbcType="DOUBLE" />
+		<result column="latitude" property="latitude" jdbcType="DOUBLE" />
+		<result column="orgLink" property="orgLink" jdbcType="VARCHAR" />
+		<result column="imageurl" property="imageUrl" jdbcType="VARCHAR" />
+		<result column="orgLevel" property="orgLevel" jdbcType="INTEGER" />
+		<result column="imgIntroduce" property="imgIntroduce" jdbcType="VARCHAR" />
+		<result column="orgCodeLevel" property="orgCodeLevel" jdbcType="VARCHAR" />
+		<result column="bankAccount" property="bankAccount" jdbcType="VARCHAR" />
+		<result column="bankName" property="bankName" jdbcType="VARCHAR" />
+		<result column="openingBranch" property="openingBranch" jdbcType="VARCHAR" />
+		<result column="nameOfAccount" property="nameOfAccount" jdbcType="VARCHAR" />
+		<result column="introduce" property="introduce" jdbcType="VARCHAR" />
+		<association property="orgParent" column="parentId" select="getParent"/>
+	</resultMap>
+	
+	<resultMap id="OrgResultAllListMap" type="main.com.system.dao.vo.OrganizationVo">
+		<id column="orgId" property="orgId" jdbcType="INTEGER" />
+		<result column="parentId" property="parentId" jdbcType="INTEGER" />
+		<result column="seq" property="seq" jdbcType="INTEGER" />
+		<result column="orgCode" property="orgCode" jdbcType="VARCHAR" />
+		<result column="name" property="text" jdbcType="VARCHAR" />
+		<result column="shortName" property="shortName" jdbcType="VARCHAR" />
+		<result column="provinceId" property="provinceId" jdbcType="VARCHAR" />
+		<result column="cityId" property="cityId" jdbcType="VARCHAR" />
+		<result column="areaId" property="areaId" jdbcType="VARCHAR" />
+		<result column="provinceName" property="provinceName" jdbcType="VARCHAR" />
+		<result column="cityName" property="cityName" jdbcType="VARCHAR" />
+		<result column="areaName" property="areaName" jdbcType="VARCHAR" />
+		<result column="address" property="address" jdbcType="VARCHAR" />
+		<result column="zipcode" property="zipCode" jdbcType="VARCHAR" />
+		<result column="linkman" property="linkMan" jdbcType="VARCHAR" />
+		<result column="telephone" property="telePhone" jdbcType="VARCHAR" />
+		<result column="orgtype" property="orgType" jdbcType="INTEGER" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+		<result column="status" property="status" jdbcType="INTEGER" />
+		<result column="longitude" property="longitude" jdbcType="DOUBLE" />
+		<result column="latitude" property="latitude" jdbcType="DOUBLE" />
+		<result column="orgLink" property="orgLink" jdbcType="VARCHAR" />
+		<result column="imageurl" property="imageUrl" jdbcType="VARCHAR" />
+		<result column="orgLevel" property="orgLevel" jdbcType="INTEGER" />
+		<result column="imgIntroduce" property="imgIntroduce" jdbcType="VARCHAR" />
+		<result column="orgCodeLevel" property="orgCodeLevel" jdbcType="VARCHAR" />
+		<result column="bankAccount" property="bankAccount" jdbcType="VARCHAR" />
+		<result column="bankName" property="bankName" jdbcType="VARCHAR" />
+		<result column="openingBranch" property="openingBranch" jdbcType="VARCHAR" />
+		<result column="nameOfAccount" property="nameOfAccount" jdbcType="VARCHAR" />
+		<result column="introduce" property="introduce" jdbcType="VARCHAR" />
+<!-- 		<association property="orgParent" column="parentId" select="getParentAllList"/> -->
+		<collection property="childrens" ofType="main.com.system.dao.po.Organization" column="orgId" select="selectChildren">
+		</collection>
+	</resultMap>
+
+	<sql id="DB_Column_Info">
+		system_organization.orgId,
+		system_organization.parentId,
+		system_organization.seq,
+		system_organization.`orgCode`,
+		system_organization.orgCodeLevel,
+		system_organization.shortName,
+		system_organization.fullName,
+		system_organization.provinceId,
+		system_organization.cityId,
+		system_organization.areaId,
+		system_organization.provinceName,
+		system_organization.cityName,
+		system_organization.areaName,
+		system_organization.address,
+		system_organization.zipcode,
+		system_organization.linkman,
+		system_organization.telephone,
+		system_organization.orgtype,
+		system_organization.orgLink,
+		system_organization.orgLevel,
+		system_organization.remark,
+		system_organization.`status`,
+		system_organization.longitude,
+		system_organization.latitude,
+		system_organization.imageurl,
+		system_organization.imgIntroduce,
+		system_organization.bankAccount,
+		system_organization.bankName,
+		system_organization.openingBranch,
+		system_organization.nameOfAccount,
+		system_organization.introduce
+		</sql>
+
+	<sql id="Base_Where_Clause">
+		<where>
+			<trim prefixOverrides="and">
+				<if test="orgId != null">and system_organization.orgId = #{orgId}</if>
+				<if test="parentId != null">and system_organization.parentId = #{parentId}</if>
+				<if test="orgCode != null and orgCode != ''">and system_organization.orgCode = #{orgCode}</if>
+				<if test="orgLevel != null">and system_organization.orgLevel &lt;= #{orgLevel}</if>
+				<if test="orgLevelIn != null">and system_organization.orgLevel = #{orgLevelIn}</if>
+				<if test="orgName != null and orgName != ''">and (system_organization.shortName like CONCAT('%',#{orgName},'%') 
+				or system_organization.fullName like CONCAT('%',#{orgName},'%'))</if>
+				<if test="orgCodeLevel != null and orgCodeLevel != ''">and (system_organization.orgCodeLevel like CONCAT('%',#{orgCodeLevel},'%'))</if>
+				<if test="codeLike != null and codeLike != ''">and system_organization.orgCode like CONCAT('%',#{codeLike},'%')</if>
+				<if test="telePhone != null and telePhone != ''">and system_organization.telePhone like CONCAT('%',#{telephone},'%')</if>
+				<if test="keywords != null and keywords != ''">and (system_organization.telePhone like CONCAT('%',#{keywords},'%') or system_organization.shortName like CONCAT('%',#{keywords},'%'))</if>
+				<if test="text != null and text != ''">and system_organization.name = #{text}</if>
+				<if test="shortName != null and shortName != ''">and system_organization.shortName = #{shortName}</if>
+				<if test="orgType != null">and system_organization.orgtype = #{orgType}</if>
+				<if test="orgTypeElse != null">and system_organization.orgtype != #{orgTypeElse}</if>
+				<if test="status != null">and system_organization.status = #{status}</if>
+				<if test="1 == 1">and system_organization.status = 1</if>
+				<if test="ids != null">and system_organization.orgId in
+                    <foreach item="item" index="index" collection="ids"
+                             open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+			</trim>
+		</where>
+	</sql>
+	
+	<!-- 查询总数 -->
+	<select id="selectCount" resultType="java.lang.Long" parameterType="java.util.Map">
+		select count(orgId) from system_organization 
+		<include refid="Base_Where_Clause" />
+	</select>
+	
+
+	<!-- 查询通过Id -->
+	<select id="selectById" resultMap="OrgResultMap" parameterType="java.lang.Integer">
+		select
+		<include refid="DB_Column_Info" />
+		FROM system_organization 
+		where system_organization.orgId = #{orgId}
+	</select>
+	<!-- 查询通过Id -->
+	<select id="selectByCode" resultMap="OrgResultMap" parameterType="java.lang.String">
+		select
+		<include refid="DB_Column_Info" />
+		FROM system_organization 
+		where system_organization.`orgCode` = #{orgCode}
+	</select>
+	
+	
+	<!-- 查询 -->
+	<select id="select" resultMap="OrgResultMap" parameterType="java.util.Map">
+		select
+		<include refid="DB_Column_Info" />
+		from system_organization 
+		<include refid="Base_Where_Clause" />
+		<if test="sortField != null"> order by #{sortField} asc </if>
+		<if test="isPage== true and offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+	</select>
+	
+	<!-- 查询 -->
+	<select id="selectJoin" resultMap="OrgResultParentMap" parameterType="java.util.Map">
+		select
+		<include refid="DB_Column_Info" />
+		from system_organization
+		<include refid="Base_Where_Clause" />
+		<if test="sortField != null"> order by #{sortField} asc </if>
+		<if test="isPage== true and offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+	</select>
+	
+	<!-- 查询 -->
+	<select id="selectJoinAllList" resultMap="OrgResultAllListMap" parameterType="java.util.Map">
+		select
+		<include refid="DB_Column_Info" />
+		from system_organization
+		<include refid="Base_Where_Clause" />
+		<if test="sortField != null"> order by seq asc </if>
+		<if test="isPage== true and offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+	</select>
+	
+	<select id="getParent" parameterType="java.lang.Integer" resultType="main.com.system.dao.po.Organization">
+	 	select 
+		system_organization.orgId,
+		system_organization.parentId,
+		system_organization.shortName
+		from system_organization
+		where system_organization.orgId = #{parentId}
+    </select>
+    
+	<select id="getByParentId" parameterType="java.lang.Integer" resultMap="OrgResultMap">
+	 	select 
+		<include refid="DB_Column_Info" />
+		from system_organization
+		where system_organization.parentId = #{orgId}
+    </select>
+    
+	<select id="getParentAllList" parameterType="java.lang.Integer" resultMap="OrgResultAllListMap">
+	 	select 
+		system_organization.orgId,
+		system_organization.parentId,
+		system_organization.shortName
+		from system_organization
+		where system_organization.orgId = #{parentId}
+    </select>
+    
+	<select id="selectChildren" parameterType="java.lang.Integer" resultType="main.com.system.dao.po.Organization">
+	 	select 
+		system_organization.orgId,
+		system_organization.parentId,
+		system_organization.shortName
+		from system_organization
+		where system_organization.parentId = #{orgId}
+    </select>
+	
+	<!-- 插入 -->
+	<insert id="insert" parameterType="main.com.system.dao.po.Organization" useGeneratedKeys="true" keyProperty="orgId">
+	insert into system_organization
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+		  <if test="parentId != null" > parentId, </if>
+		  <if test="seq != null" > seq, </if>
+		  <if test="orgCode != null" > orgCode, </if>
+		  <if test="introduce != null" > introduce, </if>
+		  <if test="shortName != null" > shortName, </if>
+		  <if test="fullName != null" > fullName, </if>
+		  <if test="provinceId != null" > provinceId, </if>
+		  <if test="cityId != null" > cityId, </if>
+		  <if test="areaId != null" > areaId, </if>
+		  <if test="provinceName != null" > provinceName, </if>
+		  <if test="cityName != null" > cityName, </if>
+		  <if test="areaName != null" > areaName, </if>
+		  <if test="address != null" > address, </if>
+		  <if test="zipCode != null" > zipCode, </if>
+		  <if test="linkMan != null" > linkMan, </if>
+		  <if test="telePhone != null" > telePhone, </if>
+		  <if test="orgType != null" > orgType, </if>
+		  <if test="orgLevel != null" > orgLevel, </if>
+		  <if test="orgLink != null" > orgLink, </if>
+		  <if test="longitude != null" > longitude, </if>
+		  <if test="latitude != null" > latitude, </if>
+		  <if test="remark != null" > remark, </if>
+		  <if test="status != null" > status, </if>
+		  <if test="imageUrl != null" > imageUrl, </if>
+		  <if test="imgIntroduce != null" > imgIntroduce, </if>
+		  <if test="orgCodeLevel != null" > orgCodeLevel, </if>
+		  <if test="bankAccount != null" > bankAccount, </if>
+		  <if test="bankName != null" > bankName, </if>
+		  <if test="openingBranch != null" > openingBranch, </if>
+		  <if test="nameOfAccount != null" > nameOfAccount, </if>
+		</trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+          <if test="parentId != null" > #{parentId}, </if>
+		  <if test="seq != null" > #{seq}, </if>
+		  <if test="orgCode != null" > #{orgCode}, </if>
+		  <if test="introduce != null" > #{introduce}, </if>
+		  <if test="shortName != null" > #{shortName}, </if>
+		  <if test="fullName != null" > #{fullName}, </if>
+		  <if test="provinceId != null" > #{provinceId}, </if>
+		  <if test="cityId != null" > #{cityId}, </if>
+		  <if test="areaId != null" > #{areaId}, </if>
+		  <if test="provinceName != null" > #{provinceName}, </if>
+		  <if test="cityName != null" > #{cityName}, </if>
+		  <if test="areaName != null" > #{areaName}, </if>
+		  <if test="address != null" > #{address}, </if>
+		  <if test="zipCode != null" > #{zipCode}, </if>
+		  <if test="linkMan != null" > #{linkMan}, </if>
+		  <if test="telePhone != null" > #{telePhone}, </if>
+		  <if test="orgType != null" > #{orgType}, </if>
+		  <if test="orgLevel != null" > #{orgLevel}, </if>
+		  <if test="orgLink != null" > #{orgLink}, </if>
+		  <if test="longitude != null" > #{longitude}, </if>
+		  <if test="latitude != null" > #{latitude}, </if>
+		  <if test="remark != null" > #{remark}, </if>
+		  <if test="status != null" > #{status}, </if>
+		  <if test="imageUrl != null" > #{imageUrl}, </if>
+		  <if test="imgIntroduce != null" > #{imgIntroduce}, </if>
+		  <if test="orgCodeLevel != null" > #{orgCodeLevel}, </if>
+		  <if test="bankAccount != null" > #{bankAccount}, </if>
+		  <if test="bankName != null" > #{bankName}, </if>
+		  <if test="openingBranch != null" > #{openingBranch}, </if>
+		  <if test="nameOfAccount != null" > #{nameOfAccount}, </if>
+        </trim>
+	</insert>
+	
+	
+	<!-- 更新 -->
+	<update id="updateById" parameterType="main.com.system.dao.po.Organization">
+		update 
+			system_organization 
+		<set>
+		  <if test="parentId != null" > parentId = #{parentId}, </if>
+		  <if test="seq != null" > seq = #{seq}, </if>
+		  <if test="orgCode != null" > orgCode = #{orgCode}, </if>
+		  <if test="introduce != null" > introduce = #{introduce}, </if>
+		  <if test="shortName != null" > shortName = #{shortName}, </if>
+		  <if test="fullName != null" > fullName = #{fullName}, </if>
+		  <if test="provinceId != null" > provinceId = #{provinceId}, </if>
+		  <if test="cityId != null" > cityId = #{cityId}, </if>
+		  <if test="areaId != null" > areaId = #{areaId}, </if>
+		  <if test="provinceName != null" > provinceName= #{provinceName}, </if>
+		  <if test="cityName != null" > cityName = #{cityName}, </if>
+		  <if test="areaName != null" > areaName = #{areaName}, </if>
+		  <if test="address != null" > address = #{address}, </if>
+		  <if test="zipCode != null" > zipCode = #{zipCode}, </if>
+		  <if test="linkMan != null" > linkMan = #{linkMan}, </if>
+		  <if test="telePhone != null" > telePhone = #{telePhone}, </if>
+		  <if test="orgType != null" > orgType = #{orgType}, </if>
+		  <if test="orgLevel != null" > orgLevel = #{orgLevel}, </if>
+		  <if test="orgLink != null" > orgLink = #{orgLink}, </if>
+		  <if test="longitude != null" > longitude = #{longitude}, </if>
+		  <if test="latitude != null" > latitude = #{latitude}, </if>
+		  <if test="remark != null" > remark = #{remark}, </if>
+		  <if test="status != null" > status = #{status}, </if>
+		  <if test="imageUrl != null" > imageUrl = #{imageUrl}, </if>
+		  <if test="imgIntroduce != null" > imgIntroduce = #{imgIntroduce}, </if>
+		  <if test="orgCodeLevel != null" > orgCodeLevel = #{orgCodeLevel}, </if>
+		  <if test="bankAccount != null" > bankAccount = #{bankAccount}, </if>
+		  <if test="bankName != null" > bankName = #{bankName}, </if>
+		  <if test="openingBranch != null" > openingBranch = #{openingBranch}, </if>
+		  <if test="nameOfAccount != null" > nameOfAccount = #{nameOfAccount}, </if>
+		  </set>
+		 where orgId = #{orgId} 
+	</update>			
+	
+	<!-- 删除 -->
+	<delete id="deleteById" parameterType="java.lang.Integer">
+		delete from system_organization where orgId = #{orgId} 
+	</delete>	
+	
+</mapper>

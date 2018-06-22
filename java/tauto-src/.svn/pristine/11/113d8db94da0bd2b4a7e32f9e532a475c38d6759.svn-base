@@ -1,0 +1,346 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="main.com.weixinshop.dao.po.ShopOrders">
+	<!-- <cache type="org.mybatis.caches.ehcache.LoggingEhcache" readOnly="true" 
+		/> -->
+
+	<resultMap id="ResultMap" type="main.com.weixinshop.dao.vo.ShopOrdersVo">
+		<id column="orderId" property="orderId" jdbcType="INTEGER" />
+		<result column="userId" property="userId" jdbcType="INTEGER" />
+		<result column="userName" property="userName" jdbcType="VARCHAR" />
+		<result column="amount" property="amount" jdbcType="DOUBLE" />
+		<result column="totalAmount" property="totalAmount" jdbcType="DOUBLE" />
+		<result column="startDate" property="startDate" jdbcType="TIMESTAMP" />
+		<result column="ordersState" property="ordersState" jdbcType="INTEGER" />
+		<result column="paymentMethod" property="paymentMethod" jdbcType="INTEGER" />
+		<result column="endDate" property="endDate" jdbcType="TIMESTAMP" />
+		<result column="isPaperCheck" property="isPaperCheck" jdbcType="TINYINT" />
+		<result column="paperCheckHear" property="paperCheckHear" jdbcType="VARCHAR" />
+		<result column="paperCheckAmount" property="paperCheckAmount" jdbcType="INTEGER" />
+		<result column="expressCode" property="expressCode" jdbcType="VARCHAR" />
+		<result column="expressName" property="expressName" jdbcType="VARCHAR" />
+		<result column="orderCode" property="orderCode" jdbcType="VARCHAR" />
+		<result column="deliverGoodsDate" property="deliverGoodsDate" jdbcType="TIMESTAMP" />
+		<result column="goodsReceiptDate" property="goodsReceiptDate" jdbcType="TIMESTAMP" />
+		<result column="payDate" property="payDate" jdbcType="TIMESTAMP" />
+		<result column="paperCheckContent" property="paperCheckContent" jdbcType="VARCHAR" />
+		<result column="areaCode" property="areaCode" jdbcType="VARCHAR" />
+		<result column="address" property="address" jdbcType="VARCHAR" />	
+		<result column="weiXinPayId" property="weiXinPayId" jdbcType="INTEGER" />		
+		</resultMap>
+		
+			<resultMap id="ResultOrderInfoMap" type="main.com.weixinshop.dao.vo.ShopOrdersVo">
+				<id column="orderId" property="orderId" jdbcType="INTEGER" />
+				<result column="userId" property="userId" jdbcType="INTEGER" />
+				<result column="userName" property="userName" jdbcType="VARCHAR" />
+				<result column="amount" property="amount" jdbcType="INTEGER" />
+				<result column="totalAmount" property="totalAmount" jdbcType="DOUBLE" />
+				<result column="startDate" property="startDate" jdbcType="TIMESTAMP" />
+				<result column="ordersState" property="ordersState" jdbcType="INTEGER" />
+				<result column="paymentMethod" property="paymentMethod" jdbcType="INTEGER" />
+				<result column="endDate" property="endDate" jdbcType="TIMESTAMP" />
+				<result column="isPaperCheck" property="isPaperCheck" jdbcType="TINYINT" />
+				<result column="paperCheckHear" property="paperCheckHear" jdbcType="VARCHAR" />
+				<result column="paperCheckAmount" property="paperCheckAmount" jdbcType="DOUBLE" />
+				<result column="expressCode" property="expressCode" jdbcType="VARCHAR" />
+				<result column="expressName" property="expressName" jdbcType="VARCHAR" />
+				<result column="orderCode" property="orderCode" jdbcType="VARCHAR" />
+				<result column="deliverGoodsDate" property="deliverGoodsDate" jdbcType="TIMESTAMP" />
+				<result column="goodsReceiptDate" property="goodsReceiptDate" jdbcType="TIMESTAMP" />
+				<result column="payDate" property="payDate" jdbcType="TIMESTAMP" />
+				<result column="paperCheckContent" property="paperCheckContent" jdbcType="VARCHAR" />
+				<result column="areaCode" property="areaCode" jdbcType="VARCHAR" />
+				<result column="address" property="address" jdbcType="VARCHAR" />
+				<result column="weiXinPayId" property="weiXinPayId" jdbcType="INTEGER" />
+		
+		<collection property="ordersInfoVos" ofType="main.com.weixinshop.dao.vo.ShopOrdersInfoVo" column="ordersId">  
+		         <id column="orderInfoId" property="orderInfoId" jdbcType="INTEGER" />
+				<result column="ordersId" property="ordersId" jdbcType="INTEGER" />
+				<result column="goodsId" property="goodsId" jdbcType="INTEGER" />
+				<result column="infoAmount" property="amount" jdbcType="DOUBLE" />
+				<result column="infototalAmount" property="totalAmount" jdbcType="DOUBLE" />
+				<result column="infostartDate" property="startDate" jdbcType="TIMESTAMP" />
+				<result column="goodsName" property="goodsName" jdbcType="VARCHAR" />
+				<result column="salesTagId" property="salesTagId" jdbcType="INTEGER" />
+				<result column="infoisPaperCheck" property="isPaperCheck" jdbcType="TINYINT" />
+				<result column="colorTypeId" property="colorTypeId" jdbcType="INTEGER" />
+				<result column="goodsNumber" property="goodsNumber" jdbcType="INTEGER" />
+				<result column="isJudge" property="isJudge" jdbcType="TINYINT" />
+				<result column="judgeId" property="judgeId" jdbcType="INTEGER" />
+				<result column="goodsBrief" property="goodsBrief" jdbcType="VARCHAR" />
+				<result column="colorTypeName" property="colorTypeName" jdbcType="VARCHAR" />
+				<result column="goodsImage" property="goodsImage" jdbcType="VARCHAR" />
+        </collection>
+	</resultMap>
+
+	<sql id="DB_Column_List">
+		shop_orders.orderId,
+		shop_orders.userId,
+		shop_orders.userName,
+		shop_orders.amount,
+		shop_orders.totalAmount,
+		shop_orders.startDate,
+		shop_orders.ordersState,
+		shop_orders.paymentMethod,
+		shop_orders.endDate,
+		shop_orders.isPaperCheck,
+		shop_orders.paperCheckHear,
+		shop_orders.expressCode,
+		shop_orders.expressName,
+		shop_orders.orderCode,
+		shop_orders.paperCheckAmount,
+		shop_orders.deliverGoodsDate,
+		shop_orders.goodsReceiptDate,
+		shop_orders.payDate,
+		shop_orders.paperCheckContent,
+		shop_orders.areaCode,
+		shop_orders.weiXinPayId,
+		shop_orders.address
+		
+	</sql>
+	
+		<sql id="DB_Column_List_Info">
+		shop_orders.orderId,
+		shop_orders.userId,
+		shop_orders.userName,
+		shop_orders.amount,
+		shop_orders.totalAmount,
+		shop_orders.startDate,
+		shop_orders.ordersState,
+		shop_orders.paymentMethod,
+		shop_orders.endDate,
+		shop_orders.isPaperCheck,
+		shop_orders.paperCheckHear,
+		shop_orders.expressCode,
+		shop_orders.expressName,
+		shop_orders.orderCode,
+		shop_orders.paperCheckAmount,
+		shop_orders.deliverGoodsDate,
+		shop_orders.goodsReceiptDate,
+		shop_orders.payDate,
+		shop_orders.paperCheckContent,
+		shop_orders.areaCode,
+		shop_orders.address,
+		shop_orders.weiXinPayId,
+		
+		shop_ordersinfo.orderInfoId,
+		shop_ordersinfo.ordersId,
+		shop_ordersinfo.goodsId,
+		shop_ordersinfo.amount as infoAmount,
+		shop_ordersinfo.totalAmount as infototalAmount,
+		shop_ordersinfo.startDate as infostartDate,
+		shop_ordersinfo.goodsName,
+		shop_ordersinfo.salesTagId,
+		shop_ordersinfo.colorTypeId,
+		shop_ordersinfo.isPaperCheck as infoisPaperCheck,
+		shop_ordersinfo.isJudge,
+		shop_ordersinfo.judgeId,
+		shop_ordersinfo.goodsBrief,
+		shop_ordersinfo.goodsNumber,
+		shop_ordersinfo.colorTypeName,
+		shop_ordersinfo.goodsImage
+	</sql>
+
+	<sql id="Where_Condition">
+		<where>
+			<trim prefixOverrides="and">
+				<!-- 匹配查询 -->
+				<if test="orderId != null">and shop_orders.orderId = #{orderId}</if>
+				<if test="userId != null">and shop_orders.userId = #{userId}</if>
+				<if test="weiXinPayId != null">and shop_orders.weiXinPayId = #{weiXinPayId}</if>
+				<if test="areaCode != null">and shop_orders.areaCode = #{areaCode}</if>
+				<if test="isPaperCheck != null">and shop_orders.isPaperCheck = #{isPaperCheck}</if>								
+				<if test="orderCode != null and orderCode != ''">and shop_orders.orderCode = #{orderCode}</if>								
+				<!-- 模糊查询 -->
+				<if test="ordersState != null">and shop_orders.ordersState = #{ordersState}</if>
+				<if test="isJudge != null">and shop_orders.isJudge = #{isJudge}</if>
+				<if test="1==1">and shop_orders.ordersState != -1 and shop_orders.ordersState != 10</if>
+				<!-- list查询 -->
+				<if test="ordersStateids != null">and shop_orders.ordersState in
+                    <foreach item="item" index="index" collection="ordersStateids"
+                             open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+			</trim>
+		</where>
+	</sql>
+
+
+	<!-- 查询总数 -->
+	<select id="selectCount" resultType="java.lang.Long"
+		parameterType="java.util.Map">
+		select count(orderId) from shop_orders
+		<include refid="Where_Condition" />
+	</select>
+
+	<!-- 查询 -->
+	<select id="select" resultMap="ResultMap" parameterType="java.util.Map">
+		select
+		<include refid="DB_Column_List" />
+		from shop_orders
+		<include refid="Where_Condition" />
+		<if test="sortField != null"> order by startDate desc </if>
+		<if test="isPage== true and offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+	</select>
+	
+			<!--联合条件查询 -->
+	<select id="selectJoin" resultMap="ResultOrderInfoMap" parameterType="java.util.Map">
+		select
+		<include refid="DB_Column_List_Info" />
+		from shop_orders inner join shop_ordersinfo on shop_orders.orderId = shop_ordersinfo.ordersId
+		<include refid="Where_Condition" />
+		<if test="sortField != null"> order by startDate desc </if>
+		<if test="isPage== true">
+            limit #{offset}, #{limit}
+        </if>
+	</select>
+
+	<!-- 根据ID查询 -->
+	<select id="selectById" resultMap="ResultMap" parameterType="java.lang.Integer">
+		select
+		<include refid="DB_Column_List" />
+		from shop_orders
+		where shop_orders.orderId = #{orderId}
+	</select>
+	<!-- 添加 -->
+	<insert id="insert" parameterType="main.com.weixinshop.dao.po.ShopOrders" useGeneratedKeys="true" keyProperty="orderId" >
+		insert into shop_orders
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="userId != null"> userId, </if>
+			<if test="userName != null"> userName, </if>
+			<if test="amount != null"> amount, </if>
+			<if test="totalAmount != null"> totalAmount, </if>
+			<if test="startDate != null"> startDate, </if>
+			<if test="ordersState != null"> ordersState, </if>
+			<if test="paymentMethod != null"> paymentMethod, </if>
+			<if test="endDate != null"> endDate, </if>
+			<if test="isPaperCheck != null"> isPaperCheck, </if>
+			<if test="paperCheckHear != null"> paperCheckHear, </if>
+			<if test="paperCheckAmount != null"> paperCheckAmount, </if>
+			<if test="expressCode != null"> expressCode, </if>
+			<if test="expressName != null"> expressName, </if>
+			<if test="orderCode != null"> orderCode, </if>
+			<if test="deliverGoodsDate != null"> deliverGoodsDate, </if>
+			<if test="goodsReceiptDate != null"> goodsReceiptDate, </if>
+			<if test="payDate != null"> payDate, </if>
+			<if test="paperCheckContent != null"> paperCheckContent, </if>
+			<if test="areaCode != null"> areaCode, </if>
+			<if test="address != null"> address, </if>
+			<if test="weiXinPayId != null"> weiXinPayId, </if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="userId != null"> #{userId}, </if>
+			<if test="userName != null"> #{userName}, </if>
+			<if test="amount != null"> #{amount}, </if>
+			<if test="totalAmount != null"> #{totalAmount}, </if>
+			<if test="startDate != null"> #{startDate}, </if>
+			<if test="ordersState != null"> #{ordersState}, </if>
+			<if test="paymentMethod != null"> #{paymentMethod}, </if>
+			<if test="endDate != null"> #{endDate}, </if>
+			<if test="isPaperCheck != null"> #{isPaperCheck}, </if>
+			<if test="paperCheckHear != null"> #{paperCheckHear}, </if>
+			<if test="paperCheckAmount != null"> #{paperCheckAmount}, </if>
+			<if test="expressCode != null"> #{expressCode}, </if>
+			<if test="expressName != null"> #{expressName}, </if>
+			<if test="orderCode != null"> #{orderCode}, </if>
+			<if test="deliverGoodsDate != null"> #{deliverGoodsDate}, </if>
+			<if test="goodsReceiptDate != null"> #{goodsReceiptDate}, </if>
+			<if test="payDate != null"> #{payDate}, </if>
+			<if test="paperCheckContent != null"> #{paperCheckContent}, </if>
+			<if test="areaCode != null"> #{areaCode}, </if>
+			<if test="address != null"> #{address}, </if>
+			<if test="weiXinPayId != null"> #{weiXinPayId}, </if>
+		</trim>
+	</insert>
+
+	<!-- 更新 -->
+	<update id="updateById" parameterType="main.com.weixinshop.dao.po.ShopOrders">
+		update
+		shop_orders
+		<set>
+			<if test="userId != null"> userId = #{userId}, </if>
+			<if test="userName != null"> userName = #{userName}, </if>
+			<if test="amount != null"> amount = #{amount}, </if>
+			<if test="totalAmount != null"> totalAmount = #{totalAmount}, </if>
+			<if test="startDate != null"> startDate = #{startDate}, </if>
+			<if test="ordersState != null"> ordersState = #{ordersState}, </if>
+			<if test="paymentMethod != null"> paymentMethod = #{paymentMethod}, </if>
+			<if test="endDate != null"> endDate = #{endDate}, </if>
+			<if test="isPaperCheck != null"> isPaperCheck = #{isPaperCheck}, </if>
+			<if test="paperCheckHear != null"> paperCheckHear = #{paperCheckHear}, </if>
+			<if test="paperCheckAmount != null"> paperCheckAmount = #{paperCheckAmount}, </if>
+			<if test="expressCode != null"> expressCode = #{expressCode}, </if>
+			<if test="expressName != null"> expressName = #{expressName}, </if>
+			<if test="orderCode != null"> orderCode = #{orderCode}, </if>
+			<if test="deliverGoodsDate != null"> deliverGoodsDate = #{deliverGoodsDate}, </if>
+			<if test="goodsReceiptDate != null"> goodsReceiptDate = #{goodsReceiptDate}, </if>
+			<if test="payDate != null"> payDate = #{payDate}, </if>
+			<if test="paperCheckContent != null"> paperCheckContent = #{paperCheckContent}, </if>
+			<if test="areaCode != null"> areaCode = #{areaCode}, </if>
+			<if test="address != null"> address = #{address}, </if>
+			<if test="weiXinPayId != null"> weiXinPayId = #{weiXinPayId}, </if>
+		</set>
+		where orderId = #{orderId}
+	</update>
+	
+	
+	<!-- 批量更新 -->
+	<update id="batchUpdate"  parameterType="java.util.List">
+          <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            update 
+				shop_orders 
+			<set>
+			<if test="item.userId != null"> userId = #{item.userId}, </if>
+			<if test="item.userId != null"> userId = #{item.userId}, </if>
+			<if test="item.userName != null"> userName = #{item.userName}, </if>
+			<if test="item.amount != null"> amount = #{item.amount}, </if>
+			<if test="item.totalAmount != null"> totalAmount = #{item.totalAmount}, </if>
+			<if test="item.startDate != null"> startDate = #{item.startDate}, </if>
+			<if test="item.ordersState != null"> ordersState = #{item.ordersState}, </if>
+			<if test="item.paymentMethod != null"> paymentMethod = #{item.paymentMethod}, </if>
+			<if test="item.endDate != null"> endDate = #{item.endDate}, </if>
+			<if test="item.isPaperCheck != null"> isPaperCheck = #{item.isPaperCheck}, </if>
+			<if test="item.paperCheckHear != null"> paperCheckHear = #{item.paperCheckHear}, </if>
+			<if test="item.paperCheckAmount != null"> paperCheckAmount = #{item.paperCheckAmount}, </if>
+			<if test="item.expressCode != null"> expressCode = #{item.expressCode}, </if>
+			<if test="item.expressName != null"> expressName = #{item.expressName}, </if>
+			<if test="item.orderCode != null"> orderCode = #{item.orderCode}, </if>
+			<if test="item.deliverGoodsDate != null"> deliverGoodsDate = #{item.deliverGoodsDate}, </if>
+			<if test="item.goodsReceiptDate != null"> goodsReceiptDate = #{item.goodsReceiptDate}, </if>
+			<if test="item.payDate != null"> payDate = #{item.payDate}, </if>
+			<if test="item.paperCheckContent != null"> payDate = #{item.paperCheckContent}, </if>
+			<if test="item.areaCode != null"> areaCode = #{item.areaCode}, </if>
+			<if test="item.address != null"> address = #{item.address}, </if>
+			<if test="item.weiXinPayId != null"> weiXinPayId  = #{item.weiXinPayId}, </if>
+			</set> 
+			 where orderId = #{item.orderId} 
+         </foreach>
+    </update>
+    
+	<update id="batchUpdateByOne"  parameterType="java.util.List">
+          <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            update 
+				shop_orders 
+			<set>
+			<if test="item.isDefault != null"> isDefault = #{item.isDefault}, </if>
+			</set> 
+			 where orderId = #{item.orderId} 
+         </foreach>
+    </update>
+
+	<!-- 根据ID删除 -->
+	<delete id="deleteById" parameterType="java.lang.Integer">
+		delete from shop_orders
+		where
+		orderId = #{orderId}
+	</delete>
+
+	<!-- 删除 -->
+	<delete id="delete" parameterType="java.util.Map">
+		delete from shop_orders
+		<include refid="Where_Condition" />
+	</delete>
+</mapper>

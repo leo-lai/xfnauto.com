@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="main.com.weixinshop.dao.po.ShopBankCardRecord">
+	<!-- <cache type="org.mybatis.caches.ehcache.LoggingEhcache" readOnly="true" 
+		/> -->
+
+	<resultMap id="ResultMap" type="main.com.weixinshop.dao.vo.ShopBankCardRecordVo">
+		<id column="bankId" property="bankId" jdbcType="INTEGER" />
+		<result column="bankAccountNumber" property="bankAccountNumber" jdbcType="VARCHAR" />
+		<result column="bankAccount" property="bankAccount" jdbcType="VARCHAR" />
+		<result column="bankBranch" property="bankBranch" jdbcType="VARCHAR" />
+		<result column="reservedPhoneNumber" property="reservedPhoneNumber" jdbcType="VARCHAR" />
+		<result column="recordStatus" property="recordStatus" jdbcType="INTEGER" />
+		<result column="userId" property="userId" jdbcType="INTEGER" />
+		<result column="agentInfoId" property="agentInfoId" jdbcType="INTEGER" />
+		<result column="isDelete" property="isDelete" jdbcType="TINYINT" />
+		</resultMap>
+
+	<sql id="DB_Column_List">
+		shop_bankcardrecord.bankId,
+		shop_bankcardrecord.bankAccountNumber,
+		shop_bankcardrecord.accountHolder,
+		shop_bankcardrecord.bankAccount,
+		shop_bankcardrecord.bankBranch,
+		shop_bankcardrecord.reservedPhoneNumber,
+		shop_bankcardrecord.recordStatus,
+		shop_bankcardrecord.agentInfoId,
+		shop_bankcardrecord.userId,
+		shop_bankcardrecord.isDelete
+	</sql>
+
+	<sql id="Where_Condition">
+		<where>
+			<trim prefixOverrides="and">
+				<!-- 匹配查询 -->
+				<if test="bankId != null">and shop_bankcardrecord.bankId = #{bankId}</if>
+				<if test="userId != null">and shop_bankcardrecord.userId = #{userId}</if>
+				<if test="bankAccountNumber != null">and shop_bankcardrecord.bankAccountNumber = #{bankAccountNumber}</if>
+				<if test="bankAccount != null">and shop_bankcardrecord.bankAccount = #{bankAccount}</if>								
+				<!-- 模糊查询 -->
+				<if test="1==1">and shop_bankcardrecord.isDelete = 0</if>
+			</trim>
+		</where>
+	</sql>
+
+
+	<!-- 查询总数 -->
+	<select id="selectCount" resultType="java.lang.Long"
+		parameterType="java.util.Map">
+		select count(bankId) from shop_bankcardrecord
+		<include refid="Where_Condition" />
+	</select>
+
+	<!-- 查询 -->
+	<select id="select" resultMap="ResultMap" parameterType="java.util.Map">
+		select
+		<include refid="DB_Column_List" />
+		from shop_bankcardrecord
+		<include refid="Where_Condition" />
+		<if test="isPage== true and offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+	</select>
+
+	<!-- 根据ID查询 -->
+	<select id="selectById" resultMap="ResultMap" parameterType="java.lang.Integer">
+		select
+		<include refid="DB_Column_List" />
+		from shop_bankcardrecord
+		where shop_bankcardrecord.bankId = #{bankId}
+	</select>
+
+	<!-- 添加 -->
+	<insert id="insert" parameterType="main.com.weixinshop.dao.po.ShopBankCardRecord" useGeneratedKeys="true" keyProperty="bankId">
+		insert into shop_bankcardrecord
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="bankAccountNumber != null"> bankAccountNumber, </if>
+			<if test="accountHolder != null"> accountHolder, </if>
+			<if test="bankAccount != null"> bankAccount, </if>
+			<if test="bankBranch != null"> bankBranch, </if>
+			<if test="reservedPhoneNumber != null"> reservedPhoneNumber, </if>
+			<if test="recordStatus != null"> recordStatus, </if>
+			<if test="agentInfoId != null"> agentInfoId, </if>
+			<if test="isDelete != null"> isDelete, </if>
+			<if test="userId != null"> userId, </if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="bankAccountNumber != null"> #{bankAccountNumber}, </if>
+			<if test="accountHolder != null"> #{accountHolder}, </if>
+			<if test="bankAccount != null"> #{bankAccount}, </if>
+			<if test="bankBranch != null"> #{bankBranch}, </if>
+			<if test="reservedPhoneNumber != null"> #{reservedPhoneNumber}, </if>
+			<if test="recordStatus != null"> #{recordStatus}, </if>
+			<if test="agentInfoId != null"> #{agentInfoId}, </if>
+			<if test="isDelete != null"> #{isDelete}, </if>
+			<if test="userId != null"> #{userId}, </if>
+		</trim>
+	</insert>
+
+	<!-- 更新 -->
+	<update id="updateById" parameterType="main.com.weixinshop.dao.po.ShopBankCardRecord">
+		update
+		shop_bankcardrecord
+		<set>
+			<if test="bankAccountNumber != null"> bankAccountNumber = #{bankAccountNumber}, </if>
+			<if test="accountHolder != null"> accountHolder = #{accountHolder}, </if>
+			<if test="bankAccount != null"> bankAccount = #{bankAccount}, </if>
+			<if test="bankBranch != null"> bankBranch = #{bankBranch}, </if>
+			<if test="reservedPhoneNumber != null"> reservedPhoneNumber = #{reservedPhoneNumber}, </if>
+			<if test="recordStatus != null"> recordStatus = #{recordStatus}, </if>
+			<if test="agentInfoId != null"> agentInfoId = #{agentInfoId}, </if>
+			<if test="isDelete != null"> isDelete = #{isDelete}, </if>
+			<if test="userId != null"> userId = #{userId}, </if>
+		</set>
+		where bankId = #{bankId}
+	</update>
+	
+	
+	<!-- 批量更新 -->
+	<update id="batchUpdate"  parameterType="java.util.List">
+          <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            update 
+				shop_bankcardrecord 
+			<set>
+			<if test="item.bankAccountNumber != null"> bankAccountNumber = #{item.bankAccountNumber}, </if>
+			<if test="item.accountHolder != null"> accountHolder = #{item.accountHolder}, </if>
+			<if test="item.bankAccount != null"> bankAccount = #{item.bankAccount}, </if>
+			<if test="item.bankBranch != null"> bankBranch = #{item.bankBranch}, </if>
+			<if test="item.reservedPhoneNumber != null"> reservedPhoneNumber = #{item.reservedPhoneNumber}, </if>
+			<if test="item.recordStatus != null"> recordStatus = #{item.recordStatus}, </if>
+			<if test="item.agentInfoId != null"> agentInfoId = #{item.agentInfoId}, </if>
+			<if test="item.isDelete != null"> isDelete = #{item.isDelete}, </if>
+			<if test="item.iuserId　!= null"> userId = #{item.userId}, </if>
+			</set> 
+			 where bankId = #{item.bankId} 
+         </foreach>
+    </update>
+
+	<!-- 根据ID删除 -->
+	<delete id="deleteById" parameterType="java.lang.Integer">
+		delete from shop_bankcardrecord
+		where
+		bankId = #{bankId}
+	</delete>
+
+	<!-- 删除 -->
+	<delete id="delete" parameterType="java.util.Map">
+		delete from shop_bankcardrecord
+		<include refid="Where_Condition" />
+	</delete>
+</mapper>

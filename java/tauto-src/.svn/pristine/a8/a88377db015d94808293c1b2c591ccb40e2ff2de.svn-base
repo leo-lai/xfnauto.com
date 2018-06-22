@@ -1,0 +1,574 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="main.com.stock.dao.po.StockCar" >
+
+  <resultMap id="BaseResultMap" type="main.com.stock.dao.vo.StockCarVo" >
+    <id column="stock_car_id" property="stockCarId" jdbcType="INTEGER" />
+    <result column="frame_number" property="frameNumber" jdbcType="VARCHAR" />
+    <result column="cars_id" property="carsId" jdbcType="INTEGER" />
+    <result column="cars_info" property="carsInfo" jdbcType="VARCHAR" />
+    <result column="engine_number" property="engineNumber" jdbcType="VARCHAR" />
+    <result column="certificate_number" property="certificateNumber" jdbcType="VARCHAR" />
+    <result column="warehouse_id" property="warehouseId" jdbcType="INTEGER" />
+    <result column="warehouse_name" property="warehouseName" jdbcType="VARCHAR" />
+    <result column="stock_car_images" property="stockCarImages" jdbcType="VARCHAR" />
+    <result column="interior_id" property="interiorId" jdbcType="INTEGER" />
+    <result column="interior_name" property="interiorName" jdbcType="VARCHAR" />
+    <result column="colour_id" property="colourId" jdbcType="INTEGER" />
+    <result column="colour_name" property="colourName" jdbcType="VARCHAR" />
+    <result column="unit_price" property="unitPrice" jdbcType="DOUBLE" />
+    <result column="is_delete" property="isDelete" jdbcType="TINYINT" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="storage_id" property="storageId" jdbcType="INTEGER" />
+    <result column="is_on_line" property="isOnLine" jdbcType="INTEGER" />
+    <result column="invoice_price" property="invoicePrice" jdbcType="DECIMAL" />
+    <result column="deposit_price" property="depositPrice" jdbcType="DECIMAL" />
+    <result column="discount_price" property="discountPrice" jdbcType="DECIMAL" />
+    <result column="guiding_price" property="guidingPrice" jdbcType="DECIMAL" />
+    <result column="order_id" property="orderId" jdbcType="INTEGER" />
+    <result column="org_id" property="orgId" jdbcType="INTEGER" />
+    <result column="is_put_out" property="isPutOut" jdbcType="TINYINT" />
+    <result column="certificate_date" property="certificateDate" jdbcType="INTEGER" />
+    
+    <result column="follow_information" property="followInformation" jdbcType="VARCHAR" />
+    <result column="mileage" property="mileage" jdbcType="INTEGER" />
+    <result column="over_strong_insurance" property="overStrongInsurance" jdbcType="TINYINT" />
+  </resultMap>
+  <resultMap id="BaseResultMapList" type="main.com.stock.dao.vo.StockCarVo" >
+    <id column="stock_car_id" property="stockCarId" jdbcType="INTEGER" />
+    <result column="frame_number" property="frameNumber" jdbcType="VARCHAR" />
+    <result column="cars_id" property="carsId" jdbcType="INTEGER" />
+    <result column="cars_info" property="carsInfo" jdbcType="VARCHAR" />
+    <result column="engine_number" property="engineNumber" jdbcType="VARCHAR" />
+    <result column="certificate_number" property="certificateNumber" jdbcType="VARCHAR" />
+    <result column="warehouse_id" property="warehouseId" jdbcType="INTEGER" />
+    <result column="warehouse_name" property="warehouseName" jdbcType="VARCHAR" />
+    <result column="stock_car_images" property="stockCarImages" jdbcType="VARCHAR" />
+    <result column="interior_id" property="interiorId" jdbcType="INTEGER" />
+    <result column="interior_name" property="interiorName" jdbcType="VARCHAR" />
+    <result column="colour_id" property="colourId" jdbcType="INTEGER" />
+    <result column="colour_name" property="colourName" jdbcType="VARCHAR" />
+    <result column="unit_price" property="unitPrice" jdbcType="DOUBLE" />
+    <result column="is_delete" property="isDelete" jdbcType="TINYINT" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="storage_id" property="storageId" jdbcType="INTEGER" />
+    <result column="number" property="number" jdbcType="INTEGER" />
+    <result column="is_on_line" property="isOnLine" jdbcType="INTEGER" />
+    <result column="invoice_price" property="invoicePrice" jdbcType="DECIMAL" />
+    <result column="deposit_price" property="depositPrice" jdbcType="DECIMAL" />
+    <result column="discount_price" property="discountPrice" jdbcType="DECIMAL" />
+    <result column="guiding_price" property="guidingPrice" jdbcType="DECIMAL" />
+    <result column="order_id" property="orderId" jdbcType="INTEGER" />
+    <result column="org_id" property="orgId" jdbcType="INTEGER" />
+     <result column="is_put_out" property="isPutOut" jdbcType="TINYINT" />
+      <result column="certificate_date" property="certificateDate" jdbcType="INTEGER" />
+          <result column="follow_information" property="followInformation" jdbcType="VARCHAR" />
+    <result column="mileage" property="mileage" jdbcType="INTEGER" />
+    <result column="over_strong_insurance" property="overStrongInsurance" jdbcType="TINYINT" />
+  </resultMap>
+  
+  <resultMap id="BaseResultMapJoin" type="main.com.stock.dao.vo.StockCarVo" >
+    <id column="stock_car_id" property="stockCarId" jdbcType="INTEGER" />
+    <result column="frame_number" property="frameNumber" jdbcType="VARCHAR" />
+    <result column="cars_id" property="carsId" jdbcType="INTEGER" />
+    <result column="cars_info" property="carsInfo" jdbcType="VARCHAR" />
+    <result column="engine_number" property="engineNumber" jdbcType="VARCHAR" />
+    <result column="certificate_number" property="certificateNumber" jdbcType="VARCHAR" />
+    <result column="warehouse_id" property="warehouseId" jdbcType="INTEGER" />
+    <result column="warehouse_name" property="warehouseName" jdbcType="VARCHAR" />
+    <result column="stock_car_images" property="stockCarImages" jdbcType="VARCHAR" />
+    <result column="interior_id" property="interiorId" jdbcType="INTEGER" />
+    <result column="interior_name" property="interiorName" jdbcType="VARCHAR" />
+    <result column="colour_id" property="colourId" jdbcType="INTEGER" />
+    <result column="colour_name" property="colourName" jdbcType="VARCHAR" />
+    <result column="unit_price" property="unitPrice" jdbcType="DOUBLE" />
+    <result column="is_delete" property="isDelete" jdbcType="TINYINT" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="storage_id" property="storageId" jdbcType="INTEGER" />
+    <result column="number" property="number" jdbcType="INTEGER" />
+    <result column="is_on_line" property="isOnLine" jdbcType="INTEGER" />
+    <result column="invoice_price" property="invoicePrice" jdbcType="DECIMAL" />
+    <result column="deposit_price" property="depositPrice" jdbcType="DECIMAL" />
+    <result column="discount_price" property="discountPrice" jdbcType="DECIMAL" />
+    <result column="guiding_price" property="guidingPrice" jdbcType="DECIMAL" />
+    <result column="order_id" property="orderId" jdbcType="INTEGER" />
+    <result column="org_id" property="orgId" jdbcType="INTEGER" />
+     <result column="is_put_out" property="isPutOut" jdbcType="TINYINT" />
+      <result column="certificate_date" property="certificateDate" jdbcType="INTEGER" />
+        <result column="follow_information" property="followInformation" jdbcType="VARCHAR" />
+    <result column="mileage" property="mileage" jdbcType="INTEGER" />
+    <result column="over_strong_insurance" property="overStrongInsurance" jdbcType="TINYINT" />
+    <association property="storageVo" column="storage_id" javaType="main.com.stock.dao.vo.StockStorageVo" select="getStorage">
+	    <id column="storage_id" property="storageId" jdbcType="INTEGER" />
+	    <result column="storage_code" property="storageCode" jdbcType="VARCHAR" />
+	    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+	    <result column="supplier_id" property="supplierId" jdbcType="INTEGER" />
+	    <result column="supplier_name" property="supplierName" jdbcType="VARCHAR" />
+	    <result column="system_users_id" property="systemUsersId" jdbcType="INTEGER" />
+	    <result column="system_user_name" property="systemUserName" jdbcType="VARCHAR" />
+	    <result column="total_purchase_price" property="totalPurchasePrice" jdbcType="DOUBLE" />
+	    <result column="total_purchase" property="totalPurchase" jdbcType="INTEGER" />
+	    <result column="logistics_cost" property="logisticsCost" jdbcType="DOUBLE" />
+	    <result column="is_delete" property="isDelete" jdbcType="TINYINT" />
+	    <result column="storage_source" property="storageSource" jdbcType="INTEGER" />
+	    <result column="org_id" property="orgId" jdbcType="INTEGER" />
+	    <result column="org_name" property="orgName" jdbcType="VARCHAR" />
+	    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+	    <result column="contract_number" property="contractNumber" jdbcType="VARCHAR" />
+	    <result column="contract_image" property="contractImage" jdbcType="VARCHAR" />
+	    <result column="certificate_date" property="certificateDate" jdbcType="INTEGER" />
+    </association>
+  </resultMap>
+  
+<!--     <resultMap id="BaseResultMap" type="main.com.stock.dao.vo.StockStorageVo" > -->
+   
+<!--   </resultMap> -->
+  
+  <sql id="Base_Column_List" >
+    stock_car_id, frame_number, cars_id, cars_info, engine_number, certificate_number, 
+    warehouse_id, warehouse_name, stock_car_images, interior_id, interior_name, colour_id, 
+    colour_name, unit_price, is_delete, create_date, storage_id,
+    is_on_line,invoice_price,deposit_price,discount_price,guiding_price,order_id,org_id,is_put_out,certificate_date,
+    follow_information,mileage,over_strong_insurance
+  </sql><!-- count(stock_car.stock_car_id) as number, -->
+  <sql id="Base_Column_List_list" >
+    stock_car_id, frame_number, cars_id, cars_info, engine_number, certificate_number, 
+    warehouse_id, warehouse_name, stock_car_images, interior_id, interior_name, colour_id, 
+    colour_name, unit_price, is_delete, create_date, storage_id, sum(stock_car.number) as number,
+    is_on_line,invoice_price,deposit_price,discount_price,guiding_price,order_id,org_id,is_put_out,certificate_date,
+    follow_information,mileage,over_strong_insurance
+  </sql><!-- count(stock_car.stock_car_id) as number, -->
+  
+   <sql id="Where_Condition">
+		<where>
+			<trim prefixOverrides="and">
+				<!-- 匹配查询 -->
+				<if test="stockCarId != null">and stock_car.stock_car_id = #{stockCarId}</if>
+				<if test="storageId != null">and stock_car.storage_id = #{storageId}</if>
+				<if test="orderId != null">and stock_car.order_id = #{orderId}</if>
+				<if test="carsId != null">and stock_car.cars_id = #{carsId}</if>
+				<if test="colourId != null">and stock_car.colour_id = #{colourId}</if>
+				<if test="interiorId != null">and stock_car.interior_id = #{interiorId}</if>
+				<if test="stockOrgId != null"> and stock_car.org_id = #{stockOrgId}</if>	
+				<if test="warehouseId != null">and stock_car.warehouse_id = #{warehouseId}</if>
+				<if test="isOnLine != null">and stock_car.is_on_line = #{isOnLine}</if>
+				<if test="engineNumber != null and engineNumber != ''">and stock_car.engine_number = #{engineNumber}</if>
+				<if test="frameNumber != null and frameNumber != ''">and stock_car.frame_number = #{frameNumber}</if>
+				<if test="isnotCarId != null and isnotCarId != ''">and stock_car.stock_car_id != #{isnotCarId}</if>
+				<if test="1 == 1">and stock_car.is_delete = 0</if>				
+				<if test="1 == 1 and isPutOut == null">and stock_car.is_put_out = 0</if>				
+				<if test="isPutOut == true">and stock_car.is_delete = 0 and stock_car.is_put_out = 1</if>				
+				<!-- 模糊查询 -->
+				
+                <!-- 时间筛选 -->
+				<if test="startDate != null and startDate != ''">and DATE_FORMAT(stock_car.create_date ,'%Y-%m-%d') &gt;= DATE_FORMAT(#{startDate}, '%Y-%m-%d')</if>
+				<if test="endDate != null and endDate != ''">and DATE_FORMAT(stock_car.create_date ,'%Y-%m-%d') &lt;= DATE_FORMAT(#{endDate}, '%Y-%m-%d')</if>	
+				
+				<if test="brandId != null">and (stock_car.cars_id IN (select car_cars.carId from car_cars where car_cars.brandId = #{brandId} ))</if>
+				<if test="carsInfo != null">and (stock_car.cars_id IN (select car_cars.carId from car_cars where car_cars.carName like CONCAT('%',#{carsInfo},'%')))</if>
+				
+				<!-- list查询 -->
+				<if test="ids != null">and stock_car.stock_car_id in
+                    <foreach item="item" index="index" collection="ids"
+                             open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+				<if test="carsIds != null">and stock_car.cars_id in
+                    <foreach item="item" index="index" collection="carsIds"
+                             open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+				<if test="colourIds != null">and stock_car.colour_id in
+                    <foreach item="item" index="index" collection="colourIds"
+                             open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+				<!-- list查询 -->
+				<if test="storageIds != null">and stock_car.storage_id in
+                    <foreach item="item" index="index" collection="storageIds"
+                             open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+			</trim>
+		</where>
+	</sql>
+
+
+	<!-- 查询总数 -->
+	<select id="selectCount" resultType="java.lang.Long"
+		parameterType="java.util.Map">
+		select count(stock_car_id) from stock_car
+		<include refid="Where_Condition" />
+	</select>
+
+	<!-- 查询 -->
+	<select id="select" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List" />
+		from stock_car
+		<include refid="Where_Condition" />
+		<if test="groupBy == true">
+		 GROUP BY stock_car.cars_id,
+		stock_car.colour_id,
+		stock_car.interior_id
+		</if>
+		<if test="sortField != null"> order by stock_car_id desc </if>
+		<if test="isPage== true and offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+	</select>
+	<!-- 查询总数 -->
+	<select id="selectCountByOrg" resultType="java.lang.Long"
+		parameterType="java.util.Map">
+		SELECT count(temp_stock_car.counts) FROM (select count(stock_car_id) AS counts from stock_car
+		<include refid="Where_Condition" />
+		<if test="groupBy == true">
+		 GROUP BY 
+		 	stock_car.cars_id,
+		 	stock_car.colour_id,
+			stock_car.interior_id
+		</if>
+		) AS temp_stock_car
+	</select>
+
+	<!-- 查询 -->
+	<select id="selectByOrg" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List_list" />
+		from stock_car
+		<include refid="Where_Condition" />
+		<if test="groupBy == true">
+		 GROUP BY 
+		 	stock_car.cars_id,
+		 	stock_car.colour_id,
+			stock_car.interior_id
+		</if>
+		<if test="lessGroupBy == true">
+		 GROUP BY 
+		 	stock_car.cars_id,
+		 	stock_car.colour_id
+		</if>
+		<if test="sortField != null"> order by stock_car_id desc </if>
+		<if test="isPage== true and offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+	</select>
+	<!-- 查询 -->
+	<select id="selectJoin" resultMap="BaseResultMapJoin" parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List" />
+		from stock_car
+		<include refid="Where_Condition" />
+		<if test="groupBy == true">
+		stock_car.cars_id,
+		stock_car.colour_id,
+		stock_car.interior_id
+		</if>
+		<if test="sortField != null"> order by stock_car_id desc </if>
+		<if test="isPage== true and offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+	</select>
+  
+  <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from stock_car
+    where stock_car_id = #{stockCarId,jdbcType=INTEGER} and stock_car.is_put_out = 0
+  </select>
+  
+  <select id="selectByIdAtAll" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from stock_car
+    where stock_car_id = #{stockCarId,jdbcType=INTEGER}
+  </select>
+  
+   <sql id="Base_Column_List_Storage" >
+    storage_id, storage_code, create_date, supplier_id, supplier_name, system_users_id, 
+    system_user_name, total_purchase_price, total_purchase, logistics_cost, is_delete, org_name, org_id, remarks, contract_number, contract_image,certificate_date
+  </sql>
+  
+    <select id="getStorage" resultMap="BaseResultMapJoin" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List_Storage" />
+    from stock_storage
+    where stock_storage.storage_id = #{storageId,jdbcType=INTEGER} and stock_storage.is_delete = 0
+  </select>
+  
+  <delete id="deleteById" parameterType="java.lang.Integer" >
+    delete from stock_car
+    where stock_car_id = #{stockCarId,jdbcType=INTEGER}
+  </delete>
+  
+  <insert id="insert" parameterType="main.com.stock.dao.po.StockCar" useGeneratedKeys="true" keyProperty="stockCarId" >
+    insert into stock_car
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="frameNumber != null" >
+        frame_number,
+      </if>
+      <if test="carsId != null" >
+        cars_id,
+      </if>
+      <if test="carsInfo != null" >
+        cars_info,
+      </if>
+      <if test="engineNumber != null" >
+        engine_number,
+      </if>
+      <if test="certificateNumber != null" >
+        certificate_number,
+      </if>
+      <if test="warehouseId != null" >
+        warehouse_id,
+      </if>
+      <if test="warehouseName != null" >
+        warehouse_name,
+      </if>
+      <if test="stockCarImages != null" >
+        stock_car_images,
+      </if>
+      <if test="interiorId != null" >
+        interior_id,
+      </if>
+      <if test="interiorName != null" >
+        interior_name,
+      </if>
+      <if test="colourId != null" >
+        colour_id,
+      </if>
+      <if test="colourName != null" >
+        colour_name,
+      </if>
+      <if test="unitPrice != null" >
+        unit_price,
+      </if>
+      <if test="isDelete != null" >
+        is_delete,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="storageId != null" >
+        storage_id,
+      </if>
+      <if test="isOnLine != null" >
+        is_on_line,
+      </if>
+      <if test="invoicePrice != null" >
+        invoice_price,
+      </if>
+      <if test="depositPrice != null" >
+        deposit_price,
+      </if>
+      <if test="discountPrice != null" >
+        discount_price,
+      </if>
+      <if test="guidingPrice != null" >
+        guiding_price,
+      </if>
+      <if test="orderId != null" >
+        order_id,
+      </if>
+      <if test="orgId != null" >
+        org_id,
+      </if>
+      <if test="isPutOut != null" >
+        is_put_out,
+      </if>
+      <if test="certificateDate != null" >
+        certificate_date,
+      </if>
+      <if test="followInformation != null" >
+        follow_information,
+      </if>
+      <if test="mileage != null" >
+        mileage,
+      </if>
+      <if test="overStrongInsurance != null" >
+        over_strong_insurance,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="frameNumber != null" >
+        #{frameNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="carsId != null" >
+        #{carsId,jdbcType=INTEGER},
+      </if>
+      <if test="carsInfo != null" >
+        #{carsInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="engineNumber != null" >
+        #{engineNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="certificateNumber != null" >
+        #{certificateNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="warehouseId != null" >
+        #{warehouseId,jdbcType=INTEGER},
+      </if>
+      <if test="warehouseName != null" >
+        #{warehouseName,jdbcType=VARCHAR},
+      </if>
+      <if test="stockCarImages != null" >
+        #{stockCarImages,jdbcType=VARCHAR},
+      </if>
+      <if test="interiorId != null" >
+        #{interiorId,jdbcType=INTEGER},
+      </if>
+      <if test="interiorName != null" >
+        #{interiorName,jdbcType=VARCHAR},
+      </if>
+      <if test="colourId != null" >
+        #{colourId,jdbcType=INTEGER},
+      </if>
+      <if test="colourName != null" >
+        #{colourName,jdbcType=VARCHAR},
+      </if>
+      <if test="unitPrice != null" >
+        #{unitPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="isDelete != null" >
+        #{isDelete,jdbcType=TINYINT},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="storageId != null" >
+        #{storageId,jdbcType=INTEGER},
+      </if>
+       <if test="isOnLine != null" >
+        #{isOnLine},
+      </if>
+      <if test="invoicePrice != null" >
+         #{invoicePrice},
+      </if>
+      <if test="depositPrice != null" >
+         #{depositPrice},
+      </if>
+      <if test="discountPrice != null" >
+        #{discountPrice},
+      </if>
+      <if test="guidingPrice != null" >
+        #{guidingPrice},
+      </if>      
+      <if test="orderId != null" >
+        #{orderId},
+      </if> 
+       <if test="orgId != null" >
+        #{orgId},
+      </if>
+       <if test="isPutOut != null" >
+        #{isPutOut},
+      </if>
+       <if test="certificateDate != null" >
+        #{certificateDate},
+      </if>
+       <if test="followInformation != null" >
+        #{followInformation},
+      </if>
+       <if test="mileage != null" >
+        #{mileage},
+      </if>
+       <if test="overStrongInsurance != null" >
+        #{overStrongInsurance},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateById" parameterType="main.com.stock.dao.po.StockCar" >
+    update stock_car
+    <set >
+      <if test="frameNumber != null" >
+        frame_number = #{frameNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="carsId != null" >
+        cars_id = #{carsId,jdbcType=INTEGER},
+      </if>
+      <if test="carsInfo != null" >
+        cars_info = #{carsInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="engineNumber != null" >
+        engine_number = #{engineNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="certificateNumber != null" >
+        certificate_number = #{certificateNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="warehouseId != null" >
+        warehouse_id = #{warehouseId,jdbcType=INTEGER},
+      </if>
+      <if test="warehouseName != null" >
+        warehouse_name = #{warehouseName,jdbcType=VARCHAR},
+      </if>
+      <if test="stockCarImages != null" >
+        stock_car_images = #{stockCarImages,jdbcType=VARCHAR},
+      </if>
+      <if test="interiorId != null" >
+        interior_id = #{interiorId,jdbcType=INTEGER},
+      </if>
+      <if test="interiorName != null" >
+        interior_name = #{interiorName,jdbcType=VARCHAR},
+      </if>
+      <if test="colourId != null" >
+        colour_id = #{colourId,jdbcType=INTEGER},
+      </if>
+      <if test="colourName != null" >
+        colour_name = #{colourName,jdbcType=VARCHAR},
+      </if>
+      <if test="unitPrice != null" >
+        unit_price = #{unitPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="isDelete != null" >
+        is_delete = #{isDelete,jdbcType=TINYINT},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="storageId != null" >
+        storage_id = #{storageId,jdbcType=INTEGER},
+      </if>
+       <if test="isOnLine != null" >
+        is_on_line = #{isOnLine},
+      </if>
+      <if test="invoicePrice != null" >
+        invoice_price = #{invoicePrice},
+      </if>
+      <if test="depositPrice != null" >
+        deposit_price = #{depositPrice},
+      </if>
+      <if test="discountPrice != null" >
+        discount_price = #{discountPrice},
+      </if>
+      <if test="guidingPrice != null" >
+        guiding_price = #{guidingPrice},
+      </if>
+      <if test="orderId != null" >
+        order_id = #{orderId},
+      </if>
+      <if test="orgId != null" >
+        org_id = #{orgId},
+      </if>
+      <if test="isPutOut != null" >
+        is_put_out = #{isPutOut},
+      </if>
+      <if test="certificateDate != null" >
+        certificate_date = #{certificateDate},
+      </if>
+      <if test="followInformation != null" >
+        follow_information = #{followInformation},
+      </if>
+      <if test="mileage != null" >
+        mileage = #{mileage},
+      </if>
+      <if test="overStrongInsurance != null" >
+        over_strong_insurance = #{overStrongInsurance},
+      </if>
+    </set>
+    where stock_car_id = #{stockCarId,jdbcType=INTEGER}
+  </update>
+</mapper>

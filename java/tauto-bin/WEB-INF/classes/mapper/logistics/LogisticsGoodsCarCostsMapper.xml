@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="main.com.logistics.dao.po.LogisticsGoodsCarCosts" >
+
+  <resultMap id="BaseResultMap" type="main.com.logistics.dao.vo.LogisticsGoodsCarCostsVo" >
+    <id column="logistics_goods_car_costs_id" property="logisticsGoodsCarCostsId" jdbcType="INTEGER" />
+    <result column="overflow" property="overflow" jdbcType="DECIMAL" />
+    <result column="the_price_additional" property="thePriceAdditional" jdbcType="DECIMAL" />
+    <result column="discount" property="discount" jdbcType="DECIMAL" />
+    <result column="price_markup" property="priceMarkup" jdbcType="DECIMAL" />
+    <result column="goods_car_id" property="goodsCarId" jdbcType="INTEGER" />
+    <result column="costs_amount" property="costsAmount" jdbcType="DECIMAL" />
+    <result column="line_type" property="lineType" jdbcType="INTEGER" />
+    <result column="line_amount" property="lineAmount" jdbcType="DECIMAL" />
+    <result column="initiate_rate" property="initiateRate" jdbcType="DECIMAL" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    logistics_goods_car_costs_id, overflow, the_price_additional, discount, price_markup, 
+    goods_car_id, costs_amount, line_type, line_amount, initiate_rate
+  </sql>
+
+   <sql id="Where_Condition">
+		<where>
+			<trim prefixOverrides="and">
+				
+				<!-- list查询 -->
+				<if test="goodsCarIds != null">and logistics_goods_car_costs.goods_car_id in
+                    <foreach item="item" index="index" collection="goodsCarIds"
+                             open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+			</trim>
+		</where>
+	</sql>
+
+	<!-- 查询总数 -->
+	<select id="selectCount" resultType="java.lang.Long"
+		parameterType="java.util.Map">
+		select count(logistics_goods_car_costs_id) from logistics_goods_car_costs
+		<include refid="Where_Condition" />
+	</select>
+
+	<!-- 查询 -->
+	<select id="select" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List" />
+		from logistics_goods_car_costs
+		<include refid="Where_Condition" />
+		<if test="sortField != null"> order by logistics_goods_car_costs.logistics_goods_car_costs_id desc </if>
+		<if test="isPage== true and offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+	</select>
+  
+  
+  <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from logistics_goods_car_costs
+    where logistics_goods_car_costs_id = #{logisticsGoodsCarCostsId,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectByGoodsCarId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from logistics_goods_car_costs
+    where goods_car_id = #{goodsCarId,jdbcType=INTEGER}
+  </select>
+  
+  <delete id="deleteById" parameterType="java.lang.Integer" >
+    delete from logistics_goods_car_costs
+    where logistics_goods_car_costs_id = #{logisticsGoodsCarCostsId,jdbcType=INTEGER}
+  </delete>
+  
+  <insert id="insert" parameterType="main.com.logistics.dao.po.LogisticsGoodsCarCosts" useGeneratedKeys="true" keyProperty="logisticsGoodsCarCostsId" >
+    insert into logistics_goods_car_costs
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="overflow != null" >
+        overflow,
+      </if>
+      <if test="thePriceAdditional != null" >
+        the_price_additional,
+      </if>
+      <if test="discount != null" >
+        discount,
+      </if>
+      <if test="priceMarkup != null" >
+        price_markup,
+      </if>
+      <if test="goodsCarId != null" >
+        goods_car_id,
+      </if>
+      <if test="costsAmount != null" >
+        costs_amount,
+      </if>
+      <if test="lineType != null" >
+        line_type,
+      </if>
+      <if test="lineAmount != null" >
+        line_amount,
+      </if>
+      <if test="initiateRate != null" >
+        initiate_rate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="overflow != null" >
+        #{overflow,jdbcType=DECIMAL},
+      </if>
+      <if test="thePriceAdditional != null" >
+        #{thePriceAdditional,jdbcType=DECIMAL},
+      </if>
+      <if test="discount != null" >
+        #{discount,jdbcType=DECIMAL},
+      </if>
+      <if test="priceMarkup != null" >
+        #{priceMarkup,jdbcType=DECIMAL},
+      </if>
+      <if test="goodsCarId != null" >
+        #{goodsCarId,jdbcType=INTEGER},
+      </if>
+      <if test="costsAmount != null" >
+        #{costsAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="lineType != null" >
+        #{lineType,jdbcType=INTEGER},
+      </if>
+      <if test="lineAmount != null" >
+        #{lineAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="initiateRate != null" >
+        #{initiateRate,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateById" parameterType="main.com.logistics.dao.po.LogisticsGoodsCarCosts" >
+    update logistics_goods_car_costs
+    <set >
+      <if test="overflow != null" >
+        overflow = #{overflow,jdbcType=DECIMAL},
+      </if>
+      <if test="thePriceAdditional != null" >
+        the_price_additional = #{thePriceAdditional,jdbcType=DECIMAL},
+      </if>
+      <if test="discount != null" >
+        discount = #{discount,jdbcType=DECIMAL},
+      </if>
+      <if test="priceMarkup != null" >
+        price_markup = #{priceMarkup,jdbcType=DECIMAL},
+      </if>
+      <if test="goodsCarId != null" >
+        goods_car_id = #{goodsCarId,jdbcType=INTEGER},
+      </if>
+      <if test="costsAmount != null" >
+        costs_amount = #{costsAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="lineType != null" >
+        line_type = #{lineType,jdbcType=INTEGER},
+      </if>
+      <if test="lineAmount != null" >
+        line_amount = #{lineAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="initiateRate != null" >
+        initiate_rate = #{initiateRate,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where logistics_goods_car_costs_id = #{logisticsGoodsCarCostsId,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="main.com.logistics.dao.po.LogisticsGoodsCar">
+
+  <resultMap id="BaseResultMap" type="main.com.logistics.dao.vo.LogisticsGoodsCarVo">
+    <id column="goods_car_id" jdbcType="INTEGER" property="goodsCarId" />
+    <result column="frame_number" jdbcType="VARCHAR" property="frameNumber" />
+    <result column="consignment_id" jdbcType="INTEGER" property="consignmentId" />
+    <result column="consignment_code" jdbcType="VARCHAR" property="consignmentCode" />
+    <result column="distribution_id" jdbcType="INTEGER" property="distributionId" />
+    <result column="distribution_code" jdbcType="VARCHAR" property="distributionCode" />
+    <result column="goods_car_state" jdbcType="INTEGER" property="goodsCarState" />
+    <result column="brand_id" jdbcType="INTEGER" property="brandId" />
+    <result column="brand_name" jdbcType="VARCHAR" property="brandName" />
+    <result column="family_id" jdbcType="INTEGER" property="familyId" />
+    <result column="family_name" jdbcType="VARCHAR" property="familyName" />
+    <result column="is_delete" jdbcType="TINYINT" property="isDelete" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+     <result column="accept_image" jdbcType="LONGVARCHAR" property="acceptImage" />
+    <result column="deliver_to_image" jdbcType="LONGVARCHAR" property="deliverToImage" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    goods_car_id, frame_number, consignment_id, consignment_code, distribution_id, distribution_code, 
+    goods_car_state, brand_id, brand_name, family_id, family_name, is_delete, create_date,accept_image, deliver_to_image
+  </sql>
+  
+   <sql id="Where_Condition">
+		<where>
+			<trim prefixOverrides="and">
+				<!-- 匹配查询 -->
+				<if test="goodsCarId != null">and logistics_goods_car.goods_car_id = #{goodsCarId}</if>				
+				<if test="1 == 1">and logistics_goods_car.is_delete = 0</if>	
+                
+				<!-- list查询 -->
+				<if test="ids != null">and logistics_goods_car.goods_car_id in
+                    <foreach close=")" collection="ids" index="index" item="item" open="(" separator=",">
+                        #{item}
+                    </foreach>
+                </if>
+			</trim>
+		</where>
+	</sql>
+
+	<!-- 查询总数 -->
+	<select id="selectCount" parameterType="java.util.Map" resultType="java.lang.Long">
+		select count(goods_car_id) from logistics_goods_car
+		<include refid="Where_Condition" />
+	</select>
+	
+	<!-- 查询 -->
+	<select id="select" parameterType="java.util.Map" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from logistics_goods_car
+		<include refid="Where_Condition" />
+		<if test="sortField != null"> order by create_date desc </if>
+		<if test="isPage== true and offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+	</select>
+  
+  <select id="selectById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from logistics_goods_car
+    where goods_car_id = #{goodsCarId,jdbcType=INTEGER}
+  </select>
+  
+  <delete id="deleteById" parameterType="java.lang.Integer">
+    delete from logistics_goods_car
+    where goods_car_id = #{goodsCarId,jdbcType=INTEGER}
+  </delete>
+  
+  <insert id="insert" keyProperty="goodsCarId" parameterType="main.com.logistics.dao.po.LogisticsGoodsCar" useGeneratedKeys="true">
+    insert into logistics_goods_car
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="frameNumber != null">
+        frame_number,
+      </if>
+      <if test="consignmentId != null">
+        consignment_id,
+      </if>
+      <if test="consignmentCode != null">
+        consignment_code,
+      </if>
+      <if test="distributionId != null">
+        distribution_id,
+      </if>
+      <if test="distributionCode != null">
+        distribution_code,
+      </if>
+      <if test="goodsCarState != null">
+        goods_car_state,
+      </if>
+      <if test="brandId != null">
+        brand_id,
+      </if>
+      <if test="brandName != null">
+        brand_name,
+      </if>
+      <if test="familyId != null">
+        family_id,
+      </if>
+      <if test="familyName != null">
+        family_name,
+      </if>
+      <if test="isDelete != null">
+        is_delete,
+      </if>
+      <if test="createDate != null">
+        create_date,
+      </if>
+      <if test="acceptImage != null">
+        accept_image,
+      </if>
+      <if test="deliverToImage != null">
+        deliver_to_image,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="frameNumber != null">
+        #{frameNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="consignmentId != null">
+        #{consignmentId,jdbcType=INTEGER},
+      </if>
+      <if test="consignmentCode != null">
+        #{consignmentCode,jdbcType=VARCHAR},
+      </if>
+      <if test="distributionId != null">
+        #{distributionId,jdbcType=INTEGER},
+      </if>
+      <if test="distributionCode != null">
+        #{distributionCode,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsCarState != null">
+        #{goodsCarState},
+      </if>
+      <if test="brandId != null">
+        #{brandId,jdbcType=INTEGER},
+      </if>
+      <if test="brandName != null">
+        #{brandName,jdbcType=VARCHAR},
+      </if>
+      <if test="familyId != null">
+        #{familyId,jdbcType=INTEGER},
+      </if>
+      <if test="familyName != null">
+        #{familyName,jdbcType=VARCHAR},
+      </if>
+      <if test="isDelete != null">
+        #{isDelete,jdbcType=TINYINT},
+      </if>
+      <if test="createDate != null">
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="acceptImage != null">
+        #{acceptImage,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="deliverToImage != null">
+        #{deliverToImage,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateById" parameterType="main.com.logistics.dao.po.LogisticsGoodsCar">
+    update logistics_goods_car
+    <set>
+      <if test="frameNumber != null">
+        frame_number = #{frameNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="consignmentId != null">
+        consignment_id = #{consignmentId,jdbcType=INTEGER},
+      </if>
+      <if test="consignmentCode != null">
+        consignment_code = #{consignmentCode,jdbcType=VARCHAR},
+      </if>
+      <if test="distributionId != null">
+        distribution_id = #{distributionId,jdbcType=INTEGER},
+      </if>
+      <if test="distributionCode != null">
+        distribution_code = #{distributionCode,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsCarState != null">
+        goods_car_state = #{goodsCarState},
+      </if>
+      <if test="brandId != null">
+        brand_id = #{brandId,jdbcType=INTEGER},
+      </if>
+      <if test="brandName != null">
+        brand_name = #{brandName,jdbcType=VARCHAR},
+      </if>
+      <if test="familyId != null">
+        family_id = #{familyId,jdbcType=INTEGER},
+      </if>
+      <if test="familyName != null">
+        family_name = #{familyName,jdbcType=VARCHAR},
+      </if>
+      <if test="isDelete != null">
+        is_delete = #{isDelete,jdbcType=TINYINT},
+      </if>
+      <if test="createDate != null">
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="acceptImage != null">
+        accept_image = #{acceptImage,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="deliverToImage != null">
+        deliver_to_image = #{deliverToImage,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where goods_car_id = #{goodsCarId,jdbcType=INTEGER}
+  </update>
+</mapper>

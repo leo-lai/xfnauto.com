@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="main.com.customer.dao.po.CustomerOrderTrack" >
+
+  <resultMap id="BaseResultMap" type="main.com.customer.dao.vo.CustomerOrderTrackVo" >
+    <id column="order_track_id" property="orderTrackId" jdbcType="INTEGER" />
+    <result column="track_content" property="trackContent" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="customer_order_id" property="customerOrderId" jdbcType="INTEGER" />
+    <result column="customer_order_code" property="customerOrderCode" jdbcType="VARCHAR" />
+    <result column="customer_order_state" property="customerOrderState" jdbcType="INTEGER" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    order_track_id, track_content, create_date, customer_order_id, customer_order_code, 
+    customer_order_state
+  </sql>
+  
+   <sql id="Where_Condition">
+		<where>
+			<trim prefixOverrides="and">
+				<!-- 匹配查询 -->
+				<if test="orderTrackId != null">and customer_order_track.order_track_id = #{orderTrackId}</if>				
+				<if test="customerOrderId != null">and customer_order_track.customer_order_id = #{customerOrderId}</if>				
+				<!-- list查询 -->
+				<if test="ids != null">and customer_order.order_track_id in
+                    <foreach item="item" index="index" collection="ids"
+                             open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+			</trim>
+		</where>
+	</sql>
+
+
+	<!-- 查询总数 -->
+	<select id="selectCount" resultType="java.lang.Long"
+		parameterType="java.util.Map">
+		select count(order_track_id) from customer_order_track
+		<include refid="Where_Condition" />
+	</select>
+
+	<!-- 查询 -->
+	<select id="select" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List" />
+		from customer_order_track
+		<include refid="Where_Condition" />
+		<if test="sortField != null"> order by customer_order_state asc </if>
+		<if test="isPage== true and offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+	</select>
+  
+  <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from customer_order_track
+    where order_track_id = #{orderTrackId,jdbcType=INTEGER}
+  </select>
+  
+  <delete id="deleteById" parameterType="java.lang.Integer" >
+    delete from customer_order_track
+    where order_track_id = #{orderTrackId,jdbcType=INTEGER}
+  </delete>
+  
+  <insert id="insert" parameterType="main.com.customer.dao.po.CustomerOrderTrack" useGeneratedKeys="true" keyProperty="orderTrackId" >
+    insert into customer_order_track
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="trackContent != null" >
+        track_content,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="customerOrderId != null" >
+        customer_order_id,
+      </if>
+      <if test="customerOrderCode != null" >
+        customer_order_code,
+      </if>
+      <if test="customerOrderState != null" >
+        customer_order_state,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="trackContent != null" >
+        #{trackContent,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="customerOrderId != null" >
+        #{customerOrderId,jdbcType=INTEGER},
+      </if>
+      <if test="customerOrderCode != null" >
+        #{customerOrderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="customerOrderState != null" >
+        #{customerOrderState,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateById" parameterType="main.com.customer.dao.po.CustomerOrderTrack" >
+    update customer_order_track
+    <set >
+      <if test="trackContent != null" >
+        track_content = #{trackContent,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="customerOrderId != null" >
+        customer_order_id = #{customerOrderId,jdbcType=INTEGER},
+      </if>
+      <if test="customerOrderCode != null" >
+        customer_order_code = #{customerOrderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="customerOrderState != null" >
+        customer_order_state = #{customerOrderState,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where order_track_id = #{orderTrackId,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,463 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="main.com.weixinHtml.dao.po.ShopApplyLoan" >
+
+  <resultMap id="BaseResultMap" type="main.com.weixinHtml.dao.vo.ShopApplyLoanVo" >
+    <id column="apply_loan_id" property="applyLoanId" jdbcType="INTEGER" />
+    <result column="cars_id" property="carsId" jdbcType="INTEGER" />
+    <result column="cars_name" property="carsName" jdbcType="VARCHAR" />
+    <result column="guidance_price" property="guidancePrice" jdbcType="DECIMAL" />
+    <result column="institution_id" property="institutionId" jdbcType="INTEGER" />
+    <result column="institution_name" property="institutionName" jdbcType="VARCHAR" />
+    <result column="down_payments" property="downPayments" jdbcType="DECIMAL" />
+    <result column="loan_amount" property="loanAmount" jdbcType="DECIMAL" />
+    <result column="loan_period" property="loanPeriod" jdbcType="INTEGER" />
+    <result column="annual_income" property="annualIncome" jdbcType="DECIMAL" />
+    <result column="lone_state" property="loneState" jdbcType="INTEGER" />
+    <result column="shop_user_id" property="shopUserId" jdbcType="INTEGER" />
+    <result column="shop_user_name" property="shopUserName" jdbcType="VARCHAR" />
+    <result column="car_number" property="carNumber" jdbcType="INTEGER" />
+    <result column="loan_type" property="loanType" jdbcType="INTEGER" />
+    <result column="org_id" property="orgId" jdbcType="INTEGER" />
+    <result column="org_name" property="orgName" jdbcType="VARCHAR" />
+    <result column="refusal_reason" property="refusalReason" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="is_del" property="isDel" jdbcType="TINYINT" />
+    <result column="system_user_id" property="systemUserId" jdbcType="INTEGER" />
+    <result column="system_user_name" property="systemUserName" jdbcType="VARCHAR" />
+    <result column="audit_time" property="auditTime" jdbcType="TIMESTAMP" />    
+    <result column="image" property="image" jdbcType="VARCHAR" />
+    <result column="annual_income_image" property="annualIncomeImage" jdbcType="VARCHAR" />
+    <result column="id_card_pic_on" property="idCardPicOn" jdbcType="VARCHAR" />
+    <result column="id_card_pic_off" property="idCardPicOff" jdbcType="VARCHAR" />
+    <result column="phone_number" property="phoneNumber" jdbcType="VARCHAR" />
+    <result column="loan_people_name" property="loanPeopleName" jdbcType="VARCHAR" />
+    <result column="loan_people_phone" property="loanPeoplePhone" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <resultMap id="BaseResultJoinMap" type="main.com.weixinHtml.dao.vo.ShopApplyLoanVo" >
+    <id column="apply_loan_id" property="applyLoanId" jdbcType="INTEGER" />
+    <result column="cars_id" property="carsId" jdbcType="INTEGER" />
+    <result column="cars_name" property="carsName" jdbcType="VARCHAR" />
+    <result column="guidance_price" property="guidancePrice" jdbcType="DECIMAL" />
+    <result column="institution_id" property="institutionId" jdbcType="INTEGER" />
+    <result column="institution_name" property="institutionName" jdbcType="VARCHAR" />
+    <result column="down_payments" property="downPayments" jdbcType="DECIMAL" />
+    <result column="loan_amount" property="loanAmount" jdbcType="DECIMAL" />
+    <result column="loan_period" property="loanPeriod" jdbcType="INTEGER" />
+    <result column="annual_income" property="annualIncome" jdbcType="DECIMAL" />
+    <result column="lone_state" property="loneState" jdbcType="INTEGER" />
+    <result column="shop_user_id" property="shopUserId" jdbcType="INTEGER" />
+    <result column="shop_user_name" property="shopUserName" jdbcType="VARCHAR" />
+    <result column="car_number" property="carNumber" jdbcType="INTEGER" />
+    <result column="loan_type" property="loanType" jdbcType="INTEGER" />
+    <result column="org_id" property="orgId" jdbcType="INTEGER" />
+    <result column="org_name" property="orgName" jdbcType="VARCHAR" />
+    <result column="refusal_reason" property="refusalReason" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="is_del" property="isDel" jdbcType="TINYINT" />
+    <result column="system_user_id" property="systemUserId" jdbcType="INTEGER" />
+    <result column="system_user_name" property="systemUserName" jdbcType="VARCHAR" />
+    <result column="audit_time" property="auditTime" jdbcType="TIMESTAMP" />
+    <result column="image" property="image" jdbcType="VARCHAR" />
+    <result column="annual_income_image" property="annualIncomeImage" jdbcType="VARCHAR" />
+    <result column="id_card_pic_on" property="idCardPicOn" jdbcType="VARCHAR" />
+    <result column="id_card_pic_off" property="idCardPicOff" jdbcType="VARCHAR" />
+    <result column="phone_number" property="phoneNumber" jdbcType="VARCHAR" />
+    <result column="loan_people_name" property="loanPeopleName" jdbcType="VARCHAR" />
+    <result column="loan_people_phone" property="loanPeoplePhone" jdbcType="VARCHAR" />
+    <association property="organizationVo" column="phone_number" select="getOrganization"/>
+  </resultMap>
+  
+  	<resultMap id="organizationVo" type="main.com.system.dao.vo.OrganizationVo">
+		<id column="orgId" property="orgId" jdbcType="INTEGER" />
+		<result column="parentId" property="parentId" jdbcType="INTEGER" />
+		<result column="seq" property="seq" jdbcType="INTEGER" />
+		<result column="orgCode" property="orgCode" jdbcType="VARCHAR" />
+		<result column="name" property="text" jdbcType="VARCHAR" />
+		<result column="shortName" property="shortName" jdbcType="VARCHAR" />
+		<result column="provinceId" property="provinceId" jdbcType="VARCHAR" />
+		<result column="cityId" property="cityId" jdbcType="VARCHAR" />
+		<result column="areaId" property="areaId" jdbcType="VARCHAR" />
+		<result column="provinceName" property="provinceName" jdbcType="VARCHAR" />
+		<result column="cityName" property="cityName" jdbcType="VARCHAR" />
+		<result column="areaName" property="areaName" jdbcType="VARCHAR" />
+		<result column="address" property="address" jdbcType="VARCHAR" />
+		<result column="zipcode" property="zipCode" jdbcType="VARCHAR" />
+		<result column="linkman" property="linkMan" jdbcType="VARCHAR" />
+		<result column="telephone" property="telePhone" jdbcType="VARCHAR" />
+		<result column="orgtype" property="orgType" jdbcType="INTEGER" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+		<result column="status" property="status" jdbcType="INTEGER" />
+		<result column="longitude" property="longitude" jdbcType="DOUBLE" />
+		<result column="latitude" property="latitude" jdbcType="DOUBLE" />
+		<result column="orgLink" property="orgLink" jdbcType="VARCHAR" />
+		<result column="imageurl" property="imageUrl" jdbcType="VARCHAR" />
+		<result column="orgLevel" property="orgLevel" jdbcType="INTEGER" />
+		<result column="imgIntroduce" property="imgIntroduce" jdbcType="VARCHAR" />
+		<result column="orgCodeLevel" property="orgCodeLevel" jdbcType="VARCHAR" />
+		<result column="bankAccount" property="bankAccount" jdbcType="VARCHAR" />
+		<result column="bankName" property="bankName" jdbcType="VARCHAR" />
+		<result column="openingBranch" property="openingBranch" jdbcType="VARCHAR" />
+		<result column="nameOfAccount" property="nameOfAccount" jdbcType="VARCHAR" />
+		<result column="introduce" property="introduce" jdbcType="VARCHAR" />
+		<result column="id_card_pic_on" property="idCardPicOn" jdbcType="VARCHAR" />
+		<result column="id_card_pic_off" property="idCardPicOff" jdbcType="VARCHAR" />
+		<result column="nature_type" property="natureType" jdbcType="INTEGER" />
+		<result column="business_license" property="businessLicense" jdbcType="VARCHAR" />
+	</resultMap>
+    
+    <sql id="Where_Condition">
+		<where>
+			<trim prefixOverrides="and">
+				<!-- 匹配查询 -->
+				<if test="institutionId != null">and shop_apply_loan.institution_id = #{institutionId}</if>	<!-- 金融机构 -->			
+				<if test="loneState != null">and shop_apply_loan.lone_state = #{loneState}</if>				
+				<if test="shopUserId != null">and shop_apply_loan.shop_user_id = #{shopUserId}</if>				
+				<if test="orgId != null">and shop_apply_loan.org_id = #{orgId}</if>				
+				<if test="isDel == null">and shop_apply_loan.is_del = 0</if>				
+                
+				<!-- list查询 -->
+				<if test="ids != null">and shop_apply_loan.apply_loan_id in
+                    <foreach item="item" index="index" collection="ids"
+                             open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+			</trim>
+		</where>
+	</sql>
+
+	<!-- 查询总数 -->
+	<select id="selectCount" resultType="java.lang.Long"
+		parameterType="java.util.Map">
+		select count(apply_loan_id) from shop_apply_loan
+		<include refid="Where_Condition" />
+	</select>
+
+	<!-- 查询 -->
+	<select id="select" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select 
+    		shop_apply_loan.*
+    	from shop_apply_loan
+		<include refid="Where_Condition" />
+		<if test="sortField != null"> order by shop_apply_loan.create_time desc </if>
+		<if test="isPage== true and offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+	</select>
+	
+	<!-- 查询 -->
+	<select id="selectJoin" resultMap="BaseResultJoinMap" parameterType="java.util.Map">
+		select 
+    		shop_apply_loan.*
+    	from shop_apply_loan
+		<include refid="Where_Condition" />
+		<if test="sortField != null"> order by shop_apply_loan.create_time desc </if>
+		<if test="isPage== true and offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+	</select>
+
+  <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    la.*
+    from shop_apply_loan as la
+    where la.apply_loan_id = #{applyLoanId,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectByIdJoin" resultMap="BaseResultJoinMap" parameterType="java.lang.Integer" >
+    select 
+    la.*
+    from shop_apply_loan as la
+    where la.apply_loan_id = #{applyLoanId,jdbcType=INTEGER}
+  </select>
+  
+  <delete id="deleteById" parameterType="java.lang.Integer" >
+    delete from shop_apply_loan
+    where apply_loan_id = #{applyLoanId,jdbcType=INTEGER}
+  </delete>
+  
+  <select id="getOrganization" parameterType="java.lang.String" resultMap="organizationVo">
+	 	select 
+	 	so.*
+		from system_organization so
+		where so.telephone = #{phone_number}
+    </select>
+
+  <insert id="insert" parameterType="main.com.weixinHtml.dao.po.ShopApplyLoan" useGeneratedKeys="true" keyProperty="applyLoanId" >
+    insert into shop_apply_loan
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="carsId != null" >
+        cars_id,
+      </if>
+      <if test="carsName != null" >
+        cars_name,
+      </if>
+      <if test="guidancePrice != null" >
+        guidance_price,
+      </if>
+      <if test="institutionId != null" >
+        institution_id,
+      </if>
+      <if test="institutionName != null" >
+        institution_name,
+      </if>
+      <if test="downPayments != null" >
+        down_payments,
+      </if>
+      <if test="loanAmount != null" >
+        loan_amount,
+      </if>
+      <if test="loanPeriod != null" >
+        loan_period,
+      </if>
+      <if test="annualIncome != null" >
+        annual_income,
+      </if>
+      <if test="loneState != null" >
+        lone_state,
+      </if>
+      <if test="shopUserId != null" >
+        shop_user_id,
+      </if>
+      <if test="shopUserName != null" >
+        shop_user_name,
+      </if>
+      <if test="carNumber != null" >
+        car_number,
+      </if>
+      <if test="loanType != null" >
+        loan_type,
+      </if>
+      <if test="orgId != null" >
+        org_id,
+      </if>
+      <if test="orgName != null" >
+        org_name,
+      </if>
+      <if test="refusalReason != null" >
+        refusal_reason,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="isDel != null" >
+        is_del,
+      </if>
+      <if test="systemUserId != null" >
+        system_user_id,
+      </if>
+      <if test="systemUserName != null" >
+        system_user_name,
+      </if>
+      <if test="auditTime != null" >
+        audit_time,
+      </if>
+      <if test="image != null" >
+        image,
+      </if>
+      <if test="annualIncomeImage != null" >
+        annual_income_image,
+      </if>
+      <if test="idCardPicOn != null" >
+        id_card_pic_on,
+      </if>
+      <if test="idCardPicOff != null" >
+        id_card_pic_off,
+      </if>
+      <if test="phoneNumber != null" >
+        phone_number,
+      </if>
+      <if test="loanPeopleName != null" >
+        loan_people_name,
+      </if>
+      <if test="loanPeoplePhone != null" >
+        loan_people_phone,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="carsId != null" >
+        #{carsId,jdbcType=INTEGER},
+      </if>
+      <if test="carsName != null" >
+        #{carsName,jdbcType=VARCHAR},
+      </if>
+      <if test="guidancePrice != null" >
+        #{guidancePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="institutionId != null" >
+        #{institutionId,jdbcType=INTEGER},
+      </if>
+      <if test="institutionName != null" >
+        #{institutionName,jdbcType=VARCHAR},
+      </if>
+      <if test="downPayments != null" >
+        #{downPayments,jdbcType=DECIMAL},
+      </if>
+      <if test="loanAmount != null" >
+        #{loanAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="loanPeriod != null" >
+        #{loanPeriod,jdbcType=INTEGER},
+      </if>
+      <if test="annualIncome != null" >
+        #{annualIncome,jdbcType=DECIMAL},
+      </if>
+      <if test="loneState != null" >
+        #{loneState,jdbcType=INTEGER},
+      </if>
+      <if test="shopUserId != null" >
+        #{shopUserId,jdbcType=INTEGER},
+      </if>
+      <if test="shopUserName != null" >
+        #{shopUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="carNumber != null" >
+        #{carNumber,jdbcType=INTEGER},
+      </if>
+      <if test="loanType != null" >
+        #{loanType,jdbcType=INTEGER},
+      </if>
+      <if test="orgId != null" >
+        #{orgId,jdbcType=INTEGER},
+      </if>
+      <if test="orgName != null" >
+        #{orgName,jdbcType=VARCHAR},
+      </if>
+      <if test="refusalReason != null" >
+        #{refusalReason,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDel != null" >
+        #{isDel,jdbcType=VARCHAR},
+      </if>
+      <if test="systemUserId != null" >
+        #{systemUserId,jdbcType=INTEGER},
+      </if>
+      <if test="systemUserName != null" >
+        #{systemUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="auditTime != null" >
+        #{auditTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="image != null" >
+        #{image},
+      </if>
+      <if test="annualIncomeImage != null" >
+        #{annualIncomeImage},
+      </if>
+      <if test="idCardPicOn != null" >
+        #{idCardPicOn},
+      </if>
+      <if test="idCardPicOff != null" >
+        #{idCardPicOff},
+      </if>
+      <if test="phoneNumber != null" >
+        #{phoneNumber},
+      </if>
+      <if test="loanPeopleName != null" >
+        #{loanPeopleName},
+      </if>
+      <if test="loanPeoplePhone != null" >
+        #{loanPeoplePhone},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateById" parameterType="main.com.weixinHtml.dao.po.ShopApplyLoan" >
+    update shop_apply_loan
+    <set >
+      <if test="carsId != null" >
+        cars_id = #{carsId,jdbcType=INTEGER},
+      </if>
+      <if test="carsName != null" >
+        cars_name = #{carsName,jdbcType=VARCHAR},
+      </if>
+      <if test="guidancePrice != null" >
+        guidance_price = #{guidancePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="institutionId != null" >
+        institution_id = #{institutionId,jdbcType=INTEGER},
+      </if>
+      <if test="institutionName != null" >
+        institution_name = #{institutionName,jdbcType=VARCHAR},
+      </if>
+      <if test="downPayments != null" >
+        down_payments = #{downPayments,jdbcType=DECIMAL},
+      </if>
+      <if test="loanAmount != null" >
+        loan_amount = #{loanAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="loanPeriod != null" >
+        loan_period = #{loanPeriod,jdbcType=INTEGER},
+      </if>
+      <if test="annualIncome != null" >
+        annual_income = #{annualIncome,jdbcType=DECIMAL},
+      </if>
+      <if test="loneState != null" >
+        lone_state = #{loneState,jdbcType=INTEGER},
+      </if>
+      <if test="shopUserId != null" >
+        shop_user_id = #{shopUserId,jdbcType=INTEGER},
+      </if>
+      <if test="shopUserName != null" >
+        shop_user_name = #{shopUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="carNumber != null" >
+        car_number = #{carNumber,jdbcType=INTEGER},
+      </if>
+      <if test="loanType != null" >
+        loan_type = #{loanType,jdbcType=INTEGER},
+      </if>
+      <if test="orgId != null" >
+        org_id = #{orgId,jdbcType=INTEGER},
+      </if>
+      <if test="orgName != null" >
+        org_name = #{orgName,jdbcType=VARCHAR},
+      </if>
+      <if test="refusalReason != null" >
+        refusal_reason = #{refusalReason,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDel != null" >
+        is_del = #{isDel,jdbcType=VARCHAR},
+      </if>
+      <if test="systemUserId != null" >
+        system_user_id = #{systemUserId,jdbcType=INTEGER},
+      </if>
+      <if test="systemUserName != null" >
+        system_user_name = #{systemUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="auditTime != null" >
+        audit_time = #{auditTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="image != null" >
+        image = #{image,jdbcType=VARCHAR},
+      </if>
+      <if test="annualIncomeImage != null" >
+        annual_income_image = #{annualIncomeImage,jdbcType=VARCHAR},
+      </if>
+      <if test="idCardPicOn != null" >
+        id_card_pic_on = #{idCardPicOn,jdbcType=VARCHAR},
+      </if>
+      <if test="idCardPicOff != null" >
+        id_card_pic_off = #{idCardPicOff,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneNumber != null" >
+        phone_number = #{phoneNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="loanPeopleName != null" >
+        loan_people_name = #{loanPeopleName,jdbcType=VARCHAR},
+      </if>
+      <if test="loanPeoplePhone != null" >
+        loan_people_phone = #{loanPeoplePhone,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where apply_loan_id = #{applyLoanId,jdbcType=INTEGER}
+  </update>
+</mapper>

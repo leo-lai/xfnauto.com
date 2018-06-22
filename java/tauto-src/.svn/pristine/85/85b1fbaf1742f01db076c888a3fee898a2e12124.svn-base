@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="main.com.system.dao.po.ESCOrderInfo">
+	<!-- <cache type="org.mybatis.caches.ehcache.LoggingEhcache" readOnly="true" 
+		/> -->
+
+	<resultMap id="ResultMap" type="main.com.system.dao.po.ESCOrderInfo">
+		<id column="order_id" property="order_id" jdbcType="INTEGER" />
+		<result column="order_sn" property="order_sn" jdbcType="VARCHAR" />
+		<result column="user_id" property="user_id" jdbcType="INTEGER" />
+		<result column="order_status" property="order_status" jdbcType="TINYINT" />
+		<result column="shipping_status" property="shipping_status" jdbcType="TINYINT" />
+		<result column="pay_status" property="pay_status" jdbcType="TINYINT" />
+		<result column="consignee" property="consignee" jdbcType="VARCHAR" />
+		<result column="country" property="country" jdbcType="INTEGER" />
+		<result column="province" property="province" jdbcType="INTEGER" />
+		<result column="city" property="city" jdbcType="INTEGER" />
+		<result column="district" property="district" jdbcType="INTEGER" />
+		<result column="address" property="address" jdbcType="VARCHAR" />
+		<result column="zipcode" property="zipcode" jdbcType="VARCHAR" />
+		<result column="tel" property="tel" jdbcType="VARCHAR" />
+		<result column="mobile" property="mobile" jdbcType="VARCHAR" />
+		<result column="email" property="email" jdbcType="VARCHAR" />
+		<result column="best_time" property="best_time" jdbcType="VARCHAR" />
+		<result column="sign_building" property="sign_building" jdbcType="VARCHAR" />
+		<result column="postscript" property="postscript" jdbcType="VARCHAR" />
+		<result column="shipping_id" property="shipping_id" jdbcType="TINYINT" />
+		<result column="shipping_name" property="shipping_name" jdbcType="VARCHAR" />
+		<result column="pay_id" property="pay_id" jdbcType="TINYINT" />
+		<result column="pay_name" property="pay_name" jdbcType="VARCHAR" />
+		<result column="how_oos" property="how_oos" jdbcType="VARCHAR" />
+		<result column="how_surplus" property="how_surplus" jdbcType="VARCHAR" />
+		<result column="pack_name" property="pack_name" jdbcType="VARCHAR" />
+		<result column="card_name" property="card_name" jdbcType="VARCHAR" />
+		<result column="card_message" property="card_message" jdbcType="VARCHAR" />
+		<result column="inv_payee" property="inv_payee" jdbcType="VARCHAR" />
+		<result column="inv_content" property="inv_content" jdbcType="VARCHAR" />
+		<result column="goods_amount" property="goods_amount" jdbcType="DOUBLE" />
+		<result column="shipping_fee" property="shipping_fee" jdbcType="DOUBLE" />
+		<result column="insure_fee" property="insure_fee" jdbcType="DOUBLE" />
+		<result column="pay_fee" property="pay_fee" jdbcType="DOUBLE" />
+		<result column="pack_fee" property="pack_fee" jdbcType="DOUBLE" />
+		<result column="card_fee" property="card_fee" jdbcType="DOUBLE" />
+		<result column="money_paid" property="money_paid" jdbcType="DOUBLE" />
+		<result column="surplus" property="surplus" jdbcType="DOUBLE" />
+		<result column="integral" property="integral" jdbcType="INTEGER" />
+		<result column="integral_money" property="integral_money" jdbcType="DOUBLE" />
+		<result column="bonus" property="bonus" jdbcType="DOUBLE" />
+		<result column="order_amount" property="order_amount" jdbcType="DOUBLE" />
+		<result column="from_ad" property="from_ad" jdbcType="INTEGER" />
+		<result column="referer" property="referer" jdbcType="VARCHAR" />
+		<result column="add_time" property="add_time" jdbcType="INTEGER" />
+		<result column="confirm_time" property="confirm_time" jdbcType="INTEGER" />
+		<result column="pay_time" property="pay_time" jdbcType="INTEGER" />
+		<result column="shipping_time" property="shipping_time" jdbcType="INTEGER" />
+		<result column="pack_id" property="pack_id" jdbcType="INTEGER" />
+		<result column="card_id" property="card_id" jdbcType="INTEGER" />
+		<result column="bonus_id" property="bonus_id" jdbcType="INTEGER" />
+		<result column="invoice_no" property="invoice_no" jdbcType="VARCHAR" />
+		<result column="extension_code" property="extension_code" jdbcType="VARCHAR" />
+		<result column="extension_id" property="extension_id" jdbcType="INTEGER" />
+		<result column="to_buyer" property="to_buyer" jdbcType="VARCHAR" />
+		<result column="pay_note" property="pay_note" jdbcType="VARCHAR" />
+		<result column="agency_id" property="agency_id" jdbcType="INTEGER" />
+		<result column="inv_type" property="inv_type" jdbcType="VARCHAR" />
+		<result column="tax" property="tax" jdbcType="DOUBLE" />
+		<result column="is_separate" property="is_separate" jdbcType="INTEGER" />
+		<result column="parent_id" property="parent_id" jdbcType="INTEGER" />
+		<result column="discount" property="discount" jdbcType="DOUBLE" />
+		<result column="fencheng" property="fencheng" jdbcType="VARCHAR" />
+		</resultMap>
+
+	<sql id="DB_Column_List">
+		ecs_order_info.order_id,
+		ecs_order_info.order_sn,
+		ecs_order_info.user_id,
+		ecs_order_info.order_status,
+		ecs_order_info.shipping_status,
+		ecs_order_info.pay_status,
+		ecs_order_info.consignee,
+		ecs_order_info.country,
+		ecs_order_info.province,
+		ecs_order_info.city,
+		ecs_order_info.district,
+		ecs_order_info.address,
+		ecs_order_info.zipcode,
+		ecs_order_info.tel,
+		ecs_order_info.mobile,
+		ecs_order_info.email,
+		ecs_order_info.best_time,
+		ecs_order_info.sign_building,
+		ecs_order_info.postscript,
+		ecs_order_info.shipping_id,
+		ecs_order_info.shipping_name,
+		ecs_order_info.pay_id,
+		ecs_order_info.pay_name,
+		ecs_order_info.how_oos,
+		ecs_order_info.how_surplus,
+		ecs_order_info.pack_name,
+		ecs_order_info.card_name,
+		ecs_order_info.card_message,
+		ecs_order_info.inv_payee,
+		ecs_order_info.inv_content,
+		ecs_order_info.goods_amount,
+		ecs_order_info.shipping_fee,
+		ecs_order_info.insure_fee,
+		ecs_order_info.pay_fee,
+		ecs_order_info.pack_fee,
+		ecs_order_info.card_fee,
+		ecs_order_info.money_paid,
+		ecs_order_info.surplus,
+		ecs_order_info.integral,
+		ecs_order_info.integral_money,
+		ecs_order_info.bonus,
+		ecs_order_info.order_amount,
+		ecs_order_info.from_ad,
+		ecs_order_info.referer,
+		ecs_order_info.add_time,
+		ecs_order_info.confirm_time,
+		ecs_order_info.pay_time,
+		ecs_order_info.shipping_time,
+		ecs_order_info.pack_id,
+		ecs_order_info.card_id,
+		ecs_order_info.bonus_id,
+		ecs_order_info.invoice_no,
+		ecs_order_info.extension_code,
+		ecs_order_info.extension_id,
+		ecs_order_info.to_buyer,
+		ecs_order_info.pay_note,
+		ecs_order_info.agency_id,
+		ecs_order_info.inv_type,
+		ecs_order_info.tax,
+		ecs_order_info.is_separate,
+		ecs_order_info.parent_id,
+		ecs_order_info.discount,
+		ecs_order_info.fencheng
+	</sql>
+
+	<sql id="Where_Condition">
+		<where>
+			<trim prefixOverrides="and">
+				<!-- 匹配查询 -->
+				<if test="order_id != null">and ecs_order_info.order_id = #{order_id}</if>
+				<if test="user_id != null">and ecs_order_info.user_id = #{user_id}</if>
+				<if test="pay_status != null">and ecs_order_info.pay_status = #{pay_status}</if>
+				<if test="orderIds != null">and ecs_order_info.order_id in
+                    <foreach item="item" index="index" collection="orderIds"
+                             open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+                <if test="uIds != null">and ecs_order_info.user_id in
+                    <foreach item="item" index="index" collection="uIds"
+                             open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+			</trim>
+		</where>
+	</sql>
+
+
+	<!-- 查询总数 -->
+	<select id="selectCount" resultType="java.lang.Long"
+		parameterType="java.util.Map">
+		select count(order_id) from ecs_order_info
+		<include refid="Where_Condition" />
+	</select>
+
+	<!-- 查询 -->
+	<select id="select" resultMap="ResultMap" parameterType="java.util.Map">
+		select
+		<include refid="DB_Column_List" />
+		from ecs_order_info
+		<include refid="Where_Condition" />
+		<if test="isPage== true and offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+	</select>
+
+	<!-- 根据ID查询 -->
+	<select id="selectById" resultMap="ResultMap" parameterType="java.lang.Integer">
+		select
+		<include refid="DB_Column_List" />
+		from ecs_order_info
+		where ecs_order_info.order_id = #{order_id}
+	</select>
+</mapper>

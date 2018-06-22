@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="main.com.customer.dao.po.CustomerRemarks" >
+
+  <resultMap id="BaseResultMap" type="main.com.customer.dao.vo.CustomerRemarksVo" >
+    <id column="remarks_id" property="remarksId" jdbcType="INTEGER" />
+    <result column="remarks_content" property="remarksContent" jdbcType="VARCHAR" />
+    <result column="customer_id" property="customerId" jdbcType="INTEGER" />
+    <result column="customer_name" property="customerName" jdbcType="VARCHAR" />
+    <result column="system_user_id" property="systemUserId" jdbcType="INTEGER" />
+    <result column="system_user_name" property="systemUserName" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="org_id" property="orgId" jdbcType="INTEGER" />
+    <result column="org_code" property="orgCode" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    remarks_id, remarks_content, customer_id, customer_name, system_user_id, system_user_name, 
+    create_date,org_id,org_code
+  </sql>
+  
+   <sql id="Where_Condition">
+		<where>
+			<trim prefixOverrides="and">
+				<!-- 匹配查询 -->
+				<if test="remarksId != null">and customer_remarks.remarks_id = #{remarksId}</if>				
+				<if test="customerId != null">and customer_remarks.customer_id = #{customerId}</if>				
+				<if test="orgId != null">and customer_remarks.org_id = #{orgId}</if>				
+				<!-- list查询 -->
+				<if test="ids != null">and customer_order.remarks_id in
+                    <foreach item="item" index="index" collection="ids"
+                             open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+			</trim>
+		</where>
+	</sql>
+
+
+	<!-- 查询总数 -->
+	<select id="selectCount" resultType="java.lang.Long"
+		parameterType="java.util.Map">
+		select count(remarks_id) from customer_remarks
+		<include refid="Where_Condition" />
+	</select>
+
+	<!-- 查询 -->
+	<select id="select" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List" />
+		from customer_remarks
+		<include refid="Where_Condition" />
+		<if test="sortField != null"> order by customer_remarks.create_date desc </if>
+		<if test="isPage== true and offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+	</select>
+  
+  <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from customer_remarks
+    where remarks_id = #{remarksId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteById" parameterType="java.lang.Integer" >
+    delete from customer_remarks
+    where remarks_id = #{remarksId,jdbcType=INTEGER}
+  </delete>
+  
+
+  <insert id="insert" parameterType="main.com.customer.dao.po.CustomerRemarks" useGeneratedKeys="true" keyProperty="remarksId" >
+    insert into customer_remarks
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="remarksContent != null" >
+        remarks_content,
+      </if>
+      <if test="customerId != null" >
+        customer_id,
+      </if>
+      <if test="customerName != null" >
+        customer_name,
+      </if>
+      <if test="systemUserId != null" >
+        system_user_id,
+      </if>
+      <if test="systemUserName != null" >
+        system_user_name,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="orgId != null" >
+        org_id,
+      </if>
+      <if test="orgCode != null" >
+        org_code,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="remarksContent != null" >
+        #{remarksContent,jdbcType=VARCHAR},
+      </if>
+      <if test="customerId != null" >
+        #{customerId,jdbcType=INTEGER},
+      </if>
+      <if test="customerName != null" >
+        #{customerName,jdbcType=VARCHAR},
+      </if>
+      <if test="systemUserId != null" >
+        #{systemUserId,jdbcType=INTEGER},
+      </if>
+      <if test="systemUserName != null" >
+        #{systemUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orgId != null" >
+        #{orgId},
+      </if>
+      <if test="orgCode != null" >
+        #{orgCode},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateById" parameterType="main.com.customer.dao.po.CustomerRemarks" >
+    update customer_remarks
+    <set >
+      <if test="remarksContent != null" >
+        remarks_content = #{remarksContent,jdbcType=VARCHAR},
+      </if>
+      <if test="customerId != null" >
+        customer_id = #{customerId,jdbcType=INTEGER},
+      </if>
+      <if test="customerName != null" >
+        customer_name = #{customerName,jdbcType=VARCHAR},
+      </if>
+      <if test="systemUserId != null" >
+        system_user_id = #{systemUserId,jdbcType=INTEGER},
+      </if>
+      <if test="systemUserName != null" >
+        system_user_name = #{systemUserName,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orgId != null" >
+        org_id = #{orgId},
+      </if>
+      <if test="orgCode != null" >
+        org_code = #{orgCode},
+      </if>
+    </set>
+    where remarks_id = #{remarksId,jdbcType=INTEGER}
+  </update>
+</mapper>

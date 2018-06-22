@@ -1,0 +1,379 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="main.com.stock.dao.po.ConsumerOrderCar" >
+  <resultMap id="BaseResultMap" type="main.com.stock.dao.po.ConsumerOrderCar" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="info_id" property="infoId" jdbcType="INTEGER" />
+    <result column="stock_car_id" property="stockCarId" jdbcType="INTEGER" />
+    <result column="vin" property="vin" jdbcType="VARCHAR" />
+    <result column="cars_id" property="carsId" jdbcType="INTEGER" />
+    <result column="cars_name" property="carsName" jdbcType="VARCHAR" />
+    <result column="brand_id" property="brandId" jdbcType="INTEGER" />
+    <result column="brand_name" property="brandName" jdbcType="VARCHAR" />
+    <result column="family_id" property="familyId" jdbcType="INTEGER" />
+    <result column="family_name" property="familyName" jdbcType="VARCHAR" />
+    <result column="color_id" property="colorId" jdbcType="INTEGER" />
+    <result column="color_name" property="colorName" jdbcType="VARCHAR" />
+    <result column="interior_id" property="interiorId" jdbcType="INTEGER" />
+    <result column="interior_name" property="interiorName" jdbcType="VARCHAR" />
+    <result column="audit_state" property="auditState" jdbcType="TINYINT" />
+    <result column="audit_remark" property="auditRemark" jdbcType="VARCHAR" />
+    <result column="check_car_pic" property="checkCarPic" jdbcType="VARCHAR" />
+    <result column="ticket_pic" property="ticketPic" jdbcType="VARCHAR" />
+    <result column="ticket_remark" property="ticketRemark" jdbcType="VARCHAR" />
+    <result column="certification_pic" property="certificationPic" jdbcType="VARCHAR" />
+    <result column="tci_pic" property="tciPic" jdbcType="VARCHAR" />
+    <result column="ci_pic" property="ciPic" jdbcType="VARCHAR" />
+    <result column="express_pic" property="expressPic" jdbcType="VARCHAR" />
+    <result column="other_pic" property="otherPic" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="is_del" property="isDel" jdbcType="TINYINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, info_id, stock_car_id,vin,cars_id, cars_name, brand_id, brand_name, family_id, family_name, 
+    color_id, color_name, interior_id, interior_name, audit_state, audit_remark, check_car_pic, 
+    ticket_pic,ticket_remark, certification_pic,tci_pic,ci_pic,express_pic,other_pic,create_time, is_del
+  </sql>
+  <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from consumer_order_car
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from consumer_order_car
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="main.com.stock.dao.po.ConsumerOrderCar" >
+    insert into consumer_order_car
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="infoId != null" >
+        info_id,
+      </if>
+      <if test="stockCarId != null" >
+        stock_car_id,
+      </if>
+      <if test="vin != null" >
+        vin,
+      </if>
+      <if test="carsId != null" >
+        cars_id,
+      </if>
+      <if test="carsName != null" >
+        cars_name,
+      </if>
+      <if test="brandId != null" >
+        brand_id,
+      </if>
+      <if test="brandName != null" >
+        brand_name,
+      </if>
+      <if test="familyId != null" >
+        family_id,
+      </if>
+      <if test="familyName != null" >
+        family_name,
+      </if>
+      <if test="colorId != null" >
+        color_id,
+      </if>
+      <if test="colorName != null" >
+        color_name,
+      </if>
+      <if test="interiorId != null" >
+        interior_id,
+      </if>
+      <if test="interiorName != null" >
+        interior_name,
+      </if>
+      <if test="auditState != null" >
+        audit_state,
+      </if>
+      <if test="auditRemark != null" >
+        audit_remark,
+      </if>
+      <if test="checkCarPic != null" >
+        check_car_pic,
+      </if>
+      <if test="ticketPic != null" >
+        ticket_pic,
+      </if>
+      <if test="ticketRemark != null" >
+        ticket_remark,
+      </if>
+      <if test="certificationPic != null" >
+        certification_pic,
+      </if>
+      <if test="tciPic != null" >
+        tci_pic,
+      </if>
+      <if test="ciPic != null" >
+        ci_pic,
+      </if>
+       <if test="expressPic != null" >
+        express_pic,
+      </if>
+      <if test="otherPic != null" >
+        other_pic,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="isDel != null" >
+        is_del,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="infoId != null" >
+        #{infoId,jdbcType=INTEGER},
+      </if>
+      <if test="stockCarId != null" >
+        #{stockCarId,jdbcType=INTEGER},
+      </if>
+      <if test="vin != null" >
+        #{vin,jdbcType=VARCHAR},
+      </if>
+      <if test="carsId != null" >
+        #{carsId,jdbcType=INTEGER},
+      </if>
+      <if test="carsName != null" >
+        #{carsName,jdbcType=VARCHAR},
+      </if>
+      <if test="brandId != null" >
+        #{brandId,jdbcType=INTEGER},
+      </if>
+      <if test="brandName != null" >
+        #{brandName,jdbcType=VARCHAR},
+      </if>
+      <if test="familyId != null" >
+        #{familyId,jdbcType=INTEGER},
+      </if>
+      <if test="familyName != null" >
+        #{familyName,jdbcType=VARCHAR},
+      </if>
+      <if test="colorId != null" >
+        #{colorId,jdbcType=INTEGER},
+      </if>
+      <if test="colorName != null" >
+        #{colorName,jdbcType=VARCHAR},
+      </if>
+      <if test="interiorId != null" >
+        #{interiorId,jdbcType=INTEGER},
+      </if>
+      <if test="interiorName != null" >
+        #{interiorName,jdbcType=VARCHAR},
+      </if>
+      <if test="auditState != null" >
+        #{auditState,jdbcType=TINYINT},
+      </if>
+      <if test="auditRemark != null" >
+        #{auditRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="checkCarPic != null" >
+        #{checkCarPic,jdbcType=VARCHAR},
+      </if>
+      <if test="ticketPic != null" >
+        #{ticketPic,jdbcType=VARCHAR},
+      </if>
+      <if test="ticketRemark != null" >
+        #{ticketRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="certificationPic != null" >
+        #{certification_pic,jdbcType=VARCHAR},
+      </if>
+      <if test="tciPic != null" >
+        #{tci_pic,jdbcType=VARCHAR},
+      </if>
+      <if test="ciPic != null" >
+        #{ci_pic,jdbcType=VARCHAR},
+      </if>
+      <if test="expressPic != null" >
+        #{express_pic,jdbcType=VARCHAR},
+      </if>
+      <if test="otherPic != null" >
+        #{other_pic,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDel != null" >
+        #{isDel,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateById" parameterType="main.com.stock.dao.po.ConsumerOrderCar" >
+    update consumer_order_car
+    <set >
+      <if test="infoId != null" >
+        info_id = #{infoId,jdbcType=INTEGER},
+      </if>
+      <if test="stockCarId != null" >
+        stock_car_id = #{stockCarId,jdbcType=INTEGER},
+      </if>
+      <if test="vin != null" >
+        vin = #{vin,jdbcType=VARCHAR},
+      </if>
+      <if test="carsId != null" >
+        cars_id = #{carsId,jdbcType=INTEGER},
+      </if>
+      <if test="carsName != null" >
+        cars_name = #{carsName,jdbcType=VARCHAR},
+      </if>
+      <if test="brandId != null" >
+        brand_id = #{brandId,jdbcType=INTEGER},
+      </if>
+      <if test="brandName != null" >
+        brand_name = #{brandName,jdbcType=VARCHAR},
+      </if>
+      <if test="familyId != null" >
+        family_id = #{familyId,jdbcType=INTEGER},
+      </if>
+      <if test="familyName != null" >
+        family_name = #{familyName,jdbcType=VARCHAR},
+      </if>
+      <if test="colorId != null" >
+        color_id = #{colorId,jdbcType=INTEGER},
+      </if>
+      <if test="colorName != null" >
+        color_name = #{colorName,jdbcType=VARCHAR},
+      </if>
+      <if test="interiorId != null" >
+        interior_id = #{interiorId,jdbcType=INTEGER},
+      </if>
+      <if test="interiorName != null" >
+        interior_name = #{interiorName,jdbcType=VARCHAR},
+      </if>
+      <if test="auditState != null" >
+        audit_state = #{auditState,jdbcType=TINYINT},
+      </if>
+      <if test="auditRemark != null" >
+        audit_remark = #{auditRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="checkCarPic != null" >
+        check_car_pic = #{checkCarPic,jdbcType=VARCHAR},
+      </if>
+      <if test="ticketPic != null" >
+        ticket_pic = #{ticketPic,jdbcType=VARCHAR},
+      </if>
+      <if test="ticketRemark != null" >
+        ticket_remark = #{ticketRemark,jdbcType=VARCHAR},
+      </if>
+      <if test="certificationPic != null" >
+        certification_pic = #{certificationPic,jdbcType=VARCHAR},
+      </if>
+      <if test="tciPic != null" >
+        tci_pic = #{tciPic,jdbcType=VARCHAR},
+      </if>
+      <if test="ciPic != null" >
+        ci_pic = #{ciPic,jdbcType=VARCHAR},
+      </if>
+      <if test="expressPic != null" >
+        express_pic = #{expressPic,jdbcType=VARCHAR},
+      </if>
+      <if test="otherPic != null" >
+        other_pic = #{otherPic,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDel != null" >
+        is_del = #{isDel,jdbcType=TINYINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <update id="update" parameterType="main.com.stock.dao.po.ConsumerOrderCar" >
+    update consumer_order_car
+    <set >
+     
+        info_id = #{infoId,jdbcType=INTEGER},   
+   
+        stock_car_id = #{stockCarId,jdbcType=INTEGER}, 
+      
+        vin = #{vin,jdbcType=VARCHAR},
+    
+        cars_id = #{carsId,jdbcType=INTEGER},
+     
+        cars_name = #{carsName,jdbcType=VARCHAR},
+    
+        brand_id = #{brandId,jdbcType=INTEGER},
+    
+        brand_name = #{brandName,jdbcType=VARCHAR},
+     
+        family_id = #{familyId,jdbcType=INTEGER},
+    
+        family_name = #{familyName,jdbcType=VARCHAR},
+     
+        color_id = #{colorId,jdbcType=INTEGER},
+    
+        color_name = #{colorName,jdbcType=VARCHAR},
+     
+        interior_id = #{interiorId,jdbcType=INTEGER},
+    
+        interior_name = #{interiorName,jdbcType=VARCHAR},
+    
+        audit_state = #{auditState,jdbcType=TINYINT},
+     
+        audit_remark = #{auditRemark,jdbcType=VARCHAR},
+    
+        check_car_pic = #{checkCarPic,jdbcType=VARCHAR},
+    
+        ticket_pic = #{ticketPic,jdbcType=VARCHAR},
+        
+        ticket_remark = #{ticketRemark,jdbcType=VARCHAR},
+        
+        certification_pic = #{certificationPic,jdbcType=VARCHAR},
+        
+        tci_pic = #{tciPic,jdbcType=VARCHAR},
+        
+        ci_pic = #{ciPic,jdbcType=VARCHAR},
+        
+        express_pic = #{expressPic,jdbcType=VARCHAR},
+        
+        other_pic = #{otherPic,jdbcType=VARCHAR},
+    
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+     
+        is_del = #{isDel,jdbcType=TINYINT},
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+ 
+  
+  <sql id="where">
+  	<where>
+  		<trim prefixOverrides="and">
+  			<if test="infoId != null">
+  				and c.info_id = #{infoId}
+  			</if>
+  			<if test="auditState != null">
+  				and c.audit_state = #{auditState}
+  			</if>
+  			<if test="isDel != null">
+  				and c.is_del = #{isDel}
+  			</if>
+  			<!-- list查询 -->
+			<if test="infoIds != null">and c.info_id in
+                   <foreach item="item" index="index" collection="infoIds"
+                            open="(" separator="," close=")">
+                       #{item}
+                   </foreach>
+               </if>
+  		</trim>
+  	</where>
+  </sql>
+  
+  <select id="select" parameterType="java.util.Map" resultMap="BaseResultMap">
+  	select c.*
+  	from consumer_order_car c
+  	<include refid="where" />
+  </select>
+</mapper>

@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="main.com.weixinshop.dao.po.ShopAddress">
+	<!-- <cache type="org.mybatis.caches.ehcache.LoggingEhcache" readOnly="true" 
+		/> -->
+
+	<resultMap id="ResultMap" type="main.com.weixinshop.dao.vo.ShopAddressVo">
+		<id column="addressId" property="addressId" jdbcType="INTEGER" />
+		<result column="userId" property="userId" jdbcType="INTEGER" />
+		<result column="userName" property="userName" jdbcType="VARCHAR" />
+		<result column="isDelete" property="isDelete" jdbcType="TINYINT" />
+		<result column="addressPhone" property="addressPhone" jdbcType="VARCHAR" />
+		<result column="addressZipCode" property="addressZipCode" jdbcType="VARCHAR" />
+		<result column="provinceId" property="provinceId" jdbcType="VARCHAR" />
+		<result column="cityId" property="cityId" jdbcType="VARCHAR" />
+		<result column="areaId" property="areaId" jdbcType="VARCHAR" />
+		<result column="province" property="province" jdbcType="VARCHAR" />
+		<result column="city" property="city" jdbcType="VARCHAR" />
+		<result column="area" property="area" jdbcType="VARCHAR" />
+		<result column="street" property="street" jdbcType="VARCHAR" />
+<!-- 		<result column="sessionId" property="sessionId" jdbcType="VARCHAR" /> -->
+		<result column="isDefault" property="isDefault" jdbcType="TINYINT" />
+		</resultMap>
+
+	<sql id="DB_Column_List">
+		shop_address.addressId,
+		shop_address.userId,
+		shop_address.userName,
+		shop_address.isDelete,
+		shop_address.addressPhone,
+		shop_address.addressZipCode,
+		shop_address.province,
+		shop_address.city,
+		shop_address.area,
+		shop_address.street,
+		shop_address.provinceId,
+		shop_address.cityId,
+		shop_address.areaId,
+		shop_address.isDefault
+		
+	</sql>
+
+	<sql id="Where_Condition">
+		<where>
+			<trim prefixOverrides="and">
+				<!-- 匹配查询 -->
+				<if test="addressId != null">and shop_address.addressId = #{addressId}</if>
+				<if test="userId != null">and shop_address.userId = #{userId}</if>
+				<if test="isDefault != null">and shop_address.isDefault = #{isDefault}</if>								
+				<!-- 模糊查询 -->
+				<if test="1==1">and shop_address.isDelete = 0</if>
+			</trim>
+		</where>
+	</sql>
+
+
+	<!-- 查询总数 -->
+	<select id="selectCount" resultType="java.lang.Long"
+		parameterType="java.util.Map">
+		select count(addressId) from shop_address
+		<include refid="Where_Condition" />
+	</select>
+
+	<!-- 查询 -->
+	<select id="select" resultMap="ResultMap" parameterType="java.util.Map">
+		select
+		<include refid="DB_Column_List" />
+		from shop_address
+		<include refid="Where_Condition" />
+		<if test="isPage== true and offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+	</select>
+
+	<!-- 根据ID查询 -->
+	<select id="selectById" resultMap="ResultMap" parameterType="java.lang.Integer">
+		select
+		<include refid="DB_Column_List" />
+		from shop_address
+		where shop_address.addressId = #{addressId}
+	</select>
+	<!-- 根据ID查询 -->
+	<select id="selectBySessionId" resultMap="ResultMap" parameterType="java.lang.String">
+		select
+		<include refid="DB_Column_List" />
+		from shop_address
+		where shop_address.sessionId = #{sessionId}
+	</select>
+	<!-- 添加 -->
+	<insert id="insert" parameterType="main.com.weixinshop.dao.po.ShopAddress" useGeneratedKeys="true" keyProperty="addressId">
+		insert into shop_address
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="userId != null"> userId, </if>
+			<if test="userName != null"> userName, </if>
+			<if test="isDelete != null"> isDelete, </if>
+			<if test="addressPhone != null"> addressPhone, </if>
+			<if test="addressZipCode != null"> addressZipCode, </if>
+			<if test="province != null"> province, </if>
+			<if test="city != null"> city, </if>
+			<if test="area != null"> area, </if>
+			<if test="street != null"> street, </if>
+			<if test="provinceId != null"> provinceId, </if>
+			<if test="cityId != null"> cityId, </if>
+			<if test="areaId != null"> areaId, </if>
+			<if test="isDefault != null"> isDefault, </if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="userId != null"> #{userId}, </if>
+			<if test="userName != null"> #{userName}, </if>
+			<if test="isDelete != null"> #{isDelete}, </if>
+			<if test="addressPhone != null"> #{addressPhone}, </if>
+			<if test="addressZipCode != null"> #{addressZipCode}, </if>
+			<if test="province != null"> #{province}, </if>
+			<if test="city != null"> #{city}, </if>
+			<if test="area != null"> #{area}, </if>
+			<if test="street != null"> #{street}, </if>
+			<if test="provinceId != null"> #{provinceId}, </if>
+			<if test="cityId != null"> #{cityId}, </if>
+			<if test="areaId != null"> #{areaId}, </if>
+			<if test="isDefault != null"> #{isDefault}, </if>
+		</trim>
+	</insert>
+
+	<!-- 更新 -->
+	<update id="updateById" parameterType="main.com.weixinshop.dao.po.ShopAddress">
+		update
+		shop_address
+		<set>
+			<if test="userId != null"> userId = #{userId}, </if>
+			<if test="userName != null"> userName = #{userName}, </if>
+			<if test="isDelete != null"> isDelete = #{isDelete}, </if>
+			<if test="addressPhone != null"> addressPhone = #{addressPhone}, </if>
+			<if test="addressZipCode != null"> addressZipCode = #{addressZipCode}, </if>
+			<if test="province != null"> province = #{province}, </if>
+			<if test="city != null"> city = #{city}, </if>
+			<if test="area != null"> area = #{area}, </if>
+			<if test="street != null"> street = #{street}, </if>
+			<if test="provinceId != null"> provinceId = #{provinceId}, </if>
+			<if test="cityId != null"> cityId = #{cityId}, </if>
+			<if test="areaId != null"> areaId = #{areaId}, </if>
+			<if test="isDefault != null"> isDefault = #{isDefault}, </if>
+		</set>
+		where addressId = #{addressId}
+	</update>
+	
+	
+	<!-- 批量更新 -->
+	<update id="batchUpdate"  parameterType="java.util.List">
+          <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            update 
+				shop_address 
+			<set>
+			<if test="item.userId != null"> userId = #{item.userId}, </if>
+			<if test="item.userName != null"> userName = #{item.userName}, </if>
+			<if test="item.isDelete != null"> isDelete = #{item.isDelete}, </if>
+			<if test="item.addressPhone != null"> addressPhone = #{item.addressPhone}, </if>
+			<if test="item.addressZipCode != null"> addressZipCode = #{item.addressZipCode}, </if>
+			<if test="item.province != null"> province = #{item.province}, </if>
+			<if test="item.city != null"> city = #{item.city}, </if>
+			<if test="item.area != null"> area = #{item.area}, </if>
+			<if test="item.street != null"> street = #{item.street}, </if>
+			<if test="item.provinceId != null"> provinceId = #{item.provinceId}, </if>
+			<if test="item.cityId != null"> cityId = #{item.cityId}, </if>
+			<if test="item.areaId != null"> areaId = #{item.areaId}, </if>
+			<if test="item.isDefault != null"> isDefault = #{item.isDefault}, </if>
+			</set> 
+			 where addressId = #{item.addressId} 
+         </foreach>
+    </update>
+    
+	<update id="batchUpdateByOne"  parameterType="java.util.List">
+          <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            update 
+				shop_address 
+			<set>
+			<if test="item.isDefault != null"> isDefault = #{item.isDefault}, </if>
+			</set> 
+			 where addressId = #{item.addressId} 
+         </foreach>
+    </update>
+
+	<!-- 根据ID删除 -->
+	<delete id="deleteById" parameterType="java.lang.Integer">
+		delete from shop_address
+		where
+		addressId = #{addressId}
+	</delete>
+
+	<!-- 删除 -->
+	<delete id="delete" parameterType="java.util.Map">
+		delete from shop_address
+		<include refid="Where_Condition" />
+	</delete>
+</mapper>

@@ -1,0 +1,524 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="main.com.stock.dao.po.StockOrder" >
+
+  <resultMap id="BaseResultMap" type="main.com.stock.dao.vo.StockOrderVo" >
+    <id column="stock_order_id" property="stockOrderId" jdbcType="INTEGER" />
+    <result column="stock_order_buy_org_id" property="stockOrderBuyOrgId" jdbcType="INTEGER" />
+    <result column="stock_order_buy_org_name" property="stockOrderBuyOrgName" jdbcType="VARCHAR" />
+    <result column="stock_order_sell_org_id" property="stockOrderSellOrgId" jdbcType="INTEGER" />
+    <result column="stock_order_sell_org_name" property="stockOrderSellOrgName" jdbcType="VARCHAR" />
+    <result column="stock_car_ids" property="stockCarIds" jdbcType="VARCHAR" />
+    <result column="stock_order_state" property="stockOrderState" jdbcType="INTEGER" />
+    <result column="stock_order_amount" property="stockOrderAmount" jdbcType="DECIMAL" />
+    <result column="stock_order_total_amount" property="stockOrderTotalAmount" jdbcType="DECIMAL" />
+    <result column="stock_order_number" property="stockOrderNumber" jdbcType="INTEGER" />
+    <result column="cars_id" property="carsId" jdbcType="INTEGER" />
+    <result column="cars_info" property="carsInfo" jdbcType="VARCHAR" />
+    <result column="invoice_price" property="invoicePrice" jdbcType="DECIMAL" />
+    <result column="deposit_price" property="depositPrice" jdbcType="DECIMAL" />
+    <result column="discount_price" property="discountPrice" jdbcType="DECIMAL" />
+    <result column="guiding_price" property="guidingPrice" jdbcType="DECIMAL" />
+    <result column="is_delete" property="isDelete" jdbcType="TINYINT" />
+    <result column="stock_car_images" property="stockCarImages" jdbcType="VARCHAR" />
+    <result column="stock_order_remarks" property="stockOrderRemarks" jdbcType="VARCHAR" />
+    <result column="interior_id" property="interiorId" jdbcType="INTEGER" />
+    <result column="interior_name" property="interiorName" jdbcType="VARCHAR" />
+    <result column="colour_id" property="colourId" jdbcType="INTEGER" />
+    <result column="colour_name" property="colourName" jdbcType="VARCHAR" />
+    <result column="logistics_odd_number" property="logisticsOddNumber" jdbcType="VARCHAR" />
+    <result column="follow_list_id" property="followListId" jdbcType="INTEGER" />
+    <result column="pay_method_befor" property="payMethodBefor" jdbcType="INTEGER" />
+    <result column="statement_id_befor" property="statementIdBefor" jdbcType="INTEGER" />
+    <result column="statement_code_befor" property="statementCodeBefor" jdbcType="VARCHAR" />
+    <result column="statement_id_after" property="statementIdAfter" jdbcType="INTEGER" />
+    <result column="statement_code_after" property="statementCodeAfter" jdbcType="VARCHAR" />
+    <result column="pay_date_befor" property="payDateBefor" jdbcType="TIMESTAMP" />
+    <result column="pay_date_after" property="payDateAfter" jdbcType="TIMESTAMP" />
+    <result column="pay_method_after" property="payMethodAfter" jdbcType="INTEGER" />
+    <result column="is_cancel" property="isCancel" jdbcType="TINYINT" />
+    <result column="stock_order_code" property="stockOrderCode" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="stock_order_buy_org_address" property="stockOrderBuyOrgAddress" jdbcType="VARCHAR" />
+    <result column="certificate_date" property="certificateDate" jdbcType="INTEGER" />
+    <result column="balance_price" property="balancePrice" jdbcType="DECIMAL" />
+    <result column="logistics_mode" property="logisticsMode" jdbcType="INTEGER" />
+    <result column="follow_information" property="followInformation" jdbcType="VARCHAR" />
+    <result column="template_image" property="templateImage" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    stock_order_id, stock_order_buy_org_id, stock_order_buy_org_name, stock_order_sell_org_id, 
+    stock_order_sell_org_name, stock_car_ids, stock_order_state, stock_order_amount, stock_order_total_amount, 
+    stock_order_number, cars_id, cars_info, invoice_price, deposit_price, discount_price, 
+    guiding_price, is_delete, stock_car_images, stock_order_remarks, interior_id, interior_name, 
+    colour_id, colour_name, logistics_odd_number, follow_list_id, pay_method_befor, statement_id_befor, 
+    statement_code_befor, statement_id_after, statement_code_after, pay_date_befor, pay_date_after, template_image,
+    pay_method_after, is_cancel, stock_order_code, stock_order.create_date, stock_order_buy_org_address,certificate_date,balance_price,logistics_mode,follow_information
+  </sql>
+  
+   <sql id="Where_Condition">
+		<where>
+			<trim prefixOverrides="and">
+				<!-- 匹配查询 -->
+				<if test="stockOrderId != null">and stock_order.stock_order_id = #{stockOrderId}</if>				
+				<if test="1 == 1">and stock_order.is_delete = 0 and stock_order.is_cancel = 0</if>				
+				<if test="stockOrderState != null">and stock_order.stock_order_state = #{stockOrderState}</if>				
+				<if test="carsId != null">and stock_order.cars_id = #{carsId}</if>				
+				<if test="orgId">and (stock_order.stock_order_buy_org_id = #{orgId} or stock_order.stock_order_sell_org_id = #{orgId})</if>				
+				<if test="stockOrgId != null"> and stock_order.org_id = #{stockOrgId}</if>	
+				<if test="stockOrderCode != null and stockOrderCode != ''">and (stock_order.stock_order_code = #{stockOrderCode} or
+				 stock_order.statement_code_befor = #{stockOrderCode} or stock_order.statement_code_after = #{stockOrderCode})</if>				
+				<if test="stockOrderCodeList != null and stockOrderCodeList != ''">and stock_order.stock_order_code like CONCAT('%',#{stockOrderCodeList},'%')</if>
+				<if test="orderCode != null and orderCode != ''">and (stock_order.stock_order_code = #{orderCode} or
+				 stock_order.statement_code_befor = #{orderCode} or stock_order.statement_code_after = #{orderCode})</if>				
+				<!-- 模糊查询 -->
+				<if test="orgCodeBuy != null and orgCodeBuy != null">and (stock_order.stock_order_buy_org_id IN (select orgId from system_organization where system_organization.orgCodeLevel like
+                    CONCAT('%',#{orgCodeBuy},'%')))
+                </if>
+				<if test="orgCodeSell != null and orgCodeSell != null">and (stock_order.stock_order_sell_org_id IN (select orgId from system_organization where system_organization.orgCodeLevel like
+                    CONCAT('%',#{orgCodeSell},'%')))
+                </if>
+                
+                <if test="orderSearch != null and orderSearch != ''">and (stock_order.stock_order_code like CONCAT('%',#{orderSearch},'%') or
+				 REPLACE(stock_order.cars_info,' ','') like CONCAT('%',#{orderSearch},'%'))</if>
+				 
+                <if test="carsInfo != null and carsInfo != ''">and (
+				 REPLACE(stock_order.cars_info,' ','') like CONCAT('%',#{carsInfo},'%'))</if>
+				 
+                <!-- 时间筛选 -->
+				<if test="startDate != null and startDate != ''">and DATE_FORMAT(stock_car.create_date ,'%Y-%m-%d') &gt;= DATE_FORMAT(#{startDate}, '%Y-%m-%d')</if>
+				<if test="endDate != null and endDate != ''">and DATE_FORMAT(stock_car.create_date ,'%Y-%m-%d') &lt;= DATE_FORMAT(#{endDate}, '%Y-%m-%d')</if>	
+				<!-- list查询 -->
+				<if test="ids != null">and stock_order.stock_order_id in
+                    <foreach item="item" index="index" collection="ids"
+                             open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+			</trim>
+		</where>
+	</sql>
+
+
+	<!-- 查询总数 -->
+	<select id="selectCount" resultType="java.lang.Long"
+		parameterType="java.util.Map">
+		select count(stock_order_id) from stock_order
+		<include refid="Where_Condition" />
+	</select>
+
+	<!-- 查询 -->
+	<select id="select" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List" />
+		from stock_order
+		<include refid="Where_Condition" />
+		<if test="sortField != null"> order by stock_order.create_date desc </if>
+		<if test="isPage== true and offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+	</select>
+  
+  <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from stock_order
+    where stock_order_id = #{stockOrderId,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectByCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from stock_order
+    where stock_order.stock_order_code = #{orderCode} or stock_order.statement_code_befor = #{orderCode} or stock_order.statement_code_after = #{orderCode}
+  </select>
+  
+  <delete id="deleteById" parameterType="java.lang.Integer" >
+    delete from stock_order
+    where stock_order_id = #{stockOrderId,jdbcType=INTEGER}
+  </delete>
+  
+  <insert id="insert" parameterType="main.com.stock.dao.po.StockOrder" useGeneratedKeys="true" keyProperty="stockOrderId" >
+    insert into stock_order
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="stockOrderBuyOrgId != null" >
+        stock_order_buy_org_id,
+      </if>
+      <if test="stockOrderBuyOrgName != null" >
+        stock_order_buy_org_name,
+      </if>
+      <if test="stockOrderSellOrgId != null" >
+        stock_order_sell_org_id,
+      </if>
+      <if test="stockOrderSellOrgName != null" >
+        stock_order_sell_org_name,
+      </if>
+      <if test="stockCarIds != null" >
+        stock_car_ids,
+      </if>
+      <if test="stockOrderState != null" >
+        stock_order_state,
+      </if>
+      <if test="stockOrderAmount != null" >
+        stock_order_amount,
+      </if>
+      <if test="stockOrderTotalAmount != null" >
+        stock_order_total_amount,
+      </if>
+      <if test="stockOrderNumber != null" >
+        stock_order_number,
+      </if>
+      <if test="carsId != null" >
+        cars_id,
+      </if>
+      <if test="carsInfo != null" >
+        cars_info,
+      </if>
+      <if test="invoicePrice != null" >
+        invoice_price,
+      </if>
+      <if test="depositPrice != null" >
+        deposit_price,
+      </if>
+      <if test="discountPrice != null" >
+        discount_price,
+      </if>
+      <if test="guidingPrice != null" >
+        guiding_price,
+      </if>
+      <if test="isDelete != null" >
+        is_delete,
+      </if>
+      <if test="stockCarImages != null" >
+        stock_car_images,
+      </if>
+      <if test="stockOrderRemarks != null" >
+        stock_order_remarks,
+      </if>
+      <if test="interiorId != null" >
+        interior_id,
+      </if>
+      <if test="interiorName != null" >
+        interior_name,
+      </if>
+      <if test="colourId != null" >
+        colour_id,
+      </if>
+      <if test="colourName != null" >
+        colour_name,
+      </if>
+      <if test="logisticsOddNumber != null" >
+        logistics_odd_number,
+      </if>
+      <if test="followListId != null" >
+        follow_list_id,
+      </if>
+      <if test="payMethodBefor != null" >
+        pay_method_befor,
+      </if>
+      <if test="statementIdBefor != null" >
+        statement_id_befor,
+      </if>
+      <if test="statementCodeBefor != null" >
+        statement_code_befor,
+      </if>
+      <if test="statementIdAfter != null" >
+        statement_id_after,
+      </if>
+      <if test="statementCodeAfter != null" >
+        statement_code_after,
+      </if>
+      <if test="payDateBefor != null" >
+        pay_date_befor,
+      </if>
+      <if test="payDateAfter != null" >
+        pay_date_after,
+      </if>
+      <if test="payMethodAfter != null" >
+        pay_method_after,
+      </if>
+      <if test="isCancel != null" >
+        is_cancel,
+      </if>
+      <if test="stockOrderCode != null" >
+        stock_order_code,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="stockOrderBuyOrgAddress != null" >
+        stock_order_buy_org_address,
+      </if>
+       <if test="certificateDate != null" >
+        certificate_date,
+      </if>
+       <if test="balancePrice != null" >
+        balance_price,
+      </if>
+       <if test="logisticsMode != null" >
+        logistics_mode,
+      </if>
+       <if test="followInformation != null" >
+        follow_information,
+      </if>
+       <if test="templateImage != null" >
+        template_image,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="stockOrderBuyOrgId != null" >
+        #{stockOrderBuyOrgId,jdbcType=INTEGER},
+      </if>
+      <if test="stockOrderBuyOrgName != null" >
+        #{stockOrderBuyOrgName,jdbcType=VARCHAR},
+      </if>
+      <if test="stockOrderSellOrgId != null" >
+        #{stockOrderSellOrgId,jdbcType=INTEGER},
+      </if>
+      <if test="stockOrderSellOrgName != null" >
+        #{stockOrderSellOrgName,jdbcType=VARCHAR},
+      </if>
+      <if test="stockCarIds != null" >
+        #{stockCarIds,jdbcType=VARCHAR},
+      </if>
+      <if test="stockOrderState != null" >
+        #{stockOrderState,jdbcType=INTEGER},
+      </if>
+      <if test="stockOrderAmount != null" >
+        #{stockOrderAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="stockOrderTotalAmount != null" >
+        #{stockOrderTotalAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="stockOrderNumber != null" >
+        #{stockOrderNumber,jdbcType=INTEGER},
+      </if>
+      <if test="carsId != null" >
+        #{carsId,jdbcType=INTEGER},
+      </if>
+      <if test="carsInfo != null" >
+        #{carsInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="invoicePrice != null" >
+        #{invoicePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="depositPrice != null" >
+        #{depositPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="discountPrice != null" >
+        #{discountPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="guidingPrice != null" >
+        #{guidingPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="isDelete != null" >
+        #{isDelete,jdbcType=TINYINT},
+      </if>
+      <if test="stockCarImages != null" >
+        #{stockCarImages,jdbcType=VARCHAR},
+      </if>
+      <if test="stockOrderRemarks != null" >
+        #{stockOrderRemarks,jdbcType=VARCHAR},
+      </if>
+      <if test="interiorId != null" >
+        #{interiorId,jdbcType=INTEGER},
+      </if>
+      <if test="interiorName != null" >
+        #{interiorName,jdbcType=VARCHAR},
+      </if>
+      <if test="colourId != null" >
+        #{colourId,jdbcType=INTEGER},
+      </if>
+      <if test="colourName != null" >
+        #{colourName,jdbcType=VARCHAR},
+      </if>
+      <if test="logisticsOddNumber != null" >
+        #{logisticsOddNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="followListId != null" >
+        #{followListId,jdbcType=INTEGER},
+      </if>
+      <if test="payMethodBefor != null" >
+        #{payMethodBefor,jdbcType=INTEGER},
+      </if>
+      <if test="statementIdBefor != null" >
+        #{statementIdBefor,jdbcType=INTEGER},
+      </if>
+      <if test="statementCodeBefor != null" >
+        #{statementCodeBefor,jdbcType=VARCHAR},
+      </if>
+      <if test="statementIdAfter != null" >
+        #{statementIdAfter,jdbcType=INTEGER},
+      </if>
+      <if test="statementCodeAfter != null" >
+        #{statementCodeAfter,jdbcType=VARCHAR},
+      </if>
+      <if test="payDateBefor != null" >
+        #{payDateBefor,jdbcType=TIMESTAMP},
+      </if>
+      <if test="payDateAfter != null" >
+        #{payDateAfter,jdbcType=TIMESTAMP},
+      </if>
+      <if test="payMethodAfter != null" >
+        #{payMethodAfter,jdbcType=INTEGER},
+      </if>
+      <if test="isCancel != null" >
+        #{isCancel,jdbcType=TINYINT},
+      </if>
+      <if test="stockOrderCode != null" >
+        #{stockOrderCode,jdbcType=VARCHAR},
+      </if>
+       <if test="createDate != null" > 
+        #{createDate},
+      </if>
+      <if test="stockOrderBuyOrgAddress != null" >
+       #{stockOrderBuyOrgAddress,jdbcType=VARCHAR},
+      </if>
+       <if test="certificateDate != null" >
+        #{certificateDate,jdbcType=INTEGER},
+      </if>
+       <if test="balancePrice != null" >
+        #{balancePrice,jdbcType=DECIMAL},
+      </if>
+       <if test="logisticsMode != null" >
+        #{logisticsMode},
+      </if>
+       <if test="followInformation != null" >
+        #{followInformation},
+      </if>
+       <if test="templateImage != null" >
+        #{templateImage},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateById" parameterType="main.com.stock.dao.po.StockOrder" >
+    update stock_order
+    <set >
+      <if test="stockOrderBuyOrgId != null" >
+        stock_order_buy_org_id = #{stockOrderBuyOrgId,jdbcType=INTEGER},
+      </if>
+      <if test="stockOrderBuyOrgName != null" >
+        stock_order_buy_org_name = #{stockOrderBuyOrgName,jdbcType=VARCHAR},
+      </if>
+      <if test="stockOrderSellOrgId != null" >
+        stock_order_sell_org_id = #{stockOrderSellOrgId,jdbcType=INTEGER},
+      </if>
+      <if test="stockOrderSellOrgName != null" >
+        stock_order_sell_org_name = #{stockOrderSellOrgName,jdbcType=VARCHAR},
+      </if>
+      <if test="stockCarIds != null" >
+        stock_car_ids = #{stockCarIds,jdbcType=VARCHAR},
+      </if>
+      <if test="stockOrderState != null" >
+        stock_order_state = #{stockOrderState,jdbcType=INTEGER},
+      </if>
+      <if test="stockOrderAmount != null" >
+        stock_order_amount = #{stockOrderAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="stockOrderTotalAmount != null" >
+        stock_order_total_amount = #{stockOrderTotalAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="stockOrderNumber != null" >
+        stock_order_number = #{stockOrderNumber,jdbcType=INTEGER},
+      </if>
+      <if test="carsId != null" >
+        cars_id = #{carsId,jdbcType=INTEGER},
+      </if>
+      <if test="carsInfo != null" >
+        cars_info = #{carsInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="invoicePrice != null" >
+        invoice_price = #{invoicePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="depositPrice != null" >
+        deposit_price = #{depositPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="discountPrice != null" >
+        discount_price = #{discountPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="guidingPrice != null" >
+        guiding_price = #{guidingPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="isDelete != null" >
+        is_delete = #{isDelete,jdbcType=TINYINT},
+      </if>
+      <if test="stockCarImages != null" >
+        stock_car_images = #{stockCarImages,jdbcType=VARCHAR},
+      </if>
+      <if test="stockOrderRemarks != null" >
+        stock_order_remarks = #{stockOrderRemarks,jdbcType=VARCHAR},
+      </if>
+      <if test="interiorId != null" >
+        interior_id = #{interiorId,jdbcType=INTEGER},
+      </if>
+      <if test="interiorName != null" >
+        interior_name = #{interiorName,jdbcType=VARCHAR},
+      </if>
+      <if test="colourId != null" >
+        colour_id = #{colourId,jdbcType=INTEGER},
+      </if>
+      <if test="colourName != null" >
+        colour_name = #{colourName,jdbcType=VARCHAR},
+      </if>
+      <if test="logisticsOddNumber != null" >
+        logistics_odd_number = #{logisticsOddNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="followListId != null" >
+        follow_list_id = #{followListId,jdbcType=INTEGER},
+      </if>
+      <if test="payMethodBefor != null" >
+        pay_method_befor = #{payMethodBefor,jdbcType=INTEGER},
+      </if>
+      <if test="statementIdBefor != null" >
+        statement_id_befor = #{statementIdBefor,jdbcType=INTEGER},
+      </if>
+      <if test="statementCodeBefor != null" >
+        statement_code_befor = #{statementCodeBefor,jdbcType=VARCHAR},
+      </if>
+      <if test="statementIdAfter != null" >
+        statement_id_after = #{statementIdAfter,jdbcType=INTEGER},
+      </if>
+      <if test="statementCodeAfter != null" >
+        statement_code_after = #{statementCodeAfter,jdbcType=VARCHAR},
+      </if>
+      <if test="payDateBefor != null" >
+        pay_date_befor = #{payDateBefor,jdbcType=TIMESTAMP},
+      </if>
+      <if test="payDateAfter != null" >
+        pay_date_after = #{payDateAfter,jdbcType=TIMESTAMP},
+      </if>
+      <if test="payMethodAfter != null" >
+        pay_method_after = #{payMethodAfter,jdbcType=INTEGER},
+      </if>
+      <if test="isCancel != null" >
+        is_cancel = #{isCancel,jdbcType=TINYINT},
+      </if>
+      <if test="stockOrderCode != null" >
+        stock_order_code = #{stockOrderCode,jdbcType=VARCHAR},
+      </if>
+       <if test="createDate != null" >
+        create_date= #{createDate},
+      </if>
+      <if test="stockOrderBuyOrgAddress != null" >
+        stock_order_buy_org_address= #{stockOrderBuyOrgAddress},
+      </if>
+       <if test="certificateDate != null" >
+       certificate_date = #{certificateDate,jdbcType=INTEGER},
+      </if>
+       <if test="balancePrice != null" >
+       balance_price = #{balancePrice,jdbcType=DECIMAL},
+      </if>
+       <if test="logisticsMode != null" >
+       logistics_mode = #{logisticsMode},
+      </if>
+       <if test="followInformation != null" >
+       follow_information = #{followInformation},
+      </if>
+       <if test="templateImage != null" >
+       template_image = #{templateImage},
+      </if>
+    </set>
+    where stock_order_id = #{stockOrderId,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="main.com.system.dao.po.Menu">
+	<!-- <cache type="org.mybatis.caches.ehcache.LoggingEhcache" readOnly="true" 
+		/> -->
+
+	<resultMap id="ResultMap" type="main.com.system.dao.vo.MenuVo">
+		<id column="menuId" property="menuId" jdbcType="INTEGER" />
+		<result column="parentId" property="parentId" jdbcType="INTEGER" />
+		<result column="seq" property="seq" jdbcType="INTEGER" />
+		<result column="iconUrl" property="iconUrl" jdbcType="VARCHAR" />
+<!-- 		<result column="menuCode" property="menuCode" jdbcType="VARCHAR" /> -->
+		<result column="menuName" property="menuName" jdbcType="VARCHAR" />
+		<result column="src" property="src" jdbcType="VARCHAR" />
+		<result column="levelNum" property="levelNum" jdbcType="INTEGER" />
+		<result column="isLeaf" property="isLeaf" jdbcType="TINYINT" />
+		<result column="nodePath" property="nodePath" jdbcType="VARCHAR" />
+		<result column="isDelete" property="isDelete" jdbcType="TINYINT" />
+	</resultMap>
+	
+	<resultMap id="ResultMaxMap" type="main.com.system.dao.vo.MenuVo">
+		<id column="menuId" property="menuId" jdbcType="INTEGER" />
+		<result column="parentId" property="parentId" jdbcType="INTEGER" />
+		<result column="seq" property="seq" jdbcType="INTEGER" />
+		<result column="iconUrl" property="iconUrl" jdbcType="VARCHAR" />
+<!-- 		<result column="menuCode" property="menuCode" jdbcType="VARCHAR" /> -->
+		<result column="menuName" property="menuName" jdbcType="VARCHAR" />
+		<result column="src" property="src" jdbcType="VARCHAR" />
+		<result column="levelNum" property="levelNum" jdbcType="INTEGER" />
+		<result column="isLeaf" property="isLeaf" jdbcType="TINYINT" />
+		<result column="nodePath" property="nodePath" jdbcType="VARCHAR" />
+		<result column="isDelete" property="isDelete" jdbcType="TINYINT" />
+		 <!-- 一对多自关联 -->
+<!--          <collection property="children" ofType="main.com.system.dao.vo.MenuVo"> -->
+<!--              <id column="id" property="id" jdbcType="INTEGER" /> -->
+<!-- 			<result column="parentId" property="parentId" jdbcType="INTEGER" /> -->
+<!-- 			<result column="seq" property="seq" jdbcType="INTEGER" /> -->
+<!-- 			<result column="iconUrl" property="iconUrl" jdbcType="VARCHAR" /> -->
+<!-- 			<result column="menuCode" property="menuCode" jdbcType="VARCHAR" /> -->
+<!-- 			<result column="menuName" property="menuName" jdbcType="VARCHAR" /> -->
+<!-- 			<result column="src" property="src" jdbcType="VARCHAR" /> -->
+<!-- 			<result column="levelNum" property="levelNum" jdbcType="INTEGER" /> -->
+<!-- 			<result column="isLeaf" property="isLeaf" jdbcType="TINYINT" /> -->
+<!-- 			<result column="nodePath" property="nodePath" jdbcType="VARCHAR" /> -->
+<!--          </collection> -->
+ 		<collection property="children" ofType="main.com.system.dao.vo.MenuVo" column="parentId" select="getChildren">
+ 			<id column="menuId" property="menuId" jdbcType="INTEGER" />
+			<result column="parentId" property="parentId" jdbcType="INTEGER" />
+			<result column="seq" property="seq" jdbcType="INTEGER" />
+			<result column="iconUrl" property="iconUrl" jdbcType="VARCHAR" />
+			<result column="menuName" property="menuName" jdbcType="VARCHAR" />
+			<result column="src" property="src" jdbcType="VARCHAR" />
+			<result column="levelNum" property="levelNum" jdbcType="INTEGER" />
+			<result column="isLeaf" property="isLeaf" jdbcType="TINYINT" />
+			<result column="nodePath" property="nodePath" jdbcType="VARCHAR" />
+			<result column="isDelete" property="isDelete" jdbcType="TINYINT" />
+ 		</collection>
+	</resultMap>
+
+	<sql id="DB_Column_List">
+		system_menu.menuId,
+		system_menu.parentId,
+		system_menu.seq,
+		system_menu.iconUrl,
+<!-- 		system_menu.menuCode, -->
+		system_menu.menuName,
+		system_menu.src,
+		system_menu.levelNum,
+		system_menu.isLeaf,
+		system_menu.nodePath,
+		system_menu.isDelete
+<!-- 		,EXISTS(select id from system_role_menu WHERE roleId=#{roleId} and menuId=system_menu.id) as ck -->
+	</sql>
+
+	<sql id="Where_Condition">
+		<where>
+			<trim prefixOverrides="and">
+				<!-- 匹配查询 -->
+				<if test="menuId != null"> and system_menu.menuId = #{menuId} </if>
+				<if test="parentId != null"> and system_menu.parentId = #{parentId} </if>
+				<if test="menuName != null"> and system_menu.menuName = #{menuName} </if>
+				<if test="roleId != null"> and system_menu.menuId in(select system_role_menu.menuId FROM system_role_menu WHERE system_role_menu.roleId = #{roleId}) </if>
+				<if test="1==1"> and system_menu.isDelete = 0 </if>
+				<!-- 模糊查询 -->
+				<if test="nodePathLR != null"> and (system_menu.nodePath like CONCAT(#{nodePathLR},'%') or system_menu.menuId = #{nodeId}) </if>
+			</trim>
+		</where>
+	</sql>
+
+
+	<!-- 查询总数 -->
+	<select id="selectCount" resultType="java.lang.Long"
+		parameterType="java.util.Map">
+		select count(menuId) from system_menu
+		<include refid="Where_Condition" />
+	</select>
+
+
+	<!-- 查询 -->
+	<select id="select" resultMap="ResultMap" parameterType="java.util.Map">
+		select
+		<include refid="DB_Column_List" />
+		from system_menu
+		<include refid="Where_Condition" />
+		order by system_menu.seq
+	</select>
+	
+	<!-- 查询多层 -->
+<!-- 	<select id="selectMax" resultMap="ResultMaxMap" parameterType="java.util.Map"> -->
+<!-- 		select -->
+<!-- 		<include refid="DB_Column_List" /> -->
+<!-- 		from system_menu -->
+<!-- 		<include refid="Where_Condition" /> -->
+<!-- 		order by system_menu.seq -->
+<!-- 	</select> -->
+	
+	<!-- 根据多层获取配置菜单 -->
+	<select id="selectMax" resultMap="ResultMaxMap" parameterType="java.util.Map">
+		select
+			<include refid="DB_Column_List" />
+		from 
+			system_menu
+			where system_menu.isDelete = 0   
+<!-- 			<if test="userId != 2"> -->
+			and	EXISTS (
+				select DISTINCT menuId from system_role_menu 
+						where EXISTS (select system_role_menu.roleMenuId from system_user_role,system_role_menu where system_user_role.userId = #{userId} and system_role_menu.roleId = system_user_role.roleId)
+				and system_menu.menuId = system_role_menu.menuId
+			) 
+<!-- 			</if> -->
+			<if test="parentId != null">and system_menu.parentId = #{parentId}	</if>
+			<if test="levelNum != null">and system_menu.levelNum = #{levelNum}	</if>
+		order by system_menu.seq
+	</select>
+
+	<!-- 根据ID查询 -->
+	<select id="selectById" resultMap="ResultMap" parameterType="java.lang.Integer">
+		select
+		<include refid="DB_Column_List" />
+		from system_menu
+		where menuId = #{menuId} and system_menu.isDelete = 0 
+	</select>
+	
+	 <select id="getChildren" parameterType="int" resultType="main.com.system.dao.vo.MenuVo">
+         select
+		<include refid="DB_Column_List" />
+		from system_menu WHERE
+			system_menu.parentId = #{parentId} AND EXISTS(SELECT
+			system_role_menu.menuId
+		FROM
+			system_role_menu WHERE system_role_menu.roleId in(SELECT system_role_menu.roleId 
+			FROM system_role_menu WHERE system_role_menu.menuId = #{parentId}) AND system_role_menu.menuId != #{parentId})
+			and system_menu.isDelete = 0 
+     </select>
+	
+	<!-- 添加 -->
+	<insert id="insert" parameterType="main.com.system.dao.po.Menu" useGeneratedKeys="true" keyProperty="menuId">
+		insert into system_menu
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+		  <if test="parentId != null" > parentId, </if>
+		  <if test="seq != null" > seq, </if>
+		  <if test="iconUrl != null" > iconUrl, </if>
+<!-- 		  <if test="menuCode != null" > menuCode, </if> -->
+		  <if test="menuName != null" > menuName, </if>
+		  <if test="src != null" > src, </if>
+		  <if test="levelNum != null" > levelNum, </if>
+		  <if test="isLeaf != null" > isLeaf, </if>
+		  <if test="nodePath != null" > nodePath, </if>
+		  <if test="isDelete != null" > isDelete, </if>
+		</trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+          <if test="parentId != null" > #{parentId}, </if>
+		  <if test="seq != null" > #{seq}, </if>
+		  <if test="iconUrl != null" > #{iconUrl}, </if>
+<!-- 		  <if test="menuCode != null" > #{menuCode}, </if> -->
+		  <if test="menuName != null" > #{menuName}, </if>
+		  <if test="src != null" > #{src}, </if>
+		  <if test="levelNum != null" > #{levelNum}, </if>
+		  <if test="isLeaf != null" > #{isLeaf}, </if>
+		  <if test="nodePath != null" > #{nodePath}, </if>
+		  <if test="isDelete != null" > #{isDelete}, </if>
+        </trim>
+	</insert>
+	
+	<!-- 更新 -->
+	<update id="updateById" parameterType="main.com.system.dao.po.Menu">
+		update 
+			system_menu 
+		<set>
+			<if test="parentId != null"> parentId = #{parentId}, </if>
+			<if test="seq != null"> seq = #{seq}, </if>
+			<if test="iconUrl != null"> iconUrl = #{iconUrl}, </if>
+<!-- 			<if test="menuCode != null"> menuCode = #{menuCode}, </if> -->
+			<if test="menuName != null"> menuName = #{menuName}, </if>
+			<if test="src != null"> src = #{src}, </if>
+			<if test="levelNum != null"> levelNum = #{levelNum}, </if>
+			<if test="isLeaf != null"> isLeaf = #{isLeaf}, </if>
+			<if test="nodePath != null"> nodePath = #{nodePath}, </if>
+			<if test="nodePath != null"> nodePath = #{nodePath}, </if>
+			<if test="isDelete != null"> isDelete = #{isDelete}, </if>
+		</set>
+		 where menuId = #{menuId} 
+	</update>
+	
+	<!-- 根据ID删除 -->
+	<delete id="deleteById" parameterType="java.lang.Integer">
+		delete from system_menu
+		where menuId = #{menuId}
+	</delete>
+
+	<!-- 删除 -->
+	<delete id="delete" parameterType="java.util.Map">
+		delete from system_menu
+		<include refid="Where_Condition" />
+	</delete>
+	
+	
+	
+	
+	<!-- 批量插入角色菜单 -->
+	<insert id="batchInsertRoleMenu" parameterType="java.util.List">
+		insert into system_role_menu(
+			roleId,
+			menuId
+		) values 
+		 <foreach collection="list" item="item" index="index" separator="," > 
+		(	#{item.roleId},
+			#{item.menuId}
+		)
+		 </foreach> 
+	</insert>
+	
+	<!-- 删除角色菜单 根据角色id -->
+	<delete id="deleteRoleMenuByRoleId" parameterType="java.lang.Integer">
+		delete from system_role_menu where roleId = #{roleId}
+	</delete>	
+	
+	<!-- 删除角色菜单 -->
+	<delete id="deleteRoleMenu" parameterType="java.util.Map">
+		delete from system_role_menu 
+		where 1=1
+		<if test="roleId != null"> or system_role_menu.roleId = #{roleId} </if>
+		<if test="menuId != null"> or system_role_menu.menuId = #{menuId} </if>
+	</delete>
+	
+	<!-- 根据用户获取配置菜单 -->
+	<select id="getUserRoleMenu" resultMap="ResultMap" parameterType="java.util.Map">
+		select
+			<include refid="DB_Column_List" />
+		from 
+			system_menu
+			where system_menu.isDelete = 0  
+<!-- 			<if test="userId != 2"> -->
+			and	EXISTS (
+				select DISTINCT menuId from system_role_menu 
+						where system_role_menu.roleMenuId in (select system_role_menu.roleMenuId from system_user_role,system_role_menu where system_user_role.userId = #{userId} and system_role_menu.roleId = system_user_role.roleId)
+				and system_menu.menuId = system_role_menu.menuId
+			) 
+<!-- 			</if> -->
+			<if test="parentId != null">and system_menu.parentId = #{parentId}	</if>
+			<if test="levelNum != null">and system_menu.levelNum = #{levelNum}	</if>
+		order by system_menu.seq
+	</select>
+	
+</mapper>

@@ -1,0 +1,46 @@
+##MySQL DATABASE CONFIG  
+#validationQuery=SELECT 1  
+#jdbc.driverClassName=com.mysql.jdbc.Driver
+##jdbc.url=jdbc:mysql://www.qbsauto.com.cn:3316/crazybird_v1?useUnicode=true&autoReconnect=true&allowMultiQueries=true
+##jdbc.username=root
+##jdbc.password=GzQbs#Test
+#jdbc.url=jdbc:mysql://localhost:3306/usee?useUnicode=true&autoReconnect=true&allowMultiQueries=true
+#jdbc.username=root
+#jdbc.password=root
+jdbc.initialSize=5
+jdbc.minIdle=1
+jdbc.maxIdle=10
+jdbc.maxWait=30000
+jdbc.maxActive=30
+
+
+#MySQL DATABASE CONFIG  
+validationQuery=SELECT 1  
+jdbc.driverClassName=com.mysql.jdbc.Driver
+#jdbc.url=jdbc:mysql://www.qbsauto.com.cn:3316/crazybird_v1?useUnicode=true&autoReconnect=true&allowMultiQueries=true
+#jdbc.username=root
+#jdbc.password=GzQbs#Test
+
+#jdbc.url=jdbc:mysql://localhost:3306/tauto?useUnicode=true&characterEncoding=utf8&autoReconnect=true&allowMultiQueries=true&useSSL=false
+#jdbc.username=root
+#jdbc.password=iphone
+
+#jdbc.url=jdbc:mysql://119.23.30.245:3306/usee?useUnicode=true&characterEncoding=utf8&autoReconnect=true&allowMultiQueries=true
+#jdbc.username=root
+#jdbc.password=Usee.com
+
+#Test
+jdbc.url=jdbc:mysql://gz-cdb-b1xeazxc.sql.tencentcdb.com:63840/tautotest?useUnicode=true&characterEncoding=utf8&autoReconnect=true&allowMultiQueries=true&useSSL=false
+jdbc.username=root
+jdbc.password=Tauto_wang2017
+
+#real
+#jdbc.url=jdbc:mysql://gz-cdb-b1xeazxc.sql.tencentcdb.com:63840/xfnauto?useUnicode=true&characterEncoding=utf8&autoReconnect=true&allowMultiQueries=true&useSSL=false
+#jdbc.username=root
+#jdbc.password=Tauto_wang2017
+
+jdbc.initialSize=20
+jdbc.minIdle=1
+jdbc.maxIdle=100
+jdbc.maxWait=5000
+jdbc.maxActive=100

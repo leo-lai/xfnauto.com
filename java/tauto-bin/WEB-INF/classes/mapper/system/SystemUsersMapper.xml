@@ -1,0 +1,547 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="main.com.system.dao.po.SystemUsers">
+	<!-- <cache type="org.mybatis.caches.ehcache.LoggingEhcache" readOnly="true" 
+		/> -->
+
+	<resultMap id="ResultMap" type="main.com.system.dao.vo.SystemUsersVo">
+		<id column="usersId" property="usersId" jdbcType="INTEGER" />
+		<result column="headPortrait" property="headPortrait" jdbcType="VARCHAR" />
+		<result column="userName" property="userName" jdbcType="VARCHAR" />
+		<result column="realName" property="realName" jdbcType="VARCHAR" />
+		<result column="phoneNumberber" property="phoneNumber" jdbcType="VARCHAR" />
+		<result column="email" property="email" jdbcType="VARCHAR" />
+		<result column="password" property="password" jdbcType="VARCHAR" />
+		<result column="isFirstLogin" property="isFirstLogin" jdbcType="TINYINT" />
+		<result column="isOnline" property="isOnline" jdbcType="TINYINT" />
+		<result column="isEnable" property="isEnable" jdbcType="TINYINT" />
+		<result column="isReset" property="isReset" jdbcType="TINYINT" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+		<result column="status" property="status" jdbcType="INTEGER" />
+		<result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="updateTime" property="updateTime" jdbcType="TIMESTAMP" />
+		<result column="sessionId" property="sessionId" jdbcType="VARCHAR" />
+		<result column="loginTime" property="loginTime" jdbcType="TIMESTAMP" />
+		<result column="orgId" property="orgId" jdbcType="INTEGER" />
+		<result column="orgName" property="orgName" jdbcType="VARCHAR" />
+		<result column="orgCode" property="orgCode" jdbcType="VARCHAR" />
+		<result column="birthday" property="birthday" jdbcType="TIMESTAMP" />
+		<result column="cardNo" property="cardNo" jdbcType="VARCHAR" />
+		<result column="entryTime" property="entryTime" jdbcType="TIMESTAMP" />
+		<result column="basePay" property="basePay" jdbcType="DOUBLE" />
+		<result column="agentGender" property="agentGender" jdbcType="INTEGER" />
+		<result column="nikeName" property="nikeName" jdbcType="VARCHAR" />
+		<result column="openId" property="openId" jdbcType="VARCHAR" />
+		<result column="idCardPicOn" property="idCardPicOn" jdbcType="VARCHAR" />
+		<result column="idCardPicOff" property="idCardPicOff" jdbcType="VARCHAR" />
+		<result column="ticket" property="ticket" jdbcType="VARCHAR" />
+		<result column="ticketImage" property="ticketImage" jdbcType="VARCHAR" />
+		<result column="userCode" property="userCode" jdbcType="VARCHAR" />
+		<result column="weixin_qr_image" property="weixinQrImage" jdbcType="VARCHAR" />
+		</resultMap>
+		
+	<resultMap id="ResultJoinRoleMap" type="main.com.system.dao.vo.SystemUsersVo">
+		<id column="usersId" property="usersId" jdbcType="INTEGER" />
+		<result column="headPortrait" property="headPortrait" jdbcType="VARCHAR" />
+		<result column="userName" property="userName" jdbcType="VARCHAR" />
+		<result column="realName" property="realName" jdbcType="VARCHAR" />
+		<result column="phoneNumberber" property="phoneNumber" jdbcType="VARCHAR" />
+		<result column="email" property="email" jdbcType="VARCHAR" />
+		<result column="password" property="password" jdbcType="VARCHAR" />
+		<result column="isFirstLogin" property="isFirstLogin" jdbcType="TINYINT" />
+		<result column="isOnline" property="isOnline" jdbcType="TINYINT" />
+		<result column="isEnable" property="isEnable" jdbcType="TINYINT" />
+		<result column="isReset" property="isReset" jdbcType="TINYINT" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+		<result column="status" property="status" jdbcType="INTEGER" />
+		<result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="updateTime" property="updateTime" jdbcType="TIMESTAMP" />
+		<result column="sessionId" property="sessionId" jdbcType="VARCHAR" />
+		<result column="loginTime" property="loginTime" jdbcType="TIMESTAMP" />
+		<result column="orgId" property="orgId" jdbcType="INTEGER" />
+		<result column="orgName" property="orgName" jdbcType="VARCHAR" />
+		<result column="orgCode" property="orgCode" jdbcType="VARCHAR" />
+		<result column="birthday" property="birthday" jdbcType="TIMESTAMP" />
+		<result column="cardNo" property="cardNo" jdbcType="VARCHAR" />
+		<result column="entryTime" property="entryTime" jdbcType="TIMESTAMP" />
+		<result column="basePay" property="basePay" jdbcType="DOUBLE" />
+		<result column="agentGender" property="agentGender" jdbcType="INTEGER" />
+		<result column="nikeName" property="nikeName" jdbcType="VARCHAR" />
+		<result column="openId" property="openId" jdbcType="VARCHAR" />
+		<result column="idCardPicOn" property="idCardPicOn" jdbcType="VARCHAR" />
+		<result column="idCardPicOff" property="idCardPicOff" jdbcType="VARCHAR" />
+		<result column="ticket" property="ticket" jdbcType="VARCHAR" />
+		<result column="ticketImage" property="ticketImage" jdbcType="VARCHAR" />
+		<result column="userCode" property="userCode" jdbcType="VARCHAR" />
+		<result column="weixin_qr_image" property="weixinQrImage" jdbcType="VARCHAR" />
+		<!-- 角色 -->
+		<result column="roleId" property="roleId" jdbcType="INTEGER" />
+		<result column="roleName" property="roleName" jdbcType="VARCHAR" />
+		</resultMap>
+		
+	<sql id="DB_Column_List">
+		system_user.usersId,
+		system_user.headPortrait,
+		system_user.userName,
+		system_user.realName,
+		system_user.phoneNumber,
+		system_user.email,
+		system_user.password,
+		system_user.isFirstLogin,
+		system_user.isOnline,
+		system_user.isEnable,
+		system_user.isReset,
+		system_user.remark,
+		system_user.status,
+		system_user.createTime,
+		system_user.updateTime,
+		system_user.loginTime,
+		system_user.orgId,
+		system_user.orgName,
+		system_user.sessionId,
+		system_user.orgCode,
+		system_user.birthday,
+		system_user.cardNo,
+		system_user.entryTime,
+		system_user.agentGender,
+		system_user.basePay,
+		system_user.nikeName,
+		system_user.openId,
+		system_user.idCardPicOn,
+		system_user.idCardPicOff,
+		system_user.ticket,
+		system_user.ticketImage,
+		system_user.userCode,
+		system_user.weixin_qr_image
+	</sql>
+	<sql id="DB_Column_List_Join">
+		system_user.usersId,
+		system_user.headPortrait,
+		system_user.password,
+		system_user.realName,
+		system_user.phoneNumber,
+		system_user.isEnable,
+		system_user.createTime,
+		system_user.orgId,
+		system_user.orgName,
+		system_user.sessionId,
+		system_role.roleId,
+		system_role.roleName,
+		system_user.orgCode,
+		system_user.birthday,
+		system_user.cardNo,
+		system_user.entryTime,
+		system_user.agentGender,
+		system_user.basePay,
+		system_user.nikeName,
+		system_user.openId,
+		system_user.idCardPicOn,
+		system_user.idCardPicOff,
+		system_user.ticket,
+		system_user.ticketImage,
+		system_user.userCode,
+		system_user.weixin_qr_image
+	</sql>
+
+	<sql id="Where_Condition">
+		<where>
+			<trim prefixOverrides="and">
+				<!-- 匹配查询 -->
+				<if test="usersId != null">and system_user.usersId = #{usersId}</if>
+				<if test="userName != null and userName != ''"> and system_user.userName like CONCAT('%', #{userName},'%') </if>
+				<if test="realName != null and realName != ''"> and system_user.realName like CONCAT('%',#{realName},'%') </if>
+				<if test="orgName != null and orgName != ''"> and system_user.orgName like CONCAT('%',#{orgName},'%') </if>
+				<if test="phoneNumber != null and phoneNumber != ''"> and system_user.phoneNumber = #{phoneNumber} </if>
+				<if test="userCode != null and userCode != ''"> and system_user.userCode = #{userCode} </if>
+				<if test="userNameOrPhone != null and userNameOrPhone != ''"> and (system_user.phoneNumber = #{userNameOrPhone} or system_user.userName = #{userNameOrPhone}) </if>
+				<if test="sessionId != null and sessionId != ''"> and system_user.sessionId = #{sessionId} </if>
+				<if test="orgCode != null and orgCode != ''"> and system_user.orgCode = #{orgCode} </if>
+				<if test="orgId != null"> and system_user.orgId = #{orgId} </if>
+				<if test="status != null"> and system_user.status = #{status} </if>
+				<if test="isStatus == true"> and system_user.status = 1 </if>
+				<if test="isEnable == true"> and system_user.isEnable = 1 </if>
+				<if test="roleId != null"> and system_role.roleId = #{roleId} </if>
+				<if test="orgCodeLevel != null and orgCodeLevel != null">and (system_user.orgId IN (select orgId from system_organization where system_organization.orgCodeLevel like
+                    CONCAT('%',#{orgCodeLevel},'%')))
+                </if>
+				<!-- 模糊查询 -->
+<!-- 				<if test="mainProjectId != null and mainProjectId != ''"> and system_user.mainProjectId like CONCAT("%",#{mainProjectId},"%")</if>				 -->
+
+				<!-- list查询 -->
+				<if test="ids != null">and system_user.usersId in
+                    <foreach item="item" index="index" collection="ids"
+                             open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+			</trim>
+		</where>
+	</sql>
+
+
+	<!-- 查询总数 -->
+	<select id="selectCount" resultType="java.lang.Long"
+		parameterType="java.util.Map">
+		select count(usersId) from system_user
+		<include refid="Where_Condition" />
+	</select>
+
+	<!-- 查询 -->
+	<select id="select" resultMap="ResultMap" parameterType="java.util.Map">
+		select
+		<include refid="DB_Column_List" />
+		from system_user
+		<include refid="Where_Condition" />
+		<if test="sortField != null"> order by createTime desc </if>
+		<if test="isPage== true and offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+	</select>
+
+	<!-- 根据ID查询 -->
+	<select id="selectById" resultMap="ResultMap" parameterType="java.lang.Integer">
+		select
+		<include refid="DB_Column_List" />
+		from system_user where system_user.usersId = #{usersId}
+	</select>
+	
+	<select id="getById" resultType="main.com.system.dao.po.SystemUsers" parameterType="java.lang.Integer">
+		select * from system_user u
+		where u.usersId = #{userId}
+	</select>
+	
+	<!-- 根据ID查询 -->
+	<select id="selectByIdInUse" resultMap="ResultMap" parameterType="java.lang.Integer">
+		select
+		<include refid="DB_Column_List" />
+		from system_user where system_user.usersId = #{usersId} and system_user.status = 1 and system_user.isEnable = 1
+	</select>
+	
+	<select id="selectByCode" resultMap="ResultMap" parameterType="java.lang.String">
+		select
+		<include refid="DB_Column_List_Join" />
+		from system_user left join system_user_role on system_user.usersId=system_user_role.userId left join system_role 
+		on system_user_role.roleId=system_role.roleId where system_user.sessionId = #{sessionId}
+	</select>
+	
+	<select id="selectByCode_备份" resultMap="ResultMap" parameterType="java.lang.String">
+		select
+		system_user.*
+		from system_user where system_user.sessionId = #{sessionId}
+	</select>
+	
+	<select id="selectByUserCode" resultMap="ResultMap" parameterType="java.lang.String">
+		select
+		<include refid="DB_Column_List" />
+		from system_user where system_user.userCode = #{userCode}
+	</select>
+	
+		<!-- 根据ID查询 -->
+	<select id="selectJoin" resultMap="ResultJoinRoleMap" parameterType="java.util.Map">
+		select
+		<include refid="DB_Column_List_Join" />
+		from system_user left join system_user_role on system_user.usersId=system_user_role.userId left join system_role 
+		on system_user_role.roleId=system_role.roleId 
+		<include refid="Where_Condition" />
+		<if test="sortField != null"> order by system_user.createTime </if>
+		<if test="isPage == true">
+			<if test="offset != null and limit != null">
+            	limit #{offset}, #{limit}
+        	</if>
+		</if>
+	</select>
+	
+		<!-- 查询总数 -->
+	<select id="selectCountJoin" resultType="java.lang.Long"
+		parameterType="java.util.Map">
+		select count(system_user.usersId) from system_user left join system_user_role on system_user.usersId=system_user_role.userId left join system_role 
+		on system_user_role.roleId=system_role.roleId 
+		<include refid="Where_Condition" />
+	</select>
+
+	<!-- 添加 -->
+	<insert id="insert" parameterType="main.com.system.dao.po.SystemUsers" useGeneratedKeys="true" keyProperty="usersId">
+		insert into system_user
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="headPortrait != null"> headPortrait, </if>
+			<if test="userName != null"> userName, </if>
+			<if test="realName != null"> realName, </if>
+			<if test="phoneNumber != null"> phoneNumber, </if>
+			<if test="contactPhone != null"> contactPhone, </if>
+			<if test="email != null"> email, </if>
+			<if test="password != null"> password, </if>
+			<if test="isFirstLogin != null"> isFirstLogin, </if>
+			<if test="isOnline != null"> isOnline, </if>
+			<if test="isEnable != null"> isEnable, </if>
+			<if test="isReset != null"> isReset, </if>
+			<if test="accountAmount != null"> accountAmount, </if>
+			<if test="creditValue != null"> creditValue, </if>
+			<if test="remark != null"> remark, </if>
+			<if test="status != null"> status, </if>
+			<if test="sessionId != null"> sessionId, </if>
+			<if test="loginTime != null"> loginTime, </if>
+			<if test="createTime != null"> createTime, </if>
+			<if test="orgId != null"> orgId, </if>
+			<if test="orgName != null"> orgName, </if>
+			<if test="orgCode != null"> orgCode, </if>
+			<if test="birthday != null"> birthday, </if>
+			<if test="cardNo != null"> cardNo, </if>
+			<if test="entryTime != null"> entryTime, </if>
+			<if test="basePay != null"> basePay, </if>
+			<if test="agentGender != null"> agentGender, </if>
+			<if test="nikeName != null"> nikeName, </if>
+			<if test="openId != null"> openId, </if>
+			<if test="idCardPicOn != null"> idCardPicOn, </if>
+			<if test="idCardPicOff != null"> idCardPicOff, </if>
+			<if test="ticket != null"> ticket, </if>
+			<if test="ticketImage != null"> ticketImage, </if>
+			<if test="userCode != null"> userCode, </if>
+			<if test="weixinQrImage != null"> weixin_qr_image, </if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="headPortrait != null"> #{headPortrait}, </if>
+			<if test="userName != null"> #{userName}, </if>
+			<if test="realName != null"> #{realName}, </if>
+			<if test="phoneNumber != null"> #{phoneNumber}, </if>
+			<if test="contactPhone != null"> #{contactPhone}, </if>
+			<if test="email != null"> #{email}, </if>
+			<if test="password != null"> #{password}, </if>
+			<if test="isFirstLogin != null"> #{isFirstLogin}, </if>
+			<if test="isOnline != null"> #{isOnline}, </if>
+			<if test="isEnable != null"> #{isEnable}, </if>
+			<if test="isReset != null"> #{isReset}, </if>
+			<if test="accountAmount != null"> #{accountAmount}, </if>
+			<if test="creditValue != null"> #{creditValue}, </if>
+			<if test="remark != null"> #{remark}, </if>
+			<if test="status != null"> #{status}, </if>
+			<if test="sessionId != null"> #{sessionId}, </if>
+			<if test="loginTime != null"> #{loginTime}, </if>
+			<if test="createTime != null"> #{createTime}, </if>
+			<if test="orgId != null"> #{orgId}, </if>
+			<if test="orgName != null"> #{orgName}, </if>
+			<if test="orgCode != null"> #{orgCode}, </if>
+			<if test="birthday != null"> #{birthday}, </if>
+			<if test="cardNo != null"> #{cardNo}, </if>
+			<if test="entryTime != null"> #{entryTime}, </if>
+			<if test="basePay != null"> #{basePay}, </if>
+			<if test="agentGender != null"> #{agentGender}, </if>
+			<if test="nikeName != null"> #{nikeName}, </if>
+			<if test="openId != null"> #{openId}, </if>
+			<if test="idCardPicOn != null"> #{idCardPicOn}, </if>
+			<if test="idCardPicOff != null"> #{idCardPicOff}, </if>
+			<if test="ticket != null"> #{ticket}, </if>
+			<if test="ticketImage != null"> #{ticketImage}, </if>
+			<if test="userCode != null"> #{userCode}, </if>
+			<if test="weixinQrImage != null"> #{weixinQrImage}, </if>
+		</trim>
+	</insert>
+
+	<!-- 更新 -->
+	<update id="updateById" parameterType="main.com.system.dao.po.SystemUsers">
+		update
+		system_user
+		<set>
+			<if test="headPortrait != null"> headPortrait = #{headPortrait}, </if>
+			<if test="userName != null"> userName = #{userName}, </if>
+			<if test="realName != null"> realName = #{realName}, </if>
+			<if test="phoneNumber != null"> phoneNumber = #{phoneNumber}, </if>
+			<if test="contactPhone != null"> contactPhone = #{contactPhone}, </if>
+			<if test="email != null"> email = #{email}, </if>
+			<if test="password != null"> password = #{password}, </if>
+			<if test="isFirstLogin != null"> isFirstLogin = #{isFirstLogin}, </if>
+			<if test="isOnline != null"> isOnline = #{isOnline}, </if>
+			<if test="isEnable != null"> isEnable = #{isEnable}, </if>
+			<if test="isReset != null"> isReset = #{isReset}, </if>
+			<if test="accountAmount != null"> accountAmount = #{accountAmount}, </if>
+			<if test="creditValue != null"> creditValue = #{creditValue}, </if>
+			<if test="remark != null"> remark = #{remark}, </if>
+			<if test="status != null"> status = #{status}, </if>
+			<if test="sessionId != null"> sessionId = #{sessionId}, </if>
+			<if test="loginTime != null"> loginTime = #{loginTime}, </if>
+			<if test="orgId != null"> orgId = #{orgId}, </if>
+			<if test="orgName != null"> orgName = #{orgName}, </if>
+			<if test="orgCode != null"> orgCode = #{orgCode}, </if>
+			<if test="birthday != null"> birthday = #{birthday}, </if>
+			<if test="cardNo != null"> cardNo = #{cardNo}, </if>
+			<if test="entryTime != null"> entryTime = #{entryTime}, </if>
+			<if test="basePay != null"> basePay = #{basePay}, </if>
+			<if test="agentGender != null"> agentGender = #{agentGender}, </if>
+			<if test="nikeName != null"> nikeName = #{nikeName}, </if>
+			<if test="openId != null"> openId = #{openId}, </if>
+			<if test="idCardPicOn != null"> idCardPicOn = #{idCardPicOn}, </if>
+			<if test="idCardPicOff != null"> idCardPicOff = #{idCardPicOff}, </if>
+			<if test="userCode != null"> userCode = #{userCode}, </if>
+			<if test="weixinQrImage != null"> weixin_qr_image = #{weixinQrImage}, </if>
+		</set>
+		where usersId = #{usersId}
+	</update>
+	
+	
+	<!-- 批量更新 -->
+	<update id="batchUpdate"  parameterType="java.util.List">
+          <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            update 
+				system_user 
+			<set>
+			<if test="item.headPortrait != null"> headPortrait = #{item.headPortrait}, </if>
+			<if test="item.userName != null"> userName = #{item.userName}, </if>
+			<if test="item.realName != null"> realName = #{item.realName}, </if>
+			<if test="item.phoneNumber != null"> phoneNumber = #{item.phoneNumber}, </if>
+			<if test="item.contactPhone != null"> contactPhone = #{item.contactPhone}, </if>
+			<if test="item.email != null"> email = #{item.email}, </if>
+			<if test="item.password != null"> password = #{item.password}, </if>
+			<if test="item.isFirstLogin != null"> isFirstLogin = #{item.isFirstLogin}, </if>
+			<if test="item.isOnline != null"> isOnline = #{item.isOnline}, </if>
+			<if test="item.isEnable != null"> isEnable = #{item.isEnable}, </if>
+			<if test="item.isReset != null"> isReset = #{item.isReset}, </if>
+			<if test="item.accountAmount != null"> accountAmount = #{item.accountAmount}, </if>
+			<if test="item.creditValue != null"> creditValue = #{item.creditValue}, </if>
+			<if test="item.remark != null"> remark = #{item.remark}, </if>
+			<if test="item.status != null"> status = #{item.status}, </if>
+			<if test="item.sessionId != null"> sessionId = #{item.sessionId}, </if>
+			<if test="item.loginTime != null"> loginTime = #{item.loginTime}, </if>
+			<if test="item.orgId != null"> orgId = #{item.orgId}, </if>
+			<if test="item.orgName != null"> orgName = #{item.orgName}, </if>
+			<if test="item.orgCode != null"> orgCode = #{item.orgCode}, </if>
+			<if test="item.birthday != null"> birthday = #{item.birthday}, </if>
+			<if test="item.cardNo != null"> cardNo = #{item.cardNo}, </if>
+			<if test="item.entryTime != null"> entryTime = #{item.entryTime}, </if>
+			<if test="item.basePay != null"> basePay = #{item.basePay}, </if>
+			<if test="item.agentGender != null"> agentGender = #{item.agentGender}, </if>
+			<if test="item.nikeName != null"> nikeName = #{item.nikeName}, </if>
+			<if test="item.openId != null"> openId = #{item.openId}, </if>
+			<if test="item.idCardPicOn != null"> idCardPicOn = #{item.idCardPicOn}, </if>
+			<if test="item.idCardPicOff != null"> idCardPicOff = #{item.idCardPicOff}, </if>
+			<if test="item.userCode != null"> userCode = #{item.userCode}, </if>
+			</set> 
+			 where usersId = #{item.usersId} 
+         </foreach>
+    </update>
+
+	<!-- 根据ID删除 -->
+	<delete id="deleteById" parameterType="java.lang.Integer">
+		delete from system_user
+		where
+		usersId = #{usersId}
+	</delete>
+
+	<!-- 删除 -->
+	<delete id="delete" parameterType="java.util.Map">
+		delete from system_user
+		<include refid="Where_Condition" />
+	</delete>
+	
+	<!--插入角色用户 -->
+	<insert id="insertRoleUser" parameterType="java.util.Map"  useGeneratedKeys="true">
+		insert into system_user_role
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="userId != null"> userId, </if>
+			<if test="roleId != null"> roleId, </if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="userId != null"> #{userId}, </if>
+			<if test="roleId != null"> #{roleId}, </if>
+		</trim>
+	</insert>
+	
+	<!--根据用户角色 -->
+	<insert id="updateRoleUserById" parameterType="java.util.Map"  useGeneratedKeys="true">
+	update
+		system_user_role
+		<set>
+			<if test="roleId != null"> roleId = #{roleId}, </if>
+		</set>
+		where system_user_role.userId = #{userId}
+	</insert>
+	
+	<resultMap id="customerOrder" type="main.com.customer.dao.po.CustomerOrder" >
+    <id column="customer_order_id" property="customerOrderId" jdbcType="INTEGER" />
+    <result column="customer_order_code" property="customerOrderCode" jdbcType="VARCHAR" />
+    <result column="customer_order_state" property="customerOrderState" jdbcType="INTEGER" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="is_delete" property="isDelete" jdbcType="TINYINT" />
+    <result column="customer_id" property="customerId" jdbcType="INTEGER" />
+    <result column="customer_name" property="customerName" jdbcType="VARCHAR" />
+    <result column="customer_phone_number" property="customerPhoneNumber" jdbcType="VARCHAR" />
+    <result column="cars_id" property="carsId" jdbcType="INTEGER" />
+    <result column="cars_name" property="carsName" jdbcType="VARCHAR" />
+    <result column="cars_index_image" property="carsIndexImage" jdbcType="VARCHAR" />
+    <result column="brand_id" property="brandId" jdbcType="INTEGER" />
+    <result column="family_id" property="familyId" jdbcType="INTEGER" />
+    <result column="invoice_price" property="invoicePrice" jdbcType="DECIMAL" />
+    <result column="deposit_price" property="depositPrice" jdbcType="DECIMAL" />
+    <result column="discount_price" property="discountPrice" jdbcType="DECIMAL" />
+    <result column="interior_id" property="interiorId" jdbcType="INTEGER" />
+    <result column="colour_id" property="colourId" jdbcType="INTEGER" />
+    <result column="follow_information" property="followInformation" jdbcType="VARCHAR" />
+    <result column="balance_price" property="balancePrice" jdbcType="DECIMAL" />
+    <result column="org_id" property="orgId" jdbcType="INTEGER" />
+    <result column="org_name" property="orgName" jdbcType="VARCHAR" />
+    <result column="stock_car_id" property="stockCarId" jdbcType="INTEGER" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+    <result column="payment_way" property="paymentWay" jdbcType="INTEGER" />
+    <result column="down_payments" property="downPayments" jdbcType="DECIMAL" />
+    <result column="loan" property="loan" jdbcType="DECIMAL" />
+    <result column="loan_pay_back_stages" property="loanPayBackStages" jdbcType="INTEGER" />
+    <result column="amount" property="amount" jdbcType="DECIMAL" />
+    <result column="is_purchase_tax" property="isPurchaseTax" jdbcType="TINYINT" />
+    <result column="is_take_license_plate" property="isTakeLicensePlate" jdbcType="TINYINT" />
+    <result column="license_plate_priace" property="licensePlatePriace" jdbcType="DECIMAL" />
+    <result column="is_insurance" property="isInsurance" jdbcType="TINYINT" />
+    <result column="insurance_priace" property="insurancePriace" jdbcType="DECIMAL" />
+    <result column="system_user_id" property="systemUserId" jdbcType="INTEGER" />
+    <result column="system_user_name" property="systemUserName" jdbcType="VARCHAR" />
+    <result column="system_user_phone" property="systemUserPhone" jdbcType="VARCHAR" />
+    <result column="extract_car_image" property="extractCarImage" jdbcType="VARCHAR" />
+    <result column="colour_name" property="colourName" jdbcType="VARCHAR" />
+    <result column="interior_name" property="interiorName" jdbcType="VARCHAR" /> 
+    <result column="is_mortgage" property="isMortgage" jdbcType="TINYINT" /> 
+    <result column="estimate_Date" property="estimateDate" jdbcType="TIMESTAMP" /> 
+    <result column="audit_time" property="auditTime" jdbcType="TIMESTAMP" /> 
+    <result column="audit_status" property="auditStatus" jdbcType="INTEGER" /> 
+    <result column="customer_user_card" property="customerUserCard" jdbcType="VARCHAR" /> 
+    
+    <result column="purchase_tax_priace" property="purchaseTaxPriace" jdbcType="DECIMAL" />
+    <result column="boutique_priace" property="boutiquePriace" jdbcType="DECIMAL" />
+    <result column="mortgage_priace" property="mortgagePriace" jdbcType="DECIMAL" />
+    <result column="car_unit_price" property="carUnitPrice" jdbcType="DECIMAL" />
+    <result column="vehicle_and_vessel_tax" property="vehicleAndVesselTax" jdbcType="DECIMAL" />
+    <result column="loan_bank" property="loanBank" jdbcType="INTEGER" />
+    <result column="over_the_line" property="overTheLine" jdbcType="TINYINT" />
+  </resultMap>
+	
+	<select id="queryFinishedOrders" parameterType="java.util.Map" resultMap="customerOrder">
+		select o.*
+		from customer_order o,system_user u,customer_order_track t
+		where t.customer_order_id = o.customer_order_id
+		and o.system_user_id = u.usersId
+		<if test="startDate != null and startDate != ''">
+			and DATE_FORMAT(t.create_date ,'%Y-%m-%d') &gt;= DATE_FORMAT(#{startDate}, '%Y-%m-%d')
+		</if>
+		<if test="endDate != null and endDate != ''">
+			and DATE_FORMAT(t.create_date ,'%Y-%m-%d') &lt;= DATE_FORMAT(#{endDate}, '%Y-%m-%d')
+		</if>
+		<if test="systemUserId != null">
+			and u.usersId = #{systemUserId}
+		</if>
+		<if test="systemUserName != null">
+			and u.userName = #{systemUserName}
+		</if>
+		<if test="customerOrderState != null">
+			and t.customer_order_state = #{customerOrderState}
+		</if>
+	</select>
+	
+	<select id="getTotalGrossProfit" parameterType="java.util.Map" resultType="java.math.BigDecimal">
+		select sum(co.car_unit_price) - sum(car.unit_price)
+		from customer_order co,stock_car car
+		where 1 = 1
+		<if test="list != null and list.size() > 0">
+			and co.customer_order_id in
+			<foreach collection="list" item="item" index="index" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+		and co.stock_car_id = car.stock_car_id		
+	</select>
+</mapper>

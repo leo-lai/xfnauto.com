@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="main.com.weixinHtml.dao.po.ShopAdvanceOrderInfo" >
+
+  <resultMap id="BaseResultMap" type="main.com.weixinHtml.dao.vo.ShopAdvanceOrderInfoVo" >
+    <id column="advance_order_info_id" property="advanceOrderInfoId" jdbcType="INTEGER" />
+    <result column="advance_order_id" property="advanceOrderId" jdbcType="INTEGER" />
+    <result column="cars_id" property="carsId" jdbcType="INTEGER" />
+    <result column="over_delete" property="overDelete" jdbcType="TINYINT" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="invoice_price" property="invoicePrice" jdbcType="DECIMAL" />
+    <result column="deposit_price" property="depositPrice" jdbcType="DECIMAL" />
+    <result column="guiding_price" property="guidingPrice" jdbcType="DECIMAL" />
+    <result column="family_id" property="familyId" jdbcType="INTEGER" />
+    <result column="brand_id" property="brandId" jdbcType="INTEGER" />
+    <result column="colour_id" property="colourId" jdbcType="INTEGER" />
+    <result column="cars_name" property="carsName" jdbcType="VARCHAR" />
+    <result column="colour_name" property="colourName" jdbcType="VARCHAR" />
+    <result column="saleing_number" property="saleingNumber" jdbcType="INTEGER" />
+    <result column="over_insurance" property="overInsurance" jdbcType="TINYINT" />
+    <result column="warehouse_id" property="warehouseId" jdbcType="INTEGER" />
+    <result column="warehouse_name" property="warehouseName" jdbcType="VARCHAR" />
+    <result column="interior_id" property="interiorId" jdbcType="INTEGER" />
+    <result column="interior_name" property="interiorName" jdbcType="VARCHAR" />
+    <result column="image" property="image" jdbcType="VARCHAR" />
+    <result column="discount_price_on_line" property="discountPriceOnLine" jdbcType="DECIMAL" />
+    <result column="bare_car_price_on_line" property="bareCarPriceOnLine" jdbcType="DECIMAL" />
+    <result column="logistics_price" property="logisticsPrice" jdbcType="DECIMAL" />  
+  </resultMap>
+  
+   <sql id="Where_Condition">
+		<where>
+			<trim prefixOverrides="and">
+				<!-- 匹配查询 -->
+				<if test="advanceOrderInfoId != null">and shop_advance_order_info.advance_order_info_id = #{advanceOrderInfoId}</if>	<!-- 金融机构 -->			
+				<if test="carsId != null">and shop_advance_order_info.cars_id = #{carsId}</if>				
+				<if test="brandId != null">and shop_advance_order_info.brand_id = #{brandId}</if>				
+				<if test="colourId != null">and shop_advance_order_info.colour_id = #{colourId}</if>				
+				<if test="overDelete == null">and shop_advance_order_info.over_delete = 0</if>
+				<if test="orgId != null and orgId != ''">and shop_advance_order_info.org_id = #{orgId}</if>
+				<if test="keywords != null and keywords != ''">and replace(shop_advance_order_info.cars_name,' ','') like CONCAT('%',#{keywords},'%')</if>												
+                
+                  <!-- 时间筛选 -->
+				<if test="startDate != null and startDate != ''">and DATE_FORMAT(shop_advance_order_info.create_date ,'%Y-%m-%d') &gt;= DATE_FORMAT(#{startDate}, '%Y-%m-%d')</if>
+				<if test="endDate != null and endDate != ''">and DATE_FORMAT(shop_advance_order_info.create_date ,'%Y-%m-%d') &lt;= DATE_FORMAT(#{endDate}, '%Y-%m-%d')</if>	
+				
+                
+				<!-- list查询 -->
+				<if test="ids != null">and shop_advance_order_info.advance_order_info_id in
+                    <foreach item="item" index="index" collection="ids"
+                             open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+			</trim>
+		</where>
+	</sql>
+
+	<!-- 查询总数 -->
+	<select id="selectCount" resultType="java.lang.Long"
+		parameterType="java.util.Map">
+		select count(advance_order_info_id) from shop_advance_order_info
+		<include refid="Where_Condition" />
+	</select>
+
+	<!-- 查询 -->
+	<select id="select" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select 
+    		shop_advance_order_info.*
+    	from shop_advance_order_info
+		<include refid="Where_Condition" />
+		<if test="createOder != null"> order by shop_advance_order_info.create_date desc </if>
+		<if test="isPage== true and offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+	</select>
+  
+  <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select shop_advance_order_info.*
+    from shop_advance_order_info
+    where advance_order_info_id = #{advanceOrderInfoId,jdbcType=INTEGER}
+  </select>
+  
+  <delete id="deleteById" parameterType="java.lang.Integer" >
+    delete from shop_advance_order_info
+    where advance_order_info_id = #{advanceOrderInfoId,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="main.com.weixinHtml.dao.po.ShopAdvanceOrderInfo" useGeneratedKeys="true" keyProperty="advanceOrderInfoId" >
+    insert into shop_advance_order_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="advanceOrderId != null" >
+        advance_order_id,
+      </if>
+      <if test="carsId != null" >
+        cars_id,
+      </if>
+      <if test="overDelete != null" >
+        over_delete,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="invoicePrice != null" >
+        invoice_price,
+      </if>
+      <if test="depositPrice != null" >
+        deposit_price,
+      </if>
+      <if test="guidingPrice != null" >
+        guiding_price,
+      </if>
+      <if test="familyId != null" >
+        family_id,
+      </if>
+      <if test="brandId != null" >
+        brand_id,
+      </if>
+      <if test="colourId != null" >
+        colour_id,
+      </if>
+      <if test="carsName != null" >
+        cars_name,
+      </if>
+      <if test="colourName != null" >
+        colour_name,
+      </if>
+      <if test="saleingNumber != null" >
+        saleing_number,
+      </if>
+      <if test="overInsurance != null" >
+        over_insurance,
+      </if>
+      <if test="warehouseId != null" >
+        warehouse_id,
+      </if>
+      <if test="warehouseName != null" >
+        warehouse_name,
+      </if>
+      <if test="interiorId != null" >
+        interior_id,
+      </if>
+      <if test="interiorName != null" >
+        interior_name,
+      </if>
+      <if test="image != null" >
+        image,
+      </if>
+      <if test="discountPriceOnLine != null" >
+        discount_price_on_line,
+      </if>
+      <if test="bareCarPriceOnLine != null" >
+        bare_car_price_on_line,
+      </if>
+      <if test="logisticsPrice != null" >
+        logistics_price,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="advanceOrderId != null" >
+        #{advanceOrderId,jdbcType=INTEGER},
+      </if>
+      <if test="carsId != null" >
+        #{carsId,jdbcType=INTEGER},
+      </if>
+      <if test="overDelete != null" >
+        #{overDelete,jdbcType=TINYINT},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="invoicePrice != null" >
+        #{invoicePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="depositPrice != null" >
+        #{depositPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="guidingPrice != null" >
+        #{guidingPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="familyId != null" >
+        #{familyId,jdbcType=INTEGER},
+      </if>
+      <if test="brandId != null" >
+        #{brandId,jdbcType=INTEGER},
+      </if>
+      <if test="colourId != null" >
+        #{colourId,jdbcType=INTEGER},
+      </if>
+      <if test="carsName != null" >
+        #{carsName,jdbcType=VARCHAR},
+      </if>
+      <if test="colourName != null" >
+        #{colourName,jdbcType=VARCHAR},
+      </if>
+      <if test="saleingNumber != null" >
+        #{saleingNumber,jdbcType=INTEGER},
+      </if>
+      <if test="overInsurance != null" >
+        #{overInsurance,jdbcType=TINYINT},
+      </if>
+      <if test="warehouseId != null" >
+        #{warehouseId,jdbcType=INTEGER},
+      </if>
+      <if test="warehouseName != null" >
+        #{warehouseName,jdbcType=VARCHAR},
+      </if>
+      <if test="interiorId != null" >
+        #{interiorId,jdbcType=INTEGER},
+      </if>
+      <if test="interiorName != null" >
+        #{interiorName,jdbcType=VARCHAR},
+      </if>
+      <if test="image != null" >
+        #{image,jdbcType=VARCHAR},
+      </if>
+       <if test="discountPriceOnLine != null" >
+        #{discountPriceOnLine},
+      </if>    
+      <if test="bareCarPriceOnLine != null" >
+        #{bareCarPriceOnLine},
+      </if>    
+      <if test="logisticsPrice != null" >
+        #{logisticsPrice},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateById" parameterType="main.com.weixinHtml.dao.po.ShopAdvanceOrderInfo" >
+    update shop_advance_order_info
+    <set >
+      <if test="advanceOrderId != null" >
+        advance_order_id = #{advanceOrderId,jdbcType=INTEGER},
+      </if>
+      <if test="carsId != null" >
+        cars_id = #{carsId,jdbcType=INTEGER},
+      </if>
+      <if test="overDelete != null" >
+        over_delete = #{overDelete,jdbcType=TINYINT},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="invoicePrice != null" >
+        invoice_price = #{invoicePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="depositPrice != null" >
+        deposit_price = #{depositPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="guidingPrice != null" >
+        guiding_price = #{guidingPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="familyId != null" >
+        family_id = #{familyId,jdbcType=INTEGER},
+      </if>
+      <if test="brandId != null" >
+        brand_id = #{brandId,jdbcType=INTEGER},
+      </if>
+      <if test="colourId != null" >
+        colour_id = #{colourId,jdbcType=INTEGER},
+      </if>
+      <if test="carsName != null" >
+        cars_name = #{carsName,jdbcType=VARCHAR},
+      </if>
+      <if test="colourName != null" >
+        colour_name = #{colourName,jdbcType=VARCHAR},
+      </if>
+      <if test="saleingNumber != null" >
+        saleing_number = #{saleingNumber,jdbcType=INTEGER},
+      </if>
+      <if test="overInsurance != null" >
+        over_insurance = #{overInsurance,jdbcType=TINYINT},
+      </if>
+      <if test="warehouseId != null" >
+        warehouse_id = #{warehouseId,jdbcType=INTEGER},
+      </if>
+      <if test="warehouseName != null" >
+        warehouse_name = #{warehouseName,jdbcType=VARCHAR},
+      </if>
+      <if test="interiorId != null" >
+        interior_id = #{interiorId,jdbcType=INTEGER},
+      </if>
+      <if test="interiorName != null" >
+        interior_name = #{interiorName,jdbcType=VARCHAR},
+      </if>
+      <if test="image != null" >
+        image = #{image,jdbcType=VARCHAR},
+      </if>
+      <if test="discountPriceOnLine != null" >
+        discount_price_on_line = #{discountPriceOnLine},
+      </if>
+      <if test="bareCarPriceOnLine != null" >
+        bare_car_price_on_line = #{bareCarPriceOnLine},
+      </if>
+      <if test="logisticsPrice != null" >
+        logistics_price = #{logisticsPrice},
+      </if>  
+    </set>
+    where advance_order_info_id = #{advanceOrderInfoId,jdbcType=INTEGER}
+  </update>
+</mapper>

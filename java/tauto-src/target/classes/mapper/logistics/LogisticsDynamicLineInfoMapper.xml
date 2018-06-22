@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="main.com.logistics.dao.po.LogisticsDynamicLineInfo" >
+
+  <resultMap id="BaseResultMap" type="main.com.logistics.dao.vo.LogisticsDynamicLineInfoVo" >
+    <id column="dynamic_line_info_id" property="dynamicLineInfoId" jdbcType="INTEGER" />
+    <result column="dynamic_line_id" property="dynamicLineId" jdbcType="INTEGER" />
+    <result column="amount" property="amount" jdbcType="DECIMAL" />
+    <result column="min_mileage" property="minMileage" jdbcType="DOUBLE" />
+    <result column="max_mileage" property="maxMileage" jdbcType="DOUBLE" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    dynamic_line_info_id, dynamic_line_id, amount, min_mileage, max_mileage
+  </sql>
+  
+  <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from logistics_dynamic_line_info
+    where dynamic_line_info_id = #{dynamicLineInfoId,jdbcType=INTEGER}
+  </select>
+  
+  <delete id="deleteById" parameterType="java.lang.Integer" >
+    delete from logistics_dynamic_line_info
+    where dynamic_line_info_id = #{dynamicLineInfoId,jdbcType=INTEGER}
+  </delete>
+  
+  <insert id="insert" parameterType="main.com.logistics.dao.po.LogisticsDynamicLineInfo" useGeneratedKeys="true" keyProperty="dynamicLineInfoId" >
+    insert into logistics_dynamic_line_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="dynamicLineId != null" >
+        dynamic_line_id,
+      </if>
+      <if test="amount != null" >
+        amount,
+      </if>
+      <if test="minMileage != null" >
+        min_mileage,
+      </if>
+      <if test="maxMileage != null" >
+        max_mileage,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="dynamicLineId != null" >
+        #{dynamicLineId,jdbcType=INTEGER},
+      </if>
+      <if test="amount != null" >
+        #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="minMileage != null" >
+        #{minMileage,jdbcType=DOUBLE},
+      </if>
+      <if test="maxMileage != null" >
+        #{maxMileage,jdbcType=DOUBLE},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateById" parameterType="main.com.logistics.dao.po.LogisticsDynamicLineInfo" >
+    update logistics_dynamic_line_info
+    <set >
+      <if test="dynamicLineId != null" >
+        dynamic_line_id = #{dynamicLineId,jdbcType=INTEGER},
+      </if>
+      <if test="amount != null" >
+        amount = #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="minMileage != null" >
+        min_mileage = #{minMileage,jdbcType=DOUBLE},
+      </if>
+      <if test="maxMileage != null" >
+        max_mileage = #{maxMileage,jdbcType=DOUBLE},
+      </if>
+    </set>
+    where dynamic_line_info_id = #{dynamicLineInfoId,jdbcType=INTEGER}
+  </update>
+
+</mapper>

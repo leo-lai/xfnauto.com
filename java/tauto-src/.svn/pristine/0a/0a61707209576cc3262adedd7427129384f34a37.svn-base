@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN 2.0//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	<!-- 集成方式：JobDetailFactoryBean，并且任务类需要继承QuartzJobBean -->
+
+	<!--双向回拨下载录音-->
+<!-- 	<bean id="eyeRefundQuartzJob" class="org.springframework.scheduling.quartz.JobDetailFactoryBean"> -->
+<!-- 	    <property name="jobClass" value="main.com.quartz.EyeRefundQuartzJob" /> -->
+<!-- 	</bean> -->
+
+<!--  ********************************************************************************************************-->
+	<!--双向回拨下载录音-->
+<!-- 	<bean id="eyeRefundQuartzJobTrigger" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean"> -->
+<!-- 	    <property name="jobDetail" ref="eyeRefundQuartzJob" /> -->
+<!-- 	    <property name="cronExpression" value="0 59 * * * ?" /> -->
+<!-- 	</bean> -->
+
+	<!-- 定义核心调度器 -->
+	 <bean id="scheduler"
+		class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+<!-- 			<ref bean="eyeRefundQuartzJobTrigger"/>  -->
+			</list>
+		</property>
+	</bean> 
+	 
+</beans>

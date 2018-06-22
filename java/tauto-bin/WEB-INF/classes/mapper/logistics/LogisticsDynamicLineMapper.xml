@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="main.com.logistics.dao.po.LogisticsDynamicLine" >
+
+  <resultMap id="BaseResultMap" type="main.com.logistics.dao.vo.LogisticsDynamicLineVo" >
+    <id column="dynamic_line_id" property="dynamicLineId" jdbcType="INTEGER" />
+    <result column="start_price" property="startPrice" jdbcType="DECIMAL" />
+    <result column="starting_mileage" property="startingMileage" jdbcType="INTEGER" />
+    <result column="grade_first" property="gradeFirst" jdbcType="DECIMAL" />
+    <result column="grade_second" property="gradeSecond" jdbcType="DECIMAL" />
+    <result column="grade_third" property="gradeThird" jdbcType="DECIMAL" />
+    <result column="grade_four" property="gradeFour" jdbcType="DECIMAL" />
+    <result column="grade_five" property="gradeFive" jdbcType="DECIMAL" />
+    <result column="grade_six" property="gradeSix" jdbcType="DECIMAL" />
+    <result column="org_id" property="orgId" jdbcType="INTEGER" />
+    <result column="org_name" property="orgName" jdbcType="VARCHAR" />
+    <result column="additional_amount" property="additionalAmount" jdbcType="DECIMAL" />
+  </resultMap>
+  
+  <resultMap id="BaseResultMapJoin" type="main.com.logistics.dao.vo.LogisticsDynamicLineVo" >
+    <id column="dynamic_line_id" property="dynamicLineId" jdbcType="INTEGER" />
+    <result column="start_price" property="startPrice" jdbcType="DECIMAL" />
+    <result column="starting_mileage" property="startingMileage" jdbcType="DOUBLE" />
+    <result column="grade_first" property="gradeFirst" jdbcType="DECIMAL" />
+    <result column="grade_second" property="gradeSecond" jdbcType="DECIMAL" />
+    <result column="grade_third" property="gradeThird" jdbcType="DECIMAL" />
+    <result column="grade_four" property="gradeFour" jdbcType="DECIMAL" />
+    <result column="grade_five" property="gradeFive" jdbcType="DECIMAL" />
+    <result column="grade_six" property="gradeSix" jdbcType="DECIMAL" />
+    <result column="org_id" property="orgId" jdbcType="INTEGER" />
+    <result column="org_name" property="orgName" jdbcType="VARCHAR" />
+    <result column="additional_amount" property="additionalAmount" jdbcType="DECIMAL" />
+    <collection property="lineInfoVos" ofType="main.com.logistics.dao.vo.LogisticsDynamicLineInfoVo" column="dynamic_line_id">  
+		<id column="dynamic_line_info_id" property="dynamicLineInfoId" jdbcType="INTEGER" />
+	    <result column="dynamic_line_id_Info" property="dynamicLineId" jdbcType="INTEGER" />
+	    <result column="amount" property="amount" jdbcType="DECIMAL" />
+	    <result column="min_mileage" property="minMileage" jdbcType="DOUBLE" />
+	    <result column="max_mileage" property="maxMileage" jdbcType="DOUBLE" />
+   </collection>
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    dynamic_line_id, start_price, starting_mileage, grade_first, grade_second, grade_third, 
+    grade_four, grade_five, grade_six, org_id, org_name,additional_amount
+  </sql>
+  
+  <sql id="Base_Column_List_Join" >
+    logistics_dynamic_line.dynamic_line_id, logistics_dynamic_line.start_price, logistics_dynamic_line.starting_mileage, 
+    logistics_dynamic_line.grade_first, logistics_dynamic_line.grade_second, logistics_dynamic_line.grade_third, 
+    logistics_dynamic_line.grade_four, logistics_dynamic_line.grade_five, logistics_dynamic_line.grade_six, logistics_dynamic_line.org_id, 
+    logistics_dynamic_line.org_name,logistics_dynamic_line.additional_amount,
+    logistics_dynamic_line_info.dynamic_line_info_id, logistics_dynamic_line_info.dynamic_line_id as dynamic_line_id_info,
+    logistics_dynamic_line_info.amount, logistics_dynamic_line_info.min_mileage, logistics_dynamic_line_info.max_mileage
+  </sql>
+  
+     <sql id="Where_Condition">
+		<where>
+			<trim prefixOverrides="and">
+				<!-- 匹配查询 -->
+				<if test="dynamicLineId != null">and logistics_dynamic_line.dynamic_line_id = #{dynamicLineId}</if>
+				
+				<if test="orgCodeLevel != null and orgCodeLevel != null">and (logistics_dynamic_line.org_id IN (select orgId from system_organization where system_organization.orgCodeLevel like
+                    CONCAT('%',#{orgCodeLevel},'%')))
+                </if>
+                
+				<!-- list查询 -->
+				<if test="ids != null">and logistics_dynamic_line.dynamic_line_id in
+                    <foreach item="item" index="index" collection="ids"
+                             open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+			</trim>
+		</where>
+	</sql>
+  
+  <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from logistics_dynamic_line
+    where dynamic_line_id = #{dynamicLineId,jdbcType=INTEGER}
+  </select>
+  
+  <select id="select" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from logistics_dynamic_line
+    <include refid="Where_Condition" />
+  </select>
+  
+  <select id="selectJoin" resultMap="BaseResultMapJoin" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List_Join" />
+    from logistics_dynamic_line left join logistics_dynamic_line_info on 
+    logistics_dynamic_line.dynamic_line_id = logistics_dynamic_line_info.dynamic_line_id
+    <include refid="Where_Condition" />
+  </select>
+  
+  <delete id="deleteById" parameterType="java.lang.Integer" >
+    delete from logistics_dynamic_line
+    where dynamic_line_id = #{dynamicLineId,jdbcType=INTEGER}
+  </delete>
+  
+  <insert id="insert" parameterType="main.com.logistics.dao.po.LogisticsDynamicLine" useGeneratedKeys="true" keyProperty="dynamicLineId" >
+    insert into logistics_dynamic_line
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="startPrice != null" >
+        start_price,
+      </if>
+      <if test="startingMileage != null" >
+        starting_mileage,
+      </if>
+      <if test="gradeFirst != null" >
+        grade_first,
+      </if>
+      <if test="gradeSecond != null" >
+        grade_second,
+      </if>
+      <if test="gradeThird != null" >
+        grade_third,
+      </if>
+      <if test="gradeFour != null" >
+        grade_four,
+      </if>
+      <if test="gradeFive != null" >
+        grade_five,
+      </if>
+      <if test="gradeSix != null" >
+        grade_six,
+      </if>
+      <if test="orgId != null" >
+        org_id,
+      </if>
+      <if test="orgName != null" >
+        org_name,
+      </if>
+       <if test="additionalAmount != null" >
+        additional_amount,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="startPrice != null" >
+        #{startPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="startingMileage != null" >
+        #{startingMileage},
+      </if>
+      <if test="gradeFirst != null" >
+        #{gradeFirst,jdbcType=DECIMAL},
+      </if>
+      <if test="gradeSecond != null" >
+        #{gradeSecond,jdbcType=DECIMAL},
+      </if>
+      <if test="gradeThird != null" >
+        #{gradeThird,jdbcType=DECIMAL},
+      </if>
+      <if test="gradeFour != null" >
+        #{gradeFour,jdbcType=DECIMAL},
+      </if>
+      <if test="gradeFive != null" >
+        #{gradeFive,jdbcType=DECIMAL},
+      </if>
+      <if test="gradeSix != null" >
+        #{gradeSix,jdbcType=DECIMAL},
+      </if>
+      <if test="orgId != null" >
+        #{orgId,jdbcType=INTEGER},
+      </if>
+      <if test="orgName != null" >
+        #{orgName,jdbcType=VARCHAR},
+      </if>
+       <if test="additionalAmount != null" >
+       #{additionalAmount,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateById" parameterType="main.com.logistics.dao.po.LogisticsDynamicLine" >
+    update logistics_dynamic_line
+    <set >
+      <if test="startPrice != null" >
+        start_price = #{startPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="startingMileage != null" >
+        starting_mileage = #{startingMileage},
+      </if>
+      <if test="gradeFirst != null" >
+        grade_first = #{gradeFirst,jdbcType=DECIMAL},
+      </if>
+      <if test="gradeSecond != null" >
+        grade_second = #{gradeSecond,jdbcType=DECIMAL},
+      </if>
+      <if test="gradeThird != null" >
+        grade_third = #{gradeThird,jdbcType=DECIMAL},
+      </if>
+      <if test="gradeFour != null" >
+        grade_four = #{gradeFour,jdbcType=DECIMAL},
+      </if>
+      <if test="gradeFive != null" >
+        grade_five = #{gradeFive,jdbcType=DECIMAL},
+      </if>
+      <if test="gradeSix != null" >
+        grade_six = #{gradeSix,jdbcType=DECIMAL},
+      </if>
+      <if test="orgId != null" >
+        org_id = #{orgId,jdbcType=INTEGER},
+      </if>
+      <if test="orgName != null" >
+        org_name = #{orgName,jdbcType=VARCHAR},
+      </if>
+       <if test="additionalAmount != null" >
+        additional_amount = #{additionalAmount,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where dynamic_line_id = #{dynamicLineId,jdbcType=INTEGER}
+  </update>
+</mapper>

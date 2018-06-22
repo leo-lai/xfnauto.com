@@ -1,0 +1,784 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="main.com.logistics.dao.po.LogisticsConsignment">
+
+  <resultMap id="BaseResultMap" type="main.com.logistics.dao.vo.LogisticsConsignmentVo" >
+    <id column="consignment_id" property="consignmentId" jdbcType="INTEGER" />
+    <result column="consignment_code" property="consignmentCode" jdbcType="VARCHAR" />
+    <result column="consignment_type" property="consignmentType" jdbcType="INTEGER" />
+<!--     <result column="leave_the_car_person_name" property="leaveTheCarPersonName" jdbcType="VARCHAR" /> -->
+<!--     <result column="leave_the_car_person_phone" property="leaveTheCarPersonPhone" jdbcType="VARCHAR" /> -->
+<!--     <result column="extract_the_car_person_name" property="extractTheCarPersonName" jdbcType="VARCHAR" /> -->
+<!--     <result column="extract_the_car_person_phone" property="extractTheCarPersonPhone" jdbcType="VARCHAR" /> -->
+<!--     <result column="extract_the_car_person_idcard" property="extractTheCarPersonIdcard" jdbcType="VARCHAR" /> -->
+ 	<result column="leave_the_car_person_ids" property="leaveTheCarPersonIds" jdbcType="VARCHAR" />
+ 	<result column="extract_the_car_person_ids" property="extractTheCarPersonIds" jdbcType="VARCHAR" />
+    <result column="starting_point_address" property="startingPointAddress" jdbcType="VARCHAR" />
+    <result column="destination_address" property="destinationAddress" jdbcType="VARCHAR" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+    <result column="consignment_state" property="consignmentState" jdbcType="INTEGER" />
+    <result column="amount" property="amount" jdbcType="DECIMAL" />
+    <result column="is_cancel" property="isCancel" jdbcType="TINYINT" />
+    <result column="is_delete" property="isDelete" jdbcType="TINYINT" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="create_type" property="createType" jdbcType="INTEGER" />
+    <result column="appointment_time" property="appointmentTime" jdbcType="TIMESTAMP" />
+    <result column="starting_point_longitude" property="startingPointLongitude" jdbcType="VARCHAR" />
+    <result column="starting_point_latitude" property="startingPointLatitude" jdbcType="VARCHAR" />
+    <result column="destination_longitude" property="destinationLongitude" jdbcType="VARCHAR" />
+    <result column="destination_latitude" property="destinationLatitude" jdbcType="VARCHAR" />
+    <result column="purchasers_id" property="purchasersId" jdbcType="INTEGER" />
+    <result column="purchasers_name" property="purchasersName" jdbcType="VARCHAR" />
+    <result column="purchasers_phone" property="purchasersPhone" jdbcType="VARCHAR" />
+    <result column="org_id" property="orgId" jdbcType="INTEGER" />
+    <result column="org_name" property="orgName" jdbcType="VARCHAR" />
+    <result column="consignment_in_pay_state" property="consignmentInPayState" jdbcType="INTEGER" />
+    <result column="consignment_type_line_id" property="consignmentTypeLineId" jdbcType="INTEGER" />
+    <result column="mileage" property="mileage" jdbcType="DOUBLE" />
+    <result column="system_user_id" property="systemUserId" jdbcType="INTEGER" />
+    <result column="system_user_name" property="systemUserName" jdbcType="VARCHAR" />
+    <result column="system_user_phone" property="systemUserPhone" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <resultMap id="BaseResultMapJoin" type="main.com.logistics.dao.vo.LogisticsConsignmentVo" >
+    <id column="consignment_id" property="consignmentId" jdbcType="INTEGER" />
+    <result column="consignment_code" property="consignmentCode" jdbcType="VARCHAR" />
+    <result column="consignment_type" property="consignmentType" jdbcType="INTEGER" />
+<!--     <result column="leave_the_car_person_name" property="leaveTheCarPersonName" jdbcType="VARCHAR" /> -->
+<!--     <result column="leave_the_car_person_phone" property="leaveTheCarPersonPhone" jdbcType="VARCHAR" /> -->
+<!--     <result column="extract_the_car_person_name" property="extractTheCarPersonName" jdbcType="VARCHAR" /> -->
+<!--     <result column="extract_the_car_person_phone" property="extractTheCarPersonPhone" jdbcType="VARCHAR" /> -->
+<!--     <result column="extract_the_car_person_idcard" property="extractTheCarPersonIdcard" jdbcType="VARCHAR" /> -->
+ 	<result column="leave_the_car_person_ids" property="leaveTheCarPersonIds" jdbcType="VARCHAR" />
+ 	<result column="extract_the_car_person_ids" property="extractTheCarPersonIds" jdbcType="VARCHAR" />
+    <result column="starting_point_address" property="startingPointAddress" jdbcType="VARCHAR" />
+    <result column="destination_address" property="destinationAddress" jdbcType="VARCHAR" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+    <result column="consignment_state" property="consignmentState" jdbcType="INTEGER" />
+    <result column="amount" property="amount" jdbcType="DECIMAL" />
+    <result column="is_cancel" property="isCancel" jdbcType="TINYINT" />
+    <result column="is_delete" property="isDelete" jdbcType="TINYINT" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="create_type" property="createType" jdbcType="INTEGER" />
+    <result column="appointment_time" property="appointmentTime" jdbcType="TIMESTAMP" />
+    <result column="starting_point_longitude" property="startingPointLongitude" jdbcType="VARCHAR" />
+    <result column="starting_point_latitude" property="startingPointLatitude" jdbcType="VARCHAR" />
+    <result column="destination_longitude" property="destinationLongitude" jdbcType="VARCHAR" />
+    <result column="destination_latitude" property="destinationLatitude" jdbcType="VARCHAR" />
+    <result column="purchasers_id" property="purchasersId" jdbcType="INTEGER" />
+    <result column="purchasers_name" property="purchasersName" jdbcType="VARCHAR" />
+    <result column="purchasers_phone" property="purchasersPhone" jdbcType="VARCHAR" />
+    <result column="org_id" property="orgId" jdbcType="INTEGER" />
+    <result column="org_name" property="orgName" jdbcType="VARCHAR" />
+    <result column="consignment_in_pay_state" property="consignmentInPayState" jdbcType="INTEGER" />
+    <result column="consignment_type_line_id" property="consignmentTypeLineId" jdbcType="INTEGER" />
+    <result column="mileage" property="mileage" jdbcType="DOUBLE" />
+    <result column="system_user_id" property="systemUserId" jdbcType="INTEGER" />
+    <result column="system_user_name" property="systemUserName" jdbcType="VARCHAR" />
+    <result column="system_user_phone" property="systemUserPhone" jdbcType="VARCHAR" />
+    <collection property="consignmentInPayVos" ofType="main.com.logistics.dao.vo.LogisticsConsignmentInPayVo" column="consignment_id">  
+		<id column="consignment_in_pay_id" property="consignmentInPayId" jdbcType="INTEGER" />
+	    <result column="amount" property="amount" jdbcType="DECIMAL" />
+	    <result column="create_date_pay" property="createDate" jdbcType="TIMESTAMP" />
+	    <result column="consignment_id_pay" property="consignmentId" jdbcType="INTEGER" />
+	    <result column="consignment_code_pay" property="consignmentCode" jdbcType="VARCHAR" />
+	    <result column="consignment_state_pay" property="consignmentState" jdbcType="INTEGER" />
+	    <result column="pay_method" property="payMethod" jdbcType="INTEGER" />
+	    <result column="weixin_pay_account_id" property="weixinPayAccountId" jdbcType="INTEGER" />
+	    <result column="consignment_in_pay_state_pay" property="consignmentInPayState" jdbcType="INTEGER" />
+	    <result column="remarks_pay" property="remarks" jdbcType="VARCHAR" />
+	    <result column="pay_date" property="payDate" jdbcType="TIMESTAMP" />
+	    <result column="consignment_in_pay_code" property="consignmentInPayCode" jdbcType="VARCHAR" />
+   </collection>
+    <collection property="goodsCarVos" ofType="main.com.logistics.dao.vo.LogisticsGoodsCarVo" column="consignment_id">  
+		 <id column="goods_car_id" jdbcType="INTEGER" property="goodsCarId" />
+	    <result column="frame_number" jdbcType="VARCHAR" property="frameNumber" />
+	    <result column="consignment_id_info" jdbcType="INTEGER" property="consignmentId" />
+	    <result column="consignment_code_info" jdbcType="VARCHAR" property="consignmentCode" />
+	    <result column="distribution_id" jdbcType="INTEGER" property="distributionId" />
+	    <result column="distribution_code" jdbcType="VARCHAR" property="distributionCode" />
+	    <result column="goods_car_state" jdbcType="INTEGER" property="goodsCarState" />
+	    <result column="brand_id" jdbcType="INTEGER" property="brandId" />
+	    <result column="brand_name" jdbcType="VARCHAR" property="brandName" />
+	    <result column="family_id" jdbcType="INTEGER" property="familyId" />
+	    <result column="family_name" jdbcType="VARCHAR" property="familyName" />
+	    <result column="is_delete_info" jdbcType="TINYINT" property="isDelete" />
+	    <result column="create_date_info" jdbcType="TIMESTAMP" property="createDate" />
+	     <result column="accept_image" jdbcType="LONGVARCHAR" property="acceptImage" />
+	    <result column="deliver_to_image" jdbcType="LONGVARCHAR" property="deliverToImage" />
+	    <result column="sign_pic" jdbcType="VARCHAR" property="signPic" />
+	    <result column="cars_id" property="carsId" jdbcType="INTEGER" />
+	    <result column="colour_id" property="colourId" jdbcType="INTEGER" />
+	    <result column="cars_name" property="carsName" jdbcType="VARCHAR" />
+	    <result column="colour_name" property="colourName" jdbcType="VARCHAR" />
+	    <result column="interior_id" property="interiorId" jdbcType="INTEGER" />
+	    <result column="interior_name" property="interiorName" jdbcType="VARCHAR" />
+	     <result column="sign_name" property="signName" jdbcType="VARCHAR" />
+	     <result column="follow_information" property="followInformation" jdbcType="VARCHAR" />
+   </collection>
+  </resultMap>
+  
+    <resultMap id="BaseResultMapJoinAtAll" type="main.com.logistics.dao.vo.LogisticsConsignmentVo" >
+    <id column="consignment_id" property="consignmentId" jdbcType="INTEGER" />
+    <result column="consignment_code" property="consignmentCode" jdbcType="VARCHAR" />
+    <result column="consignment_type" property="consignmentType" jdbcType="INTEGER" />
+ 	<result column="leave_the_car_person_ids" property="leaveTheCarPersonIds" jdbcType="VARCHAR" />
+ 	<result column="extract_the_car_person_ids" property="extractTheCarPersonIds" jdbcType="VARCHAR" />
+    <result column="starting_point_address" property="startingPointAddress" jdbcType="VARCHAR" />
+    <result column="destination_address" property="destinationAddress" jdbcType="VARCHAR" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+    <result column="consignment_state" property="consignmentState" jdbcType="INTEGER" />
+    <result column="amount" property="amount" jdbcType="DECIMAL" />
+    <result column="is_cancel" property="isCancel" jdbcType="TINYINT" />
+    <result column="is_delete" property="isDelete" jdbcType="TINYINT" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="create_type" property="createType" jdbcType="INTEGER" />
+    <result column="appointment_time" property="appointmentTime" jdbcType="TIMESTAMP" />
+    <result column="starting_point_longitude" property="startingPointLongitude" jdbcType="VARCHAR" />
+    <result column="starting_point_latitude" property="startingPointLatitude" jdbcType="VARCHAR" />
+    <result column="destination_longitude" property="destinationLongitude" jdbcType="VARCHAR" />
+    <result column="destination_latitude" property="destinationLatitude" jdbcType="VARCHAR" />
+    <result column="purchasers_id" property="purchasersId" jdbcType="INTEGER" />
+    <result column="purchasers_name" property="purchasersName" jdbcType="VARCHAR" />
+    <result column="purchasers_phone" property="purchasersPhone" jdbcType="VARCHAR" />
+    <result column="org_id" property="orgId" jdbcType="INTEGER" />
+    <result column="org_name" property="orgName" jdbcType="VARCHAR" />
+    <result column="consignment_in_pay_state" property="consignmentInPayState" jdbcType="INTEGER" />
+    <result column="consignment_type_line_id" property="consignmentTypeLineId" jdbcType="INTEGER" />
+    <result column="mileage" property="mileage" jdbcType="DOUBLE" />
+    <result column="system_user_id" property="systemUserId" jdbcType="INTEGER" />
+    <result column="system_user_name" property="systemUserName" jdbcType="VARCHAR" />
+    <result column="system_user_phone" property="systemUserPhone" jdbcType="VARCHAR" />
+    <collection property="consignmentInPayVos" ofType="main.com.logistics.dao.vo.LogisticsConsignmentInPayVo" column="consignment_id" select="selectConsignmentInPay"></collection>
+    <collection property="goodsCarVos" ofType="main.com.logistics.dao.vo.LogisticsGoodsCarVo" column="consignment_id" select="selectGoodsCar"></collection>
+  </resultMap>
+  
+    <resultMap id="logisticsGoodsCar" type="main.com.logistics.dao.vo.LogisticsGoodsCarVo">
+  	<id column="goods_car_id" jdbcType="INTEGER" property="goodsCarId" />
+    <result column="frame_number" jdbcType="VARCHAR" property="frameNumber" />
+    <result column="consignment_id" jdbcType="INTEGER" property="consignmentId" />
+    <result column="consignment_code" jdbcType="VARCHAR" property="consignmentCode" />
+    <result column="distribution_id" jdbcType="INTEGER" property="distributionId" />
+    <result column="distribution_code" jdbcType="VARCHAR" property="distributionCode" />
+    <result column="goods_car_state" jdbcType="INTEGER" property="goodsCarState" />
+    <result column="brand_id" jdbcType="INTEGER" property="brandId" />
+    <result column="brand_name" jdbcType="VARCHAR" property="brandName" />
+    <result column="family_id" jdbcType="INTEGER" property="familyId" />
+    <result column="family_name" jdbcType="VARCHAR" property="familyName" />
+    <result column="is_delete" jdbcType="TINYINT" property="isDelete" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+     <result column="accept_image" jdbcType="LONGVARCHAR" property="acceptImage" />
+    <result column="deliver_to_image" jdbcType="LONGVARCHAR" property="deliverToImage" />
+    <result column="sign_pic" jdbcType="VARCHAR" property="signPic" />
+    <result column="cars_id" property="carsId" jdbcType="INTEGER" />
+    <result column="colour_id" property="colourId" jdbcType="INTEGER" />
+    <result column="cars_name" property="carsName" jdbcType="VARCHAR" />
+    <result column="colour_name" property="colourName" jdbcType="VARCHAR" />
+    <result column="interior_id" property="interiorId" jdbcType="INTEGER" />
+    <result column="interior_name" property="interiorName" jdbcType="VARCHAR" />
+     <result column="sign_name" property="signName" jdbcType="VARCHAR" />
+     <result column="follow_information" property="followInformation" jdbcType="VARCHAR" />
+    <association property="distributionVo" column="distribution_id" select="getDistribution"></association>
+    <association property="carCostsVo" column="goods_car_id" select="getCarCosts"></association>
+  </resultMap>
+  
+    <resultMap id="logisticsGoodsCarCosts" type="main.com.logistics.dao.vo.LogisticsGoodsCarCostsVo" >
+    <id column="logistics_goods_car_costs_id" property="logisticsGoodsCarCostsId" jdbcType="INTEGER" />
+    <result column="overflow" property="overflow" jdbcType="DECIMAL" />
+    <result column="the_price_additional" property="thePriceAdditional" jdbcType="DECIMAL" />
+    <result column="discount" property="discount" jdbcType="DECIMAL" />
+    <result column="price_markup" property="priceMarkup" jdbcType="DECIMAL" />
+    <result column="goods_car_id" property="goodsCarId" jdbcType="INTEGER" />
+    <result column="costs_amount" property="costsAmount" jdbcType="DECIMAL" />
+    <result column="line_type" property="lineType" jdbcType="INTEGER" />
+    <result column="line_amount" property="lineAmount" jdbcType="DECIMAL" />
+    <result column="initiate_rate" property="initiateRate" jdbcType="DECIMAL" />
+  </resultMap>
+  
+    <resultMap id="logisticsDistribution" type="main.com.logistics.dao.vo.LogisticsDistributionVo" >
+    <id column="distribution_id" property="distributionId" jdbcType="INTEGER" />
+    <result column="distribution_code" property="distributionCode" jdbcType="VARCHAR" />
+    <result column="distribution_state" property="distributionState" jdbcType="INTEGER" />
+    <result column="driver_name" property="driverName" jdbcType="VARCHAR" />
+    <result column="driver_id" property="driverId" jdbcType="INTEGER" />
+    <result column="driver_phone" property="driverPhone" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="distribution_license_plate" property="distributionLicensePlate" jdbcType="VARCHAR" />
+    <result column="distribution_car_type" property="distributionCarType" jdbcType="INTEGER" />
+    <result column="vacancy" property="vacancy" jdbcType="INTEGER" />
+    <result column="logistics_car_id" property="logisticsCarId" jdbcType="INTEGER" />
+    <result column="leave_vacancy" property="leaveVacancy" jdbcType="INTEGER" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+    <result column="starting_point_address" property="startingPointAddress" jdbcType="VARCHAR" />
+    <result column="starting_point_longitude" property="startingPointLongitude" jdbcType="VARCHAR" />
+    <result column="starting_point_latitude" property="startingPointLatitude" jdbcType="VARCHAR" />
+    <result column="destination_address" property="destinationAddress" jdbcType="VARCHAR" />
+    <result column="destination_longitude" property="destinationLongitude" jdbcType="VARCHAR" />
+    <result column="destination_latitude" property="destinationLatitude" jdbcType="VARCHAR" />
+    <result column="org_id" property="orgId" jdbcType="INTEGER" />
+    <result column="org_name" property="orgName" jdbcType="VARCHAR" />
+    <result column="start_date" property="startDate" jdbcType="TIMESTAMP" />
+    <result column="end_date" property="endDate" jdbcType="TIMESTAMP" />
+    <result column="end_date" property="endDate" jdbcType="TIMESTAMP" />
+    <result column="destination_type" property="destinationType" jdbcType="INTEGER" />
+    <result column="system_user_id" property="systemUserId" jdbcType="INTEGER" />
+    <result column="system_user_name" property="systemUserName" jdbcType="VARCHAR" />
+    <association property="logisticsDriverVo" column="driver_id" select="getLogisticsDriver"/>    
+  </resultMap>
+  
+    <resultMap id="logisticsConsignmentInPay" type="main.com.logistics.dao.vo.LogisticsConsignmentInPayVo" >
+    <id column="consignment_in_pay_id" property="consignmentInPayId" jdbcType="INTEGER" />
+    <result column="amount" property="amount" jdbcType="DECIMAL" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="consignment_id" property="consignmentId" jdbcType="INTEGER" />
+    <result column="consignment_code" property="consignmentCode" jdbcType="VARCHAR" />
+    <result column="consignment_state" property="consignmentState" jdbcType="INTEGER" />
+    <result column="pay_method" property="payMethod" jdbcType="INTEGER" />
+    <result column="weixin_pay_account_id" property="weixinPayAccountId" jdbcType="INTEGER" />
+    <result column="consignment_in_pay_state" property="consignmentInPayState" jdbcType="INTEGER" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+    <result column="pay_date" property="payDate" jdbcType="TIMESTAMP" />
+    <result column="consignment_in_pay_code" property="consignmentInPayCode" jdbcType="VARCHAR" />
+    <result column="distribution_id" property="distributionId" jdbcType="INTEGER" />
+    <result column="distribution_code" property="distributionCode" jdbcType="VARCHAR" />
+    <result column="goods_car_ids" property="goodsCarIds" jdbcType="VARCHAR" />
+    <result column="pay_name" property="payName" jdbcType="VARCHAR" />
+  </resultMap>
+  
+    <resultMap id="logisticsDriver" type="main.com.logistics.dao.vo.LogisticsDriverVo" >
+    <id column="driver_id" property="driverId" jdbcType="INTEGER" />
+    <result column="head_portrait" property="headPortrait" jdbcType="VARCHAR" />
+    <result column="real_name" property="realName" jdbcType="VARCHAR" />
+    <result column="phone_number" property="phoneNumber" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="over_enable" property="overEnable" jdbcType="TINYINT" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="session_id" property="sessionId" jdbcType="VARCHAR" />
+    <result column="org_id" property="orgId" jdbcType="INTEGER" />
+    <result column="org_name" property="orgName" jdbcType="VARCHAR" />
+    <result column="org_code" property="orgCode" jdbcType="VARCHAR" />
+    <result column="birthday" property="birthday" jdbcType="TIMESTAMP" />
+    <result column="card_no" property="cardNo" jdbcType="VARCHAR" />
+    <result column="entry_time" property="entryTime" jdbcType="TIMESTAMP" />
+    <result column="base_pay" property="basePay" jdbcType="DOUBLE" />
+    <result column="agent_gender" property="agentGender" jdbcType="INTEGER" />
+    <result column="nike_name" property="nikeName" jdbcType="VARCHAR" />
+    <result column="open_id" property="openId" jdbcType="VARCHAR" />
+    <result column="idcard_pic_on" property="idcardPicOn" jdbcType="VARCHAR" />
+    <result column="idcard_pic_off" property="idcardPicOff" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    consignment_id, consignment_code, consignment_type, leave_the_car_person_ids,extract_the_car_person_ids,
+    starting_point_address, destination_address, remarks, consignment_state, amount, 
+    is_cancel, is_delete, create_date, create_type, appointment_time, starting_point_longitude, 
+    starting_point_latitude, destination_longitude, destination_latitude, purchasers_id, 
+    purchasers_name, purchasers_phone,org_id, org_name,consignment_in_pay_state,mileage,system_user_id,system_user_name,system_user_phone
+  </sql>
+  <!-- leave_the_car_person_name, leave_the_car_person_phone, 
+    extract_the_car_person_name, extract_the_car_person_phone, extract_the_car_person_idcard,  -->
+  
+  <sql id="Base_Column_List_Join" >
+    logistics_consignment.consignment_id, logistics_consignment.consignment_code, logistics_consignment.consignment_type, leave_the_car_person_ids,extract_the_car_person_ids,
+    logistics_consignment.starting_point_address, logistics_consignment.destination_address, logistics_consignment.remarks, logistics_consignment.consignment_state, logistics_consignment.amount, 
+    logistics_consignment.is_cancel, logistics_consignment.is_delete, logistics_consignment.create_date, logistics_consignment.create_type, 
+    logistics_consignment.appointment_time, logistics_consignment.starting_point_longitude, logistics_consignment.mileage,system_user_id,system_user_name,system_user_name,
+    logistics_consignment.starting_point_latitude, logistics_consignment.destination_longitude, logistics_consignment.destination_latitude, logistics_consignment.purchasers_id, 
+    logistics_consignment.purchasers_name, logistics_consignment.purchasers_phone,logistics_consignment.org_id, logistics_consignment.org_name,logistics_consignment.consignment_in_pay_state,
+  	logistics_consignment_in_pay.consignment_in_pay_id, logistics_consignment_in_pay.amount as amount_pay, logistics_consignment_in_pay.create_date as create_date_pay, logistics_consignment_in_pay.consignment_id as consignment_id_pay, 
+  	logistics_consignment_in_pay.consignment_code as consignment_code_pay, logistics_consignment_in_pay.consignment_state as consignment_state_pay, 
+    logistics_consignment_in_pay.pay_method, logistics_consignment_in_pay.weixin_pay_account_id, logistics_consignment_in_pay.consignment_in_pay_state as consignment_in_pay_state_pay, logistics_consignment_in_pay.remarks as 
+    remarks_pay, logistics_consignment_in_pay.pay_date, logistics_consignment_in_pay.consignment_in_pay_code,
+    logistics_goods_car.goods_car_id, logistics_goods_car.frame_number, logistics_goods_car.consignment_id as consignment_id_info, logistics_goods_car.consignment_code as consignment_code_info,
+    logistics_goods_car.distribution_id, logistics_goods_car.distribution_code, 
+    logistics_goods_car.goods_car_state, logistics_goods_car.brand_id, logistics_goods_car.brand_name, logistics_goods_car.family_id, logistics_goods_car.family_name, 
+    logistics_goods_car.is_delete as is_delete_info, logistics_goods_car.create_date as create_date_info,logistics_goods_car.cars_id,logistics_goods_car.colour_id,
+    logistics_goods_car.cars_name,logistics_goods_car.colour_name,logistics_goods_car.sign_name
+  </sql>
+  
+  <sql id="Base_Column_List_Id_Join" >
+    logistics_consignment.consignment_id, logistics_consignment.consignment_code, logistics_consignment.consignment_type, logistics_consignment.consignment_type_line_id,
+    leave_the_car_person_ids,extract_the_car_person_ids,logistics_consignment.mileage,
+    logistics_consignment.starting_point_address, logistics_consignment.destination_address, logistics_consignment.remarks, logistics_consignment.consignment_state, logistics_consignment.amount, 
+    logistics_consignment.is_cancel, logistics_consignment.is_delete, logistics_consignment.create_date, logistics_consignment.create_type, 
+    logistics_consignment.appointment_time, logistics_consignment.starting_point_longitude, logistics_consignment.system_user_id,logistics_consignment.system_user_name,logistics_consignment.system_user_name,
+    logistics_consignment.starting_point_latitude, logistics_consignment.destination_longitude, logistics_consignment.destination_latitude, logistics_consignment.purchasers_id, 
+    logistics_consignment.purchasers_name, logistics_consignment.purchasers_phone,logistics_consignment.org_id, logistics_consignment.org_name,logistics_consignment.consignment_in_pay_state,
+    logistics_goods_car.goods_car_id, logistics_goods_car.frame_number, logistics_goods_car.consignment_id as consignment_id_info, logistics_goods_car.consignment_code as consignment_code_info,
+    logistics_goods_car.distribution_id, logistics_goods_car.distribution_code, 
+    logistics_goods_car.goods_car_state, logistics_goods_car.brand_id, logistics_goods_car.brand_name, logistics_goods_car.family_id, logistics_goods_car.family_name, 
+    logistics_goods_car.is_delete as is_delete_info, logistics_goods_car.create_date as create_date_info,logistics_goods_car.cars_id,logistics_goods_car.colour_id,
+    logistics_goods_car.cars_name,logistics_goods_car.colour_name,logistics_goods_car.accept_image, logistics_goods_car.deliver_to_image,logistics_goods_car.sign_name
+  </sql>
+  
+   <sql id="Where_Condition">
+		<where>
+			<trim prefixOverrides="and">
+				<!-- 匹配查询 -->
+				<if test="consignmentId != null">and logistics_consignment.consignment_id = #{consignmentId}</if>				
+				<if test="consignmentCode != null and consignmentCode != ''">and logistics_consignment.consignment_code like CONCAT('%',#{consignmentCode},'%')</if>	
+				<if test="keywords != null and keywords != ''">and (logistics_consignment.consignment_code like CONCAT('%',#{keywords},'%') or 
+				logistics_consignment.consignment_id IN(select consignment_id from logistics_goods_car where replace(logistics_goods_car.cars_name,' ','') like CONCAT('%',#{keywords},'%')))</if>	
+				<if test="consignmentState != null">and logistics_consignment.consignment_state = #{consignmentState}</if>	
+				<if test="onConsignmentState != null">and (logistics_consignment.consignment_state = 1 or logistics_consignment.consignment_state = 2)</if>	
+				<if test="payMethod != null">and logistics_consignment_in_pay.pay_method = #{payMethod}</if>	
+				<if test="consignmentInPayState != null">and logistics_consignment.consignment_in_pay_state = #{consignmentInPayState}</if>	
+				<if test="onGoodsCarState != null">and logistics_goods_car.goods_car_state = 0</if>	
+				<if test="1 == 1">and logistics_consignment.is_delete = 0</if>	
+				<if test="carNotDelete == true">and logistics_goods_car.is_delete = 0</if>	
+				<if test="consignmentType != null">and logistics_consignment.consignment_type = #{consignmentType}</if>	
+				
+				<if test="orgCodeLevel != null and orgCodeLevel != null">and (logistics_consignment.org_id IN (select orgId from system_organization where system_organization.orgCodeLevel like
+                    CONCAT('%',#{orgCodeLevel},'%')))
+                </if>
+                
+				<!-- list查询 -->
+				<if test="ids != null">and logistics_consignment.consignment_id in
+                    <foreach item="item" index="index" collection="ids"
+                             open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+			</trim>
+		</where>
+	</sql>
+
+	<!-- 查询总数 -->
+	<select id="selectCount" resultType="java.lang.Long"
+		parameterType="java.util.Map">
+		select count(consignment_id) from logistics_consignment
+		<include refid="Where_Condition" />
+	</select>
+	
+	<!-- 查询总数 -->
+	<select id="selectCountJoin" resultType="java.lang.Long"
+		parameterType="java.util.Map">
+		select count(logistics_consignment.consignment_id) from logistics_consignment left join logistics_consignment_in_pay 
+		on logistics_consignment.consignment_id = logistics_consignment_in_pay.consignment_id 
+		left join logistics_goods_car ON logistics_consignment.consignment_id = logistics_goods_car.consignment_id
+		<include refid="Where_Condition" />
+	</select>
+
+	<!-- 查询 -->
+	<select id="select" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List" />
+		from logistics_consignment
+		<include refid="Where_Condition" />
+		<if test="sortField != null"> order by create_date desc </if>
+		<if test="isPage== true and offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+	</select>
+	
+	<!-- 查询 -->
+	<select id="selectJoin" resultMap="BaseResultMapJoinAtAll" parameterType="java.util.Map">
+		select
+		logistics_consignment.*
+		from logistics_consignment 
+		<include refid="Where_Condition" />
+		<if test="sortField != null"> order by logistics_consignment.create_date desc </if>
+		<if test="isPage== true and offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+	</select>
+	<!-- 查询 -->
+<!-- 	<select id="selectJoin" resultMap="BaseResultMapJoin" parameterType="java.util.Map"> -->
+<!-- 		select -->
+<!-- 		<include refid="Base_Column_List_Join" /> -->
+<!-- 		from logistics_consignment left join logistics_consignment_in_pay on logistics_consignment.consignment_id = logistics_consignment_in_pay.consignment_id -->
+<!-- 		 left join logistics_goods_car on logistics_consignment.consignment_id = logistics_goods_car.consignment_id -->
+<!-- 		<include refid="Where_Condition" /> -->
+<!-- 		<if test="sortField != null"> order by logistics_consignment.create_date desc </if> -->
+<!-- 		<if test="isPage== true and offset != null and limit != null"> -->
+<!--             limit #{offset}, #{limit} -->
+<!--         </if> -->
+<!-- 	</select> -->
+  
+  <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from logistics_consignment
+    where consignment_id = #{consignmentId,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectByIdJoin" resultMap="BaseResultMapJoinAtAll" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from logistics_consignment
+    where consignment_id = #{consignmentId,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectByCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from logistics_consignment
+    where consignment_code = #{consignmentCode}
+  </select>
+  
+<!--   <select id="selectByIdJoin" resultMap="BaseResultMapJoin" parameterType="java.lang.Integer" > -->
+<!--     select  -->
+<!--     <include refid="Base_Column_List_Id_Join" /> -->
+<!--     from logistics_consignment left join logistics_goods_car on logistics_consignment.consignment_id = logistics_goods_car.consignment_id -->
+<!--     where logistics_consignment.consignment_id = #{consignmentId,jdbcType=INTEGER} and logistics_goods_car.is_delete = 0 -->
+<!--   </select> -->
+  
+  <delete id="deleteById" parameterType="java.lang.Integer" >
+    delete from logistics_consignment
+    where consignment_id = #{consignmentId,jdbcType=INTEGER}
+  </delete>
+  
+  	<!-- 查询 -->
+	<select id="selectGoodsCar" resultMap="logisticsGoodsCar" parameterType="java.lang.Integer">
+		select lgc.* 
+		from logistics_goods_car lgc where lgc.consignment_id = #{consignment_id} and lgc.is_delete = 0
+	</select>
+	
+	<select id="getCarCosts" resultMap="logisticsGoodsCarCosts" parameterType="java.lang.Integer" >
+	    select lgcc.*
+	    from logistics_goods_car_costs lgcc
+	    where lgcc.goods_car_id = #{goods_car_id}
+ 	 </select>
+	
+	<select id="getDistribution" parameterType="java.lang.Integer" resultMap="logisticsDistribution">
+	 	select 
+		   ld.*
+		from logistics_distribution ld where ld.distribution_id = #{distribution_id}
+    </select>
+    
+	<select id="selectConsignmentInPay" parameterType="java.lang.Integer" resultMap="logisticsConsignmentInPay">
+	 	select 
+    		lcip.*
+    	from logistics_consignment_in_pay lcip
+    	where consignment_id = #{consignment_id,jdbcType=INTEGER}
+    </select>
+    
+    <select id="getLogisticsDriver" parameterType="java.lang.Integer" resultMap="logisticsDriver">
+	 	select  ld.*
+		  from logistics_driver ld
+    where driver_id = #{driver_id} and over_enable = 1
+    </select>
+  
+  <insert id="insert" parameterType="main.com.logistics.dao.po.LogisticsConsignment" useGeneratedKeys="true" keyProperty="consignmentId" >
+    insert into logistics_consignment
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="consignmentCode != null" >
+        consignment_code,
+      </if>
+      <if test="consignmentType != null" >
+        consignment_type,
+      </if>
+<!--       <if test="leaveTheCarPersonName != null" > -->
+<!--         leave_the_car_person_name, -->
+<!--       </if> -->
+<!--       <if test="leaveTheCarPersonPhone != null" > -->
+<!--         leave_the_car_person_phone, -->
+<!--       </if> -->
+<!--       <if test="extractTheCarPersonName != null" > -->
+<!--         extract_the_car_person_name, -->
+<!--       </if> -->
+<!--       <if test="extractTheCarPersonPhone != null" > -->
+<!--         extract_the_car_person_phone, -->
+<!--       </if> -->
+<!--       <if test="extractTheCarPersonIdcard != null" > -->
+<!--         extract_the_car_person_idcard, -->
+<!--       </if> -->
+	<if test="leaveTheCarPersonIds != null" > 
+         leave_the_car_person_ids, 
+      </if>
+	<if test="extractTheCarPersonIds != null" > 
+         extract_the_car_person_ids, 
+      </if>
+      <if test="startingPointAddress != null" >
+        starting_point_address,
+      </if>
+      <if test="destinationAddress != null" >
+        destination_address,
+      </if>
+      <if test="remarks != null" >
+        remarks,
+      </if>
+      <if test="consignmentState != null" >
+        consignment_state,
+      </if>
+      <if test="amount != null" >
+        amount,
+      </if>
+      <if test="isCancel != null" >
+        is_cancel,
+      </if>
+      <if test="isDelete != null" >
+        is_delete,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="createType != null" >
+        create_type,
+      </if>
+      <if test="appointmentTime != null" >
+        appointment_time,
+      </if>
+      <if test="startingPointLongitude != null" >
+        starting_point_longitude,
+      </if>
+      <if test="startingPointLatitude != null" >
+        starting_point_latitude,
+      </if>
+      <if test="destinationLongitude != null" >
+        destination_longitude,
+      </if>
+      <if test="destinationLatitude != null" >
+        destination_latitude,
+      </if>
+      <if test="purchasersId != null" >
+        purchasers_id,
+      </if>
+      <if test="purchasersName != null" >
+        purchasers_name,
+      </if>
+      <if test="purchasersPhone != null" >
+        purchasers_phone,
+      </if>
+       <if test="orgId != null" >
+        org_id,
+      </if>
+      <if test="orgName != null" >
+        org_name,
+      </if>
+      <if test="consignmentInPayState != null" >
+        consignment_in_pay_state,
+      </if>
+      <if test="consignmentTypeLineId != null" >
+        consignment_type_line_id,
+      </if>
+      <if test="mileage != null" >
+        mileage,
+      </if>
+      <if test="systemUserId != null" >
+        system_user_id,
+      </if>
+      <if test="systemUserName != null" >
+        system_user_name,
+      </if>
+      <if test="systemUserPhone != null" >
+        system_user_phone,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="consignmentCode != null" >
+        #{consignmentCode,jdbcType=VARCHAR},
+      </if>
+      <if test="consignmentType != null" >
+        #{consignmentType,jdbcType=INTEGER},
+      </if>
+<!--       <if test="leaveTheCarPersonName != null" > -->
+<!--         #{leaveTheCarPersonName,jdbcType=VARCHAR}, -->
+<!--       </if> -->
+<!--       <if test="leaveTheCarPersonPhone != null" > -->
+<!--         #{leaveTheCarPersonPhone,jdbcType=VARCHAR}, -->
+<!--       </if> -->
+<!--       <if test="extractTheCarPersonName != null" > -->
+<!--         #{extractTheCarPersonName,jdbcType=VARCHAR}, -->
+<!--       </if> -->
+<!--       <if test="extractTheCarPersonPhone != null" > -->
+<!--         #{extractTheCarPersonPhone,jdbcType=VARCHAR}, -->
+<!--       </if> -->
+<!--       <if test="extractTheCarPersonIdcard != null" > -->
+<!--         #{extractTheCarPersonIdcard,jdbcType=VARCHAR}, -->
+<!--       </if> -->
+	<if test="leaveTheCarPersonIds != null" > 
+          #{leaveTheCarPersonIds}, 
+      </if>
+	<if test="extractTheCarPersonIds != null" > 
+         #{extractTheCarPersonIds}, 
+      </if>
+      <if test="startingPointAddress != null" >
+        #{startingPointAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="destinationAddress != null" >
+        #{destinationAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="consignmentState != null" >
+        #{consignmentState,jdbcType=INTEGER},
+      </if>
+      <if test="amount != null" >
+        #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="isCancel != null" >
+        #{isCancel,jdbcType=TINYINT},
+      </if>
+      <if test="isDelete != null" >
+        #{isDelete,jdbcType=TINYINT},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createType != null" >
+        #{createType,jdbcType=INTEGER},
+      </if>
+      <if test="appointmentTime != null" >
+        #{appointmentTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="startingPointLongitude != null" >
+        #{startingPointLongitude,jdbcType=VARCHAR},
+      </if>
+      <if test="startingPointLatitude != null" >
+        #{startingPointLatitude,jdbcType=VARCHAR},
+      </if>
+      <if test="destinationLongitude != null" >
+        #{destinationLongitude,jdbcType=VARCHAR},
+      </if>
+      <if test="destinationLatitude != null" >
+        #{destinationLatitude,jdbcType=VARCHAR},
+      </if>
+      <if test="purchasersId != null" >
+        #{purchasersId,jdbcType=INTEGER},
+      </if>
+      <if test="purchasersName != null" >
+        #{purchasersName,jdbcType=VARCHAR},
+      </if>
+      <if test="purchasersPhone != null" >
+        #{purchasersPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="orgId != null" >
+        #{orgId,jdbcType=INTEGER},
+      </if>
+      <if test="orgName != null" >
+        #{orgName,jdbcType=VARCHAR},
+      </if>
+       <if test="consignmentInPayState != null" >
+        #{consignmentInPayState,jdbcType=INTEGER},
+      </if>
+       <if test="consignmentTypeLineId != null" >
+        #{consignmentTypeLineId,jdbcType=INTEGER},
+      </if>
+       <if test="mileage != null" >
+        #{mileage},
+      </if>
+       <if test="systemUserId != null" >
+        #{systemUserId,jdbcType=INTEGER},
+      </if>
+       <if test="systemUserName != null" >
+        #{systemUserName},
+      </if>
+       <if test="systemUserPhone != null" >
+        #{systemUserPhone},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateById" parameterType="main.com.logistics.dao.po.LogisticsConsignment" >
+    update logistics_consignment
+    <set >
+      <if test="consignmentCode != null" >
+        consignment_code = #{consignmentCode,jdbcType=VARCHAR},
+      </if>
+      <if test="consignmentType != null" >
+        consignment_type = #{consignmentType,jdbcType=INTEGER},
+      </if>
+<!--       <if test="leaveTheCarPersonName != null" > -->
+<!--         leave_the_car_person_name = #{leaveTheCarPersonName,jdbcType=VARCHAR}, -->
+<!--       </if> -->
+<!--       <if test="leaveTheCarPersonPhone != null" > -->
+<!--         leave_the_car_person_phone = #{leaveTheCarPersonPhone,jdbcType=VARCHAR}, -->
+<!--       </if> -->
+<!--       <if test="extractTheCarPersonName != null" > -->
+<!--         extract_the_car_person_name = #{extractTheCarPersonName,jdbcType=VARCHAR}, -->
+<!--       </if> -->
+<!--       <if test="extractTheCarPersonPhone != null" > -->
+<!--         extract_the_car_person_phone = #{extractTheCarPersonPhone,jdbcType=VARCHAR}, -->
+<!--       </if> -->
+<!--       <if test="extractTheCarPersonIdcard != null" > -->
+<!--         extract_the_car_person_idcard = #{extractTheCarPersonIdcard,jdbcType=VARCHAR}, -->
+<!--       </if> -->
+      <if test="leaveTheCarPersonIds != null" >
+        leave_the_car_person_ids = #{leaveTheCarPersonIds,jdbcType=VARCHAR},
+      </if>
+      <if test="extractTheCarPersonIds != null" >
+        extract_the_car_person_ids = #{extractTheCarPersonIds,jdbcType=VARCHAR},
+      </if>
+      <if test="startingPointAddress != null" >
+        starting_point_address = #{startingPointAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="destinationAddress != null" >
+        destination_address = #{destinationAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="consignmentState != null" >
+        consignment_state = #{consignmentState,jdbcType=INTEGER},
+      </if>
+      <if test="amount != null" >
+        amount = #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="isCancel != null" >
+        is_cancel = #{isCancel,jdbcType=TINYINT},
+      </if>
+      <if test="isDelete != null" >
+        is_delete = #{isDelete,jdbcType=TINYINT},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createType != null" >
+        create_type = #{createType,jdbcType=INTEGER},
+      </if>
+      <if test="appointmentTime != null" >
+        appointment_time = #{appointmentTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="startingPointLongitude != null" >
+        starting_point_longitude = #{startingPointLongitude,jdbcType=VARCHAR},
+      </if>
+      <if test="startingPointLatitude != null" >
+        starting_point_latitude = #{startingPointLatitude,jdbcType=VARCHAR},
+      </if>
+      <if test="destinationLongitude != null" >
+        destination_longitude = #{destinationLongitude,jdbcType=VARCHAR},
+      </if>
+      <if test="destinationLatitude != null" >
+        destination_latitude = #{destinationLatitude,jdbcType=VARCHAR},
+      </if>
+      <if test="purchasersId != null" >
+        purchasers_id = #{purchasersId,jdbcType=INTEGER},
+      </if>
+      <if test="purchasersName != null" >
+        purchasers_name = #{purchasersName,jdbcType=VARCHAR},
+      </if>
+      <if test="purchasersPhone != null" >
+        purchasers_phone = #{purchasersPhone,jdbcType=VARCHAR},
+      </if>
+       <if test="orgId != null" >
+        org_id = #{orgId,jdbcType=INTEGER},
+      </if>
+      <if test="orgName != null" >
+        org_name = #{orgName,jdbcType=VARCHAR},
+      </if>
+       <if test="consignmentInPayState != null" >
+       consignment_in_pay_state = #{consignmentInPayState,jdbcType=INTEGER},
+      </if>
+       <if test="consignmentTypeLineId != null" >
+       consignment_type_line_id = #{consignmentTypeLineId,jdbcType=INTEGER},
+      </if>
+       <if test="mileage != null" >
+       mileage = #{mileage},
+      </if>
+      <if test="systemUserId != null" >
+       system_user_id = #{systemUserId,jdbcType=INTEGER},
+      </if>
+       <if test="systemUserName != null" >
+       system_user_name = #{systemUserName},
+      </if>
+       <if test="systemUserPhone != null" >
+       system_user_phone = #{systemUserPhone},
+      </if>
+    </set>
+    where consignment_id = #{consignmentId,jdbcType=INTEGER}
+  </update>
+</mapper>

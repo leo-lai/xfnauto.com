@@ -1,0 +1,841 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="main.com.customer.dao.po.CustomerOrder" >
+
+  <resultMap id="BaseResultMap" type="main.com.customer.dao.vo.CustomerOrderVo" >
+    <id column="customer_order_id" property="customerOrderId" jdbcType="INTEGER" />
+    <result column="customer_order_code" property="customerOrderCode" jdbcType="VARCHAR" />
+    <result column="customer_order_state" property="customerOrderState" jdbcType="INTEGER" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="is_delete" property="isDelete" jdbcType="TINYINT" />
+    <result column="customer_id" property="customerId" jdbcType="INTEGER" />
+    <result column="customer_name" property="customerName" jdbcType="VARCHAR" />
+    <result column="customer_phone_number" property="customerPhoneNumber" jdbcType="VARCHAR" />
+    <result column="cars_id" property="carsId" jdbcType="INTEGER" />
+    <result column="cars_name" property="carsName" jdbcType="VARCHAR" />
+    <result column="cars_index_image" property="carsIndexImage" jdbcType="VARCHAR" />
+    <result column="brand_id" property="brandId" jdbcType="INTEGER" />
+    <result column="family_id" property="familyId" jdbcType="INTEGER" />
+    <result column="invoice_price" property="invoicePrice" jdbcType="DECIMAL" />
+    <result column="deposit_price" property="depositPrice" jdbcType="DECIMAL" />
+    <result column="discount_price" property="discountPrice" jdbcType="DECIMAL" />
+    <result column="interior_id" property="interiorId" jdbcType="INTEGER" />
+    <result column="colour_id" property="colourId" jdbcType="INTEGER" />
+    <result column="follow_information" property="followInformation" jdbcType="VARCHAR" />
+    <result column="boutique_information" property="boutiqueInformation" jdbcType="VARCHAR" />
+    <result column="balance_price" property="balancePrice" jdbcType="DECIMAL" />
+    <result column="org_id" property="orgId" jdbcType="INTEGER" />
+    <result column="org_name" property="orgName" jdbcType="VARCHAR" />
+    <result column="stock_car_id" property="stockCarId" jdbcType="INTEGER" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+    <result column="payment_way" property="paymentWay" jdbcType="INTEGER" />
+    <result column="down_payments" property="downPayments" jdbcType="DECIMAL" />
+    <result column="loan" property="loan" jdbcType="DECIMAL" />
+    <result column="loan_pay_back_stages" property="loanPayBackStages" jdbcType="INTEGER" />
+    <result column="amount" property="amount" jdbcType="DECIMAL" />
+    <result column="is_purchase_tax" property="isPurchaseTax" jdbcType="TINYINT" />
+    <result column="is_take_license_plate" property="isTakeLicensePlate" jdbcType="TINYINT" />
+    <result column="license_plate_priace" property="licensePlatePriace" jdbcType="DECIMAL" />
+    <result column="is_insurance" property="isInsurance" jdbcType="TINYINT" />
+    <result column="insurance_priace" property="insurancePriace" jdbcType="DECIMAL" />
+    <result column="system_user_id" property="systemUserId" jdbcType="INTEGER" />
+    <result column="system_user_name" property="systemUserName" jdbcType="VARCHAR" />
+    <result column="system_user_phone" property="systemUserPhone" jdbcType="VARCHAR" />
+    <result column="extract_car_image" property="extractCarImage" jdbcType="VARCHAR" />
+    <result column="colour_name" property="colourName" jdbcType="VARCHAR" />
+    <result column="interior_name" property="interiorName" jdbcType="VARCHAR" /> 
+    <result column="is_mortgage" property="isMortgage" jdbcType="TINYINT" /> 
+    <result column="estimate_Date" property="estimateDate" jdbcType="TIMESTAMP" /> 
+    <result column="audit_time" property="auditTime" jdbcType="TIMESTAMP" /> 
+    <result column="audit_status" property="auditStatus" jdbcType="INTEGER" /> 
+    <result column="customer_user_card" property="customerUserCard" jdbcType="VARCHAR" /> 
+    
+    <result column="purchase_tax_priace" property="purchaseTaxPriace" jdbcType="DECIMAL" />
+    <result column="boutique_priace" property="boutiquePriace" jdbcType="DECIMAL" />
+    <result column="mortgage_priace" property="mortgagePriace" jdbcType="DECIMAL" />
+    <result column="car_unit_price" property="carUnitPrice" jdbcType="DECIMAL" />
+    <result column="vehicle_and_vessel_tax" property="vehicleAndVesselTax" jdbcType="DECIMAL" />
+    <result column="loan_bank" property="loanBank" jdbcType="INTEGER" />
+    <result column="over_the_line" property="overTheLine" jdbcType="TINYINT" />
+    <association property="carsVo" column="cars_id" select="getCars"/>
+  </resultMap>
+  
+  <resultMap id="BaseResultMapJoin" type="main.com.customer.dao.vo.CustomerOrderVo" >
+    <id column="customer_order_id" property="customerOrderId" jdbcType="INTEGER" />
+    <result column="customer_order_code" property="customerOrderCode" jdbcType="VARCHAR" />
+    <result column="customer_order_state" property="customerOrderState" jdbcType="INTEGER" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="is_delete" property="isDelete" jdbcType="TINYINT" />
+    <result column="customer_id" property="customerId" jdbcType="INTEGER" />
+    <result column="customer_name" property="customerName" jdbcType="VARCHAR" />
+    <result column="customer_phone_number" property="customerPhoneNumber" jdbcType="VARCHAR" />
+    <result column="cars_id" property="carsId" jdbcType="INTEGER" />
+    <result column="cars_name" property="carsName" jdbcType="VARCHAR" />
+    <result column="cars_index_image" property="carsIndexImage" jdbcType="VARCHAR" />
+    <result column="brand_id" property="brandId" jdbcType="INTEGER" />
+    <result column="family_id" property="familyId" jdbcType="INTEGER" />
+    <result column="invoice_price" property="invoicePrice" jdbcType="DECIMAL" />
+    <result column="deposit_price" property="depositPrice" jdbcType="DECIMAL" />
+    <result column="discount_price" property="discountPrice" jdbcType="DECIMAL" />
+    <result column="interior_id" property="interiorId" jdbcType="INTEGER" />
+    <result column="colour_id" property="colourId" jdbcType="INTEGER" />
+    <result column="follow_information" property="followInformation" jdbcType="VARCHAR" />
+    <result column="boutique_information" property="boutiqueInformation" jdbcType="VARCHAR" />
+    <result column="balance_price" property="balancePrice" jdbcType="DECIMAL" />
+    <result column="org_id" property="orgId" jdbcType="INTEGER" />
+    <result column="org_name" property="orgName" jdbcType="VARCHAR" />
+    <result column="stock_car_id" property="stockCarId" jdbcType="INTEGER" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+    <result column="payment_way" property="paymentWay" jdbcType="INTEGER" />
+    <result column="down_payments" property="downPayments" jdbcType="DECIMAL" />
+    <result column="loan" property="loan" jdbcType="DECIMAL" />
+    <result column="loan_pay_back_stages" property="loanPayBackStages" jdbcType="INTEGER" />
+    <result column="amount" property="amount" jdbcType="DECIMAL" />
+    <result column="is_purchase_tax" property="isPurchaseTax" jdbcType="TINYINT" />
+    <result column="is_take_license_plate" property="isTakeLicensePlate" jdbcType="TINYINT" />
+    <result column="license_plate_priace" property="licensePlatePriace" jdbcType="DECIMAL" />
+    <result column="is_insurance" property="isInsurance" jdbcType="TINYINT" />
+    <result column="insurance_priace" property="insurancePriace" jdbcType="DECIMAL" />
+    <result column="system_user_id" property="systemUserId" jdbcType="INTEGER" />
+    <result column="system_user_name" property="systemUserName" jdbcType="VARCHAR" />
+    <result column="system_user_phone" property="systemUserPhone" jdbcType="VARCHAR" />
+    <result column="extract_car_image" property="extractCarImage" jdbcType="VARCHAR" />
+    <result column="colour_name" property="colourName" jdbcType="VARCHAR" />
+    <result column="interior_name" property="interiorName" jdbcType="VARCHAR" /> 
+    <result column="is_mortgage" property="isMortgage" jdbcType="TINYINT" /> 
+    <result column="estimate_Date" property="estimateDate" jdbcType="TIMESTAMP" /> 
+    <result column="audit_time" property="auditTime" jdbcType="TIMESTAMP" /> 
+    <result column="audit_status" property="auditStatus" jdbcType="INTEGER" /> 
+    <result column="customer_user_card" property="customerUserCard" jdbcType="VARCHAR" /> 
+    <result column="purchase_tax_priace" property="purchaseTaxPriace" jdbcType="DECIMAL" />
+    <result column="boutique_priace" property="boutiquePriace" jdbcType="DECIMAL" />
+    <result column="mortgage_priace" property="mortgagePriace" jdbcType="DECIMAL" />
+    <result column="loan_bank" property="loanBank" jdbcType="INTEGER" />
+    <result column="car_unit_price" property="carUnitPrice" jdbcType="DECIMAL" />
+     <result column="over_the_line" property="overTheLine" jdbcType="TINYINT" />
+    <result column="vehicle_and_vessel_tax" property="vehicleAndVesselTax" jdbcType="DECIMAL" />
+    <association property="customerUsersVo" column="customer_id" select="getCustomerUsers"/>
+    <association property="organization" column="org_id" select="getOrg"/>
+    <association property="carsVo" column="cars_id" select="getCars"/>
+  </resultMap>
+  
+  <resultMap id="BaseResultMapJoinPayment" type="main.com.customer.dao.vo.CustomerOrderVo" >
+    <id column="customer_order_id" property="customerOrderId" jdbcType="INTEGER" />
+    <result column="customer_order_code" property="customerOrderCode" jdbcType="VARCHAR" />
+    <result column="org_id" property="orgId" jdbcType="INTEGER" />
+    <result column="org_name" property="orgName" jdbcType="VARCHAR" />
+    <association property="organization" column="org_id" select="getOrg"/>
+    <collection property="orderInPayVos" ofType="main.com.customer.dao.vo.CustomerOrderInPayVo" column="customer_order_id" select="getCustomerOrderInPay"></collection>
+  </resultMap>
+  
+   <resultMap id="customerOrderInPay" type="main.com.customer.dao.vo.CustomerOrderInPayVo" >
+    <id column="order_in_pay_id" property="orderInPayId" jdbcType="INTEGER" />
+    <result column="amount" property="amount" jdbcType="DECIMAL" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="customer_order_id" property="customerOrderId" jdbcType="INTEGER" />
+    <result column="customer_order_code" property="customerOrderCode" jdbcType="VARCHAR" />
+    <result column="customer_order_state" property="customerOrderState" jdbcType="INTEGER" />
+    <result column="pay_method" property="payMethod" jdbcType="INTEGER" />
+    <result column="payment_record_bill_id" property="paymentRecordBillId" jdbcType="INTEGER" />
+    <result column="order_in_pay_state" property="orderInPayState" jdbcType="INTEGER" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+    <result column="pay_date" property="payDate" jdbcType="TIMESTAMP" />
+    <result column="order_in_pay_code" property="orderInPayCode" jdbcType="VARCHAR" />
+     <result column="system_user_id" property="systemUserId" jdbcType="INTEGER" />
+    <result column="system_user_name" property="systemUserName" jdbcType="VARCHAR" />
+  </resultMap>
+  
+    <select id="getCustomerOrderInPay" resultMap="customerOrderInPay" parameterType="java.lang.Integer" >
+    select 
+    	customer_order_in_pay.*
+    from customer_order_in_pay
+    where customer_order_id = #{customer_order_id,jdbcType=INTEGER} and order_in_pay_state = 1
+  </select>
+
+  <sql id="Base_Column_List" >
+    customer_order_id, customer_order_code, customer_order_state, create_date, is_delete, 
+    customer_id, customer_name, customer_phone_number, cars_id, cars_name, cars_index_image, 
+    brand_id, family_id, invoice_price, deposit_price, discount_price, interior_id, colour_id, 
+    follow_information, balance_price, org_id, org_name, stock_car_id, remarks, payment_way, 
+    down_payments, loan, loan_pay_back_stages, amount, is_purchase_tax, is_take_license_plate, 
+    license_plate_priace, is_insurance, insurance_priace,system_user_id,system_user_name,
+    system_user_phone,extract_car_image,colour_name,interior_name,is_mortgage,estimate_Date,
+    audit_time,audit_status,customer_user_card,purchase_tax_priace,boutique_priace,mortgage_priace,loan_bank,car_unit_price,vehicle_and_vessel_tax,over_the_line,
+    boutique_information
+  </sql>
+  <sql id="Base_Column_List_" >
+    customer_order.customer_order_id, customer_order.customer_order_code, customer_order.customer_order_state, customer_order.create_date, is_delete, 
+    customer_order.customer_id, customer_order.customer_name, customer_order.customer_phone_number, customer_order.cars_id, customer_order.cars_name, customer_order.cars_index_image, 
+    customer_order.brand_id, customer_order.family_id, customer_order.invoice_price, customer_order.deposit_price, customer_order.discount_price, customer_order.interior_id, customer_order.colour_id, 
+    customer_order.follow_information, customer_order.balance_price, org_id, customer_order.org_name, customer_order.stock_car_id, customer_order.remarks, customer_order.payment_way, 
+    customer_order.down_payments, customer_order.loan, customer_order.loan_pay_back_stages, customer_order.amount, customer_order.is_purchase_tax, customer_order.is_take_license_plate, 
+    customer_order.license_plate_priace, customer_order.is_insurance, customer_order.insurance_priace,customer_order.system_user_id,customer_order.system_user_name,
+    customer_order.system_user_phone,customer_order.extract_car_image,customer_order.colour_name,customer_order.interior_name,customer_order.is_mortgage,customer_order.estimate_Date,
+    customer_order.audit_time,customer_order.audit_status,customer_order.customer_user_card,customer_order.boutique_information
+  </sql>
+  
+  <sql id="Where_Condition">
+		<where>
+			<trim prefixOverrides="and">
+				<!-- 匹配查询 -->
+				<if test="customerOrderId != null">and customer_order.customer_order_id = #{customerOrderId}</if>
+				<if test="customerId != null">and customer_order.customer_id = #{customerId}</if>
+				<if test="customerUsersId != null">and customer_order.customer_id = #{customerUsersId}</if>
+				<if test="customerName != null">and customer_order.customer_name like CONCAT('%',#{customerName},'%')</if>				
+				<if test="phoneNumber != null">and customer_order.customer_phone_number like CONCAT('%',#{phoneNumber},'%')</if>				
+				<if test="customerOrderCode != null and customerOrderCode != ''">and customer_order.customer_order_code like CONCAT('%',#{customerOrderCode},'%')</if>				
+				<if test="customerOrderState != null and customerOrderState != ''">and customer_order.customer_order_state = #{customerOrderState}</if>				
+				<if test="orgId != null">and customer_order.org_id = #{orgId}</if>			
+				<if test="carsName != null">and replace(customer_order.cars_name,' ','') like CONCAT('%',#{carsName},'%')</if>	
+				<if test="carsSearch != null">and (replace(customer_order.cars_name,' ','') like CONCAT('%',#{carsSearch},'%') or customer_order.customer_order_code like CONCAT('%',#{carsSearch},'%'))</if>	
+				<if test="keywords != null and keywords != ''">and (
+					replace(customer_order.cars_name,' ','') like CONCAT('%',#{keywords},'%') 
+					or customer_order.customer_order_code like CONCAT('%',#{keywords},'%')			
+					or customer_order.customer_phone_number like CONCAT('%',#{keywords},'%')
+				)
+				</if>	
+				
+				<if test="isBank != null and isBank == true">and customer_order.payment_way = 2</if>	
+				<if test="loanBank != null">and customer_order.loan_bank = #{loanBank}</if>	
+				<if test="paymentWay != null">and customer_order.payment_way = #{paymentWay}</if>
+										
+				<if test="1==1">and customer_order.is_delete = 0</if>
+				<if test="orgCode != null and orgCode != null">and (customer_order.org_id IN (select orgId from system_organization where system_organization.orgCodeLevel like
+                    CONCAT('%',#{orgCode},'%')))
+                </if>
+                
+                <if test="state != null and state == 'deposit'">and customer_order.customer_order_state = 3 or (customer_order.customer_order_state = 5 and customer_order.payment_way = 1)</if>	
+                <if test="state != null and state == 'loanAudit'">and customer_order.customer_order_state = 5 and customer_order.payment_way = 2</if>	
+                <if test="state != null and state == 'deliveryOfTheTail'">and customer_order.customer_order_state = 7</if>	
+                <if test="state != null and state == 'retrofitting'">and customer_order.customer_order_state = 9</if>	
+                <if test="state != null and state == 'deliver'">and customer_order.customer_order_state = 12</if>	
+                			
+                <if test="systemUserId != null">and customer_order.system_user_id = #{systemUserId}</if>	
+				<!-- list查询 -->
+				<if test="ids != null">and customer_order.customer_order_id in
+                    <foreach item="item" index="index" collection="ids"
+                             open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+				<if test="orderStates != null">and customer_order.customer_order_state in
+                    <foreach item="item" index="index" collection="orderStates"
+                             open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+				<if test="orgIds != null">and customer_order.org_id in
+                    <foreach item="item" index="index" collection="orgIds"
+                             open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+				<if test="customerUsersIds != null">and customer_order.customer_id in
+                    <foreach item="item" index="index" collection="customerUsersIds"
+                             open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+			</trim>
+		</where>
+	</sql>
+
+
+	<!-- 查询总数 -->
+	<select id="selectCount" resultType="java.lang.Long"
+		parameterType="java.util.Map">
+		select count(customer_order_id) from customer_order
+		<include refid="Where_Condition" />
+	</select>
+	<!-- 查询总数 -->
+	<select id="selectCountJoin" resultType="java.lang.Long"
+		parameterType="java.util.Map">
+		select count(customer_order_id) from customer_order left join customer_customerusers on customer_order.customer_id = customer_customerusers.customerUsersId 		
+		<include refid="Where_Condition" />
+		and customer_customerusers.bankAuditsImage is not null and customer_customerusers.bankAuditsvideo is not null
+	</select>
+
+	<!-- 查询 -->
+	<select id="select" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List" />
+		from customer_order
+		<include refid="Where_Condition" />
+		<if test="isGroupBy != null"> group by customer_id </if>
+		<if test="sortField != null"> order by create_date desc </if>
+		<if test="isPage== true and offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+	</select>
+	
+	<!-- 查询 -->
+	<select id="selectJoin" resultMap="BaseResultMapJoin" parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List" />
+		from customer_order
+		<include refid="Where_Condition" />
+		<if test="sortField != null"> order by create_date desc </if>
+		<if test="isPage== true and offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+	</select>
+	
+	<select id="getCustomerUsers" parameterType="java.lang.Integer" resultType="main.com.customer.dao.vo.CustomerUsersVo">
+	 	select 
+		customer_customerusers.customerUsersId,
+		customer_customerusers.customerUsersName,
+		customer_customerusers.bankAuditsImage,
+		customer_customerusers.address,
+		customer_customerusers.bankAuditsvideo
+		from customer_customerusers
+		where customer_customerusers.customerUsersId = #{customer_id} 
+		and customer_customerusers.bankAuditsImage is not null and customer_customerusers.bankAuditsvideo is not null
+    </select>
+    
+	<select id="getOrg" parameterType="java.lang.Integer" resultType="main.com.system.dao.vo.OrganizationVo">
+	 	select 
+		system_organization.orgId,
+		system_organization.shortName,
+		system_organization.telephone,
+		system_organization.provinceName,
+		system_organization.cityName,
+		system_organization.areaName,
+		system_organization.address
+		from system_organization
+		where system_organization.orgId = #{org_id}
+    </select>
+  
+  <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from customer_order
+    where customer_order_id = #{customerOrderId,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectByIdJoinPayment" resultMap="BaseResultMapJoinPayment" parameterType="java.lang.Integer" >
+    select 
+    	customer_order.*
+    from customer_order
+    where customer_order_id = #{customerOrderId,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectByUsersId" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from customer_order
+    where customer_id = #{customerUsersId,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectByIdJoin" resultMap="BaseResultMapJoin" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from customer_order
+    where customer_order_id = #{customerOrderId,jdbcType=INTEGER}
+  </select>
+  
+  <select id="getCars" parameterType="java.lang.Integer" resultType="main.com.car.dao.vo.CarsVo">
+	 	select 
+		car_cars.carId,
+		car_cars.indexImage,
+		car_cars.familyId,
+		car_cars.price,
+		car_cars.carName
+		from car_cars
+		where car_cars.carId = #{cars_id}
+    </select>
+  
+  <select id="selectByCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from customer_order
+    where customer_order_code = #{customerOrderCode}
+  </select>
+  
+  <delete id="deleteById" parameterType="java.lang.Integer" >
+    delete from customer_order
+    where customer_order_id = #{customerOrderId,jdbcType=INTEGER}
+  </delete>
+  
+  <insert id="insert" parameterType="main.com.customer.dao.po.CustomerOrder" useGeneratedKeys="true" keyProperty="customerOrderId" >
+    insert into customer_order
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="customerOrderCode != null" >
+        customer_order_code,
+      </if>
+      <if test="customerOrderState != null" >
+        customer_order_state,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="isDelete != null" >
+        is_delete,
+      </if>
+      <if test="customerId != null" >
+        customer_id,
+      </if>
+      <if test="customerName != null" >
+        customer_name,
+      </if>
+      <if test="customerPhoneNumber != null" >
+        customer_phone_number,
+      </if>
+      <if test="carsId != null" >
+        cars_id,
+      </if>
+      <if test="carsName != null" >
+        cars_name,
+      </if>
+      <if test="carsIndexImage != null" >
+        cars_index_image,
+      </if>
+      <if test="brandId != null" >
+        brand_id,
+      </if>
+      <if test="familyId != null" >
+        family_id,
+      </if>
+      <if test="invoicePrice != null" >
+        invoice_price,
+      </if>
+      <if test="depositPrice != null" >
+        deposit_price,
+      </if>
+      <if test="discountPrice != null" >
+        discount_price,
+      </if>
+      <if test="interiorId != null" >
+        interior_id,
+      </if>
+      <if test="colourId != null" >
+        colour_id,
+      </if>
+      <if test="followInformation != null" >
+        follow_information,
+      </if>
+      <if test="boutiqueInformation != null" >
+        boutique_information,
+      </if>
+      <if test="balancePrice != null" >
+        balance_price,
+      </if>
+      <if test="orgId != null" >
+        org_id,
+      </if>
+      <if test="orgName != null" >
+        org_name,
+      </if>
+      <if test="stockCarId != null" >
+        stock_car_id,
+      </if>
+      <if test="remarks != null" >
+        remarks,
+      </if>
+      <if test="paymentWay != null" >
+        payment_way,
+      </if>
+      <if test="downPayments != null" >
+        down_payments,
+      </if>
+      <if test="loan != null" >
+        loan,
+      </if>
+      <if test="loanPayBackStages != null" >
+        loan_pay_back_stages,
+      </if>
+      <if test="amount != null" >
+        amount,
+      </if>
+      <if test="isPurchaseTax != null" >
+        is_purchase_tax,
+      </if>
+      <if test="isTakeLicensePlate != null" >
+        is_take_license_plate,
+      </if>
+      <if test="licensePlatePriace != null" >
+        license_plate_priace,
+      </if>
+      <if test="isInsurance != null" >
+        is_insurance,
+      </if>
+      <if test="insurancePriace != null" >
+        insurance_priace,
+      </if>
+      <if test="systemUserId != null" >
+        system_user_id,
+      </if>
+      <if test="systemUserName != null" >
+        system_user_name,
+      </if>
+      <if test="systemUserPhone != null" >
+        system_user_phone,
+      </if>
+      <if test="extractCarImage != null" >
+        extract_car_image,
+      </if>
+      <if test="colourName != null" >
+        colour_name,
+      </if>
+      <if test="interiorName != null" >
+        interior_name,
+      </if>
+      <if test="isMortgage != null" >
+        is_mortgage,
+      </if>
+      <if test="estimateDate != null" >
+        estimate_Date,
+      </if>
+      <if test="auditTime != null" >
+        audit_time,
+      </if>
+      <if test="auditStatus != null" >
+        audit_status,
+      </if>
+      <if test="customerUserCard != null" >
+        customer_user_card,
+      </if>
+      <if test="purchaseTaxPriace != null" >
+        purchase_tax_priace,
+      </if>
+      <if test="boutiquePriace != null" >
+        boutique_priace,
+      </if>
+      <if test="mortgagePriace != null" >
+        mortgage_priace,
+      </if>
+      <if test="loanBank != null" >
+        loan_bank,
+      </if>
+      <if test="carUnitPrice != null" >
+        car_unit_price,
+      </if>
+      <if test="vehicleAndVesselTax != null" >
+        vehicle_and_vessel_tax,
+      </if>
+      <if test="overTheLine != null" >
+        over_the_line,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="customerOrderCode != null" >
+        #{customerOrderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="customerOrderState != null" >
+        #{customerOrderState,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDelete != null" >
+        #{isDelete,jdbcType=TINYINT},
+      </if>
+      <if test="customerId != null" >
+        #{customerId,jdbcType=INTEGER},
+      </if>
+      <if test="customerName != null" >
+        #{customerName,jdbcType=VARCHAR},
+      </if>
+      <if test="customerPhoneNumber != null" >
+        #{customerPhoneNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="carsId != null" >
+        #{carsId,jdbcType=INTEGER},
+      </if>
+      <if test="carsName != null" >
+        #{carsName,jdbcType=VARCHAR},
+      </if>
+      <if test="carsIndexImage != null" >
+        #{carsIndexImage,jdbcType=VARCHAR},
+      </if>
+      <if test="brandId != null" >
+        #{brandId,jdbcType=INTEGER},
+      </if>
+      <if test="familyId != null" >
+        #{familyId,jdbcType=INTEGER},
+      </if>
+      <if test="invoicePrice != null" >
+        #{invoicePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="depositPrice != null" >
+        #{depositPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="discountPrice != null" >
+        #{discountPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="interiorId != null" >
+        #{interiorId,jdbcType=INTEGER},
+      </if>
+      <if test="colourId != null" >
+        #{colourId,jdbcType=INTEGER},
+      </if>
+      <if test="followInformation != null" >
+        #{followInformation,jdbcType=VARCHAR},
+      </if>
+      <if test="boutiqueInformation != null" >
+        #{boutiqueInformation,jdbcType=VARCHAR},
+      </if>
+      <if test="balancePrice != null" >
+        #{balancePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="orgId != null" >
+        #{orgId,jdbcType=INTEGER},
+      </if>
+      <if test="orgName != null" >
+        #{orgName,jdbcType=VARCHAR},
+      </if>
+      <if test="stockCarId != null" >
+        #{stockCarId,jdbcType=INTEGER},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentWay != null" >
+        #{paymentWay,jdbcType=INTEGER},
+      </if>
+      <if test="downPayments != null" >
+        #{downPayments,jdbcType=DECIMAL},
+      </if>
+      <if test="loan != null" >
+        #{loan,jdbcType=DECIMAL},
+      </if>
+      <if test="loanPayBackStages != null" >
+        #{loanPayBackStages,jdbcType=INTEGER},
+      </if>
+      <if test="amount != null" >
+        #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="isPurchaseTax != null" >
+        #{isPurchaseTax,jdbcType=TINYINT},
+      </if>
+      <if test="isTakeLicensePlate != null" >
+        #{isTakeLicensePlate,jdbcType=TINYINT},
+      </if>
+      <if test="licensePlatePriace != null" >
+        #{licensePlatePriace,jdbcType=DECIMAL},
+      </if>
+      <if test="isInsurance != null" >
+        #{isInsurance,jdbcType=TINYINT},
+      </if>
+      <if test="insurancePriace != null" >
+        #{insurancePriace,jdbcType=DECIMAL},
+      </if>
+      <if test="systemUserId != null" >
+        #{systemUserId},
+      </if>
+      <if test="systemUserName != null" >
+        #{systemUserName},
+      </if>
+      <if test="systemUserPhone != null" >
+        #{systemUserPhone},
+      </if>
+      <if test="extractCarImage != null" >
+        #{extractCarImage},
+      </if>
+      <if test="colourName != null" >
+        #{colourName},
+      </if>
+      <if test="interiorName != null" >
+        #{interiorName},
+      </if>
+      <if test="isMortgage != null" >
+        #{isMortgage},
+      </if>
+      <if test="estimateDate != null" >
+        #{estimateDate},
+      </if>
+      <if test="auditTime != null" >
+        #{auditTime},
+      </if>
+      <if test="auditStatus != null" >
+        #{auditStatus},
+      </if>
+      <if test="customerUserCard != null" >
+        #{customerUserCard},
+      </if>
+      <if test="purchaseTaxPriace != null" >
+        #{purchaseTaxPriace},
+      </if>
+      <if test="boutiquePriace != null" >
+        #{boutiquePriace},
+      </if>
+      <if test="mortgagePriace != null" >
+        #{mortgagePriace},
+      </if>
+      <if test="loanBank != null" >
+        #{loanBank},
+      </if>
+      <if test="carUnitPrice != null" >
+        #{carUnitPrice},
+      </if>
+       <if test="vehicleAndVesselTax != null" >
+         #{vehicleAndVesselTax},
+      </if>
+       <if test="overTheLine != null" >
+         #{overTheLine},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateById" parameterType="main.com.customer.dao.po.CustomerOrder" >
+    update customer_order
+    <set >
+      <if test="customerOrderCode != null" >
+        customer_order_code = #{customerOrderCode,jdbcType=VARCHAR},
+      </if>
+      <if test="customerOrderState != null" >
+        customer_order_state = #{customerOrderState,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isDelete != null" >
+        is_delete = #{isDelete,jdbcType=TINYINT},
+      </if>
+      <if test="customerId != null" >
+        customer_id = #{customerId,jdbcType=INTEGER},
+      </if>
+      <if test="customerName != null" >
+        customer_name = #{customerName,jdbcType=VARCHAR},
+      </if>
+      <if test="customerPhoneNumber != null" >
+        customer_phone_number = #{customerPhoneNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="carsId != null" >
+        cars_id = #{carsId,jdbcType=INTEGER},
+      </if>
+      <if test="carsName != null" >
+        cars_name = #{carsName,jdbcType=VARCHAR},
+      </if>
+      <if test="carsIndexImage != null" >
+        cars_index_image = #{carsIndexImage,jdbcType=VARCHAR},
+      </if>
+      <if test="brandId != null" >
+        brand_id = #{brandId,jdbcType=INTEGER},
+      </if>
+      <if test="familyId != null" >
+        family_id = #{familyId,jdbcType=INTEGER},
+      </if>
+      <if test="invoicePrice != null" >
+        invoice_price = #{invoicePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="depositPrice != null" >
+        deposit_price = #{depositPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="discountPrice != null" >
+        discount_price = #{discountPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="interiorId != null" >
+        interior_id = #{interiorId,jdbcType=INTEGER},
+      </if>
+      <if test="colourId != null" >
+        colour_id = #{colourId,jdbcType=INTEGER},
+      </if>
+      <if test="followInformation != null" >
+        follow_information = #{followInformation,jdbcType=VARCHAR},
+      </if>
+      <if test="boutiqueInformation != null" >
+        boutique_information = #{boutiqueInformation,jdbcType=VARCHAR},
+      </if>
+      <if test="balancePrice != null" >
+        balance_price = #{balancePrice,jdbcType=DECIMAL},
+      </if>
+      <if test="orgId != null" >
+        org_id = #{orgId,jdbcType=INTEGER},
+      </if>
+      <if test="orgName != null" >
+        org_name = #{orgName,jdbcType=VARCHAR},
+      </if>
+      <if test="stockCarId != null" >
+        stock_car_id = #{stockCarId,jdbcType=INTEGER},
+      </if>
+      <if test="remarks != null" >
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentWay != null" >
+        payment_way = #{paymentWay,jdbcType=INTEGER},
+      </if>
+      <if test="downPayments != null" >
+        down_payments = #{downPayments,jdbcType=DECIMAL},
+      </if>
+      <if test="loan != null" >
+        loan = #{loan,jdbcType=DECIMAL},
+      </if>
+      <if test="loanPayBackStages != null" >
+        loan_pay_back_stages = #{loanPayBackStages,jdbcType=INTEGER},
+      </if>
+      <if test="amount != null" >
+        amount = #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="isPurchaseTax != null" >
+        is_purchase_tax = #{isPurchaseTax,jdbcType=TINYINT},
+      </if>
+      <if test="isTakeLicensePlate != null" >
+        is_take_license_plate = #{isTakeLicensePlate,jdbcType=TINYINT},
+      </if>
+      <if test="licensePlatePriace != null" >
+        license_plate_priace = #{licensePlatePriace,jdbcType=DECIMAL},
+      </if>
+      <if test="isInsurance != null" >
+        is_insurance = #{isInsurance,jdbcType=TINYINT},
+      </if>
+      <if test="insurancePriace != null" >
+        insurance_priace = #{insurancePriace,jdbcType=DECIMAL},
+      </if>
+      <if test="systemUserId != null" >
+        system_user_id = #{systemUserId},
+      </if>
+      <if test="systemUserName != null" >
+        system_user_name = #{systemUserName},
+      </if>
+      <if test="systemUserPhone != null" >
+        system_user_phone = #{systemUserPhone},
+      </if>
+      <if test="extractCarImage != null" >
+        extract_car_image = #{extractCarImage},
+      </if>
+      <if test="colourName != null" >
+        colour_name = #{colourName},
+      </if>
+      <if test="interiorName != null" >
+        interior_name = #{interiorName},
+      </if>
+      <if test="isMortgage != null" >
+        is_mortgage = #{isMortgage},
+      </if>
+      <if test="estimateDate != null" >
+        estimate_Date = #{estimateDate},
+      </if>
+       <if test="auditTime != null" >
+        audit_time = #{auditTime},
+      </if>
+      <if test="auditStatus != null" >
+        audit_status = #{auditStatus},
+      </if>
+       <if test="customerUserCard != null" >
+        customer_user_card = #{customerUserCard},
+      </if>
+       <if test="purchaseTaxPriace != null" >
+        purchase_tax_priace = #{purchaseTaxPriace},
+      </if>
+       <if test="boutiquePriace != null" >
+        boutique_priace = #{boutiquePriace},
+      </if>
+       <if test="mortgagePriace != null" >
+        mortgage_priace = #{mortgagePriace},
+      </if>
+       <if test="loanBank != null" >
+        loan_bank = #{loanBank},
+      </if>
+       <if test="carUnitPrice != null" >
+        car_unit_price = #{carUnitPrice},
+      </if>
+ 	  <if test="vehicleAndVesselTax != null" >
+         vehicle_and_vessel_tax = #{vehicleAndVesselTax},
+      </if>
+ 	  <if test="overTheLine != null" >
+         over_the_line = #{overTheLine},
+      </if>
+    </set>
+    where customer_order_id = #{customerOrderId,jdbcType=INTEGER}
+  </update>
+</mapper>

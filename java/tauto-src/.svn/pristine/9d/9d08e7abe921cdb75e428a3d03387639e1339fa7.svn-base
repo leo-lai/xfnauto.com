@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="main.com.system.dao.po.SystemWarehouse" >
+
+  <resultMap id="BaseResultMap" type="main.com.system.dao.vo.SystemWarehouseVo" >
+    <id column="warehouse_id" property="warehouseId" jdbcType="INTEGER" />
+    <result column="warehouse_name" property="warehouseName" jdbcType="VARCHAR" />
+    <result column="org_id" property="orgId" jdbcType="INTEGER" />
+    <result column="org_name" property="orgName" jdbcType="VARCHAR" />
+    <result column="org_code" property="orgCode" jdbcType="VARCHAR" />
+    <result column="warehouse_type" property="warehouseType" jdbcType="INTEGER" />
+    <result column="is_delete" property="isDelete" jdbcType="TINYINT" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    warehouse_id, warehouse_name, org_id, org_name, org_code, warehouse_type, is_delete, 
+    system_warehouse.create_date
+  </sql>
+  
+  <sql id="Where_Condition">
+		<where>
+			<trim prefixOverrides="and">
+				<!-- 匹配查询 -->
+				<if test="warehouseId != null">and system_warehouse.warehouse_id = #{warehouseId}</if>
+				<if test="warehouseName != null and warehouseName != ''"> and system_warehouse.warehouse_name like CONCAT('%', #{warehouseName},'%') </if>
+				<if test="warehouseType != null and warehouseType != ''"> and system_warehouse.warehouse_type = #{warehouseType} </if>
+				<if test="orgName != null and orgName != ''"> and system_warehouse.org_name like CONCAT('%',#{orgName},'%') </if>
+				<if test="1 == 1"> and system_warehouse.is_delete = 0 </if>
+				<if test="orgId != null and orgId != ''"> and system_warehouse.org_id = #{orgId} </if>
+				<if test="orgCode != null and orgCode != ''">and (system_warehouse.org_id IN (select orgId from system_organization where system_organization.orgCodeLevel like
+                    CONCAT('%',#{orgCode},'%')))
+                </if>
+				<!-- 模糊查询 -->
+<!-- 				<if test="mainProjectId != null and mainProjectId != ''"> and system_warehouse.mainProjectId like CONCAT("%",#{mainProjectId},"%")</if>				 -->
+			</trim>
+		</where>
+	</sql>
+
+
+	<!-- 查询总数 -->
+	<select id="selectCount" resultType="java.lang.Long"
+		parameterType="java.util.Map">
+		select count(warehouse_id) from system_warehouse
+		<include refid="Where_Condition" />
+	</select>
+
+	<!-- 查询 -->
+	<select id="select" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List" />
+		from system_warehouse
+		<include refid="Where_Condition" />
+	</select>
+  
+  <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from system_warehouse
+    where warehouse_id = #{warehouseId,jdbcType=INTEGER} and system_warehouse.is_delete = 0
+  </select>
+  
+  <delete id="deleteById" parameterType="java.lang.Integer" >
+    delete from system_warehouse
+    where warehouse_id = #{warehouseId,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="main.com.system.dao.po.SystemWarehouse" useGeneratedKeys="true" keyProperty="warehouseId" >
+    insert into system_warehouse
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="warehouseName != null" >
+        warehouse_name,
+      </if>
+      <if test="orgId != null" >
+        org_id,
+      </if>
+      <if test="orgName != null" >
+        org_name,
+      </if>
+      <if test="orgCode != null" >
+        org_code,
+      </if>
+      <if test="warehouseType != null" >
+        warehouse_type,
+      </if>
+      <if test="isDelete != null" >
+        is_delete,
+      </if>
+      <if test="createDate != null" >
+        system_warehouse.create_date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="warehouseName != null" >
+        #{warehouseName,jdbcType=VARCHAR},
+      </if>
+      <if test="orgId != null" >
+        #{orgId,jdbcType=INTEGER},
+      </if>
+      <if test="orgName != null" >
+        #{orgName,jdbcType=VARCHAR},
+      </if>
+      <if test="orgCode != null" >
+        #{orgCode,jdbcType=VARCHAR},
+      </if>
+      <if test="warehouseType != null" >
+        #{warehouseType,jdbcType=INTEGER},
+      </if>
+      <if test="isDelete != null" >
+        #{isDelete,jdbcType=TINYINT},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateById" parameterType="main.com.system.dao.po.SystemWarehouse" >
+    update system_warehouse
+    <set >
+      <if test="warehouseName != null" >
+        warehouse_name = #{warehouseName,jdbcType=VARCHAR},
+      </if>
+      <if test="orgId != null" >
+        org_id = #{orgId,jdbcType=INTEGER},
+      </if>
+      <if test="orgName != null" >
+        org_name = #{orgName,jdbcType=VARCHAR},
+      </if>
+      <if test="orgCode != null" >
+        org_code = #{orgCode,jdbcType=VARCHAR},
+      </if>
+      <if test="warehouseType != null" >
+        warehouse_type = #{warehouseType,jdbcType=INTEGER},
+      </if>
+      <if test="isDelete != null" >
+        is_delete = #{isDelete,jdbcType=TINYINT},
+      </if>
+      <if test="createDate != null" >
+        system_warehouse.create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where warehouse_id = #{warehouseId,jdbcType=INTEGER}
+  </update>
+</mapper>

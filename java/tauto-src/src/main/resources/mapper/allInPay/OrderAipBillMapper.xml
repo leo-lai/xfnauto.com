@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="main.com.allInPay.dao.po.OrderAipBill">
+    <!-- <cache type="org.mybatis.caches.ehcache.LoggingEhcache" readOnly="true" /> -->
+
+    <resultMap id="OrderAipBillResultMap" type="main.com.allInPay.dao.vo.OrderAipBillVo">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="orderCode" property="orderCode" jdbcType="VARCHAR"/>
+        <result column="orderId" property="orderId" jdbcType="INTEGER"/>
+        <result column="orgId" property="orgId" jdbcType="INTEGER"/>
+        <result column="orgName" property="orgName" jdbcType="VARCHAR"/>
+        <result column="amount" property="amount" jdbcType="FLOAT"/>
+        <result column="createDate" property="createDate" jdbcType="TIMESTAMP"/>
+        <result column="trxcode" property="trxcode" jdbcType="VARCHAR"/>
+        <result column="trxstatus" property="trxstatus" jdbcType="VARCHAR"/>
+        <result column="aipAmount" property="aipAmount" jdbcType="VARCHAR"/>
+        <result column="trxId" property="trxId" jdbcType="VARCHAR"/>
+        <result column="srctrxid" property="srctrxid" jdbcType="VARCHAR"/>
+        <result column="trxday" property="trxday" jdbcType="VARCHAR"/>
+        <result column="paytime" property="paytime" jdbcType="VARCHAR"/>
+        <result column="termid" property="termid" jdbcType="VARCHAR"/>
+        <result column="termbatchid" property="termbatchid" jdbcType="VARCHAR"/>
+        <result column="traceno" property="traceno" jdbcType="VARCHAR"/>
+        <result column="trxreserve" property="trxreserve" jdbcType="VARCHAR"/>
+        <result column="remark1" property="remark1" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_OrderAipBillInfo">
+        order_aip_bill.id,
+        order_aip_bill.orderCode,
+        order_aip_bill.orderId,
+        order_aip_bill.orgName,
+        order_aip_bill.orgId,
+        order_aip_bill.amount,
+        order_aip_bill.createDate,
+        order_aip_bill.trxcode,
+        order_aip_bill.trxstatus,
+        order_aip_bill.aipAmount,
+        order_aip_bill.trxId,
+        order_aip_bill.srctrxid,
+        order_aip_bill.trxday,
+        order_aip_bill.paytime,
+        order_aip_bill.termid,
+        order_aip_bill.termbatchid,
+        order_aip_bill.traceno,
+        order_aip_bill.trxreserve,
+        order_aip_bill.remark1
+    </sql>
+
+    <sql id="Base_Where_Clause">
+        <where>
+            <trim prefixOverrides="and">
+                <if test="id != null">and order_aip_bill.id = #{id}</if>
+            </trim>
+        </where>
+    </sql>
+
+	<!-- 插入 -->
+	<insert id="insert" parameterType="main.com.allInPay.dao.po.OrderAipBill" >
+		insert into order_aip_bill
+		 <trim prefix="(" suffix=")" suffixOverrides="," >
+			 <if test="orderCode != null" > orderCode,</if>
+	         <if test="orderId != null" > orderId,</if>
+	         <if test="orgName != null" >  orgName,</if>
+	         <if test="orgId != null" > orgId,</if>
+	         <if test="amount != null" > amount,</if>
+	         <if test="createDate != null" > createDate,</if>
+	         <if test="trxcode != null" > trxcode,</if>
+	         <if test="trxstatus != null" > trxstatus,</if>
+	         <if test="aipAmount != null" > aipAmount,</if>
+	         <if test="trxId != null" >  trxId,</if>
+	         <if test="srctrxid != null" > srctrxid,</if>
+	         <if test="trxday != null" >  trxday,</if>
+	         <if test="paytime != null" >  paytime,</if>
+	         <if test="termid != null" >  termid,</if>
+	         <if test="termbatchid != null" >  termbatchid,</if>
+	         <if test="traceno != null" >  traceno,</if>
+	         <if test="trxreserve != null" >  trxreserve,</if>
+	         <if test="remark1 != null" >  remark1,</if>
+		</trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+			 <if test="orderCode != null" > #{orderCode},</if>
+	         <if test="orderId != null" >  #{orderId},</if>
+	         <if test="orgName != null" > #{orgName},</if>
+	         <if test="orgId != null" > #{orgId},</if>
+	         <if test="amount != null" > #{amount},</if>
+	         <if test="createDate != null" > #{createDate},</if>
+	         <if test="trxcode != null" > #{trxcode},</if>
+	         <if test="trxstatus != null" > #{trxstatus},</if>
+	         <if test="aipAmount != null" > #{aipAmount},</if>
+	         <if test="trxId != null" > #{trxId},</if>
+	         <if test="srctrxid != null" > #{srctrxid},</if>
+	         <if test="trxday != null" > #{trxday},</if>
+	         <if test="paytime != null" > #{paytime},</if>
+	         <if test="termid != null" > #{termid},</if>
+	         <if test="termbatchid != null" > #{termbatchid},</if>
+	         <if test="traceno != null" > #{traceno},</if>
+	         <if test="trxreserve != null" > #{trxreserve},</if>
+	         <if test="remark1 != null" > #{remark1},</if>
+		</trim>
+	</insert>
+
+</mapper>

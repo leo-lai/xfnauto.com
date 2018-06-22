@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="main.com.system.dao.po.User">
+	<!-- <cache type="org.mybatis.caches.ehcache.LoggingEhcache" readOnly="true" 
+		/> -->
+
+	<resultMap id="ResultMap" type="main.com.system.dao.vo.UserVo">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="parentId" property="parentId" jdbcType="INTEGER" />
+		<result column="headPortrait" property="headPortrait" jdbcType="VARCHAR" />
+		<result column="userName" property="userName" jdbcType="VARCHAR" />
+		<result column="realName" property="realName" jdbcType="VARCHAR" />
+		<result column="phoneNum" property="phoneNum" jdbcType="VARCHAR" />
+		<result column="contactPhone" property="contactPhone" jdbcType="VARCHAR" />
+		<result column="email" property="email" jdbcType="VARCHAR" />
+		<result column="pwd" property="pwd" jdbcType="VARCHAR" />
+		<result column="userType" property="userType" jdbcType="INTEGER" />
+		<result column="isFirstLogin" property="isFirstLogin" jdbcType="TINYINT" />
+		<result column="isOnline" property="isOnline" jdbcType="TINYINT" />
+		<result column="isEnable" property="isEnable" jdbcType="TINYINT" />
+		<result column="isReset" property="isReset" jdbcType="TINYINT" />
+		<result column="accountAmount" property="accountAmount"	jdbcType="FLOAT" />
+		<result column="creditValue" property="creditValue" jdbcType="INTEGER" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+		<result column="levelNum" property="levelNum" jdbcType="INTEGER" />
+		<result column="isLeaf" property="isLeaf" jdbcType="TINYINT" />
+		<result column="status" property="status" jdbcType="INTEGER" />
+		<result column="companyId" property="companyId" jdbcType="INTEGER" />
+		<result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="updateTime" property="updateTime" jdbcType="TIMESTAMP" />
+		<result column="sessionId" property="sessionId" jdbcType="VARCHAR" />
+		
+		<!-- 关联的公司信息 start -->
+		<result column="companyName" property="companyName" jdbcType="VARCHAR" />
+		<result column="companyShort" property="companyShort" jdbcType="VARCHAR" />
+		<result column="companyEmail" property="companyEmail" jdbcType="VARCHAR" />
+		<result column="logo" property="logo" jdbcType="VARCHAR" />
+		<result column="isAuth" property="isAuth" jdbcType="TINYINT" />
+		<result column="companyAddress" property="companyAddress" jdbcType="VARCHAR" />
+		<result column="mainProject" property="mainProject" jdbcType="VARCHAR" />
+		<result column="mainProjectId" property="mainProjectId" jdbcType="VARCHAR" />
+		<result column="briefIntroduction" property="briefIntroduction" jdbcType="VARCHAR" />
+		<result column="companyTypeId" property="companyTypeId" jdbcType="INTEGER" />
+		<result column="companyTypeName" property="companyTypeName" jdbcType="VARCHAR" />	</resultMap>
+		<!-- 关联的公司信息 end -->
+	<sql id="DB_Column_List">
+		sys_user.id,
+		sys_user.parentId,
+		sys_user.headPortrait,
+		sys_user.userName,
+		sys_user.realName,
+		sys_user.phoneNum,
+		sys_user.contactPhone,
+		sys_user.email,
+		sys_user.pwd,
+		sys_user.userType,
+		sys_user.isFirstLogin,
+		sys_user.isOnline,
+		sys_user.isEnable,
+		sys_user.isReset,
+		sys_user.accountAmount,
+		sys_user.creditValue,
+		sys_user.remark,
+		sys_user.levelNum,
+		sys_user.isLeaf,
+		sys_user.status,
+		sys_user.companyId,
+		sys_user.createTime,
+		sys_user.updateTime,
+		sys_user.mainProject,      
+		sys_user.mainProjectId,    
+		sys_user.sessionId,    
+		sys_company.companyName,      
+		sys_company.companyShort,     
+		sys_company.companyPhone,     
+		sys_company.companyEmail,     
+		sys_company.logo,             
+		sys_company.isAuth,           
+		sys_company.companyAddress,   
+		sys_company.briefIntroduction,
+		sys_company.companyTypeId,
+		sys_company.companyTypeName
+	</sql>
+
+	<sql id="Where_Condition">
+		<where>
+			<trim prefixOverrides="and">
+				<!-- 匹配查询 -->
+				<if test="id != null">and sys_user.id = #{id}</if>
+				<if test="parentId != null"> and sys_user.parentId = #{parentId} </if>
+				<if test="userName != null"> and sys_user.userName = #{userName} </if>
+				<if test="status != null"> and sys_user.status = #{status} </if>
+				<if test="companyId != null"> and sys_user.companyId = #{companyId} </if>				
+				<!-- 模糊查询 -->
+				<if test="mainProjectId != null and mainProjectId != ''"> and sys_user.mainProjectId like CONCAT("%",#{mainProjectId},"%")</if>				
+			</trim>
+		</where>
+	</sql>
+
+
+	<!-- 查询总数 -->
+	<select id="selectCount" resultType="java.lang.Long"
+		parameterType="java.util.Map">
+		select count(id) from sys_user
+		left join sys_company
+		on sys_user.companyId = sys_company.id
+		<include refid="Where_Condition" />
+	</select>
+
+	<!-- 查询 -->
+	<select id="select" resultMap="ResultMap" parameterType="java.util.Map">
+		select
+		<include refid="DB_Column_List" />
+		from sys_user
+		left join sys_company
+		on sys_user.companyId = sys_company.id
+		<include refid="Where_Condition" />
+	</select>
+
+	<!-- 根据ID查询 -->
+	<select id="selectById" resultMap="ResultMap" parameterType="java.lang.Integer">
+		select
+		<include refid="DB_Column_List" />
+		from sys_user
+		left join sys_company
+		on sys_user.companyId = sys_company.id
+		where sys_user.id = #{id}
+	</select>
+
+	<!-- 添加 -->
+	<insert id="insert" parameterType="main.com.system.dao.po.User" useGeneratedKeys="true" keyProperty="id">
+		insert into sys_user
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			id,
+			<if test="parentId != null"> parentId, </if>
+			<if test="headPortrait != null"> headPortrait, </if>
+			<if test="userName != null"> userName, </if>
+			<if test="realName != null"> realName, </if>
+			<if test="phoneNum != null"> phoneNum, </if>
+			<if test="contactPhone != null"> contactPhone, </if>
+			<if test="email != null"> email, </if>
+			<if test="pwd != null"> pwd, </if>
+			<if test="userType != null"> userType, </if>
+			<if test="isFirstLogin != null"> isFirstLogin, </if>
+			<if test="isOnline != null"> isOnline, </if>
+			<if test="isEnable != null"> isEnable, </if>
+			<if test="isReset != null"> isReset, </if>
+			<if test="accountAmount != null"> accountAmount, </if>
+			<if test="creditValue != null"> creditValue, </if>
+			<if test="remark != null"> remark, </if>
+			<if test="levelNum != null"> levelNum, </if>
+			<if test="isLeaf != null"> isLeaf, </if>
+			<if test="status != null"> status, </if>
+			<if test="companyId != null"> companyId, </if>
+			<if test="mainProject != null"> mainProject, </if>
+			<if test="mainProjectId != null"> mainProjectId, </if>
+			<if test="sessionId != null"> sessionId, </if>
+			createTime,
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			#{id},
+			<if test="parentId != null"> #{parentId}, </if>
+			<if test="headPortrait != null"> #{headPortrai}, </if>
+			<if test="userName != null"> #{userName}, </if>
+			<if test="realName != null"> #{realName}, </if>
+			<if test="phoneNum != null"> #{phoneNum}, </if>
+			<if test="contactPhone != null"> #{contactPhone}, </if>
+			<if test="email != null"> #{email}, </if>
+			<if test="pwd != null"> #{pwd}, </if>
+			<if test="userType != null"> #{userType}, </if>
+			<if test="isFirstLogin != null"> #{isFirstLogin}, </if>
+			<if test="isOnline != null"> #{isOnline}, </if>
+			<if test="isEnable != null"> #{isEnable}, </if>
+			<if test="isReset != null"> #{isReset}, </if>
+			<if test="accountAmount != null"> #{accountAmount}, </if>
+			<if test="creditValue != null"> #{creditValue}, </if>
+			<if test="remark != null"> #{remark}, </if>
+			<if test="levelNum != null"> #{levelNum}, </if>
+			<if test="isLeaf != null"> #{isLeaf}, </if>
+			<if test="status != null"> #{status}, </if>
+			<if test="companyId != null"> #{companyId}, </if>
+			<if test="mainProject != null"> #{mainProject}, </if>
+			<if test="mainProjectId != null"> #{mainProjectId}, </if>
+			<if test="sessionId != null"> #{sessionId}, </if>
+			now(),
+		</trim>
+	</insert>
+
+	<!-- 更新 -->
+	<update id="updateById" parameterType="main.com.system.dao.po.User">
+		update
+		sys_user
+		<set>
+			<if test="parentId != null"> parentId = #{parentId}, </if>
+			<if test="headPortrait != null"> headPortrait = #{headPortrait}, </if>
+			<if test="userName != null"> userName = #{userName}, </if>
+			<if test="realName != null"> realName = #{realName}, </if>
+			<if test="phoneNum != null"> phoneNum = #{phoneNum}, </if>
+			<if test="contactPhone != null"> contactPhone = #{contactPhone}, </if>
+			<if test="email != null"> email = #{email}, </if>
+			<if test="pwd != null"> pwd = #{pwd}, </if>
+			<if test="userType != null"> userType = #{userType}, </if>
+			<if test="isFirstLogin != null"> isFirstLogin = #{isFirstLogin}, </if>
+			<if test="isOnline != null"> isOnline = #{isOnline}, </if>
+			<if test="isEnable != null"> isEnable = #{isEnable}, </if>
+			<if test="isReset != null"> isReset = #{isReset}, </if>
+			<if test="accountAmount != null"> accountAmount = #{accountAmount}, </if>
+			<if test="creditValue != null"> creditValue = #{creditValue}, </if>
+			<if test="remark != null"> remark = #{remark}, </if>
+			<if test="levelNum != null"> levelNum = #{levelNum}, </if>
+			<if test="isLeaf != null"> isLeaf = #{isLeaf}, </if>
+			<if test="status != null"> status = #{status}, </if>
+			<if test="companyId != null">companyId = #{companyId}, </if>
+			<if test="updateTime != null"> updateTime = now(), </if>
+			<if test="mainProject != null">mainProject = #{mainProject}, </if>
+			<if test="mainProjectId != null">mainProjectId = #{mainProjectId}, </if>
+			<if test="sessionId != null">sessionId = #{sessionId}, </if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	
+	<!-- 批量更新 -->
+	<update id="batchUpdate"  parameterType="java.util.List">
+          <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            update 
+				sys_user 
+			<set>
+				<if test="item.parentId != null"> parentId = #{item.parentId}, </if>
+				<if test="item.headPortrait != null"> headPortrait = #{item.headPortrait}, </if>
+				<if test="item.userName != null"> userName = #{item.userName}, </if>
+				<if test="item.realName != null"> realName = #{item.realName}, </if>
+				<if test="item.phoneNum != null"> phoneNum = #{item.phoneNum}, </if>
+				<if test="item.contactPhone != null"> contactPhone = #{item.contactPhone}, </if>
+				<if test="item.email != null"> email = #{email}, </if>
+				<if test="item.pwd != null"> pwd = #{item.pwd}, </if>
+				<if test="item.userType != null"> userType = #{item.userType}, </if>
+				<if test="item.isFirstLogin != null"> isFirstLogin = #{item.isFirstLogin}, </if>
+				<if test="item.isOnline != null"> isOnline = #{item.isOnline}, </if>
+				<if test="item.isEnable != null"> isEnable = #{item.isEnable}, </if>
+				<if test="item.isReset != null"> isReset = #{item.isReset}, </if>
+				<if test="item.accountAmount != null"> accountAmount = #{item.accountAmount}, </if>
+				<if test="item.creditValue != null"> creditValue = #{item.creditValue}, </if>
+				<if test="item.remark != null"> remark = #{item.remark}, </if>
+				<if test="item.levelNum != null"> levelNum = #{item.levelNum}, </if>
+				<if test="item.isLeaf != null"> isLeaf = #{item.isLeaf}, </if>
+				<if test="item.status != null"> status = #{item.status}, </if>
+				<if test="item.companyId != null">companyId = #{item.companyId}, </if>
+				<if test="item.updateTime != null"> updateTime = #{item.updateTime}, </if>
+				<if test="item.mainProject != null"> mainProject = #{item.mainProject}, </if>
+				<if test="item.mainProjectId != null"> mainProjectId = #{item.mainProjectId}, </if>
+				<if test="item.sessionId != null"> sessionId = #{item.sessionId}, </if>
+			</set> 
+			 where id = #{item.id} 
+         </foreach>
+    </update>
+
+	<!-- 根据ID删除 -->
+	<delete id="deleteById" parameterType="java.lang.Integer">
+		delete from sys_user
+		where
+		id = #{id}
+	</delete>
+
+	<!-- 删除 -->
+	<delete id="delete" parameterType="java.util.Map">
+		delete from sys_user
+		<include refid="Where_Condition" />
+	</delete>
+	
+	<!-- 批量插入角色用户 -->
+	<insert id="batchInsertRoleUser" parameterType="java.util.List">
+		insert into sys_user_role(
+			userId,
+			roleId
+		) values 
+		 <foreach collection="list" item="item" index="index" separator="," > 
+		(	#{item.userId},
+			#{item.roleId}
+		)
+		 </foreach> 
+	</insert>
+	
+	<!-- 通过用户id删除角色 -->
+	<delete id="deleteRoleByUserId" parameterType="java.util.Map">
+		delete from sys_user_role
+		where sys_user_role.userId = #{userId}
+	</delete>
+	
+	<!-- 根据公司类型id 批量插入角色用户 -->
+	<insert id="batchInsertRoleUserByType" parameterType="java.util.Map">
+		insert into sys_user_role(userId,roleId) 
+		select #{userId},id from sys_role where roleTypeIds like CONCAT('%',#{companyTypeIds},'%')
+	</insert>
+	
+	
+
+</mapper>

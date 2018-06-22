@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="main.com.car.dao.po.CarParameter" >
+
+  <resultMap id="BaseResultMap" type="main.com.car.dao.vo.CarParameterVo" >
+    <id column="parameter_id" property="parameterId" jdbcType="INTEGER" />
+    <result column="parameter_name" property="parameterName" jdbcType="VARCHAR" />
+    <result column="type_code" property="typeCode" jdbcType="VARCHAR" />
+    <result column="type_name" property="typeName" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    parameter_id, parameter_name, type_code, type_name
+  </sql>
+  
+  	<sql id="Where_Condition">
+		<where>
+			<trim prefixOverrides="and">
+				<!-- 匹配查询 -->
+				<if test="parameterId != null">and car_parameter.parameter_id = #{parameterId}</if>						
+				<!-- 模糊查询 -->
+				
+				<!-- list查询 -->
+				<if test="parameterIds != null">and car_parameter.parameter_id in
+                    <foreach item="item" index="index" collection="parameterIds"
+                             open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+			</trim>
+		</where>
+	</sql>
+
+
+	<!-- 查询总数 -->
+	<select id="selectCount" resultType="java.lang.Long"
+		parameterType="java.util.Map">
+		select count(parameter_id) from car_parameter
+		<include refid="Where_Condition" />
+	</select>
+
+	<!-- 查询 -->
+	<select id="select" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List" />
+		from car_parameter
+		<include refid="Where_Condition" />
+		<if test="sortField != null"> order by parameter_id desc </if>
+		<if test="isPage== true and offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+	</select>
+  
+  <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from car_parameter
+    where parameter_id = #{parameterId,jdbcType=INTEGER}
+  </select>
+  
+  <delete id="deleteById" parameterType="java.lang.Integer" >
+    delete from car_parameter
+    where parameter_id = #{parameterId,jdbcType=INTEGER}
+  </delete>
+  
+  
+  <insert id="insert" parameterType="main.com.car.dao.po.CarParameter" >
+    insert into car_parameter
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="parameterId != null" >
+        parameter_id,
+      </if>
+      <if test="parameterName != null" >
+        parameter_name,
+      </if>
+      <if test="typeCode != null" >
+        type_code,
+      </if>
+      <if test="typeName != null" >
+        type_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="parameterId != null" >
+        #{parameterId,jdbcType=INTEGER},
+      </if>
+      <if test="parameterName != null" >
+        #{parameterName,jdbcType=VARCHAR},
+      </if>
+      <if test="typeCode != null" >
+        #{typeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="typeName != null" >
+        #{typeName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="main.com.car.dao.po.CarParameter" >
+    update car_parameter
+    <set >
+      <if test="parameterName != null" >
+        parameter_name = #{parameterName,jdbcType=VARCHAR},
+      </if>
+      <if test="typeCode != null" >
+        type_code = #{typeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="typeName != null" >
+        type_name = #{typeName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where parameter_id = #{parameterId,jdbcType=INTEGER}
+  </update>
+</mapper>

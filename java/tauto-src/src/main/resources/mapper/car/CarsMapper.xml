@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="main.com.car.dao.po.Cars">
+	<!-- <cache type="org.mybatis.caches.ehcache.LoggingEhcache" readOnly="true" 
+		/> -->
+
+	<resultMap id="ResultMap" type="main.com.car.dao.vo.CarsVo">
+		<id column="carId" property="carId" jdbcType="INTEGER" />
+		<result column="brandId" property="brandId" jdbcType="INTEGER" />
+		<result column="familyId" property="familyId" jdbcType="INTEGER" />
+		<result column="seat" property="seat" jdbcType="INTEGER" />
+		<result column="price" property="price" jdbcType="FLOAT" />
+		<result column="brandCode" property="brandCode" jdbcType="VARCHAR" />
+		<result column="brandName" property="brandName" jdbcType="VARCHAR" />
+		<result column="brandInitial" property="brandInitial" jdbcType="VARCHAR" />
+		<result column="familyName" property="familyName" jdbcType="VARCHAR" />
+		<result column="vehicleName" property="vehicleName" jdbcType="VARCHAR" />
+		<result column="pl" property="pl" jdbcType="VARCHAR" />
+		<result column="engineDesc" property="engineDesc" jdbcType="VARCHAR" />
+		<result column="engineModel" property="engineModel" jdbcType="VARCHAR" />
+		<result column="inairform" property="inairform" jdbcType="VARCHAR" />
+		<result column="driveStyle" property="driveStyle" jdbcType="VARCHAR" />
+		<result column="gearboxName" property="gearboxName" jdbcType="VARCHAR" />
+		<result column="supplyOil" property="supplyOil" jdbcType="VARCHAR" />
+		<result column="gearNum" property="gearNum" jdbcType="VARCHAR" />
+		<result column="wheelbase" property="wheelbase" jdbcType="VARCHAR" />
+		<result column="marketDate" property="marketDate" jdbcType="VARCHAR" />
+		<result column="yearPattern" property="yearPattern" jdbcType="VARCHAR" />
+		<result column="styleId" property="styleId" jdbcType="VARCHAR" />
+		<result column="styleName" property="styleName" jdbcType="VARCHAR" />
+		<result column="powerType" property="powerType" jdbcType="VARCHAR" />
+		<result column="emissionStandard" property="emissionStandard" jdbcType="VARCHAR" />
+		<result column="oilConsumption" property="oilConsumption" jdbcType="VARCHAR" />
+		<result column="introduce" property="introduce" jdbcType="VARCHAR" />
+		<result column="isDelete" property="isDelete" jdbcType="TINYINT" />
+		<result column="indexImage" property="indexImage" jdbcType="VARCHAR" />
+		<result column="carName" property="carName" jdbcType="VARCHAR" />
+		</resultMap>
+
+	<sql id="DB_Column_List">
+		car_cars.carId,
+		car_cars.brandId,
+		car_cars.brandCode,
+		car_cars.brandName,
+		car_cars.brandInitial,
+		car_cars.familyId,
+		car_cars.familyName,
+		car_cars.vehicleName,
+		car_cars.pl,
+		car_cars.engineDesc,
+		car_cars.engineModel,
+		car_cars.inairform,
+		car_cars.driveStyle,
+		car_cars.gearboxName,
+		car_cars.supplyOil,
+		car_cars.gearNum,
+		car_cars.wheelbase,
+		car_cars.marketDate,
+		car_cars.yearPattern,
+		car_cars.styleId,
+		car_cars.styleName,
+		car_cars.price,
+		car_cars.seat,
+		car_cars.powerType,
+		car_cars.emissionStandard,
+		car_cars.oilConsumption,
+		car_cars.introduce,
+		car_cars.bareCarPrice,
+		car_cars.comprehensivePrice,
+		car_cars.indexImage,
+		car_cars.isDelete,
+		car_cars.carName
+	</sql>
+
+	<sql id="Where_Condition">
+		<where>
+			<trim prefixOverrides="and">
+				<!-- 匹配查询 -->
+				<if test="carId != null">and car_cars.carId = #{carId}</if>
+				<if test="brandId != null">and car_cars.brandId = #{brandId}</if>
+				<if test="familyId != null">and car_cars.familyId = #{familyId}</if>																
+				<if test="minPrice != null">and car_cars.price &gt;= #{minPrice}</if>																
+				<if test="maxPrice != null">and car_cars.price &lt;= #{maxPrice}</if>																
+				<if test="vehicleName != null">and car_cars.vehicleName like CONCAT('%',#{vehicleName},'%')</if>														
+				<if test="yearPattern != null">and car_cars.yearPattern like CONCAT('%',#{yearPattern},'%')</if>														
+				<!-- 模糊查询 -->
+				<if test="carsName != null and carsName != ''">and (car_cars.brandName like CONCAT('%',#{carsName},'%')
+					or car_cars.familyName like CONCAT('%',#{carsName},'%')
+					or car_cars.styleName like CONCAT('%',#{carsName},'%')
+					or car_cars.gearboxName like CONCAT('%',#{carsName},'%')
+					or car_cars.yearPattern like CONCAT('%',#{carsName},'%')
+					or car_cars.pl like CONCAT('%',#{carsName},'%'))
+				</if>
+				<!-- 模糊查询 -->
+				<if test="carName != null and carName != ''">and car_cars.carName like CONCAT('%',#{carName},'%')
+				</if>
+				<!-- 模糊查询 -->
+				<if test="searchText != null and searchText != ''">and (car_cars.brandName like CONCAT('%',#{searchText},'%')
+					or car_cars.familyName like CONCAT('%',#{searchText},'%')
+					or car_cars.styleName like CONCAT('%',#{searchText},'%')
+					or car_cars.gearboxName like CONCAT('%',#{searchText},'%')
+					or car_cars.yearPattern like CONCAT('%',#{searchText},'%')
+					or car_cars.pl like CONCAT('%',#{searchText},'%'))
+				</if>
+				<!-- list查询 -->
+				<if test="ids != null">and car_cars.carId in
+                    <foreach item="item" index="index" collection="ids"
+                             open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+               <if test="1==1">and car_cars.isDelete = 0</if>																            
+			</trim>
+		</where>
+	</sql>
+
+
+	<!-- 查询总数 -->
+	<select id="selectCount" resultType="java.lang.Long"
+		parameterType="java.util.Map">
+		select count(carId) from car_cars
+		<include refid="Where_Condition" />
+	</select>
+	
+	<!-- 查询总数 -->
+	<select id="selectCountIndex" resultType="java.lang.Long"
+		parameterType="java.util.Map">
+		SELECT count(carId) from (select count(carId) AS carId from car_cars  WHERE car_cars.isDelete = 0  group by familyId) as p	
+	</select>
+
+	<!-- 查询 -->
+	<select id="select" resultMap="ResultMap" parameterType="java.util.Map">
+		select
+		<include refid="DB_Column_List" />
+		from car_cars
+		<include refid="Where_Condition" />
+		<if test="isfamilyIdgroup == true"> group by familyId</if>		
+		<if test="sortField != null"> order by sort desc </if>
+		<if test="isPage== true and offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+	</select>
+
+	<!-- 根据ID查询 -->
+	<select id="selectById" resultMap="ResultMap" parameterType="java.lang.Integer">
+		select
+		<include refid="DB_Column_List" />
+		from car_cars
+		where car_cars.carId = #{carId} and car_cars.isDelete = 0
+	</select>
+	<!-- 添加 -->
+	<insert id="insert" parameterType="main.com.car.dao.po.Cars" useGeneratedKeys="true" keyProperty="carId">
+		insert into car_cars
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="brandId != null"> brandId, </if>
+			<if test="brandCode != null"> brandCode, </if>
+			<if test="brandName != null"> brandName, </if>
+			<if test="brandInitial != null"> brandInitial, </if>
+			<if test="familyId != null"> familyId, </if>
+			<if test="pl != null"> pl, </if>
+			<if test="engineDesc != null"> engineDesc, </if>
+			<if test="engineModel != null"> engineModel, </if>
+			<if test="inairform != null"> inairform, </if>
+			<if test="driveStyle != null"> driveStyle, </if>
+			<if test="gearboxName != null"> gearboxName, </if>
+			<if test="supplyOil != null"> supplyOil, </if>
+			<if test="gearNum != null"> gearNum, </if>
+			<if test="wheelbase != null"> wheelbase, </if>
+			<if test="marketDate != null"> marketDate, </if>
+			<if test="yearPattern != null"> yearPattern, </if>
+			<if test="styleId != null"> styleId, </if>
+			<if test="styleName != null"> styleName, </if>
+			<if test="price != null"> price, </if>
+			<if test="seat != null"> seat, </if>
+			<if test="powerType != null"> powerType, </if>
+			<if test="emissionStandard != null"> emissionStandard, </if>
+			<if test="oilConsumption != null"> oilConsumption, </if>
+			<if test="introduce != null"> introduce, </if>
+			<if test="bareCarPrice != null"> bareCarPrice, </if>
+			<if test="comprehensivePrice != null"> comprehensivePrice, </if>
+			<if test="familyName != null"> familyName, </if>
+			<if test="vehicleName != null"> vehicleName, </if>
+			<if test="isDelete != null"> isDelete, </if>
+			<if test="indexImage != null"> indexImage, </if>
+			<if test="carName != null"> carName, </if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="brandId != null"> #{brandId}, </if>
+			<if test="brandCode != null"> #{brandCode}, </if>
+			<if test="brandName != null"> #{brandName}, </if>
+			<if test="brandInitial != null"> #{brandInitial}, </if>
+			<if test="familyId != null"> #{familyId}, </if>
+			<if test="pl != null"> #{pl}, </if>
+			<if test="engineDesc != null"> #{engineDesc}, </if>
+			<if test="engineModel != null"> #{engineModel}, </if>
+			<if test="inairform != null"> #{inairform}, </if>
+			<if test="driveStyle != null"> #{driveStyle}, </if>
+			<if test="gearboxName != null"> #{gearboxName}, </if>
+			<if test="supplyOil != null"> #{supplyOil}, </if>
+			<if test="gearNum != null"> #{gearNum}, </if>
+			<if test="wheelbase != null"> #{wheelbase}, </if>
+			<if test="marketDate != null"> #{marketDate}, </if>
+			<if test="yearPattern != null"> #{yearPattern}, </if>
+			<if test="styleId != null"> #{styleId}, </if>
+			<if test="styleName != null"> #{styleName}, </if>
+			<if test="price != null"> #{price}, </if>
+			<if test="seat != null"> #{seat}, </if>
+			<if test="powerType != null"> #{powerType}, </if>
+			<if test="emissionStandard != null"> #{emissionStandard}, </if>
+			<if test="oilConsumption != null"> #{oilConsumption}, </if>
+			<if test="introduce != null"> #{introduce}, </if>
+			<if test="bareCarPrice != null"> #{bareCarPrice}, </if>
+			<if test="comprehensivePrice != null"> #{comprehensivePrice}, </if>
+			<if test="familyName != null"> #{familyName}, </if>
+			<if test="vehicleName != null"> #{vehicleName}, </if>
+			<if test="isDelete != null"> #{isDelete}, </if>
+			<if test="indexImage != null"> #{indexImage}, </if>
+			<if test="carName != null"> #{carName}, </if>
+		</trim>
+	</insert>
+
+	<!-- 更新 -->
+	<update id="updateById" parameterType="main.com.car.dao.po.Cars">
+		update
+		car_cars
+		<set>
+			<if test="brandId != null"> brandId = #{brandId}, </if>
+			<if test="brandCode != null"> brandCode = #{brandCode}, </if>
+			<if test="brandName != null"> brandName = #{brandName}, </if>
+			<if test="brandInitial != null"> brandInitial = #{brandInitial}, </if>
+			<if test="familyId != null"> familyId = #{familyId}, </if>
+			<if test="pl != null"> pl = #{pl}, </if>
+			<if test="engineDesc != null"> engineDesc = #{engineDesc}, </if>
+			<if test="engineModel != null"> engineModel = #{engineModel}, </if>
+			<if test="inairform != null"> inairform = #{inairform}, </if>
+			<if test="driveStyle != null"> driveStyle = #{driveStyle}, </if>
+			<if test="gearboxName != null"> gearboxName = #{gearboxName}, </if>
+			<if test="supplyOil != null"> supplyOil = #{supplyOil}, </if>
+			<if test="gearNum != null"> gearNum = #{gearNum}, </if>
+			<if test="wheelbase != null"> wheelbase = #{wheelbase}, </if>
+			<if test="marketDate != null"> marketDate = #{marketDate}, </if>
+			<if test="yearPattern != null"> yearPattern = #{yearPattern}, </if>
+			<if test="styleId != null"> styleId = #{styleId}, </if>
+			<if test="styleName != null"> styleName = #{styleName}, </if>
+			<if test="price != null"> price = #{price}, </if>
+			<if test="seat != null"> seat = #{seat}, </if>
+			<if test="powerType != null"> powerType = #{powerType}, </if>
+			<if test="emissionStandard != null"> emissionStandard = #{emissionStandard}, </if>
+			<if test="oilConsumption != null"> oilConsumption = #{oilConsumption}, </if>
+			<if test="introduce != null"> introduce = #{introduce}, </if>
+			<if test="bareCarPrice != null"> bareCarPrice = #{bareCarPrice}, </if>
+			<if test="comprehensivePrice != null"> comprehensivePrice = #{comprehensivePrice}, </if>
+			<if test="familyName != null"> familyName = #{familyName}, </if>
+			<if test="vehicleName != null"> vehicleName = #{vehicleName}, </if>
+			<if test="isDelete != null"> isDelete = #{isDelete}, </if>
+			<if test="indexImage != null"> indexImage = #{indexImage}, </if>
+			<if test="carName != null"> carName = #{carName}, </if>
+		</set>
+		where carId = #{carId}
+	</update>
+	
+	
+	<!-- 批量更新 -->
+<!-- 	<update id="batchUpdate"  parameterType="java.util.List"> -->
+<!--           <foreach collection="list" item="item" index="index" open="" close="" separator=";"> -->
+<!--             update  -->
+<!-- 				car_cars  -->
+<!-- 			<set> -->
+<!-- 			<if test="item.dictionaryName != null">  dictionaryName = #{item.dictionaryName}, </if> -->
+<!-- 			<if test="item.dictionaryValue != null">  dictionaryValue = #{item.dictionaryValue}, </if> -->
+<!-- 			<if test="item.dictionaryGrouping != null">  dictionaryGrouping = #{item.dictionaryGrouping}, </if> -->
+<!-- 			<if test="item.dictionaryTile != null">  dictionaryTile = #{item.dictionaryTile}, </if> -->
+<!-- 			<if test="item.dictionaryContent != null">  dictionaryContent = #{item.dictionaryContent}, </if> -->
+<!-- 			<if test="item.dictionaryState != null">  dictionaryState = #{item.dictionaryState}, </if> -->
+<!-- 			<if test="item.dictionaryShopTypesId != null">  dictionaryShopTypesId = #{item.dictionaryShopTypesId}, </if> -->
+<!-- 			</set>  -->
+<!-- 			 where carId = #{item.carId}  -->
+<!--          </foreach> -->
+<!--     </update> -->
+    
+<!-- 	<update id="batchUpdateByOne"  parameterType="java.util.List"> -->
+<!--           <foreach collection="list" item="item" index="index" open="" close="" separator=";"> -->
+<!--             update  -->
+<!-- 				car_cars  -->
+<!-- 			<set> -->
+<!-- 			<if test="item.isDefault != null"> isDefault = #{item.isDefault}, </if> -->
+<!-- 			</set>  -->
+<!-- 			 where carId = #{item.carId}  -->
+<!--          </foreach> -->
+<!--     </update> -->
+
+	<!-- 根据ID删除 -->
+	<delete id="deleteById" parameterType="java.lang.Integer">
+		delete from car_cars
+		where
+		carId = #{carId}
+	</delete>
+
+	<!-- 删除 -->
+	<delete id="delete" parameterType="java.util.Map">
+		delete from car_cars
+		<include refid="Where_Condition" />
+	</delete>
+</mapper>

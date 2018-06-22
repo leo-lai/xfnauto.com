@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="main.com.system.dao.po.LogOperate">
+	<insert id="addOperateLog" parameterType="main.com.system.dao.po.LogOperate">
+		insert into
+			system_log_operate(logId,logDate,clientUrl,operUserId,operUserName,accessUrl,accessParams,operMethod,operDetail,ipAddress,logDes,operSessionId)
+		values
+			(#{logId},#{logDate},#{clientUrl},#{operUserId},#{operUserName},#{accessUrl},#{accessParams},#{operMethod},#{operDetail},#{ipAddress},#{logDes},#{operSessionId});
+	update system_log_operate,system_user set system_log_operate.operUserId=system_user.usersId,system_log_operate.operUserName=system_user.realName where system_log_operate.operSessionId=system_user.sessionId and system_log_operate.logId = #{logId};
+	</insert>
+</mapper>

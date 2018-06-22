@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="main.com.car.dao.po.CarInterior" >
+
+  <resultMap id="BaseResultMap" type="main.com.car.dao.vo.CarInteriorVo" >
+    <id column="interior_id" property="interiorId" jdbcType="INTEGER" />
+    <result column="interior_name" property="interiorName" jdbcType="VARCHAR" />
+    <result column="family_id" property="familyId" jdbcType="INTEGER" />
+    <result column="is_delete" property="isDelete" jdbcType="TINYINT" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    interior_id, interior_name, family_id, is_delete
+  </sql>
+  
+  <sql id="Where_Condition">
+		<where>
+			<trim prefixOverrides="and">
+				<!-- 匹配查询 -->
+				<if test="interiorId != null">and car_interior.interior_id = #{interior_id}</if>
+				<if test="familyId != null">and car_interior.family_id = #{familyId}</if>
+				<if test="1 == 1">and car_interior.is_delete = 0</if>
+				<if test="interiorName != null and interiorName != ''">and car_interior.interior_name = #{interiorName}</if>
+				<!-- list查询 -->
+				<if test="ids != null">and car_interior.interior_id in
+                    <foreach item="item" index="index" collection="ids"
+                             open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+			</trim>
+		</where>
+	</sql>
+
+
+	<!-- 查询总数 -->
+	<select id="selectCount" resultType="java.lang.Long"
+		parameterType="java.util.Map">
+		select count(interior_id) from car_interior
+		<include refid="Where_Condition" />
+	</select>
+
+	<!-- 查询 -->
+	<select id="select" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List" />
+		from car_interior
+		<include refid="Where_Condition" />
+		<if test="sortField != null"> order by interior_id desc </if>
+		<if test="isPage== true and offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+	</select>
+  
+  
+  <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from car_interior
+    where interior_id = #{interiorId,jdbcType=INTEGER} and car_interior.is_delete = 0
+  </select>
+  
+  <delete id="deleteById" parameterType="java.lang.Integer" >
+    delete from car_interior
+    where interior_id = #{interiorId,jdbcType=INTEGER}
+  </delete>
+  
+
+  <insert id="insert" parameterType="main.com.car.dao.po.CarInterior" useGeneratedKeys="true" keyProperty="interiorId" >
+    insert into car_interior
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="interiorName != null" >
+        interior_name,
+      </if>
+      <if test="familyId != null" >
+        family_id,
+      </if>
+      <if test="isDelete != null" >
+        is_delete,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="interiorName != null" >
+        #{interiorName,jdbcType=VARCHAR},
+      </if>
+      <if test="familyId != null" >
+        #{familyId,jdbcType=INTEGER},
+      </if>
+      <if test="isDelete != null" >
+        #{isDelete,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateById" parameterType="main.com.car.dao.po.CarInterior" >
+    update car_interior
+    <set >
+      <if test="interiorName != null" >
+        interior_name = #{interiorName,jdbcType=VARCHAR},
+      </if>
+      <if test="familyId != null" >
+        family_id = #{familyId,jdbcType=INTEGER},
+      </if>
+      <if test="isDelete != null" >
+        is_delete = #{isDelete,jdbcType=TINYINT},
+      </if>
+    </set>
+    where interior_id = #{interiorId,jdbcType=INTEGER}
+  </update>
+  
+
+
+
+</mapper>

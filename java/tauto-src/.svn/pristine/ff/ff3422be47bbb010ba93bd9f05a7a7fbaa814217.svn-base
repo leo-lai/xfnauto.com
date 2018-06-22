@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="main.com.logistics.dao.po.LogisticsDriver" >
+
+  <resultMap id="BaseResultMap" type="main.com.logistics.dao.vo.LogisticsDriverVo" >
+    <id column="driver_id" property="driverId" jdbcType="INTEGER" />
+    <result column="head_portrait" property="headPortrait" jdbcType="VARCHAR" />
+    <result column="real_name" property="realName" jdbcType="VARCHAR" />
+    <result column="phone_number" property="phoneNumber" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="over_enable" property="overEnable" jdbcType="TINYINT" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="session_id" property="sessionId" jdbcType="VARCHAR" />
+    <result column="org_id" property="orgId" jdbcType="INTEGER" />
+    <result column="org_name" property="orgName" jdbcType="VARCHAR" />
+    <result column="org_code" property="orgCode" jdbcType="VARCHAR" />
+    <result column="birthday" property="birthday" jdbcType="TIMESTAMP" />
+    <result column="card_no" property="cardNo" jdbcType="VARCHAR" />
+    <result column="entry_time" property="entryTime" jdbcType="TIMESTAMP" />
+    <result column="base_pay" property="basePay" jdbcType="DOUBLE" />
+    <result column="agent_gender" property="agentGender" jdbcType="INTEGER" />
+    <result column="nike_name" property="nikeName" jdbcType="VARCHAR" />
+    <result column="open_id" property="openId" jdbcType="VARCHAR" />
+    <result column="idcard_pic_on" property="idcardPicOn" jdbcType="VARCHAR" />
+    <result column="idcard_pic_off" property="idcardPicOff" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    driver_id, head_portrait, real_name, phone_number, password, over_enable, remark, 
+    status, session_id, org_id, org_name, org_code, birthday, card_no, entry_time, base_pay, 
+    agent_gender, nike_name, open_id, idcard_pic_on, idcard_pic_off, type
+  </sql>
+  
+   <sql id="Where_Condition">
+		<where>
+			<trim prefixOverrides="and">
+				<!-- 匹配查询 -->
+				<if test="status != null">and logistics_driver.status = #{status}</if>	
+				<if test="overEnable != null">and logistics_driver.over_enable = #{overEnable}</if>	
+				<if test="overEnable == null">and logistics_driver.over_enable = 1</if>	<!-- 是否启用  1启用 0禁用-->
+				<if test="driverId != null">and logistics_driver.driver_id = #{driverId}</if>	
+				<if test="realName != null and realName != ''">and logistics_driver.real_name like CONCAT('%',#{realName},'%')</if>	
+				<if test="phoneNumber != null and phoneNumber != ''">and logistics_driver.phone_number = #{phoneNumber}</if>	
+				<if test="driverSearch != null and driverSearch != ''">and (logistics_driver.phone_number like CONCAT('%',#{driverSearch},'%') or logistics_driver.real_name like CONCAT('%',#{driverSearch},'%'))</if>	
+				
+				<if test="orgCode != null and orgCode != null">and (logistics_driver.org_id IN (select orgId from system_organization where system_organization.orgCodeLevel like
+                    CONCAT('%',#{orgCode},'%')))
+                </if>
+
+				<!-- list查询 -->
+				<if test="ids != null">and logistics_driver.driver_id in
+                    <foreach item="item" index="index" collection="ids"
+                             open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+			</trim>
+		</where>
+	</sql>
+
+	<!-- 查询总数 -->
+	<select id="selectCount" resultType="java.lang.Long"
+		parameterType="java.util.Map">
+		select count(driver_id) from logistics_driver
+		<include refid="Where_Condition" />
+	</select>
+
+	<!-- 查询 -->
+	<select id="select" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List" />
+		from logistics_driver
+		<include refid="Where_Condition" />
+		<if test="sortField != null"> order by logistics_driver.driver_id desc </if>
+		<if test="isPage== true and offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+	</select>
+  
+  <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from logistics_driver
+    where driver_id = #{driverId,jdbcType=INTEGER}
+  </select>
+  
+  	<select id="selectByCode" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from logistics_driver where logistics_driver.session_id = #{sessionId}
+	</select>
+  
+  <delete id="deleteById" parameterType="java.lang.Integer" >
+    delete from logistics_driver
+    where driver_id = #{driverId,jdbcType=INTEGER}
+  </delete>
+  
+  <insert id="insert" parameterType="main.com.logistics.dao.po.LogisticsDriver" useGeneratedKeys="true" keyProperty="driverId" >
+    insert into logistics_driver
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="headPortrait != null" >
+        head_portrait,
+      </if>
+      <if test="realName != null" >
+        real_name,
+      </if>
+      <if test="phoneNumber != null" >
+        phone_number,
+      </if>
+      <if test="password != null" >
+        password,
+      </if>
+      <if test="overEnable != null" >
+        over_enable,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="sessionId != null" >
+        session_id,
+      </if>
+      <if test="orgId != null" >
+        org_id,
+      </if>
+      <if test="orgName != null" >
+        org_name,
+      </if>
+      <if test="orgCode != null" >
+        org_code,
+      </if>
+      <if test="birthday != null" >
+        birthday,
+      </if>
+      <if test="cardNo != null" >
+        card_no,
+      </if>
+      <if test="entryTime != null" >
+        entry_time,
+      </if>
+      <if test="basePay != null" >
+        base_pay,
+      </if>
+      <if test="agentGender != null" >
+        agent_gender,
+      </if>
+      <if test="nikeName != null" >
+        nike_name,
+      </if>
+      <if test="openId != null" >
+        open_id,
+      </if>
+      <if test="idcardPicOn != null" >
+        idcard_pic_on,
+      </if>
+      <if test="idcardPicOff != null" >
+        idcard_pic_off,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="headPortrait != null" >
+        #{headPortrait,jdbcType=VARCHAR},
+      </if>
+      <if test="realName != null" >
+        #{realName,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneNumber != null" >
+        #{phoneNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="overEnable != null" >
+        #{overEnable,jdbcType=TINYINT},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="sessionId != null" >
+        #{sessionId,jdbcType=VARCHAR},
+      </if>
+      <if test="orgId != null" >
+        #{orgId,jdbcType=INTEGER},
+      </if>
+      <if test="orgName != null" >
+        #{orgName,jdbcType=VARCHAR},
+      </if>
+      <if test="orgCode != null" >
+        #{orgCode,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null" >
+        #{birthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cardNo != null" >
+        #{cardNo,jdbcType=VARCHAR},
+      </if>
+      <if test="entryTime != null" >
+        #{entryTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="basePay != null" >
+        #{basePay,jdbcType=DOUBLE},
+      </if>
+      <if test="agentGender != null" >
+        #{agentGender,jdbcType=INTEGER},
+      </if>
+      <if test="nikeName != null" >
+        #{nikeName,jdbcType=VARCHAR},
+      </if>
+      <if test="openId != null" >
+        #{openId,jdbcType=VARCHAR},
+      </if>
+      <if test="idcardPicOn != null" >
+        #{idcardPicOn,jdbcType=VARCHAR},
+      </if>
+      <if test="idcardPicOff != null" >
+        #{idcardPicOff,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateById" parameterType="main.com.logistics.dao.po.LogisticsDriver" >
+    update logistics_driver
+    <set >
+      <if test="headPortrait != null" >
+        head_portrait = #{headPortrait,jdbcType=VARCHAR},
+      </if>
+      <if test="realName != null" >
+        real_name = #{realName,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneNumber != null" >
+        phone_number = #{phoneNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="overEnable != null" >
+        over_enable = #{overEnable,jdbcType=TINYINT},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="sessionId != null" >
+        session_id = #{sessionId,jdbcType=VARCHAR},
+      </if>
+      <if test="orgId != null" >
+        org_id = #{orgId,jdbcType=INTEGER},
+      </if>
+      <if test="orgName != null" >
+        org_name = #{orgName,jdbcType=VARCHAR},
+      </if>
+      <if test="orgCode != null" >
+        org_code = #{orgCode,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null" >
+        birthday = #{birthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cardNo != null" >
+        card_no = #{cardNo,jdbcType=VARCHAR},
+      </if>
+      <if test="entryTime != null" >
+        entry_time = #{entryTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="basePay != null" >
+        base_pay = #{basePay,jdbcType=DOUBLE},
+      </if>
+      <if test="agentGender != null" >
+        agent_gender = #{agentGender,jdbcType=INTEGER},
+      </if>
+      <if test="nikeName != null" >
+        nike_name = #{nikeName,jdbcType=VARCHAR},
+      </if>
+      <if test="openId != null" >
+        open_id = #{openId,jdbcType=VARCHAR},
+      </if>
+      <if test="idcardPicOn != null" >
+        idcard_pic_on = #{idcardPicOn,jdbcType=VARCHAR},
+      </if>
+      <if test="idcardPicOff != null" >
+        idcard_pic_off = #{idcardPicOff,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=INTEGER},
+      </if>
+    </set>
+    where driver_id = #{driverId,jdbcType=INTEGER}
+  </update>
+</mapper>

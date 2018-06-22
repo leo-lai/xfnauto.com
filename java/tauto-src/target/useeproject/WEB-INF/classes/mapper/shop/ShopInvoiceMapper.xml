@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="main.com.weixinshop.dao.po.ShopInvoice">
+	<!-- <cache type="org.mybatis.caches.ehcache.LoggingEhcache" readOnly="true" 
+		/> -->
+
+	<resultMap id="ResultMap" type="main.com.weixinshop.dao.vo.ShopInvoiceVo">
+		<id column="invoiceId" property="invoiceId" jdbcType="INTEGER" />
+		<result column="userId" property="userId" jdbcType="INTEGER" />
+		<result column="unitName" property="unitName" jdbcType="VARCHAR" />
+		<result column="taxpayeRCode" property="taxpayeRCode" jdbcType="VARCHAR" />
+		<result column="registeredPhone" property="registeredPhone" jdbcType="VARCHAR" />
+		<result column="OpenBankAccount" property="OpenBankAccount" jdbcType="VARCHAR" />
+		<result column="bankAccount" property="bankAccount" jdbcType="VARCHAR" />
+		<result column="invoiceName" property="invoiceName" jdbcType="VARCHAR" />
+		<result column="invoicePhone" property="invoicePhone" jdbcType="VARCHAR" />
+		<result column="locationArea" property="locationArea" jdbcType="VARCHAR" />
+		<result column="detailedAddress" property="detailedAddress" jdbcType="VARCHAR" />
+
+		</resultMap>
+
+	<sql id="DB_Column_List">
+		shop_invoiceid.unitName,
+		shop_invoiceid.invoiceId,
+		shop_invoiceid.userId,
+		shop_invoiceid.taxpayeRCode,
+		shop_invoiceid.registeredAddress,
+		shop_invoiceid.registeredPhone,
+		shop_invoiceid.OpenBankAccount,
+		shop_invoiceid.bankAccount,
+		shop_invoiceid.invoiceName,
+		shop_invoiceid.invoicePhone,
+		shop_invoiceid.locationArea,
+		shop_invoiceid.detailedAddress
+	</sql>
+
+	<sql id="Where_Condition">
+		<where>
+			<trim prefixOverrides="and">
+				<!-- 匹配查询 -->
+				<if test="invoiceId != null"> and shop_invoiceid.invoiceId = #{invoiceId} </if>
+				<if test="userId != null"> and shop_invoiceid.userId = #{userId} </if>				
+				<!-- 模糊查询 -->
+			</trim>
+		</where>
+	</sql>
+
+
+	<!-- 查询总数 -->
+	<select id="selectCount" resultType="java.lang.Long"
+		parameterType="java.util.Map">
+		select count(invoiceId) from shop_invoiceid
+		<include refid="Where_Condition" />
+	</select>
+
+	<!-- 查询 -->
+	<select id="select" resultMap="ResultMap" parameterType="java.util.Map">
+		select
+		<include refid="DB_Column_List" />
+		from shop_invoiceid
+		<include refid="Where_Condition" />
+	</select>
+
+	<!-- 根据ID查询 -->
+	<select id="selectById" resultMap="ResultMap" parameterType="java.lang.Integer">
+		select
+		<include refid="DB_Column_List" />
+		from shop_invoiceid
+		where shop_invoiceid.invoiceId = #{invoiceId}
+	</select>
+	<!-- 添加 -->
+	<insert id="insert" parameterType="main.com.weixinshop.dao.po.ShopInvoice" useGeneratedKeys="true" keyProperty="invoiceId">
+		insert into shop_invoiceid
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="unitName != null"> unitName, </if>
+			<if test="userId != null"> userId, </if>
+			<if test="taxpayeRCode != null"> taxpayeRCode, </if>
+			<if test="registeredAddress != null"> registeredAddress, </if>
+			<if test="registeredPhone != null"> registeredPhone, </if>
+			<if test="OpenBankAccount != null"> OpenBankAccount, </if>
+			<if test="bankAccount != null"> bankAccount, </if>
+			<if test="invoiceName != null"> invoiceName, </if>
+			<if test="invoicePhone != null"> invoicePhone, </if>
+			<if test="locationArea != null"> locationArea, </if>
+			<if test="detailedAddress != null"> detailedAddress, </if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="unitName != null">  #{unitName}, </if>
+			<if test="userId != null">  #{userId}, </if>
+			<if test="taxpayeRCode != null">  #{taxpayeRCode}, </if>
+			<if test="registeredAddress != null">  #{registeredAddress}, </if>
+			<if test="registeredPhone != null">  #{registeredPhone}, </if>
+			<if test="OpenBankAccount != null">  #{OpenBankAccount}, </if>
+			<if test="bankAccount != null">  #{bankAccount}, </if>
+			<if test="invoiceName != null">  #{invoiceName}, </if>
+			<if test="invoicePhone != null">  #{invoicePhone}, </if>
+			<if test="locationArea != null">  #{locationArea}, </if>
+			<if test="detailedAddress != null">  #{detailedAddress}, </if>
+		</trim>
+	</insert>
+
+	<!-- 更新 -->
+	<update id="updateById" parameterType="main.com.weixinshop.dao.po.ShopInvoice">
+		update
+		shop_invoiceid
+		<set>
+			<if test="unitName != null">  unitName = #{unitName}, </if>
+			<if test="userId != null">  userId = #{userId}, </if>
+			<if test="taxpayeRCode != null">  taxpayeRCode = #{taxpayeRCode}, </if>
+			<if test="registeredAddress != null">  registeredAddress = #{registeredAddress}, </if>
+			<if test="registeredPhone != null">  registeredPhone = #{registeredPhone}, </if>
+			<if test="OpenBankAccount != null">  OpenBankAccount = #{OpenBankAccount}, </if>
+			<if test="bankAccount != null">  bankAccount = #{bankAccount}, </if>
+			<if test="invoiceName != null">  invoiceName = #{invoiceName}, </if>
+			<if test="invoicePhone != null"> invoicePhone  = #{invoicePhone}, </if>
+			<if test="locationArea != null">  locationArea = #{locationArea}, </if>
+			<if test="detailedAddress != null"> detailedAddress =  #{detailedAddress}, </if>
+		</set>
+		where invoiceId = #{invoiceId}
+	</update>
+	
+	
+	<!-- 批量更新 -->
+	<update id="batchUpdate"  parameterType="java.util.List">
+          <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            update 
+				shop_invoiceid 
+			<set>
+			<if test="item.unitName != null">  unitName = #{item.unitName}, </if>
+			<if test="item.userId != null">  userId = #{item.userId}, </if>
+			<if test="item.taxpayeRCode != null">  taxpayeRCode = #{item.taxpayeRCode}, </if>
+			<if test="item.registeredAddress != null">  registeredAddress = #{item.registeredAddress}, </if>
+			<if test="item.registeredPhone != null">  registeredPhone = #{item.registeredPhone}, </if>
+			<if test="item.OpenBankAccount != null">  OpenBankAccount = #{item.OpenBankAccount}, </if>
+			<if test="item.bankAccount != null">  bankAccount = #{item.bankAccount}, </if>
+			<if test="item.invoiceName != null">  invoiceName = #{item.invoiceName}, </if>
+			<if test="item.invoicePhone != null"> invoicePhone  = #{item.invoicePhone}, </if>
+			<if test="item.locationArea != null">  locationArea = #{item.locationArea}, </if>
+			<if test="item.detailedAddress != null"> detailedAddress =  #{item.detailedAddress}, </if>
+			</set> 
+			 where invoiceId = #{item.invoiceId} 
+         </foreach>
+    </update>
+
+	<!-- 根据ID删除 -->
+	<delete id="deleteById" parameterType="java.lang.Integer">
+		delete from shop_invoiceid
+		where
+		invoiceId = #{invoiceId}
+	</delete>
+
+	<!-- 删除 -->
+	<delete id="delete" parameterType="java.util.Map">
+		delete from shop_invoiceid
+		<include refid="Where_Condition" />
+	</delete>
+</mapper>

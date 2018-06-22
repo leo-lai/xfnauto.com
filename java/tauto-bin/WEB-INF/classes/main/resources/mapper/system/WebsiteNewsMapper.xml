@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="main.com.system.dao.po.WebsiteNews">
+	<!-- <cache type="org.mybatis.caches.ehcache.LoggingEhcache" readOnly="true" 
+		/> -->
+
+	<resultMap id="ResultMap" type="main.com.system.dao.vo.WebsiteNewsVo">
+		<id column="newsId" property="newsId" jdbcType="INTEGER" />
+		<result column="newsTitle" property="newsTitle" jdbcType="VARCHAR" />
+		<result column="newsDescribe" property="newsDescribe" jdbcType="VARCHAR" />
+		<result column="newsContent" property="newsContent" jdbcType="VARCHAR" />
+		<result column="newsMinImage" property="newsMinImage" jdbcType="VARCHAR" />
+		<result column="createDate" property="createDate" jdbcType="TIMESTAMP" />
+		<result column="systemUsersId" property="systemUsersId" jdbcType="INTEGER" />
+		<result column="systemUsersName" property="systemUsersName" jdbcType="VARCHAR" />
+		<result column="isDelete" property="isDelete" jdbcType="TINYINT" />
+		<result column="published" property="published" jdbcType="TIMESTAMP" />
+		<result column="updateDate" property="updateDate" jdbcType="TIMESTAMP" />
+		<result column="remarks" property="remarks" jdbcType="VARCHAR" />
+		<result column="newsType" property="newsType" jdbcType="INTEGER" />
+		<result column="isShare" property="isShare" jdbcType="TINYINT" />
+		
+	</resultMap>
+
+	<sql id="DB_Column_List">
+		system_websitenews.newsId,
+		system_websitenews.newsTitle,
+		system_websitenews.newsDescribe,
+		system_websitenews.newsContent,
+		system_websitenews.newsMinImage,
+		system_websitenews.createDate,
+		system_websitenews.isDelete,
+		system_websitenews.systemUsersId,
+		system_websitenews.systemUsersName,
+		system_websitenews.published,
+		system_websitenews.updateDate,
+		system_websitenews.remarks,
+		system_websitenews.newsType,
+		system_websitenews.isShare
+	</sql>
+
+	<sql id="Where_Condition">
+		<where>
+			<trim prefixOverrides="and">
+				<!-- 匹配查询 -->
+				<if test="newsId != null"> and system_websitenews.newsId = #{newsId} </if>
+				<if test="newsType != null"> and system_websitenews.newsType = #{newsType} </if>
+				<if test="isShare != null"> and system_websitenews.isShare = 1 </if>
+				<if test="isDelete != null"> and system_websitenews.isDelete = #{isDelete} </if>
+				<if test="newsTitle != null and newsTitle != ''"> and system_websitenews.newsTitle like CONCAT('%',#{newsTitle},'%') </if>
+				<if test="newsContent != null and newsContent != ''"> and system_websitenews.newsContent like CONCAT('%',#{newsContent},'%') </if>
+				<if test="newsDescribe != null"> and system_websitenews.newsDescribe like CONCAT('%',#{newsDescribe},'%') </if>
+				<if test="startDate != null and startDate != ''">and DATE_FORMAT(system_websitenews.createDate ,'%Y-%m-%d') &gt;= DATE_FORMAT(#{startDate}, '%Y-%m-%d')</if>
+				<if test="finishDate != null and finishDate != ''">and DATE_FORMAT(system_websitenews.createDate ,'%Y-%m-%d') &lt;= DATE_FORMAT(#{finishDate}, '%Y-%m-%d')</if>				
+				
+				<if test="startDate_push != null and startDate_push != ''">and DATE_FORMAT(system_websitenews.published ,'%Y-%m-%d') &gt;= DATE_FORMAT(#{startDate_push}, '%Y-%m-%d')</if>
+				<if test="finishDate_push != null and finishDate_push != ''">and DATE_FORMAT(system_websitenews.published ,'%Y-%m-%d') &lt;= DATE_FORMAT(#{finishDate_push}, '%Y-%m-%d')</if>				
+				
+				<!-- 模糊查询 -->
+			</trim>
+		</where>
+	</sql>
+
+
+	<!-- 查询总数 -->
+	<select id="selectCount" resultType="java.lang.Long"
+		parameterType="java.util.Map">
+		select count(newsId) from system_websitenews
+		<include refid="Where_Condition" />
+	</select>
+
+
+	<!-- 查询 -->
+	<select id="select" resultMap="ResultMap" parameterType="java.util.Map">
+		select
+		<include refid="DB_Column_List" />
+		from system_websitenews
+		<include refid="Where_Condition" />
+		<if test="sortField != null">order by system_websitenews.createDate desc </if>
+		<if test="isPage== true and offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+	</select>
+
+	<!-- 根据ID查询 -->
+	<select id="selectById" resultMap="ResultMap" parameterType="java.lang.Integer">
+		select
+		<include refid="DB_Column_List" />
+		from system_websitenews
+		where newsId = #{newsId}
+	</select>
+	
+	<!-- 添加 -->
+	<insert id="insert" parameterType="main.com.system.dao.po.WebsiteNews">
+		insert into system_websitenews
+		<trim prefix="(" suffix=")" suffixOverrides="," >
+		  <if test="newsTitle != null" > newsTitle, </if>
+		  <if test="newsDescribe != null" > newsDescribe, </if>
+		  <if test="newsContent != null" > newsContent, </if>
+		  <if test="newsMinImage != null" > newsMinImage, </if>
+		  <if test="createDate != null" > createDate, </if>
+		  <if test="isDelete != null" > isDelete, </if>
+		  <if test="systemUsersId != null" > systemUsersId, </if>
+		  <if test="systemUsersName != null" > systemUsersName, </if>
+		  <if test="published != null" > published, </if>
+		  <if test="updateDate != null" > updateDate, </if>
+		  <if test="remarks != null" > remarks, </if>
+		  <if test="newsType != null" > newsType, </if>
+		  <if test="isShare != null" > isShare, </if>
+		</trim>
+        <trim prefix="values (" suffix=")" suffixOverrides="," >
+          <if test="newsTitle != null" > #{newsTitle}, </if>
+		  <if test="newsDescribe != null" > #{newsDescribe}, </if>
+		  <if test="newsContent != null" > #{newsContent}, </if>
+		  <if test="newsMinImage != null" > #{newsMinImage}, </if>
+		  <if test="createDate != null" > #{createDate}, </if>
+		  <if test="isDelete != null" > #{isDelete}, </if>
+		  <if test="systemUsersId != null" > #{systemUsersId}, </if>
+		  <if test="systemUsersName != null" > #{systemUsersName}, </if>
+		  <if test="published != null" > #{published}, </if>
+		  <if test="updateDate != null" > #{updateDate}, </if>
+		  <if test="remarks != null" > #{remarks}, </if>
+		  <if test="newsType != null" > #{newsType}, </if>
+		  <if test="isShare != null" > #{isShare}, </if>
+        </trim>
+	</insert>
+	
+	<!-- 更新 -->
+	<update id="updateById" parameterType="main.com.system.dao.po.Menu">
+		update 
+			system_websitenews 
+		<set>
+		  <if test="newsTitle != null" > newsTitle = #{newsTitle}, </if>
+		  <if test="newsDescribe != null" > newsDescribe = #{newsDescribe}, </if>
+		  <if test="newsContent != null" > newsContent = #{newsContent}, </if>
+		  <if test="newsMinImage != null" > newsMinImage = #{newsMinImage}, </if>
+		  <if test="createDate != null" > createDate = #{createDate}, </if>
+		  <if test="isDelete != null" > isDelete = #{isDelete}, </if>
+		  <if test="systemUsersId != null" > systemUsersId = #{systemUsersId}, </if>
+		  <if test="systemUsersName != null" > systemUsersName = #{systemUsersName}, </if>
+		  <if test="published != null" > published = #{published}, </if>
+		  <if test="updateDate != null" > updateDate = #{updateDate}, </if>
+		  <if test="remarks != null" > remarks = #{remarks}, </if>
+		  <if test="newsType != null" > newsType = #{newsType}, </if>
+		  <if test="isShare != null" > isShare = #{isShare}, </if>
+		</set>
+		 where newsId = #{newsId} 
+	</update>
+	
+	<!-- 根据ID删除 -->
+	<delete id="deleteById" parameterType="java.lang.Integer">
+		delete from system_websitenews
+		where newsId = #{newsId}
+	</delete>
+</mapper>

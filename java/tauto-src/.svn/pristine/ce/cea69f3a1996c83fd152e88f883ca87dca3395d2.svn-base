@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="main.com.weixinHtml.dao.po.ShopUsers" >
+
+  <resultMap id="BaseResultMap" type="main.com.weixinHtml.dao.vo.ShopUsersVo" >
+    <id column="shop_user_id" property="shopUserId" jdbcType="INTEGER" />
+    <result column="head_portrait" property="headPortrait" jdbcType="VARCHAR" />
+    <result column="real_name" property="realName" jdbcType="VARCHAR" />
+    <result column="phone_number" property="phoneNumber" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="over_enable" property="overEnable" jdbcType="TINYINT" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="user_type" property="userType" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="session_id" property="sessionId" jdbcType="VARCHAR" />
+    <result column="birthday" property="birthday" jdbcType="TIMESTAMP" />
+    <result column="card_no" property="cardNo" jdbcType="VARCHAR" />
+    <result column="agent_gender" property="agentGender" jdbcType="INTEGER" />
+    <result column="nike_name" property="nikeName" jdbcType="VARCHAR" />
+    <result column="open_id" property="openId" jdbcType="VARCHAR" />
+    <result column="union_id" property="unionId" jdbcType="VARCHAR" />
+    <result column="over_push" property="overPush" jdbcType="TINYINT" />
+    <result column="over_follow" property="overFollow" jdbcType="TINYINT" />
+    <result column="user_code" property="userCode" jdbcType="VARCHAR" />
+    <result column="org_id" property="orgId" jdbcType="INTEGER" />
+    <result column="org_name" property="orgName" jdbcType="VARCHAR" />
+  </resultMap>
+  
+   <sql id="Where_Condition">
+		<where>
+			<trim prefixOverrides="and">
+				<!-- 匹配查询 -->
+				<if test="phoneNumber != null and phoneNumber != ''">and shop_user.phone_number = #{phoneNumber}</if>				
+				<if test="orgId != null">and shop_user.org_id = #{orgId}</if>				
+				<if test="status != null">and shop_user.status = #{status}</if>				
+				<if test="status == null">and shop_user.status = 1</if>				
+                
+				<!-- list查询 -->
+				<if test="ids != null">and shop_user.shop_user_id in
+                    <foreach item="item" index="index" collection="ids"
+                             open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+			</trim>
+		</where>
+	</sql>
+
+	<!-- 查询总数 -->
+	<select id="selectCount" resultType="java.lang.Long"
+		parameterType="java.util.Map">
+		select count(shop_user_id) from shop_user
+		<include refid="Where_Condition" />
+	</select>
+
+	<!-- 查询 -->
+	<select id="select" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select
+		shop_user.*
+		from shop_user
+		<include refid="Where_Condition" />
+		<if test="sortField != null"> order by shop_user.create_date desc</if><!-- asc -->
+		<if test="isPage== true and offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+	</select>
+  
+  <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+   shop_user.*
+		from shop_user
+    where shop_user.shop_user_id = #{shopUserId,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectByCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+   		shop_user.*
+		from shop_user
+    where shop_user.session_id = #{code}
+  </select>
+  
+  <select id="selectByUserCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+   		shop_user.*
+		from shop_user
+    where shop_user.user_code = #{code}
+  </select>
+  
+  <delete id="deleteById" parameterType="java.lang.Integer" >
+    delete from shop_user
+    where shop_user_id = #{shopUserId,jdbcType=INTEGER}
+  </delete>
+  
+  <insert id="insert" parameterType="main.com.weixinHtml.dao.po.ShopUsers" useGeneratedKeys="true" keyProperty="shopUserId" >
+    insert into shop_user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="headPortrait != null" >
+        head_portrait,
+      </if>
+      <if test="realName != null" >
+        real_name,
+      </if>
+      <if test="phoneNumber != null" >
+        phone_number,
+      </if>
+      <if test="email != null" >
+        email,
+      </if>
+      <if test="password != null" >
+        password,
+      </if>
+      <if test="overEnable != null" >
+        over_enable,
+      </if>
+      <if test="remarks != null" >
+        remarks,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="sessionId != null" >
+        session_id,
+      </if>
+      <if test="birthday != null" >
+        birthday,
+      </if>
+      <if test="cardNo != null" >
+        card_no,
+      </if>
+      <if test="agentGender != null" >
+        agent_gender,
+      </if>
+      <if test="nikeName != null" >
+        nike_name,
+      </if>
+      <if test="openId != null" >
+        open_id,
+      </if>
+      <if test="unionId != null" >
+        union_id,
+      </if>
+      <if test="overPush != null" >
+        over_push,
+      </if>
+      <if test="overFollow != null" >
+        over_follow,
+      </if>
+      <if test="userCode != null" >
+        user_code,
+      </if>
+      <if test="userType != null" >
+        user_type,
+      </if>
+      <if test="orgId != null" >
+        org_id,
+      </if>
+      <if test="orgName != null" >
+        org_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="headPortrait != null" >
+        #{headPortrait,jdbcType=VARCHAR},
+      </if>
+      <if test="realName != null" >
+        #{realName,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneNumber != null" >
+        #{phoneNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="overEnable != null" >
+        #{overEnable,jdbcType=TINYINT},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sessionId != null" >
+        #{sessionId,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null" >
+        #{birthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cardNo != null" >
+        #{cardNo,jdbcType=VARCHAR},
+      </if>
+      <if test="agentGender != null" >
+        #{agentGender,jdbcType=INTEGER},
+      </if>
+      <if test="nikeName != null" >
+        #{nikeName,jdbcType=VARCHAR},
+      </if>
+      <if test="openId != null" >
+        #{openId,jdbcType=VARCHAR},
+      </if>
+      <if test="unionId != null" >
+        #{unionId,jdbcType=VARCHAR},
+      </if>
+      <if test="overPush != null" >
+        #{overPush},
+      </if>
+      <if test="overFollow != null" >
+        #{overFollow},
+      </if>
+      <if test="userCode != null" >
+        #{userCode},
+      </if>
+      <if test="userType != null" >
+        #{userType},
+      </if>
+      <if test="orgId != null" >
+        #{orgId},
+      </if>
+      <if test="orgName != null" >
+       #{orgName},
+      </if>
+    </trim>
+  </insert>
+  
+  <!-- 废代码 -->
+<!--   <update id="updateList" parameterType="java.util.List" statementType="STATEMENT">   -->
+<!--      <foreach collection="list" item="item" index="index" open="begin" close="end;" separator="" >   -->
+<!--         update${item.DTABLE} set   -->
+<!--               ${item.content}   -->
+<!--            where column=${item.field};   -->
+<!--      </foreach>   -->
+<!--    </update>   -->
+  
+  <update id="updateById" parameterType="main.com.weixinHtml.dao.po.ShopUsers" >
+    update shop_user
+    <set >
+      <if test="headPortrait != null" >
+        head_portrait = #{headPortrait,jdbcType=VARCHAR},
+      </if>
+      <if test="realName != null" >
+        real_name = #{realName,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneNumber != null" >
+        phone_number = #{phoneNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="overEnable != null" >
+        over_enable = #{overEnable,jdbcType=TINYINT},
+      </if>
+      <if test="remarks != null" >
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="sessionId != null" >
+        session_id = #{sessionId,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null" >
+        birthday = #{birthday,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cardNo != null" >
+        card_no = #{cardNo,jdbcType=VARCHAR},
+      </if>
+      <if test="agentGender != null" >
+        agent_gender = #{agentGender,jdbcType=INTEGER},
+      </if>
+      <if test="nikeName != null" >
+        nike_name = #{nikeName,jdbcType=VARCHAR},
+      </if>
+      <if test="openId != null" >
+        open_id = #{openId,jdbcType=VARCHAR},
+      </if>
+      <if test="unionId != null" >
+        union_id = #{unionId,jdbcType=VARCHAR},
+      </if>
+      <if test="overPush != null" >
+        over_push = #{overPush},
+      </if>
+      <if test="overFollow != null" >
+        over_follow = #{overFollow},
+      </if>
+      <if test="userCode != null" >
+        user_code = #{userCode},
+      </if>
+      <if test="userType != null" >
+        user_type = #{userType},
+      </if>
+       <if test="orgId != null" >
+        org_id = #{orgId},
+      </if>
+      <if test="orgName != null" >
+       org_name = #{orgName},
+      </if>
+    </set>
+    where shop_user_id = #{shopUserId,jdbcType=INTEGER}
+  </update>
+
+</mapper>

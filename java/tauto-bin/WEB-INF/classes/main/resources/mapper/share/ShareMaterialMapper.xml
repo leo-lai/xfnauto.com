@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="main.com.weixinHtml.dao.po.ShareMaterial" >
+
+  <resultMap id="BaseResultMap" type="main.com.weixinHtml.dao.vo.ShareMaterialVo" >
+    <id column="material_id" property="materialId" jdbcType="INTEGER" />
+    <result column="material_name" property="materialName" jdbcType="VARCHAR" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+    <result column="image" property="image" jdbcType="VARCHAR" />
+    <result column="system_user_id" property="systemUserId" jdbcType="INTEGER" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="over_shelf" property="overShelf" jdbcType="TINYINT" />
+    <result column="on_shelf_date" property="onShelfDate" jdbcType="TIMESTAMP" />
+    <result column="over_delete" property="overDelete" jdbcType="TINYINT" />
+    <result column="read_number" property="readNumber" jdbcType="INTEGER" />
+    <result column="over_share" property="overShare" jdbcType="TINYINT" />
+  </resultMap>
+  
+  <resultMap id="BaseResultMapJoin" type="main.com.weixinHtml.dao.vo.ShareMaterialVo" >
+    <id column="material_id" property="materialId" jdbcType="INTEGER" />
+    <result column="material_name" property="materialName" jdbcType="VARCHAR" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+    <result column="image" property="image" jdbcType="VARCHAR" />
+    <result column="system_user_id" property="systemUserId" jdbcType="INTEGER" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="over_shelf" property="overShelf" jdbcType="TINYINT" />
+    <result column="on_shelf_date" property="onShelfDate" jdbcType="TIMESTAMP" />
+    <result column="over_delete" property="overDelete" jdbcType="TINYINT" />
+    <result column="read_number" property="readNumber" jdbcType="INTEGER" />
+    <result column="over_share" property="overShare" jdbcType="TINYINT" />
+    <association property="systemUsersVo" column="system_user_id" select="getSystemUser"></association>
+  </resultMap>
+  
+   <resultMap id="systemUsers" type="main.com.system.dao.vo.SystemUsersVo">
+		<id column="usersId" property="usersId" jdbcType="INTEGER" />
+		<result column="headPortrait" property="headPortrait" jdbcType="VARCHAR" />
+		<result column="realName" property="realName" jdbcType="VARCHAR" />
+		<result column="phoneNumber" property="phoneNumber" jdbcType="VARCHAR" />
+		</resultMap>
+		
+			<!-- 根据ID查询 -->
+	<select id="getSystemUser" resultMap="systemUsers" parameterType="java.lang.Integer">
+		select
+		system_user.headPortrait,system_user.realName,system_user.phoneNumber
+		from system_user where system_user.usersId = #{system_user_id}
+	</select>
+
+ <sql id="Where_Condition">
+		<where>
+			<trim prefixOverrides="and">
+				<!-- 匹配查询 -->
+				<if test="materialId != null">and share_material.material_id = #{materialId}</if>
+				<if test="keywords != null and keywords != ''">and share_material.material_name like CONCAT('%',#{keywords},'%')</if>				
+				<if test="systemUserId != null">and share_material.system_user_id = #{systemUserId}</if>				
+				<if test="overDelete == null">and share_material.over_delete = 0</if>				
+				<if test="overShare != null">and share_material.over_share = #{overShare}</if>				
+				<if test="overShelf != null">and share_material.over_shelf = #{overShelf}</if>				
+                
+				<!-- list查询 -->
+				<if test="ids != null">and share_material.material_id in
+                    <foreach item="item" index="index" collection="ids"
+                             open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+			</trim>
+		</where>
+	</sql>
+
+	<!-- 查询总数 -->
+	<select id="selectCount" resultType="java.lang.Long"
+		parameterType="java.util.Map">
+		select count(material_id) from share_material
+		<include refid="Where_Condition" />
+	</select>
+
+	<!-- 查询 -->
+	<select id="select" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select 
+    		share_material.*
+    	from share_material
+		<include refid="Where_Condition" />
+		<if test="sortField != null"> order by share_material.create_date desc </if>
+		<if test="isPage== true and offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+	</select>
+
+  <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+   share_material.*
+    from share_material
+    where material_id = #{materialId,jdbcType=INTEGER}
+  </select>
+  
+	<!-- 查询 -->
+	<select id="selectJoin" resultMap="BaseResultMapJoin" parameterType="java.util.Map">
+		select 
+    		share_material.*
+    	from share_material
+		<include refid="Where_Condition" />
+		<if test="sortField != null"> order by share_material.create_date desc </if>
+		<if test="isPage== true and offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+	</select>
+
+  <select id="selectByIdJoin" resultMap="BaseResultMapJoin" parameterType="java.lang.Integer" >
+    select 
+   share_material.*
+    from share_material
+    where material_id = #{materialId,jdbcType=INTEGER}
+  </select>
+  
+  <delete id="deleteById" parameterType="java.lang.Integer" >
+    delete from share_material
+    where material_id = #{materialId,jdbcType=INTEGER}
+  </delete>
+  
+  <insert id="insert" parameterType="main.com.weixinHtml.dao.po.ShareMaterial" useGeneratedKeys="true" keyProperty="materialId" >
+    insert into share_material
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="materialName != null" >
+        material_name,
+      </if>
+      <if test="remarks != null" >
+        remarks,
+      </if>
+      <if test="image != null" >
+        image,
+      </if>
+      <if test="systemUserId != null" >
+        system_user_id,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="overShelf != null" >
+        over_shelf,
+      </if>
+      <if test="onShelfDate != null" >
+        on_shelf_date,
+      </if>
+      <if test="overDelete != null" >
+        over_delete,
+      </if>
+      <if test="readNumber != null" >
+        read_number,
+      </if>
+      <if test="overShare != null" >
+        over_share,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="materialName != null" >
+        #{materialName,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="image != null" >
+        #{image,jdbcType=VARCHAR},
+      </if>
+      <if test="systemUserId != null" >
+        #{systemUserId,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="overShelf != null" >
+        #{overShelf,jdbcType=TINYINT},
+      </if>
+      <if test="onShelfDate != null" >
+        #{onShelfDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="overDelete != null" >
+        #{overDelete,jdbcType=TINYINT},
+      </if>
+      <if test="readNumber != null" >
+        #{readNumber,jdbcType=INTEGER},
+      </if>
+      <if test="overShare != null" >
+        #{overShare,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateById" parameterType="main.com.weixinHtml.dao.po.ShareMaterial" >
+    update share_material
+    <set >
+      <if test="materialName != null" >
+        material_name = #{materialName,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="image != null" >
+        image = #{image,jdbcType=VARCHAR},
+      </if>
+      <if test="systemUserId != null" >
+        system_user_id = #{systemUserId,jdbcType=INTEGER},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="overShelf != null" >
+        over_shelf = #{overShelf,jdbcType=TINYINT},
+      </if>
+      <if test="onShelfDate != null" >
+        on_shelf_date = #{onShelfDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="overDelete != null" >
+        over_delete = #{overDelete,jdbcType=TINYINT},
+      </if>
+      <if test="readNumber != null" >
+        read_number = #{readNumber,jdbcType=INTEGER},
+      </if>
+      <if test="overShare != null" >
+        over_share = #{overShare,jdbcType=TINYINT},
+      </if>
+    </set>
+    where material_id = #{materialId,jdbcType=INTEGER}
+  </update>
+</mapper>

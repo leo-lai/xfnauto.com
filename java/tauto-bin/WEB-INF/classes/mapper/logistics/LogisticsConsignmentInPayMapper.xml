@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="main.com.logistics.dao.po.LogisticsConsignmentInPay" >
+
+  <resultMap id="BaseResultMap" type="main.com.logistics.dao.vo.LogisticsConsignmentInPayVo" >
+    <id column="consignment_in_pay_id" property="consignmentInPayId" jdbcType="INTEGER" />
+    <result column="amount" property="amount" jdbcType="DECIMAL" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="consignment_id" property="consignmentId" jdbcType="INTEGER" />
+    <result column="consignment_code" property="consignmentCode" jdbcType="VARCHAR" />
+    <result column="consignment_state" property="consignmentState" jdbcType="INTEGER" />
+    <result column="pay_method" property="payMethod" jdbcType="INTEGER" />
+    <result column="weixin_pay_account_id" property="weixinPayAccountId" jdbcType="INTEGER" />
+    <result column="consignment_in_pay_state" property="consignmentInPayState" jdbcType="INTEGER" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+    <result column="pay_date" property="payDate" jdbcType="TIMESTAMP" />
+    <result column="consignment_in_pay_code" property="consignmentInPayCode" jdbcType="VARCHAR" />
+    <result column="distribution_id" property="distributionId" jdbcType="INTEGER" />
+    <result column="distribution_code" property="distributionCode" jdbcType="VARCHAR" />
+    <result column="goods_car_ids" property="goodsCarIds" jdbcType="VARCHAR" />
+    <result column="pay_name" property="payName" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    consignment_in_pay_id, amount, create_date, consignment_id, consignment_code, consignment_state, 
+    pay_method, weixin_pay_account_id, consignment_in_pay_state, remarks, pay_date, consignment_in_pay_code,
+    distribution_id,distribution_code,goods_car_ids,pay_name
+  </sql>
+  
+  <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from logistics_consignment_in_pay
+    where consignment_in_pay_id = #{consignmentInPayId,jdbcType=INTEGER}
+  </select>
+  
+  <select id="selectByCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from logistics_consignment_in_pay
+    where consignment_in_pay_code = #{consignmentInPayCode}
+  </select>
+  
+  <delete id="deleteById" parameterType="java.lang.Integer" >
+    delete from logistics_consignment_in_pay
+    where consignment_in_pay_code = #{consignmentCode}
+  </delete>
+  
+  <insert id="insert" parameterType="main.com.logistics.dao.po.LogisticsConsignmentInPay" >
+    insert into logistics_consignment_in_pay
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="consignmentInPayId != null" >
+        consignment_in_pay_id,
+      </if>
+      <if test="amount != null" >
+        amount,
+      </if>
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="consignmentId != null" >
+        consignment_id,
+      </if>
+      <if test="consignmentCode != null" >
+        consignment_code,
+      </if>
+      <if test="consignmentState != null" >
+        consignment_state,
+      </if>
+      <if test="payMethod != null" >
+        pay_method,
+      </if>
+      <if test="weixinPayAccountId != null" >
+        weixin_pay_account_id,
+      </if>
+      <if test="consignmentInPayState != null" >
+        consignment_in_pay_state,
+      </if>
+      <if test="remarks != null" >
+        remarks,
+      </if>
+      <if test="payDate != null" >
+        pay_date,
+      </if>
+      <if test="consignmentInPayCode != null" >
+        consignment_in_pay_code,
+      </if>
+      <if test="distributionId != null" >
+        distribution_id,
+      </if>
+      <if test="distributionCode != null" >
+        distribution_code,
+      </if>
+      <if test="goodsCarIds != null" >
+        goods_car_ids,
+      </if>
+      <if test="payName != null" >
+        pay_name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="consignmentInPayId != null" >
+        #{consignmentInPayId,jdbcType=INTEGER},
+      </if>
+      <if test="amount != null" >
+        #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="consignmentId != null" >
+        #{consignmentId,jdbcType=INTEGER},
+      </if>
+      <if test="consignmentCode != null" >
+        #{consignmentCode,jdbcType=VARCHAR},
+      </if>
+      <if test="consignmentState != null" >
+        #{consignmentState,jdbcType=INTEGER},
+      </if>
+      <if test="payMethod != null" >
+        #{payMethod,jdbcType=INTEGER},
+      </if>
+      <if test="weixinPayAccountId != null" >
+        #{weixinPayAccountId,jdbcType=INTEGER},
+      </if>
+      <if test="consignmentInPayState != null" >
+        #{consignmentInPayState,jdbcType=INTEGER},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="payDate != null" >
+        #{payDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="consignmentInPayCode != null" >
+        #{consignmentInPayCode,jdbcType=VARCHAR},
+      </if>
+      <if test="distributionId != null" >
+        #{distributionId},
+      </if>
+      <if test="distributionCode != null" >
+        #{distributionCode,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsCarIds != null" >
+        #{goodsCarIds,jdbcType=VARCHAR},
+      </if>
+       <if test="payName != null" >
+        #{payName},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateById" parameterType="main.com.logistics.dao.po.LogisticsConsignmentInPay" >
+    update logistics_consignment_in_pay
+    <set >
+      <if test="amount != null" >
+        amount = #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="consignmentId != null" >
+        consignment_id = #{consignmentId,jdbcType=INTEGER},
+      </if>
+      <if test="consignmentCode != null" >
+        consignment_code = #{consignmentCode,jdbcType=VARCHAR},
+      </if>
+      <if test="consignmentState != null" >
+        consignment_state = #{consignmentState,jdbcType=INTEGER},
+      </if>
+      <if test="payMethod != null" >
+        pay_method = #{payMethod,jdbcType=INTEGER},
+      </if>
+      <if test="weixinPayAccountId != null" >
+        weixin_pay_account_id = #{weixinPayAccountId,jdbcType=INTEGER},
+      </if>
+      <if test="consignmentInPayState != null" >
+        consignment_in_pay_state = #{consignmentInPayState,jdbcType=INTEGER},
+      </if>
+      <if test="remarks != null" >
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="payDate != null" >
+        pay_date = #{payDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="consignmentInPayCode != null" >
+        consignment_in_pay_code = #{consignmentInPayCode,jdbcType=VARCHAR},
+      </if>
+      <if test="distributionId != null" >
+        distribution_id = #{distributionId},
+      </if>
+      <if test="distributionCode != null" >
+        distribution_code = #{distributionCode,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsCarIds != null" >
+        goods_car_ids = #{goodsCarIds,jdbcType=VARCHAR},
+      </if>
+       <if test="payName != null" >
+        pay_name = #{payName},
+      </if>
+    </set>
+    where consignment_in_pay_id = #{consignmentInPayId,jdbcType=INTEGER}
+  </update>
+</mapper>

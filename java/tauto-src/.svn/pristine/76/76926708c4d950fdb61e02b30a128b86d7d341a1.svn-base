@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="main.com.weixinshop.dao.po.ShopUsers">
+	<!-- <cache type="org.mybatis.caches.ehcache.LoggingEhcache" readOnly="true" 
+		/> -->
+
+	<resultMap id="ResultMap" type="main.com.weixinshop.dao.vo.ShopUsersVo">
+		<id column="userId" property="userId" jdbcType="INTEGER" />
+		<result column="phoneNumber" property="phoneNumber" jdbcType="VARCHAR" />
+		<result column="userName" property="userName" jdbcType="VARCHAR" />
+		<result column="password" property="password" jdbcType="VARCHAR" />
+		<result column="image" property="image" jdbcType="VARCHAR" />
+		<result column="fraction" property="fraction" jdbcType="INTEGER" />
+		<result column="isOnline" property="isOnline" jdbcType="TINYINT" />
+		<result column="sessionId" property="sessionId" jdbcType="VARCHAR" />
+		<result column="grade" property="grade" jdbcType="INTEGER" />
+		<result column="email" property="email" jdbcType="VARCHAR" />
+		<result column="state" property="state" jdbcType="INTEGER" />
+		<result column="openId" property="openId" jdbcType="VARCHAR" />
+		<result column="createDate" property="createDate" jdbcType="TIMESTAMP" />
+		<result column="agentId" property="agentId" jdbcType="INTEGER" />
+		<result column="agentName" property="agentName" jdbcType="VARCHAR" />
+		<result column="isbindingAgent" property="isbindingAgent" jdbcType="TINYINT" />
+		<result column="bindingAgentId" property="bindingAgentId" jdbcType="INTEGER" />
+		<result column="isAgent" property="isAgent" jdbcType="TINYINT" />
+		<result column="userCode" property="userCode" jdbcType="VARCHAR" />
+		<result column="agentGender" property="agentGender" jdbcType="VARCHAR" />
+		<result column="userQRImage" property="userQRImage" jdbcType="VARCHAR" />
+		</resultMap>
+
+	<sql id="DB_Column_List">
+		shop_users.userId,
+		shop_users.phoneNumber,
+		shop_users.userName,
+		shop_users.password,
+		shop_users.image,
+		shop_users.fraction,
+		shop_users.isOnline,
+		shop_users.sessionId,
+		shop_users.grade,
+		shop_users.email,
+		shop_users.state,
+		shop_users.openId,
+		shop_users.createDate,
+		shop_users.userCode,
+		shop_users.agentId,
+		shop_users.agentName,
+		shop_users.isbindingAgent,
+		shop_users.bindingAgentId,
+		shop_users.isAgent,
+		shop_users.userQRImage,
+		shop_users.agentGender
+	</sql>
+
+	<sql id="Where_Condition">
+		<where>
+			<trim prefixOverrides="and">
+				<!-- 匹配查询 -->
+				<if test="userId != null">and shop_users.userId = #{userId}</if>
+				<if test="phoneNumber != null and phoneNumber != ''"> and shop_users.phoneNumber = #{phoneNumber} </if>
+				<if test="userCode != null and userCode != ''"> and shop_users.userCode = #{userCode} </if>
+				<if test="agentId != null"> and shop_users.agentId = #{agentId} </if>
+				<if test="bindingAgentId != null"> and shop_users.bindingAgentId = #{bindingAgentId} </if>
+				<if test="isbindingAgent != null"> and shop_users.isbindingAgent = #{isbindingAgent} </if>
+				<if test="openId != null and openId != ''"> and shop_users.openId = #{openId} </if>
+				<if test="userName != null and userName != ''"> and shop_users.userName = #{userName} </if>
+				<if test="status != null"> and shop_users.status = #{status} </if>
+				<if test="sessionId != null and sessionId != ''"> and shop_users.sessionId = #{sessionId} </if>				
+				<if test="email != null and email != ''"> and shop_users.email = #{email} </if>				
+				<!-- 模糊查询 -->
+			</trim>
+		</where>
+	</sql>
+
+
+	<!-- 查询总数 -->
+	<select id="selectCount" resultType="java.lang.Long"
+		parameterType="java.util.Map">
+		select count(userId) from shop_users
+		<include refid="Where_Condition" />
+	</select>
+
+	<!-- 查询 -->
+	<select id="select" resultMap="ResultMap" parameterType="java.util.Map">
+		select
+		<include refid="DB_Column_List" />
+		from shop_users
+		<include refid="Where_Condition" />
+	</select>
+
+	<!-- 根据ID查询 -->
+	<select id="selectById" resultMap="ResultMap" parameterType="java.lang.Integer">
+		select
+		<include refid="DB_Column_List" />
+		from shop_users
+		where shop_users.userId = #{userId}
+	</select>
+	
+	<select id="selectByCode" resultMap="ResultMap" parameterType="java.lang.String">
+		select
+		<include refid="DB_Column_List" />
+		from shop_users
+		where shop_users.userCode = #{userCode}
+	</select>
+
+	<!-- 添加 -->
+	<insert id="insert" parameterType="main.com.weixinshop.dao.po.ShopUsers" useGeneratedKeys="true" keyProperty="userId">
+		insert into shop_users
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="phoneNumber != null"> phoneNumber, </if>
+			<if test="userName != null"> userName, </if>
+			<if test="password != null"> password, </if>
+			<if test="image != null"> image, </if>
+			<if test="fraction != null"> fraction, </if>
+			<if test="email != null"> email, </if>
+			<if test="state != null"> state, </if>
+			<if test="grade != null"> grade, </if>
+			<if test="openId != null"> openId, </if>
+			<if test="isOnline != null"> isOnline, </if>
+			<if test="sessionId != null"> sessionId, </if>
+			<if test="agentId != null"> agentId, </if>
+			<if test="agentName != null"> agentName, </if>
+			<if test="isbindingAgent != null"> isbindingAgent, </if>
+			<if test="bindingAgentId != null"> bindingAgentId, </if>
+			<if test="isAgent != null"> isAgent, </if>
+			<if test="userCode != null"> userCode, </if>
+			<if test="agentGender != null"> agentGender, </if>
+			<if test="userQRImage != null"> userQRImage, </if>
+			createDate
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="phoneNumber != null"> #{phoneNumber}, </if>
+			<if test="userName != null"> #{userName}, </if>
+			<if test="password != null"> #{password}, </if>
+			<if test="image != null"> #{image}, </if>
+			<if test="fraction != null"> #{fraction}, </if>
+			<if test="email != null"> #{email}, </if>
+			<if test="state != null"> #{state}, </if>
+			<if test="grade != null"> #{grade}, </if>
+			<if test="openId != null"> #{openId}, </if>
+			<if test="isOnline != null"> #{isOnline}, </if>
+			<if test="sessionId != null"> #{sessionId}, </if>
+			<if test="agentId != null"> #{agentId}, </if>
+			<if test="agentName != null"> #{agentName}, </if>
+			<if test="isbindingAgent != null"> #{isbindingAgent}, </if>
+			<if test="bindingAgentId != null"> #{bindingAgentId}, </if>
+			<if test="isAgent != null"> #{isAgent}, </if>
+			<if test="userCode != null"> #{userCode}, </if>
+			<if test="agentGender != null"> #{agentGender}, </if>
+			<if test="userQRImage != null"> #{userQRImage}, </if>
+			now()
+		</trim>
+	</insert>
+
+	<!-- 更新 -->
+	<update id="updateById" parameterType="main.com.weixinshop.dao.po.ShopUsers">
+		update
+		shop_users
+		<set>
+			<if test="phoneNumber != null"> phoneNumber = #{phoneNumber}, </if>
+			<if test="userName != null"> userName = #{userName}, </if>
+			<if test="password != null"> password = #{password}, </if>
+			<if test="image != null"> image = #{image}, </if>
+			<if test="fraction != null"> fraction = #{fraction}, </if>
+			<if test="email != null"> email = #{email}, </if>
+			<if test="state != null"> state = #{state}, </if>
+			<if test="grade != null"> grade = #{grade}, </if>
+			<if test="openId != null"> openId = #{openId}, </if>
+			<if test="isOnline != null"> isOnline = #{isOnline}, </if>
+			<if test="sessionId != null"> sessionId = #{sessionId}, </if>
+			<if test="agentId != null"> agentId = #{agentId}, </if>
+			<if test="agentName != null">agentName = #{agentName}, </if>
+			<if test="isbindingAgent != null"> isbindingAgent = #{isbindingAgent}, </if>
+			<if test="bindingAgentId != null"> bindingAgentId = #{bindingAgentId}, </if>
+			<if test="isAgent != null"> isAgent = #{isAgent}, </if>
+			<if test="userCode != null"> userCode = #{userCode}, </if>
+			<if test="agentGender != null"> agentGender = #{agentGender}, </if>
+			<if test="userQRImage != null"> userQRImage = #{userQRImage}, </if>
+		</set>
+		where userId = #{userId}
+	</update>
+	
+	
+	<!-- 批量更新 -->
+	<update id="batchUpdate"  parameterType="java.util.List">
+          <foreach collection="list" item="item" index="index" open="" close="" separator=";">
+            update 
+				shop_users 
+			<set>
+			<if test="item.phoneNumber != null"> phoneNumber = #{item.phoneNumber}, </if>
+			<if test="item.userName != null"> userName = #{item.userName}, </if>
+			<if test="item.password != null"> password = #{item.password}, </if>
+			<if test="item.image != null"> image = #{item.image}, </if>
+			<if test="item.fraction != null"> fraction = #{item.fraction}, </if>
+			<if test="item.email != null"> email = #{item.email}, </if>
+			<if test="item.state != null"> state = #{item.state}, </if>
+			<if test="item.grade != null"> grade = #{item.grade}, </if>
+			<if test="item.openId != null"> openId = #{item.openId}, </if>
+			<if test="item.isOnline != null"> isOnline = #{item.isOnline}, </if>
+			<if test="item.sessionId != null"> sessionId = #{item.sessionId}, </if>
+			<if test="item.agentId != null"> agentId = #{item.agentId}, </if>
+			<if test="item.agentName != null">agentName = #{item.agentName}, </if>
+			<if test="item.isbindingAgent != null"> isbindingAgent = #{item.isbindingAgent}, </if>
+			<if test="item.bindingAgentId != null"> bindingAgentId = #{item.bindingAgentId}, </if>
+			<if test="item.isAgent != null"> isAgent = #{item.isAgent}, </if>
+			<if test="item.userCode != null"> userCode = #{item.userCode}, </if>
+			<if test="item.agentGender != null"> userCode = #{item.agentGender}, </if>
+			<if test="item.userQRImage != null"> userQRImage = #{item.userQRImage}, </if>
+			</set> 
+			 where userId = #{item.userId} 
+         </foreach>
+    </update>
+
+	<!-- 根据ID删除 -->
+	<delete id="deleteById" parameterType="java.lang.Integer">
+		delete from shop_users
+		where
+		userId = #{userId}
+	</delete>
+
+	<!-- 删除 -->
+	<delete id="delete" parameterType="java.util.Map">
+		delete from shop_users
+		<include refid="Where_Condition" />
+	</delete>
+</mapper>

@@ -1,0 +1,423 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="main.com.customer.dao.po.CustomerCar" >
+
+  <resultMap id="BaseResultMap" type="main.com.customer.dao.vo.CustomerCarVo" >
+    <id column="customer_car_id" property="customerCarId" jdbcType="INTEGER" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="customer_user_id" property="customerUserId" jdbcType="INTEGER" />
+    <result column="stock_car_id" property="stockCarId" jdbcType="INTEGER" />
+    <result column="stock_car_name" property="stockCarName" jdbcType="VARCHAR" />
+    <result column="cars_id" property="carsId" jdbcType="INTEGER" />
+    <result column="engine_number" property="engineNumber" jdbcType="VARCHAR" />
+    <result column="certificate_number" property="certificateNumber" jdbcType="VARCHAR" />
+    <result column="interior_id" property="interiorId" jdbcType="INTEGER" />
+    <result column="interior_name" property="interiorName" jdbcType="VARCHAR" />
+    <result column="colour_id" property="colourId" jdbcType="INTEGER" />
+    <result column="colour_name" property="colourName" jdbcType="VARCHAR" />
+    <result column="is_delete" property="isDelete" jdbcType="TINYINT" />
+    <result column="license_plate_number" property="licensePlateNumber" jdbcType="VARCHAR" />
+    <result column="transaction_price" property="transactionPrice" jdbcType="DECIMAL" />
+    <result column="car_purchase_plan" property="carPurchasePlan" jdbcType="VARCHAR" />
+    <result column="loan_scheme" property="loanScheme" jdbcType="VARCHAR" />
+    <result column="give" property="give" jdbcType="VARCHAR" />
+    <result column="after_sale_support" property="afterSaleSupport" jdbcType="VARCHAR" />
+    <result column="purchase_tax" property="purchaseTax" jdbcType="DECIMAL" />
+    <result column="excise_tax" property="exciseTax" jdbcType="DECIMAL" />
+    <result column="vehicle_and_vessel_tax" property="vehicleAndVesselTax" jdbcType="DECIMAL" />
+    <result column="premium" property="premium" jdbcType="DECIMAL" />
+    <result column="compulsory_insurance" property="compulsoryInsurance" jdbcType="DECIMAL" />
+    <result column="third_party_liability_insurance" property="thirdPartyLiabilityInsurance" jdbcType="DECIMAL" />
+    <result column="vehicle_loss_insurance" property="vehicleLossInsurance" jdbcType="DECIMAL" />
+    <result column="risk_of_glass_breakage" property="riskOfGlassBreakage" jdbcType="DECIMAL" />
+    <result column="self_ignition_loss_insurance" property="selfIgnitionLossInsurance" jdbcType="DECIMAL" />
+    <result column="exemption_from_special_contract" property="exemptionFromSpecialContract" jdbcType="DECIMAL" />
+    <result column="no_liability_insurance" property="noLiabilityInsurance" jdbcType="DECIMAL" />
+    <result column="personnel_liability_insurance" property="personnelLiabilityInsurance" jdbcType="DECIMAL" />
+    <result column="scratch_risk" property="scratchRisk" jdbcType="DECIMAL" />
+    <result column="customer_order_id" property="customerOrderId" jdbcType="INTEGER" />
+    <result column="frame_number" property="frameNumber" jdbcType="VARCHAR" />
+    <result column="images" property="images" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    customer_car_id, create_date, customer_user_id, stock_car_id, stock_car_name, cars_id, 
+    engine_number, certificate_number, interior_id, interior_name, colour_id, colour_name, 
+    is_delete, license_plate_number, transaction_price, car_purchase_plan, loan_scheme, 
+    give, after_sale_support, purchase_tax, excise_tax, vehicle_and_vessel_tax, premium, 
+    compulsory_insurance, third_party_liability_insurance, vehicle_loss_insurance, risk_of_glass_breakage, 
+    self_ignition_loss_insurance, exemption_from_special_contract, no_liability_insurance, 
+    personnel_liability_insurance, scratch_risk,customer_order_id,frame_number,images
+  </sql>
+  
+  <sql id="Where_Condition">
+		<where>
+			<trim prefixOverrides="and">
+				<!-- 匹配查询 -->
+				<if test="customerCarId != null">and customer_car.customer_car_id = #{customerCarId}</if>				
+				<if test="customerUserId != null">and customer_car.customer_user_id = #{customerUserId}</if>				
+				<if test="carsId != null">and customer_car.cars_id = #{carsId}</if>				
+				<if test="customerOrderId != null">and customer_car.customer_order_id = #{customerOrderId}</if>				
+				<!-- list查询 -->
+				<if test="ids != null">and customer_car.customer_car_id in
+                    <foreach item="item" index="index" collection="ids"
+                             open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+			</trim>
+		</where>
+	</sql>
+
+	<!-- 查询总数 -->
+	<select id="selectCount" resultType="java.lang.Long"
+		parameterType="java.util.Map">
+		select count(customer_car_id) from customer_car
+		<include refid="Where_Condition" />
+	</select>
+
+	<!-- 查询 -->
+	<select id="select" resultMap="BaseResultMap" parameterType="java.util.Map">
+		select
+		<include refid="Base_Column_List" />
+		from customer_car
+		<include refid="Where_Condition" />
+		<if test="sortField != null"> order by create_date desc </if>
+		<if test="isPage== true and offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+	</select>
+  
+  <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from customer_car
+    where customer_car_id = #{customerCarId,jdbcType=INTEGER}
+  </select>
+  
+  <delete id="deleteById" parameterType="java.lang.Integer" >
+    delete from customer_car
+    where customer_car_id = #{customerCarId,jdbcType=INTEGER}
+  </delete>
+  
+  <insert id="insert" parameterType="main.com.customer.dao.po.CustomerCar" useGeneratedKeys="true" keyProperty="customerCarId" >
+    insert into customer_car
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="createDate != null" >
+        create_date,
+      </if>
+      <if test="customerUserId != null" >
+        customer_user_id,
+      </if>
+      <if test="stockCarId != null" >
+        stock_car_id,
+      </if>
+      <if test="stockCarName != null" >
+        stock_car_name,
+      </if>
+      <if test="carsId != null" >
+        cars_id,
+      </if>
+      <if test="engineNumber != null" >
+        engine_number,
+      </if>
+      <if test="certificateNumber != null" >
+        certificate_number,
+      </if>
+      <if test="interiorId != null" >
+        interior_id,
+      </if>
+      <if test="interiorName != null" >
+        interior_name,
+      </if>
+      <if test="colourId != null" >
+        colour_id,
+      </if>
+      <if test="colourName != null" >
+        colour_name,
+      </if>
+      <if test="isDelete != null" >
+        is_delete,
+      </if>
+      <if test="licensePlateNumber != null" >
+        license_plate_number,
+      </if>
+      <if test="transactionPrice != null" >
+        transaction_price,
+      </if>
+      <if test="carPurchasePlan != null" >
+        car_purchase_plan,
+      </if>
+      <if test="loanScheme != null" >
+        loan_scheme,
+      </if>
+      <if test="give != null" >
+        give,
+      </if>
+      <if test="afterSaleSupport != null" >
+        after_sale_support,
+      </if>
+      <if test="purchaseTax != null" >
+        purchase_tax,
+      </if>
+      <if test="exciseTax != null" >
+        excise_tax,
+      </if>
+      <if test="vehicleAndVesselTax != null" >
+        vehicle_and_vessel_tax,
+      </if>
+      <if test="premium != null" >
+        premium,
+      </if>
+      <if test="compulsoryInsurance != null" >
+        compulsory_insurance,
+      </if>
+      <if test="thirdPartyLiabilityInsurance != null" >
+        third_party_liability_insurance,
+      </if>
+      <if test="vehicleLossInsurance != null" >
+        vehicle_loss_insurance,
+      </if>
+      <if test="riskOfGlassBreakage != null" >
+        risk_of_glass_breakage,
+      </if>
+      <if test="selfIgnitionLossInsurance != null" >
+        self_ignition_loss_insurance,
+      </if>
+      <if test="exemptionFromSpecialContract != null" >
+        exemption_from_special_contract,
+      </if>
+      <if test="noLiabilityInsurance != null" >
+        no_liability_insurance,
+      </if>
+      <if test="personnelLiabilityInsurance != null" >
+        personnel_liability_insurance,
+      </if>
+      <if test="scratchRisk != null" >
+        scratch_risk,
+      </if>
+      <if test="customerOrderId != null" >
+        customer_order_id,
+      </if>
+      <if test="frameNumber != null" >
+        frame_number,
+      </if>
+      <if test="images != null" >
+        images,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="customerUserId != null" >
+        #{customerUserId,jdbcType=INTEGER},
+      </if>
+      <if test="stockCarId != null" >
+        #{stockCarId,jdbcType=INTEGER},
+      </if>
+      <if test="stockCarName != null" >
+        #{stockCarName,jdbcType=VARCHAR},
+      </if>
+      <if test="carsId != null" >
+        #{carsId,jdbcType=INTEGER},
+      </if>
+      <if test="engineNumber != null" >
+        #{engineNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="certificateNumber != null" >
+        #{certificateNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="interiorId != null" >
+        #{interiorId,jdbcType=INTEGER},
+      </if>
+      <if test="interiorName != null" >
+        #{interiorName,jdbcType=VARCHAR},
+      </if>
+      <if test="colourId != null" >
+        #{colourId,jdbcType=INTEGER},
+      </if>
+      <if test="colourName != null" >
+        #{colourName,jdbcType=VARCHAR},
+      </if>
+      <if test="isDelete != null" >
+        #{isDelete,jdbcType=TINYINT},
+      </if>
+      <if test="licensePlateNumber != null" >
+        #{licensePlateNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="transactionPrice != null" >
+        #{transactionPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="carPurchasePlan != null" >
+        #{carPurchasePlan,jdbcType=VARCHAR},
+      </if>
+      <if test="loanScheme != null" >
+        #{loanScheme,jdbcType=VARCHAR},
+      </if>
+      <if test="give != null" >
+        #{give,jdbcType=VARCHAR},
+      </if>
+      <if test="afterSaleSupport != null" >
+        #{afterSaleSupport,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaseTax != null" >
+        #{purchaseTax,jdbcType=DECIMAL},
+      </if>
+      <if test="exciseTax != null" >
+        #{exciseTax,jdbcType=DECIMAL},
+      </if>
+      <if test="vehicleAndVesselTax != null" >
+        #{vehicleAndVesselTax,jdbcType=DECIMAL},
+      </if>
+      <if test="premium != null" >
+        #{premium,jdbcType=DECIMAL},
+      </if>
+      <if test="compulsoryInsurance != null" >
+        #{compulsoryInsurance,jdbcType=DECIMAL},
+      </if>
+      <if test="thirdPartyLiabilityInsurance != null" >
+        #{thirdPartyLiabilityInsurance,jdbcType=DECIMAL},
+      </if>
+      <if test="vehicleLossInsurance != null" >
+        #{vehicleLossInsurance,jdbcType=DECIMAL},
+      </if>
+      <if test="riskOfGlassBreakage != null" >
+        #{riskOfGlassBreakage,jdbcType=DECIMAL},
+      </if>
+      <if test="selfIgnitionLossInsurance != null" >
+        #{selfIgnitionLossInsurance,jdbcType=DECIMAL},
+      </if>
+      <if test="exemptionFromSpecialContract != null" >
+        #{exemptionFromSpecialContract,jdbcType=DECIMAL},
+      </if>
+      <if test="noLiabilityInsurance != null" >
+        #{noLiabilityInsurance,jdbcType=DECIMAL},
+      </if>
+      <if test="personnelLiabilityInsurance != null" >
+        #{personnelLiabilityInsurance,jdbcType=DECIMAL},
+      </if>
+      <if test="scratchRisk != null" >
+        #{scratchRisk,jdbcType=DECIMAL},
+      </if>
+      <if test="customerOrderId != null" >
+        #{customerOrderId},
+      </if>
+      <if test="frameNumber != null" >
+        #{frameNumber},
+      </if>
+      <if test="images != null" >
+        #{images},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateById" parameterType="main.com.customer.dao.po.CustomerCar" >
+    update customer_car
+    <set >
+      <if test="createDate != null" >
+        create_date = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="customerUserId != null" >
+        customer_user_id = #{customerUserId,jdbcType=INTEGER},
+      </if>
+      <if test="stockCarId != null" >
+        stock_car_id = #{stockCarId,jdbcType=INTEGER},
+      </if>
+      <if test="stockCarName != null" >
+        stock_car_name = #{stockCarName,jdbcType=VARCHAR},
+      </if>
+      <if test="carsId != null" >
+        cars_id = #{carsId,jdbcType=INTEGER},
+      </if>
+      <if test="engineNumber != null" >
+        engine_number = #{engineNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="certificateNumber != null" >
+        certificate_number = #{certificateNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="interiorId != null" >
+        interior_id = #{interiorId,jdbcType=INTEGER},
+      </if>
+      <if test="interiorName != null" >
+        interior_name = #{interiorName,jdbcType=VARCHAR},
+      </if>
+      <if test="colourId != null" >
+        colour_id = #{colourId,jdbcType=INTEGER},
+      </if>
+      <if test="colourName != null" >
+        colour_name = #{colourName,jdbcType=VARCHAR},
+      </if>
+      <if test="isDelete != null" >
+        is_delete = #{isDelete,jdbcType=TINYINT},
+      </if>
+      <if test="licensePlateNumber != null" >
+        license_plate_number = #{licensePlateNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="transactionPrice != null" >
+        transaction_price = #{transactionPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="carPurchasePlan != null" >
+        car_purchase_plan = #{carPurchasePlan,jdbcType=VARCHAR},
+      </if>
+      <if test="loanScheme != null" >
+        loan_scheme = #{loanScheme,jdbcType=VARCHAR},
+      </if>
+      <if test="give != null" >
+        give = #{give,jdbcType=VARCHAR},
+      </if>
+      <if test="afterSaleSupport != null" >
+        after_sale_support = #{afterSaleSupport,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaseTax != null" >
+        purchase_tax = #{purchaseTax,jdbcType=DECIMAL},
+      </if>
+      <if test="exciseTax != null" >
+        excise_tax = #{exciseTax,jdbcType=DECIMAL},
+      </if>
+      <if test="vehicleAndVesselTax != null" >
+        vehicle_and_vessel_tax = #{vehicleAndVesselTax,jdbcType=DECIMAL},
+      </if>
+      <if test="premium != null" >
+        premium = #{premium,jdbcType=DECIMAL},
+      </if>
+      <if test="compulsoryInsurance != null" >
+        compulsory_insurance = #{compulsoryInsurance,jdbcType=DECIMAL},
+      </if>
+      <if test="thirdPartyLiabilityInsurance != null" >
+        third_party_liability_insurance = #{thirdPartyLiabilityInsurance,jdbcType=DECIMAL},
+      </if>
+      <if test="vehicleLossInsurance != null" >
+        vehicle_loss_insurance = #{vehicleLossInsurance,jdbcType=DECIMAL},
+      </if>
+      <if test="riskOfGlassBreakage != null" >
+        risk_of_glass_breakage = #{riskOfGlassBreakage,jdbcType=DECIMAL},
+      </if>
+      <if test="selfIgnitionLossInsurance != null" >
+        self_ignition_loss_insurance = #{selfIgnitionLossInsurance,jdbcType=DECIMAL},
+      </if>
+      <if test="exemptionFromSpecialContract != null" >
+        exemption_from_special_contract = #{exemptionFromSpecialContract,jdbcType=DECIMAL},
+      </if>
+      <if test="noLiabilityInsurance != null" >
+        no_liability_insurance = #{noLiabilityInsurance,jdbcType=DECIMAL},
+      </if>
+      <if test="personnelLiabilityInsurance != null" >
+        personnel_liability_insurance = #{personnelLiabilityInsurance,jdbcType=DECIMAL},
+      </if>
+      <if test="scratchRisk != null" >
+        scratch_risk = #{scratchRisk,jdbcType=DECIMAL},
+      </if>
+      <if test="customerOrderId != null" >
+        customer_order_id = #{customerOrderId},
+      </if>
+      <if test="frameNumber != null" >
+        frame_number = #{frameNumber},
+      </if>
+      <if test="images != null" >
+        images = #{images},
+      </if>
+    </set>
+    where customer_car_id = #{customerCarId,jdbcType=INTEGER}
+  </update>
+</mapper>
