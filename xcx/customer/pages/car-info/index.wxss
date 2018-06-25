@@ -1,0 +1,105 @@
+/* pages/car-info/index.wxss */
+@import '../../template/wxParse/wxParse.wxss';
+.l-images-360{ width: 100%; height: 400rpx; position: relative; overflow: hidden; box-sizing: border-box;}
+.l-images-360 ._360{position: absolute; top:0; left: 0; padding: 30rpx; color: #ff9247; opacity: 0.5;}
+.l-images-360 ._large{position: absolute; right:0; top: 0; padding: 30rpx; color: #999; opacity: 0.5;}
+.l-images-360 ._share{position: absolute; right:0; bottom: 0; padding: 30rpx; opacity: 0.5;}
+.l-images-360 image{width: 100%; height: 100%; position: absolute; top:0; left:0;}
+.l-images-360 image._hidden{visibility: hidden;}
+
+.l-askprice-btn{padding: 20rpx 30rpx; }
+.l-askprice-btn._fixed{position: fixed; z-index: 1000; bottom:0; left:0; width:100%; margin:0; padding: 20rpx 30rpx;  box-sizing: border-box;}
+
+.l-color-list { margin: 30rpx 60rpx;}
+.l-color-list::-webkit-scrollbar {
+  display: none;
+}
+
+.l-color-list ._item {
+  display: inline-block;
+  text-align: center;
+  margin: 0 20rpx;
+}
+
+.l-color-list ._color {
+  display: block;
+  width: 40rpx;
+  height: 40rpx;
+  margin: 20rpx auto;
+  background: #ff9247;
+  border-radius: 50%;
+  color: #ff9247;
+}
+
+.l-color-list ._name {
+  font-size: 24rpx;
+}
+.l-color-list ._active ._color {
+  box-shadow: 0 0 0 8rpx #fff, 0 0 0 10rpx currentColor;
+}
+
+.l-car-price {
+  position: relative;
+  z-index: 0;
+  box-shadow: 0 0 20rpx rgba(0, 0, 0, 0.1);
+  margin: 60rpx 0;
+}
+
+.l-car-price::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  left: 0;
+  right: 0;
+  top: -10%;
+  bottom: 60%;
+  background-image: radial-gradient(ellipse farthest-side, rgba(0, 0, 0, 0.5) 0, rgba(0, 0, 0, 0) 100%);
+}
+
+.l-car-price::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  left: 0;
+  right: 0;
+  top: 60%;
+  bottom: -10%;
+  background-image: radial-gradient(ellipse farthest-side, rgba(0, 0, 0, 0.5) 0, rgba(0, 0, 0, 0) 100%);
+}
+
+.weui-bar__item_on .weui-navbar__title { color: #ff9247;}
+.weui-navbar__slider { background-color: #ff9247; }
+.weui-navbar{ background: #fff; }
+.weui-navbar._fixed{ position: fixed; }
+.weui-tab__panel{ padding: 0; }
+
+.kind-list__item { margin: 20rpx 0; border-radius: 2rpx; overflow: hidden;}
+.kind-list__item:first-child { margin-top: 0;}
+.kind-list__item-hd { background-color: #eee; padding: 20rpx; transition: opacity 0.3s; align-items: center;}
+.kind-list__item-hd .l-icon-6ac{display: inline-block; color: #ccc; font-size: 16rpx; transition: 0.2s linear;}
+.kind-list__item-hd_show .l-icon-6ac{transform: rotate(-180deg);}
+/* .kind-list__item-hd_show { opacity: 0.4;} */
+.kind-list__item-bd {height: 0; overflow: hidden;}
+.kind-list__item-bd_show {height: auto;}
+
+.l-param-list{padding: 10rpx; font-size: 28rpx;margin:0;}
+.l-param-list ._item{margin: 20rpx 0;}
+
+.l-problem-list ._item{padding:30rpx; background: #fff;}
+.l-problem-list ._hd text,
+.l-problem-list ._bd text{width: 40rpx; height: 40rpx; line-height: 40rpx; text-align: center; border-radius: 50%; color: #fff; background: #ff9247; margin-right: 30rpx; font-size:20rpx;}
+.l-problem-list ._bd{margin-top: 20rpx; color: #999;}
+
+.l-buyway-tab ._tit { text-align: center; }
+.l-buyway-tab ._tit ._item{width: 50%; padding: 20rpx 0;position: relative; font-size: 32rpx; }
+.l-buyway-tab ._tit ._item::after{ content: ''; display: block; border: 16rpx solid transparent; 
+border-bottom-color:#ffe8d8; width: 0; height: 0; margin: 0 auto -20rpx; visibility: hidden;}
+.l-buyway-tab ._tit ._item._active{color: #ff9247;}
+.l-buyway-tab ._tit ._item._active::after{visibility: visible;}
+.l-buyway-tab ._all{background: #ffe8d8; text-align: center; padding:20rpx; box-shadow: 0 2px 3px 0 #ccc;position: relative;}
+.l-buyway-tab ._cont{display: none;}
+.l-buyway-tab ._cont._active{display: block;}
+.l-buyway-tab ._slt{background: #fafafa; padding: 30rpx 40rpx; box-shadow: 0 2px 3px 0 #ccc;}
+.l-buyway-tab ._slt .l-rest{margin-left: 50rpx;}
+.l-buyway-tab ._slide-text{display: flex;justify-content:space-between; font-size: 24rpx;}
+.l-buyway-tab ._slide-bar{padding:10rpx 20rpx 0; margin:0; }

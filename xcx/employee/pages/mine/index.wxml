@@ -1,0 +1,25 @@
+<!--pages/user/index.wxml-->
+<view class='l-page-full l-bg-white'>
+  <view class='l-mine-card'>
+    <image mode='aspectFit' class='l-avatar l-margin-l l-fr' src='{{userInfo.headPortrait}}'></image>
+    <view>登录账号：{{userInfo.phoneNumber}}</view>
+    <view>登录姓名：{{userInfo.realName}}</view>
+    <view>所属公司：{{userInfo.orgName}}</view>
+    <view>系统角色：{{userInfo.roleName}}</view>
+    <!-- <navigator hover-class='none' url='report' style='margin: 50rpx 0 -160rpx;'><image class='l-circle-icon' src='/images/data-icon.png'></image></navigator> -->
+  </view>
+  <view class='l-mine-menu'>
+    <navigator class='_item' hover-class='_hover' url='qrcode'>
+      <image class='l-circle-icon' src='/images/code-icon.png'></image>
+      <text>个人二维码</text>
+    </navigator>
+    <navigator class='_item' hover-class='_hover' url='../mine-pwd/index'>
+      <image class='l-circle-icon' src='/images/password-icon.png'></image>
+      <text>更改密码</text>
+    </navigator>
+    <navigator class='_item' hover-class='_hover' url='../login/change'>
+      <image class='l-circle-icon' src='/images/exit-icon.png'></image>
+      <text>更换账号</text>
+    </navigator>
+  </view>
+</view>

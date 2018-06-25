@@ -1,0 +1,127 @@
+<!--express/tuoyun/add.wxml-->
+<view class='weui-toptips weui-toptips_warn' hidden='{{!topTips}}'>{{topTips}}</view>
+<view class='l-page-full'>
+  <view class='l-text-gray l-fs-s' style='margin: 30rpx 30rpx -20rpx 30rpx;'>托运单信息</view>
+  <view class='l-margin l-radius'>
+    <view class='weui-cells weui-cells_after-title'>
+      <navigator url='/level2/store/list?mode=slt&rows=50&id={{formData.orgId}}' class='weui-cell weui-cell_select'>
+        <view class='weui-cell__hd weui-cell__hd_in-select-after'>
+          <view class='weui-label'>门店名称</view>
+        </view>
+        <view class='weui-cell__bd l-text-right'>
+          <view class='weui-select weui-select_in-select-after'>
+            <text wx:if='{{formData.orgId}}'>{{formData.orgName}}</text>
+            <text wx:else class='l-text-gray'>请选择</text>
+          </view>
+        </view>
+      </navigator>
+      <view class='weui-cell weui-cell_input'>
+        <view class='weui-cell__hd'>
+          <view class='weui-label'>联系人 <text class='l-text-error'>*</text></view>
+        </view>
+        <view class='weui-cell__bd l-text-right'>
+          <input class='weui-input' placeholder='请输入联系人姓名' maxlength='{{20}}' confirm-type='next' id='purchasersName' value='{{formData.purchasersName}}' bindinput='bindInput' />
+        </view>
+      </view>
+      <view class='weui-cell weui-cell_input'>
+        <view class='weui-cell__hd'>
+          <view class='weui-label'>联系电话 <text class='l-text-error'>*</text></view>
+        </view>
+        <view class='weui-cell__bd l-text-right'>
+          <input class='weui-input' type='number' placeholder='请输入11位手机号码' maxlength='{{11}}' confirm-type='next' id='purchasersPhone' value='{{formData.purchasersPhone}}' bindinput='bindInput' />
+        </view>
+      </view>
+      <navigator class='weui-cell weui-cell_select' url='/express/freight/selector'>
+        <view class='weui-cell__hd weui-cell__hd_in-select-after'>
+          <view class='weui-label'>运输方式 <text class='l-text-error'>*</text></view>
+        </view>
+        <view class='weui-cell__bd l-text-right'>
+          <view class='weui-select weui-select_in-select-after'>
+            <text wx:if='{{formData.consignmentTypeLineId == ""}}' class='l-text-gray'>请选择</text>
+            <block wx:else>
+              <text wx:if='{{formData.consignmentType == 1}}'>普通</text>
+              <text wx:if='{{formData.consignmentType == 2}}'>专线 ({{formData.consignmentTypeLineName}})</text>
+            </block>
+          </view>
+        </view>
+      </navigator>
+      <view class='weui-cell weui-cell_select' id='startingPointAddress' bindtap='chooseLoc'>
+        <view class='weui-cell__hd weui-cell__hd_in-select-after'>
+          <view class='weui-label'>装车地点 <text class='l-text-error'>*</text></view>
+        </view>
+        <view class='weui-cell__bd l-text-right'>
+          <view class='weui-select weui-select_in-select-after'>
+            <text wx:if='{{!formData.startingPointAddress}}' class='l-text-gray'>请选择</text>
+            <text class='l-fs-s' wx:else>{{formData.startingPointAddress}}</text>
+          </view>
+        </view>
+      </view>
+      <view class='weui-cell weui-cell_select' id='destinationAddress' bindtap='chooseLoc'>
+        <view class='weui-cell__hd weui-cell__hd_in-select-after'>
+          <view class='weui-label'>卸车地点 <text class='l-text-error'>*</text></view>
+        </view>
+        <view class='weui-cell__bd l-text-right'>
+          <view class='weui-select weui-select_in-select-after'>
+            <text wx:if='{{!formData.destinationAddress}}' class='l-text-gray'>请选择</text>
+            <text class='l-fs-s' wx:else>{{formData.destinationAddress}}</text>
+          </view>
+        </view>
+      </view>
+      <!-- <view class='weui-cell weui-cell_select'>
+        <view class='weui-cell__hd weui-cell__hd_in-select-after'>
+          <view class='weui-label'>预约装车时间 <text class='l-text-error'>*</text></view>
+        </view>
+        <view class='weui-cell__bd l-text-right'>
+          <picker mode='date' id='appointmentTime' bindchange='bindInput' value='{{formData.appointmentTime}}'>
+            <view class='weui-select weui-select_in-select-after'>
+              <text wx:if='{{formData.appointmentTime}}'>{{formData.appointmentTime}}</text>
+              <text wx:else class='l-text-gray'>请选择</text>
+            </view>
+          </picker>
+        </view>
+      </view> -->
+      <navigator class='weui-cell weui-cell_select' url='/pages/datetime/index?date={{formData.appointmentTime}}'>
+        <view class='weui-cell__hd weui-cell__hd_in-select-after'>
+          <view class='weui-label'>预约时间 <text class='l-text-error'>*</text></view>
+        </view>
+        <view class='weui-cell__bd l-text-right'>
+          <view class='weui-select weui-select_in-select-after'>
+            <text wx:if='{{formData.appointmentTime}}'>{{formData.appointmentTime}}</text>
+            <text wx:else class='l-text-gray'>请选择</text>
+          </view>
+        </view>
+      </navigator>
+    </view>
+  </view>
+
+  <view class='l-text-gray l-fs-s l-flex-hc' style='margin: 40rpx 30rpx -15rpx 30rpx;'>
+    <text>托运车辆信息</text>
+    <view class='l-rest'></view>
+    <navigator url='add-car'>
+      <button class='l-btn-min2' size='mini'>添加托运车辆</button>
+    </navigator>
+  </view>
+  <view class='l-margin l-radius l-bg-white'>
+    <view class='l-padding l-flex-h l-fs-s l-border-b' wx:for='{{carList}}' wx:key='guid'>
+      <view class='l-rest'>
+        <view>{{item.carsName}}</view>
+        <view class='l-text-gray'>
+          <text class='l-dmr'>车身颜色：{{item.colourName || '--'}}</text>
+          <text>内饰颜色：{{item.interiorName || '--'}}</text>
+        </view>
+        <view class='l-text-gray'>
+          <text class='l-dmr'>指导价：{{item.guidePrice || '--'}}万元</text>
+          <text>数量：{{item.carNum || '--'}}</text>
+        </view>
+      </view>
+      <view id='{{item.guid}}' bindtap='delCar'>
+        <icon type='cancel'></icon>
+      </view>
+    </view>
+  </view>
+
+  <view style='height: 120rpx;'></view>
+  <view class='l-fixed-bottom l-padding'>
+    <button class='l-button-main l-btn-w60' bindtap='submit'>查询费用</button>
+  </view>
+</view>

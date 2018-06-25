@@ -1,0 +1,36 @@
+<!--express/dray/list.wxml-->
+<import src='/template/loadmore.wxml' />
+<view class='l-page-full'>
+  <view style='height: 100rpx;'></view>
+  <view class='l-list-filter' catchtouchmove='noopFn'>
+    <view class='_input l-flex-hc'>
+      <view class='l-rest'>
+        <input bindinput='filterTyping' confirm-type='search' bindconfirm='search' placeholder='输入车牌号' value='{{filter.data.keywords}}'/>
+      </view>
+      <icon class='l-margin-r-m' hidden='{{filter.data.keywords === ""}}' type='cancel' color='#ccc' size='20' bindtap='clearTyping'></icon>
+      <icon type='search' size='18' color='#555' bindtap='search'></icon>
+    </view>
+  </view>
+
+  <view bindtap='showDrayInfo' data-item='{{item}}' class='l-margin-m l-bg-white l-padding l-radius' wx:for='{{list.data}}' wx:key='logisticsCarId'>
+    <view>
+      <text class='l-fr l-text-theme'>{{item.status == 0 ? '空闲' : '运输中'}}</text>
+      <text class='l-h4'>车牌号码：{{item.licensePlateNumber}}</text>
+    </view>
+    <view class='l-fs-s'>
+      <view>运输能力：{{item.logisticsCarVacancy}} 辆</view>
+      <view>运输类型：{{consignmentType[item.consignmentType-1]}}</view>
+      <view>定位设备：{{item.gpsPIN}}</view>
+      <view class='l-margin-t-s l-text-gray'>{{item.remarks}}</view>
+    </view>
+  </view>
+  <template is='loadmore' data='{{...list}}' />
+
+  <view style='height: 120rpx;'></view>
+  <view class='l-fixed-bottom'>
+    <navigator url='add' class='l-btn-w60 l-margin-tb' hover-class='none'>
+      <button class='l-button-main'>新增板车</button>
+    </navigator>
+  </view>
+</view>
+

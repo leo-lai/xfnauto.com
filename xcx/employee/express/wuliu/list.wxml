@@ -1,0 +1,102 @@
+<!--express/tuoyun/list.wxml-->
+<import src='/template/loadmore.wxml' />
+<view class='l-page-full'>
+  <view style='height: 100rpx;'></view>
+  <view class='l-list-filter' catchtouchmove='noopFn'>
+    <view class='_input l-flex-hc'>
+      <view class='l-rest'>
+        <input bindinput='filterTyping' confirm-type='search' bindconfirm='search' placeholder='输入物流单号/车型查询' value='{{filter.data.keywords}}'/>
+      </view>
+      <icon class='l-margin-r-m' hidden='{{filter.data.keywords === ""}}' type='cancel' color='#ccc' size='20' bindtap='clearTyping'></icon>
+      <icon type='search' size='18' color='#555' bindtap='search'></icon>
+    </view>
+  </view>
+
+  <view class='l-tuoyun-item' wx:for='{{list.data}}' wx:key='distributionId'>
+    <navigator url='info?id={{item.distributionId}}' hover-class='none'>
+      <view class='l-flex-hc'>
+        <view>
+          <text class='_tag' wx:if='{{item.consignmentType == 1}}' style='background-color:#00a0ea;'>普通</text>
+          <text class='_tag' wx:if='{{item.consignmentType == 2}}'>专线</text> 
+        </view>
+        <view class='l-rest l-text-wrap1' style='margin: 0 10rpx;'>{{item.distributionCode}}</view>
+        <text class='l-text-theme'>{{item.distributionStateName}}</text>
+        <text class='l-icon-6a8'></text>
+      </view>
+      <view class='l-text-gray l-fs-s l-margin-t-s'>
+        <view>板车车牌：{{item.logisticsCar.licensePlateNumber}}</view>
+        <view>
+          <text>司机姓名：{{item.driverName}}</text>
+          <text class='l-margin-l'>联系电话：{{item.driverPhone}}</text>
+        </view>
+      </view>
+    </navigator>
+    <view class='l-border-t l-margin-t-m l-padding-t-m l-fs-s' wx:for='{{item.tuoyunList}}' wx:for-item='tuoyunItem' wx:key='consignmentCode'>
+      <view class='l-flex-hc'>
+        <navigator url='/express/tuoyun/info?id={{tuoyunItem.consignmentId}}&cars={{tuoyunItem.cars}}' class='l-text-wrap1 l-btn-link' hover-class='none'>{{tuoyunItem.consignmentCode}}</navigator>
+        <view class='l-rest l-text-theme' style='margin: 0 10rpx 0 20rpx;'>￥{{tuoyunItem.amount}}</view>
+
+        <!-- 专线运输 -->
+        <block wx:if='{{auditor && item.consignmentType == 2}}'>
+          <navigator wx:if='{{item.distributionState == 7}}' url='money?id={{item.distributionId}}&cars={{tuoyunItem.cars}}' hover-class='none'>
+            <button class='l-btn-min1 {{tuoyunItem.goodsCarState > 8 ? "_disabled" : ""}}' size='mini'>收款</button>
+          </navigator>
+        </block>
+        <!-- 专线运输 end-->
+        
+      </view>
+      <view class='l-text-gray l-margin-t-s'>
+        <view class='l-flex-h'>
+          <text>装车地点：</text>
+          <view class='l-rest l-text-wrap1'>{{tuoyunItem.startingPointAddress}}</view>
+        </view>
+        <view class='l-flex-h'>
+          <text>卸车地点：</text>
+          <view class='l-rest l-text-wrap1'>{{tuoyunItem.destinationAddress}}</view>
+        </view>
+        <view>预约时间：{{tuoyunItem.appointmentTimeDate || '--'}}</view>
+      </view>
+      <view class='l-margin-t-s' wx:for='{{tuoyunItem.carList}}' wx:for-item='carItem' wx:key='goodsCarId'>
+        <view style='overflow:hidden;'>
+          <text class='l-text-warn l-fr'>{{carItem.goodsCarStateName}}</text>
+          <text class='l-text-wrap1'>{{carItem.carsName}}</text>
+        </view>
+        <view class='l-text-gray l-text-wrap1'>
+          <text>车身：{{carItem.colourName || '--'}}</text>
+          <text class='l-margin-l'>内饰：{{carItem.interiorName || '--'}}</text>
+          <text class='l-margin-l'>车架号：{{carItem.frameNumber || '--'}}</text>
+        </view>
+      </view>
+    </view>
+    <view class='l-text-center l-margin-t'>
+      <navigator class='l-inline l-margin-lr-s' url='info?id={{item.distributionId}}' hover-class='none'>
+        <button size='mini' class='l-button-border'>查看详情</button>
+      </navigator>
+
+      <block wx:if='{{item.distributionState == 0}}'>
+        <navigator class='l-inline l-margin-lr-s' url='/express/tuoyun/list?mode=slt&id={{item.distributionId}}&cars={{item.cars}}&type={{item.consignmentType}}' hover-class='none'>
+          <button size='mini' class='l-button-main'>添加托运车辆</button>
+        </navigator>
+        <view bindtap='paidan' id='{{item.distributionId}}' wx:if='{{item.goodsCars.length > 0}}' class='l-inline l-margin-lr-s'>
+          <button size='mini' class='l-button-main'>派单</button>
+        </view>
+      </block>
+
+      <!-- 专线运输 -->
+      <view wx:elif='{{item.distributionState == 7 && auditor && item.consignmentType == 2}}' class='l-inline l-margin-lr-s' bindtap='changeState' id='{{item.distributionId}}'>
+        <button data-state='8' size='mini' class='l-button-main'>
+        全部已收款</button>
+      </view>
+      <!-- 专线运输 end-->
+    </view>
+  </view>
+  <template is='loadmore' data='{{...list}}' />
+
+  <view style='height: 120rpx;'></view>
+  <view class='l-fixed-bottom'>
+    <navigator url='add' class='l-btn-w60 l-margin-tb' hover-class='none'>
+      <button class='l-button-main'>新增物流单</button>
+    </navigator>
+  </view>
+</view>
+

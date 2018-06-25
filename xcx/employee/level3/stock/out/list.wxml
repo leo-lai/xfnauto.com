@@ -1,0 +1,46 @@
+<!--level3/stock/out/list.wxml-->
+<import src='/template/loadmore.wxml' />
+<view class='l-page-full'>
+  <view style='height: 100rpx;'></view>
+  <view class='l-list-filter l-flex-hc' catchtouchmove='noopFn'>
+    <view class='_input l-rest l-flex-hc'>
+      <view class='l-rest'>
+        <input data-val='search' bindfocus='showFilter' bindinput='filterTyping' confirm-type='search' bindconfirm='search' placeholder='输入订单号或车型名称' value='{{filter.data.keywords}}'/>
+      </view>
+      <icon class='l-margin-r-m' hidden='{{filter.data.keywords === ""}}' type='cancel' color='#ccc' size='20' bindtap='clearTyping'></icon>
+      <icon type='search' size='18' color='#555' bindtap='search'></icon>
+    </view>
+    <view class='_cont {{filter.visible ? "_active" : ""}}' bindtap='hideFilter'>
+      <!-- 历史记录 -->
+      <view class='_history' hidden='{{true || filter.type !== "search" || filter.history.length === 0}}' catchtap='noopFn'>
+        <view>
+          <text class='l-fr l-icon-627 l-fs-m'  bindtap='clearHistory'></text>
+          <text class='l-fs-m'>历史搜索</text>
+        </view>
+        <view class='_history-list'>
+          <text class='l-text-wrap' wx:for='{{filter.history}}' wx:key='{{index}}' bindtap='searchHistory' data-val='{{item}}'>{{item}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+  <navigator url='info?id={{item.customerOrderId}}' class='l-margin-m l-bg-white l-padding l-radius' wx:for='{{list.data}}' wx:key='customerOrderId'>
+    <view class='l-padding-b-m l-flex-hc'>
+      <text>{{item.customerOrderCode}}</text>
+      <view class='l-rest'></view>
+      <text class='l-icon-622'></text>
+    </view>
+    <view class='l-padding-tb l-border-t'>
+      <view>{{item.carsName}}</view>
+      <view class='l-text-gray l-fs-s'>
+        <text>颜色：{{item.colourName}}</text>
+        <text class='l-margin-l'>内饰：{{item.interiorName}}</text>
+      </view>
+      <view class='l-text-gray l-fs-s'>{{item.createDate}}</view>
+    </view>
+    <view class='l-padding-t-m l-border-t'>
+      <text class='l-fr l-text-green'>现有库存数量：{{item.stockCarNumber}}</text>
+      <text class='l-text-theme'>待出库数量：{{item.number}}</text>
+    </view>
+  </navigator>
+  <template is='loadmore' data='{{...list}}' />
+</view>

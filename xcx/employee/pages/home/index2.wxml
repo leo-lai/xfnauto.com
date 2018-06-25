@@ -1,0 +1,204 @@
+<!--pages/home/index2.wxml-->
+<view class='l-page-full'>
+  <view class='l-bg-white l-index-menu'>
+    <!-- <navigator class='_item' url='/level2/store/add' hover-class='none'>
+      <image src='/images/20180510001.png'></image>
+      <view>添加汽贸店</view>
+    </navigator> -->
+    <navigator class='_item' url='/level2/store/list' hover-class='none'>
+      <image src='/images/20180510002.png'></image>
+      <view>汽贸店管理</view>
+    </navigator>
+    <navigator class='_item' url='/level3/customer/list' hover-class='none'>
+      <image src='/images/20180510010.png'></image>
+      <view>客户管理</view>
+    </navigator>
+    <navigator class='_item' url='/level3/stock/index' hover-class='none'>
+      <image src='/images/20180510003.png'></image>
+      <view>库存管理</view>
+    </navigator>
+    <navigator class='_item' url='/shop/menu' hover-class='none'>
+      <image src='/images/20180510006.png'></image>
+      <view>商城管理</view>
+    </navigator>
+    <navigator class='_item' url='/level2/order/list2' hover-class='none'>
+      <image src='/images/20180510005.png'></image>
+      <view>资源订单</view>
+    </navigator>
+    <!-- <navigator class='_item' url='/level2/order/list2' hover-class='none'>
+      <image src='/images/20180510012.png'></image>
+      <view>客户订单</view>
+    </navigator> -->
+    <!-- <navigator class='_item' url='/level3/customer/add' hover-class='none'>
+      <image src='/images/20180510009.png'></image>
+      <view>添加客户</view>
+    </navigator> -->
+    
+    <navigator class='_item' url='/level3/parts/index' hover-class='none'>
+      <image src='/images/20180510011.png'></image>
+      <view>加装/上牌/贴膜</view>
+    </navigator>
+    <navigator class='_item' url='/pages/offer/index' hover-class='none'>
+      <image src='/images/20180510007.png'></image>
+      <view>报价单</view>
+    </navigator>
+    <navigator class='_item' url='/share/menu' hover-class='none'>
+      <image src='/images/20180510008.png'></image>
+      <view>海报助手</view>
+    </navigator>
+    <block wx:if='{{userInfo.orgLevel == 1}}'>
+      <navigator class='_item' url='/express/menu' hover-class='none'>
+        <image src='/images/20180510004.png'></image>
+        <view>物流管理</view>
+      </navigator>
+    </block>
+  </view>
+
+  <view class='l-margin l-flex-hc'>
+    <navigator url='/pages/school/list' class='l-rest'>
+      <image mode='widthFix' style='display:block;width: 100%; border-radius: 10rpx;' src='{{resURL}}/employee/20180515001.png'></image>
+    </navigator>
+    <view class='l-margin-l'></view>
+    <navigator class='l-rest' url='/pages/guide/list'>
+      <image mode='widthFix' style='display:block;width: 100%;' src='{{resURL}}/employee/20180515002.png'></image>
+    </navigator> 
+  </view> 
+
+  <navigator class='l-bg-white l-padding-btn l-flex-hc l-margin-tb' url='/level3/customer/list2?tp=intensity' hover-class='none'>
+    <image style='width: 60rpx; height: 60rpx;' src='/images/20180510024.png'></image>
+    <view class='l-margin-l l-fs-13 l-rest'>总共 <text class='l-text-theme l-fs-17'>{{intensityCount}}</text> 位重点客户</view>
+    <text class='l-icon-622'></text>
+  </navigator>
+
+  <view class='l-img-tit l-margin-t'>
+    <image mode='widthFix' src='{{resURL}}/employee/20180605001.png'></image>
+  </view>
+  <view class='l-bg-white l-margin-b'>
+    <view class='l-grid-menu'>
+      <navigator class='_item' url='/level3/customer/list2?tp=all' hover-class='none'>
+        <view class='{{customer.userCount > 0 ? "_num2" : "_num"}}'>{{customer.userCount}}</view>
+        <view class='_txt'>新增预约客户</view>
+      </navigator>
+      <navigator class='_item' url='/level3/customer/list-order?month={{month}}' hover-class='none'>
+        <view class='{{customer.total > 0 ? "_num2" : "_num"}}'>{{customer.total}}</view>
+        <view class='_txt'>本月总订单</view>
+      </navigator>
+      <navigator class='_item' url='/level3/customer/list-order?month={{month}}&sta=1' hover-class='none'>
+        <view class='{{customer.unpayDeposit > 0 ? "_num2" : "_num"}}'>{{customer.unpayDeposit}}</view>
+        <view class='_txt'>待收定金</view>
+      </navigator>
+      <navigator class='_item' url='/level3/customer/list-order?month={{month}}&sta=3' hover-class='none'>
+        <view class='{{customer.bankAudit > 0 ? "_num2" : "_num"}}'>{{customer.bankAudit}}</view>
+        <view class='_txt'>待银行审核</view>
+      </navigator>
+    </view>
+    <view class='l-grid-menu'>
+      <navigator class='_item' url='/level3/customer/list-order?month={{month}}&sta=5' hover-class='none'>
+        <view class='{{customer.undelivery > 0 ? "_num2" : "_num"}}'>{{customer.undelivery}}</view>
+        <view class='_txt'>待出库</view>
+      </navigator>
+      <navigator class='_item _rest' url='/level3/customer/list-order?month={{month}}&sta=6' hover-class='none'>
+        <view class='{{customer.others > 0 ? "_num2" : "_num"}}'>{{customer.others}}</view>
+        <view class='_txt'>加装/上牌/贴膜</view>
+      </navigator>
+      <navigator class='_item' url='/level3/customer/list-order?month={{month}}&sta=12' hover-class='none'>
+        <view class='{{customer.finished > 0 ? "_num2" : "_num"}}'>{{customer.finished}}</view>
+        <view class='_txt'>待交车</view>
+      </navigator>
+      <!-- <view class='_item'>
+        <view class='{{customer.unfinished > 0 ? "_num2" : "_num"}}'>{{customer.unfinished}}</view>
+        <view class='_txt'>待完款</view> 
+      </view> -->
+    </view>
+    <view class='l-grid-menu'>
+      <view class='_item'>
+        <view class='{{customer.insurance > 0 ? "_num2" : "_num"}}'>{{customer.insurance}}</view>
+        <view class='_txt'>商业保险</view>
+      </view>
+      <view class='_item'>
+        <view class='{{customer.mortgage > 0 ? "_num2" : "_num"}}'>{{customer.mortgage}}</view>
+        <view class='_txt'>按揭费用</view>
+      </view>
+      <view class='_item'>
+        <view class='{{customer.boutique > 0 ? "_num2" : "_num"}}'>{{customer.boutique}}</view>
+        <view class='_txt'>精品费用</view>
+      </view>
+      <view class='_item'>
+        <view class='{{customer.license > 0 ? "_num2" : "_num"}}'>{{customer.license}}</view>
+        <view class='_txt'>上牌费用</view>
+      </view>
+    </view>
+  </view>
+
+  <view class='l-img-tit l-margin-t'>
+    <image mode='widthFix' src='{{resURL}}/employee/20180510022.png'></image>
+  </view>
+  <view class='l-bg-white l-margin-b'>
+    <view class='l-grid-menu'>
+      <navigator class='_item' url='/level2/order/list2?month={{month}}&sta=1' hover-class='none'>
+        <view class='{{consumer.placeOrder > 0 ? "_num2" : "_num"}}'>{{consumer.placeOrder}}</view>
+        <view class='_txt'>开单</view>
+      </navigator>
+      <navigator class='_item' url='/level2/order/list2?month={{month}}' hover-class='none'>
+        <view class='{{consumer.total > 0 ? "_num2" : "_num"}}'>{{consumer.total}}</view>
+        <view class='_txt'>本月总订单</view>
+      </navigator>
+      <navigator class='_item' url='/level2/order/list2?month={{month}}&sta=5' hover-class='none'>
+        <view class='{{consumer.unpayDeposit > 0 ? "_num2" : "_num"}}'>{{consumer.unpayDeposit}}</view>
+        <view class='_txt'>待收定金</view>
+      </navigator>
+      <navigator class='_item' url='/level2/order/list2?month={{month}}&sta=35' hover-class='none'>
+        <view class='{{consumer.finnalprice > 0 ? "_num2" : "_num"}}'>{{consumer.finnalprice}}</view>
+        <view class='_txt'>待收尾款</view>
+      </navigator>
+    </view>
+    <view class='l-grid-menu'>
+      <navigator class='_item' url='/level2/order/list2?month={{month}}&sta=10' hover-class='none'>
+        <view class='{{consumer.carMatch > 0 ? "_num2" : "_num"}}'>{{consumer.carMatch}}</view>
+        <view class='_txt'>待配车</view>
+      </navigator>
+      <navigator class='_item' url='/level2/order/list2?month={{month}}&sta=15' hover-class='none'>
+        <view class='{{consumer.carCheck > 0 ? "_num2" : "_num"}}'>{{consumer.carCheck}}</view>
+        <view class='_txt'>待验车</view>
+      </navigator>
+      <navigator class='_item' url='/level2/order/list2?month={{month}}&sta=40' hover-class='none'>
+        <view class='{{consumer.outStock > 0 ? "_num2" : "_num"}}'>{{consumer.outStock}}</view>
+        <view class='_txt'>待出库</view>
+      </navigator>
+      <navigator class='_item' url='/level2/order/list2?month={{month}}&sta=45' hover-class='none'>
+        <view class='{{consumer.tickitUploading > 0 ? "_num2" : "_num"}}'>{{consumer.tickitUploading}}</view>
+        <view class='_txt'>待上传票证</view>
+      </navigator>
+    </view>
+    <view class='l-grid-menu'>
+      <view class='_item'>
+        <view class='{{consumer.commercial > 0 ? "_num2" : "_num"}}'>{{consumer.commercial}}</view>
+        <view class='_txt'>商业保险</view>
+      </view>
+      <view class='_item'>
+        <view class='{{consumer.traffic > 0 ? "_num2" : "_num"}}'>{{consumer.traffic}}</view>
+        <view class='_txt'>交强险</view>
+      </view>
+      <view class='_item'>
+      </view>
+      <view class='_item'>
+      </view>
+    </view>
+  </view>
+
+  <view class='l-img-tit l-margin-t'>
+    <image mode='widthFix' src='{{resURL}}/employee/20180510023.png'></image>
+  </view>
+  <view class='l-bg-white l-margin-b'>
+    <view class='l-grid-menu'>
+      <navigator class='_item2' url='/level3/customer/list2?inf=visit' hover-class='none'>
+        <text class='_txt'>今日回访</text>
+        <text class='{{commission.returnVisit > 0 ? "_num2" : "_num"}}'>{{commission.returnVisit}}</text>
+      </navigator>
+      <navigator class='_item2' url='/level3/customer/list2?tp=visit' hover-class='none'>
+        <text class='_txt'>今日预计到店</text>
+        <text class='{{commission.appointment > 0 ? "_num2" : "_num"}}'>{{commission.appointment}}</text>
+      </navigator>
+    </view>
+  </view>
+</view>

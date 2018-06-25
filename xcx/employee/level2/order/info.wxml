@@ -1,0 +1,222 @@
+<!--level2/order/info.wxml-->
+<view class='l-page-full'>
+  <view class='l-padding l-bg-white'>
+    <view class='l-flex-hc'>
+      <text class='l-h4 l-margin-r-m'>{{info.orgName}}</text>
+      <button wx:if='{{info.showEdit}}' class='l-btn-min1' size='mini' bindtap='eidtInfo'>编辑</button>
+      <view class='l-rest'></view>
+      <view class='l-text-theme'>{{info.orderStateName}}</view>
+    </view>
+    <view class='l-text-gray'>
+      <text class='l-dmr'>联系人：{{info.orgLinker}}</text>
+      <text>联系电话：{{info.orgPhone}}</text>
+    </view>
+
+    <view class='l-border-t l-margin-t-s l-padding-tb-s'>
+      <view>
+        <text class='l-dmr'>订单类型：{{orderType[info.orderType - 1]}}</text>
+        <text>物流方式：{{wuliu[info.logisticsType - 1]}}</text>
+      </view>
+      <view>
+        <text class='l-dmr'>提车日期：{{info.pickCarDate || ''}}</text>
+        <text>物流费用：{{info.freight || 0}}元</text>
+      </view>
+      <view>提车地点：{{info.pickCarAddr || ''}}</view>
+      <view>
+        <text class='l-dmr'>定金总额：{{info.totalDepositPrice}}元</text>
+        <text wx:if='{{info.pay1Image.length > 0}}' class='l-btn-link' data-urls='{{info.pay1Image}}' bindtap='previewImage'>定金支付凭证</text>
+      </view>
+      <view>
+        <view class='l-dmr'>成交总额：<text class='l-text-theme'>{{info.totalFinalPrice}}元</text></view>
+        <text wx:if='{{info.pay2Image.length > 0}}' class='l-btn-link'data-urls='{{info.pay2Image}}' bindtap='previewImage'>尾款支付凭证</text>
+      </view>
+    </view>
+  </view>
+
+  <view class='weui-loadmore weui-loadmore_line'>
+    <view class='weui-loadmore__tips weui-loadmore__tips_in-line'>订购信息</view>
+  </view>
+  <view style='margin-top: -40rpx;' wx:if='{{info.customers.length > 0}}'>
+    <view class='l-flex-h l-list-tab-tit'>
+      <view class='l-rest l-scroll-x'>
+        <view class='l-padding-t'>
+          <view id='{{item.id}}' class='_item {{item.checked ? "_slted" : ""}}' wx:for='{{info.customers}}' wx:key='id' bindtap='tabCustomer'>
+            <text>客户{{index+1}}</text>
+          </view>
+        </view>
+      </view>
+      <view class='l-margin-l l-padding-t' wx:if='{{info.showEdit && info.state < 10}}'>
+        <navigator url='add-order?id={{info.id}}' class='_add'>新增</navigator>
+      </view>
+    </view> 
+    <view class='l-list-tab-cont l-padding {{item.checked ? "_slted" : ""}}' wx:for='{{info.customers}}' wx:key='id'>
+      <!-- 客户信息 -->
+      <view class='l-flex-hc'>
+        <text class='l-h4'>客户信息</text>
+        <view class='l-rest'></view>
+        <block wx:if='{{info.showEdit}}'>
+          <button wx:if='{{info.state < 10}}' class='l-btn-min1' size='mini' data-index='{{index}}' bindtap='customerDel'>删除</button>
+          <button class='l-btn-min2 l-margin-l-s' size='mini' data-index='{{index}}' bindtap='customerEdit'>编辑</button>
+        </block>
+      </view>
+      <view class='l-margin-t-m'>
+        <view>
+          <text class='l-dmr'>客户姓名：{{item.userName}}</text>
+          <text>联系电话：{{item.userPhone}}</text>
+        </view>
+        <view>身份证照片：</view>
+        <view class='l-flex-hc' style='margin: 10rpx 0 0 -30rpx;'
+          data-urls='{{[item.idCardPicOn, item.idCardPicOff]}}' bindtap='previewImage'>
+          <view class='l-text-center l-margin-l'>
+            <view class='l-upload-add' style='width: 250rpx; height: 150rpx;'>
+              <image id='{{item.idCardPicOn}}' mode='aspectFill' src='{{item.idCardPicOn}}'></image>
+            </view>
+            <view class='l-text-gray l-fs-s'>正面</view> 
+          </view>
+          <view class='l-text-center l-margin-l'>
+            <view class='l-upload-add' style='width: 250rpx; height: 150rpx;'>
+              <image id='{{item.idCardPicOff}}' mode='aspectFill' src='{{item.idCardPicOff}}'></image>
+            </view>
+            <view class='l-text-gray l-fs-s'>反面</view> 
+          </view>
+        </view>
+      </view>
+
+      <!-- 车辆信息 -->
+      <view class='l-flex-hc l-border-t l-margin-t l-padding-t'>
+        <text class='l-h4'>车辆信息</text>
+        <view class='l-rest'></view>
+        <navigator wx:if='{{info.showEdit && info.state < 10}}' url='car?ids={{info.id}},{{item.id}}' hover-class='none'>
+          <button class='l-btn-min1' size='mini'>添加车辆</button>
+        </navigator>
+      </view>
+      <view class='l-margin-t-m {{index < item.infos.length - 1? "l-border-b l-padding-b" : ""}}' wx:for='{{item.infos}}' wx:for-item='carItem' wx:key='id'>
+        <view>{{carItem.carsName}}</view>
+        <view class='l-text-gray l-fs-s'>
+          <text class='l-margin-r'>车身：{{carItem.colorName}}</text>
+          <text v-if="{{carItem.interiorName}}" class='l-margin-r'>内饰：{{carItem.interiorName}}</text>
+          <text>指导价：{{carItem.guidePrice}}元</text>
+        </view>
+
+        <view class='l-margin-t-s l-fs-s'>
+          <view>
+            <text class='l-dmr'>裸车价：{{carItem.nakedPrice}}元</text>
+            <text>购买数量：{{carItem.carNum}}辆</text>
+          </view>
+          <view>
+            <text class='l-dmr'>交强险：{{carItem.trafficCompulsoryInsurancePrice || 0}}元</text>
+            <text>商业保险：{{carItem.commercialInsurancePrice || 0}}元</text>
+          </view>
+          <view>
+            <text class='l-dmr'>{{carItem.changePrice > 0 ? '加价金额' : '优惠金额'}}：{{carItem.changePrice2}}元</text>
+            <text>应付定金：{{carItem.depositPrice}}元</text>
+          </view>
+        </view>
+
+        <view class='l-margin-t-s l-text-gray l-fs-s' wx:if='{{carItem.remark}}'>
+          备注：{{carItem.remark}}
+        </view>
+
+        <!-- 车架号列表 -->
+        <view class='l-margin-t-s l-fs-s' wx:if='{{carItem.cars && carItem.cars.length > 0}}'>
+          <view wx:for='{{carItem.cars}}' wx:for-item='frame' wx:key='id'>
+            <view class='l-flec-hc'>
+              <text class='l-btn-link l-fr' wx:if='{{frame.isTicket}}' data-item='{{frame}}' bindtap='showTicket'>查看票证</text>
+              <text class='l-dmr'>车架号：{{frame.vin}}</text>
+              <text>内饰颜色：{{frame.interiorName}}</text>
+            </view>
+          </view>
+        </view>
+
+        <view class='l-text-center l-margin-t'>
+          <block wx:if='{{info.showEdit}}'>
+            <view class='l-inline' data-item='{{carItem}}' bindtap='carMatch'>
+              <button wx:if='{{info.state == 10}}' class='l-button-main l-margin-lr-s' size='mini'>去配车</button>
+              <button wx:if='{{info.state == 15}}' class='l-button-main l-margin-lr-s' size='mini'>去验车</button>
+            </view>
+            <button wx:if='{{info.state < 10}}' class='l-button-border l-margin-lr-s' size='mini' data-ids='{{[info.id, item.id, carItem.id]}}' bindtap='carDel'>删除</button>
+            <button wx:if='{{info.state < 30}}' class='l-button-border l-margin-lr-s' size='mini' data-url='car?ids={{info.id}},{{item.id}}' data-item='{{carItem}}' bindtap='carEdit'>编辑</button>
+          </block>
+
+          <button wx:if='{{auditor && carItem.auditNum > 0}}' class='l-button-main l-margin-lr-s' size='mini' data-item='{{carItem}}' bindtap='carMatch'>去审核</button>
+
+          <button wx:if='{{info.state >= 10}}' class='l-button-border l-margin-lr-s' size='mini' data-item='{{carItem}}' bindtap='carMatch'>查看详情</button>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <navigator wx:if='{{info.customers.length === 0}}' url='add-order?id={{info.id}}' class='l-btn-w60 l-margin-tb' hover-class='none'>
+    <button class='l-button-main'>新增订购信息</button>
+  </navigator>
+
+
+  <!-- 提车人 -->
+  <view class='weui-loadmore weui-loadmore_line'>
+    <view class='weui-loadmore__tips weui-loadmore__tips_in-line'>提车人信息</view>
+  </view>
+  <view style='margin-top: -40rpx;' wx:if='{{info.pickers.length > 0}}'>
+    <view class='l-flex-h l-list-tab-tit'>
+      <view class='l-rest l-scroll-x'>
+        <view class='l-padding-t'>
+          <view id='{{item.id}}' class='_item {{item.checked ? "_slted" : ""}}' wx:for='{{info.pickers}}' wx:key='id' bindtap='tabLinkMan'>
+            <text>提车人{{index+1}}</text>
+          </view>
+        </view>
+      </view>
+      <view class='l-margin-l l-padding-t'>
+        <navigator wx:if='{{info.showEdit}}' url='men?ids={{info.id}}&type=2' class='_add'>新增</navigator>
+      </view>
+    </view> 
+    <view class='l-list-tab-cont l-padding {{item.checked ? "_slted" : ""}}' wx:for='{{info.pickers}}' wx:key='id'>
+      <view>
+        
+        <text class='l-dmr'>提车人姓名：{{item.userName}}</text>
+        <text>联系电话：{{item.userPhone}}</text>
+      </view>
+      <view>身份证照片：</view>
+      <view class='l-flex-hc' style='margin: 10rpx 0 0 -30rpx;' 
+        data-urls='{{[item.idCardPicOn, item.idCardPicOff]}}' bindtap='previewImage'>
+        <view class='l-text-center l-margin-l'>
+          <view class='l-upload-add' style='width: 250rpx; height: 150rpx;'>
+            <image id='{{item.idCardPicOn}}' mode='aspectFill' src='{{item.idCardPicOn}}'></image>
+          </view>
+          <view class='l-text-gray l-fs-s'>正面</view> 
+        </view>
+        <view class='l-text-center l-margin-l'>
+          <view class='l-upload-add' style='width: 250rpx; height: 150rpx;'>
+            <image id='{{item.idCardPicOff}}' mode='aspectFill' src='{{item.idCardPicOff}}'></image>
+          </view>
+          <view class='l-text-gray l-fs-s'>反面</view> 
+        </view>
+      </view>
+    </view>
+  </view>
+  <navigator wx:if='{{info.showEdit && info.pickers.length === 0}}' url='men?ids={{info.id}}&type=2' class='l-btn-w60 l-margin-tb' hover-class='none'>
+    <button class='l-button-main'>新增提车人</button>
+  </navigator>
+  <!-- 提车人 end-->
+  
+  <!-- 物流信息 -->
+  <view class='l-margin-t'>
+    <view wx:if='{{info.logisticsType == 2}}' class='l-bg-white l-padding'>
+      <view class='l-flex-hc'>
+        <text class='l-h4 l-margin-r-m'>物流信息</text>
+        <button class='l-btn-min1' size='mini' bindtap='editWuliu'>编辑</button>
+        <view class='l-rest'></view>
+      </view>
+      <view class='l-margin-t-m l-fs-s'>
+        <view>物流单号：{{info.logisticsOrderCode || '--'}}</view>
+        <view>
+          <text class='l-dmr'>物流公司：{{info.logisticsCompany || '--'}}</text>
+          <text>运输车牌号：{{info.logisticsPlateNumber || '--'}}</text>
+        </view>
+        <view>
+          <text class='l-dmr'>司机姓名：{{info.logisticsDriver || '--'}}</text>
+          <text>联系电话：{{info.logisticsDriverPhone || '--'}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+  <!-- 物流信息 end-->
+</view>

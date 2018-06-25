@@ -1,0 +1,92 @@
+<!--level2/stock/in/info.wxml-->
+<view class='l-page-full'>
+  <view class='l-margin l-radius'>
+    <view class='weui-cells weui-cells_after-title'>
+      <view class='weui-cell'>
+        <view class='weui-cell__bd'>车辆来源</view>
+        <view class='weui-cell__ft'>{{carSource[info.storageSource-1]}}</view>
+      </view>
+      <view class='weui-cell'>
+        <view class='weui-cell__bd'>供应商</view>
+        <view class='weui-cell__ft'>{{info.supplierName}}</view>
+      </view>
+      <view class='weui-cell'>
+        <view class='weui-cell__bd'>采购员</view>
+        <view class='weui-cell__ft'>{{info.systemUserName}}</view>
+      </view>
+      <view class='weui-cell'>
+        <view class='weui-cell__bd'>采购数量</view>
+        <view class='weui-cell__ft'>{{carList.length}}</view>
+      </view>
+      <view class='weui-cell'>
+        <view class='weui-cell__bd'>物流费用（元）</view>
+        <view class='weui-cell__ft'>{{info.logisticsCost}}</view>
+      </view>
+      <view class='weui-cell'>
+        <view class='weui-cell__bd'>备注</view>
+        <view class='weui-cell__ft'>{{info.remarks}}</view>
+      </view>
+    </view>
+  </view>
+
+  <view class='l-margin l-radius l-bg-white'>
+    <view class='l-padding-btn l-border-b'>
+      <text class='l-fs-s l-text-gray'>合同照片</text>
+    </view>
+    <view class='l-padding'>
+      <view class='weui-cell__bd'>
+        <view class='weui-uploader'>
+          <view class='weui-uploader__bd'>
+            <view class='weui-uploader__files'>
+              <block wx:for='{{contractImage}}' wx:key='*this'>
+                <view class='weui-uploader__file' bindtap='previewImage' id='{{item}}'>
+                  <image class='weui-uploader__img' src='{{item}}' mode='aspectFill'/>
+                </view>
+              </block>
+              <view wx:if='{{contractImage.length === 0}}' class='l-text-center l-text-gray'>无</view>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class='l-margin l-radius l-bg-white' wx:if='{{carList}}'>
+    <view class='l-padding-btn l-flex-hc'>
+      <text class='l-fs-s l-text-gray'>入库车辆</text>
+      <view class='l-rest'></view>
+      <navigator wx:if='{{info.overSure != 1}}' class='l-inline' url='car?id={{info.storageId}}' hover-class='none'>
+        <button class='l-btn-min2' size='mini'>添加车辆</button>
+      </navigator>
+    </view>
+    <view class='weui-cells weui-cells_after-title'>
+      <view class='weui-cell' wx:for='{{carList}}' wx:key='stockCarId'>
+        <view class='weui-cell__bd'>
+          <view>{{item.carsName}}</view>
+          <view class='l-text-gray l-fs-s'>
+            <text>车身：{{item.colourName}}</text>
+            <text class='l-margin-l'>内饰：{{item.interiorName}}</text>
+            <text class='l-margin-l'>指导价：{{item.guidingPrice}}元</text>
+          </view>
+          <view class='l-margin-t-s'>
+            <text data-item='{{item}}' class='l-text-theme l-fr' bindtap='viewCar'>查看明细</text>
+            <text>车架号：{{item.frameNumber}}</text>
+          </view>
+        </view>
+      </view>
+      <view wx:if='{{carList.length === 0}}' class='l-padding l-text-center l-text-gray'>无</view>
+    </view>
+  </view>
+
+  <block wx:if='{{info.overSure != 1}}'>
+    <view style='height: 120rpx;'></view>
+    <view class='l-fixed-bottom l-padding l-flex-hvc'>
+      <view class='l-btn-w60 l-margin-lr-s'>
+        <button class='l-button-border' bindtap='del' id='{{info.storageId}}'>删除入库单</button>
+      </view>
+      <view class='l-btn-w60 l-margin-lr-s' wx:if='{{carList.length > 0}}'>
+        <button class='l-button-main' bindtap='sure' id='{{info.storageId}}'>全部已入库</button>
+      </view>
+    </view>
+  </block>
+</view>

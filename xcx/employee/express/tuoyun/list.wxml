@@ -1,0 +1,78 @@
+<!--express/tuoyun/list.wxml-->
+<import src='/template/loadmore.wxml' />
+<view class='l-page-full'>
+  <view style='height: 100rpx;'></view>
+  <view class='l-list-filter' catchtouchmove='noopFn'>
+    <view class='_input l-flex-hc'>
+      <view class='l-rest'>
+        <input bindinput='filterTyping' confirm-type='search' bindconfirm='search' placeholder='输入托运单号/车型/门店查询' value='{{filter.data.keywords}}'/>
+      </view>
+      <icon class='l-margin-r-m' hidden='{{filter.data.keywords === ""}}' type='cancel' color='#ccc' size='20' bindtap='clearTyping'></icon>
+      <icon type='search' size='18' color='#555' bindtap='search'></icon>
+    </view>
+  </view>
+
+  <view class='l-tuoyun-item' wx:for='{{list.data}}' wx:key='consignmentId'>
+    <view bindtap='showInfo' id='{{item.consignmentId}}'>
+      <view class='l-flex-hc'>
+        <text class='_tag' wx:if='{{item.consignmentType == 1}}' style='background-color:#00a0ea;'>普通</text>
+        <text class='_tag' wx:if='{{item.consignmentType == 2}}'>专线</text>
+        <view class='l-rest l-text-wrap1'>{{item.consignmentCode}}</view>
+        <text hidden='{{mode == "slt"}}' class='l-icon-6a8'></text>
+      </view>
+      <view class='l-text-gray l-fs-s l-margin-t-s'>
+        <view class='l-flex-h'>
+          <text>装车地点：</text>
+          <view class='l-rest'>{{item.startingPointAddress}}</view>
+          <text class='l-icon-66c l-text-link'></text>
+        </view>
+        <view class='l-flex-h'>
+          <text>卸车地点：</text>
+          <view class='l-rest'>{{item.destinationAddress}}</view>
+          <text class='l-icon-66c l-text-link'></text>
+        </view>
+        <view>预约时间：{{item.appointmentTimeDate || '--'}}</view>
+      </view>
+    </view>
+
+    <view class='l-border-t l-fs-s' style='margin-top: 20rpx; padding: 10rpx 0 20rpx;'>
+      <view class='l-flex-h l-margin-t-s {{ carItem.disabled ? "_disabled" : ""}}' wx:for='{{item.list}}' wx:key='goodsCarId' wx:for-item='carItem'  wx:for-index='carIndex' bindtap='sltCar' data-index='{{index}}' data-car-index='{{carIndex}}'>
+        <view hidden='{{mode != "slt"}}' style='width: 50rpx;'>
+          <icon wx:if='{{carItem.checked}}' type='success' size='16' color='#fa5539'/>
+          <icon wx:else type='success' size='16' color='#ddd' />
+        </view>
+        <view class='l-rest'>
+          <view style='overflow:hidden;'>
+            <text class='l-text-warn l-fr'>{{carItem.goodsCarStateName}}</text>
+            <text class='l-text-wrap1'>{{carItem.carsName}}</text>
+          </view>
+          <view class='l-text-gray l-text-wrap1'>
+            <text>车身：{{carItem.colourName || '--'}}</text>
+            <text class='l-margin-l'>内饰：{{carItem.interiorName || '--'}}</text>
+            <text class='l-margin-l'>车架号：{{carItem.frameNumber || '--'}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view>
+      <navigator hidden='{{mode == "slt"}}' class='l-fr' hover-class='none' url='contract?id={{item.consignmentId}}'>
+        <button class='l-button-border' size='mini'>查看合同</button>
+      </navigator>
+      <text>总运费：{{item.amount}}元</text>
+    </view>
+    
+  </view>
+  <template is='loadmore' data='{{...list}}' />
+
+  <view style='height: 120rpx;'></view>
+  <view class='l-fixed-bottom'>
+    <view class='l-btn-w60 l-margin-tb'>
+      <button wx:if='{{mode == "slt"}}' bindtap='sltCarOk' class='l-button-main'>确定</button>
+      <navigator wx:else url='add' hover-class='none'>
+        <button class='l-button-main'>新增托运单</button>
+      </navigator>
+    </view>
+  </view>
+</view>
+

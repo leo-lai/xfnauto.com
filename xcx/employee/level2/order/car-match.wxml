@@ -1,0 +1,115 @@
+<!--level2/order/car-match.wxml-->
+<view class='l-page-full l-bg-white'>
+  <view class='l-padding'>
+    <view class='l-h4 l-margin-t'>{{info.carsName}}</view>
+    <view class='l-fs-s l-text-gray'>
+      <text class='l-margin-r'>车身：{{info.colorName}}</text>
+      <text v-if="{{info.interiorName}}" class='l-margin-r'>内饰：{{info.interiorName}}</text>
+      <text>指导价：{{info.guidePrice}}元</text>
+    </view>
+    <view class='l-margin-t-s'>
+      <view>购买数量：{{info.carNum}}</view>
+      <view>裸车价：{{info.nakedPrice}}元</view>
+      <view>交强险：{{info.trafficCompulsoryInsurancePrice || 0}}元</view>
+      <view>商业保险险：{{info.commercialInsurancePrice || 0}}元</view>
+      <view>{{info.changePrice > 0 ? '加价金额' : '优惠金额'}}：{{info.changePrice2}}元</view>
+      <view>应付定金：{{info.depositPrice}}元</view>
+    </view>
+    <view wx:if='{{info.remark}}' class='l-margin-t l-text-gray'>备注：{{info.remark}}</view>
+
+    <view class='l-frame-list _border' wx:if='{{carFrame.length > 0}}'>
+      <view class='_item' wx:for='{{carFrame}}' wx:key='id'>
+        <view >
+          <text class='l-btn-link l-fr' wx:if='{{item.isTicket}}' data-item='{{item}}' bindtap='showTicket'>查看票证</text>
+          <text class='l-h4'>车架号：{{item.vin || '--'}}</text>
+        </view>
+        <view>
+           <text class='l-margin-r'>发动机号：{{item.engine_number || '--'}}</text> 
+          <text>内饰颜色：{{item.interiorName}}</text>
+        </view>
+        <view wx:if='{{item.auditRemark}}' class='l-text-gray'>换车申请备注：{{item.auditRemark}}</view>
+        <view wx:if='{{item.checkImages.length > 0}}' data-images='{{item.checkImages}}' bindtap='previewImage'>
+          <view class='l-text-gray l-fs-s'>验车照片</view>
+          <image mode='aspectFill' id='{{imgItem}}' wx:for='{{item.checkImages}}' wx:key='{{index}}' wx:for-item='imgItem' src='{{imgItem}}'></image>
+        </view>
+        <!-- <view wx:if='{{item.ticketImages.length > 0}}' data-images='{{item.ticketImages}}' bindtap='previewImage'>
+          <view class='l-text-gray l-fs-s'>票证照片</view>
+          <image mode='aspectFill' id='{{imgItem}}' wx:for='{{item.ticketImages}}' wx:key='{{index}}' wx:for-item='imgItem' src='{{imgItem}}'></image>
+          <view wx:if='{{item.ticketRemark}}' class='l-text-gray'>票证备注：{{item.ticketRemark}}</view>
+        </view> -->
+
+        <!-- 主管审核 -->
+        <view class='l-margin-t-s' wx:if='{{auditor && item.auditState == 5}}' data-id='{{item.id}}' bindtap='examineCar'>
+          <button size='mini' class='l-button-main l-margin-r' data-action='1'>同意换车</button>
+          <button size='mini' class='l-button-border' data-action='0'>不同意换车</button>
+        </view>
+
+        <!-- 非主管 -->
+        <block wx:if='{{showEdit}}'>
+          <view class='l-margin-t-s' wx:if='{{info.orderState == 15}}'>
+            <view wx:if='{{item.auditState != 3 && (item.auditState < 5 || item.auditState > 6)}}' data-item='{{item}}' bindtap='carCheck'>
+              <text data-action='1' class='l-btn-link l-margin-r'>上传验车照片</text>
+              <text data-action='2' class='l-btn-link'>申请换车</text>
+            </view>
+            
+            <!-- 换车申请通过，重新配车 -->
+            <view wx:if='{{item.auditState == 6}}'>
+              <text class='l-margin-r l-text-theme'>换车申请主管审核通过</text>
+              <navigator class='l-inline l-btn-link' url='frame-list?ids={{info.id}},{{item.id}}'>重新配车</navigator>
+            </view>
+
+            <!-- 换车申请不通过，协商价格 -->
+            <view wx:if='{{item.auditState == 3}}'>
+              <text class='l-margin-r l-text-theme'>换车申请主管审核不通过</text>
+              <text class='l-inline l-btn-link' data-item='{{item}}' bindtap='carEditPrice'>协商修改价格</text>
+            </view>
+          </view>
+          <view class='l-margin-t-s l-text-theme' wx:if='{{!auditor && item.auditState == 5}}'>换车申请审核中，请耐心等待</view>
+        </block>
+      </view>
+    </view>
+  </view>
+
+  <block wx:if='{{showEdit && carFrame.length == 0 && info.orderState == 10}}'>
+    <view style='height: 120rpx;'></view>
+    <view class='l-fixed-bottom l-padding'>
+      <view class='l-text-center' wx:if='{{frameList.list.length === 0}}'>
+        <text class='l-text-gray'>该车型库存不足，</text>
+        <navigator class='l-inline l-text-link' url='/level3/stock/in/list'>请先入库车辆</navigator>
+      </view>
+      <view wx:else class='l-btn-w60'>
+         <button class='l-button-main' bindtap='showFrameList'>配车</button>
+      </view>
+    </view>
+  </block>
+
+  <!-- 车架号列表 -->
+  <view class='l-popup-bottom {{frameList.visible ? "_show" : ""}}' bindtap='closeFrameList' catchtouchmove='noopFn'>
+    <view class='_inner' catchtap='noopFn'>
+      <text class='_close' bindtap='closeFrameList'>×</text>
+      <view class='_hd'>
+        <text class='l-h4'>选择车架号</text>
+      </view>
+      <scroll-view scroll-y class='_bd' style='max-height: {{frameList.height}}px;'>
+        <view class='weui-cells weui-cells_after-title'>
+          <checkbox-group bindchange='sltFrameList'>
+            <label class='weui-cell weui-check__label l-padding' wx:for='{{frameList.list}}' wx:key='stockCarId'>
+              <view class='l-margin-r-m'><checkbox value='{{item.stockCarId}}' color='#fa5539'/></view>
+              <view class='weui-cell__bd'>
+                <view>车架号：{{item.frameNumber}}</view>
+                <view class='l-fs-s'>
+                  <text class='l-margin-r'>车身颜色：{{item.colourName}}</text>
+                  <text>内饰颜色：{{item.interiorName}}</text>
+                </view>
+                <view class='l-fs-s'>车辆出厂日期：{{item.factoryOut}}</view>
+              </view>
+            </label>
+          </checkbox-group>
+        </view>
+      </scroll-view>
+      <view class='_ft'>
+        <button class='l-button-main' disabled='{{frameList.loading}}' loading='{{frameList.loading}}' bindtap='sltFrameOk'>{{ frameList.loading ? '保存中...' : '保存' }}</button>
+      </view>
+    </view>
+  </view>
+</view>
