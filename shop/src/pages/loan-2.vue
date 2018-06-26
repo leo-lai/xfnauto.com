@@ -57,7 +57,7 @@
         </div>
       </cell>
     </group>
-    <router-link v-else tag="div" to="/me/store/info" class="l-bg-white l-padding l-txt-center" style="padding-top: 10%;padding-bottom: 10%;">
+    <router-link v-else tag="div" to="/store/info" class="l-bg-white l-padding l-txt-center" style="padding-top: 10%;padding-bottom: 10%;">
       <img style="width: 50%; margin-right: -1.2rem;" src="../assets/images/20180402014.png" alt="">
       <p class="l-txt-gray l-margin-t l-fs-s">请完善商家信息</p>
     </router-link>

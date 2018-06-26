@@ -1,11 +1,11 @@
 @theme-color: rgb(235, 97, 0);
 @font-face {
   font-family: 'l-iconfont';  /* project id 647105 */
-  src: url('//at.alicdn.com/t/font_647105_xeb7wv2f0tlqh0k9.eot');
-  src: url('//at.alicdn.com/t/font_647105_xeb7wv2f0tlqh0k9.eot?#iefix') format('embedded-opentype'),
-  url('//at.alicdn.com/t/font_647105_xeb7wv2f0tlqh0k9.woff') format('woff'),
-  url('//at.alicdn.com/t/font_647105_xeb7wv2f0tlqh0k9.ttf') format('truetype'),
-  url('//at.alicdn.com/t/font_647105_xeb7wv2f0tlqh0k9.svg#l-iconfont') format('svg');
+  src: url('//at.alicdn.com/t/font_647105_khnxh7oii8h.eot');
+  src: url('//at.alicdn.com/t/font_647105_khnxh7oii8h.eot?#iefix') format('embedded-opentype'),
+  url('//at.alicdn.com/t/font_647105_khnxh7oii8h.woff') format('woff'),
+  url('//at.alicdn.com/t/font_647105_khnxh7oii8h.ttf') format('truetype'),
+  url('//at.alicdn.com/t/font_647105_khnxh7oii8h.svg#l-iconfont') format('svg');
 }
 [class^='l-icon']{
   font-family: 'l-iconfont' !important;
@@ -31,6 +31,8 @@ body {
   font-size: 16px;
 }
 img { max-width: 100%; }
+input::-webkit-input-placeholder, textarea::-webkit-input-placeholder { color: #999; }   
+ 
 #app, #app-content, #app-body, #app-body .page-view{ height: 100%; box-sizing: border-box;}
 #app-body{box-sizing: border-box; padding-top: 46px; padding-bottom: 50px;}
 #app-body.no-header{padding-top: 0 !important;}
@@ -251,6 +253,7 @@ img { max-width: 100%; }
 .l-fr{float: right;}
 i{font-style: normal;}
 h1,h2,h3,h4,h5{font-weight: 500;}
+.l-fs-x2{font-size: 20px;}
 .l-fs-xl{font-size: 18px;}
 .l-fs-l, h4{font-size: 16px;}
 .l-fs-m{font-size: 14px;}
@@ -258,10 +261,14 @@ h1,h2,h3,h4,h5{font-weight: 500;}
 .l-fs-xs{font-size: 11px;}
 .l-fs-xxs{font-size: 10px;}
 .l-txt-theme{color: @theme-color;}
+.l-txt-warn{color: #ff784e;}
+.l-txt-ok{color: #39b94d;}
+.l-txt-error{color: #ff2828;}
 .l-txt-gray{color: #999;}
 .l-txt-del{text-decoration: line-through;}
 .l-txt-center{text-align: center;}
 .l-txt-right{text-align: right;}
+.l-txt-link{text-decoration: underline; color: #409eff;}
 .l-txt-wrap1, .l-txt-wrap2{
   text-overflow: ellipsis;
   overflow: hidden;
@@ -405,8 +412,8 @@ h1,h2,h3,h4,h5{font-weight: 500;}
 }
 
 .l-preview-imgs{
-  overflow: hidden; margin: 0 -10px -10px 0; font-size: 0;
-  ._add, ._item{width: 78px; height: 78px;margin:0 10px 10px 0; display: inline-block; vertical-align: top; background-color: #ddd; border-radius: 2px;}
+  overflow: hidden; margin: -10px 0 0 -10px; font-size: 0;
+  ._add, ._item{width: 76px; height: 78px;margin: 10px 0 0 10px; display: inline-block; vertical-align: top; background-color: #ddd; border-radius: 2px;}
   ._add{background: #ddd url('./images/icon-009.png') no-repeat 50% 50%; background-size: 50%;}
 }
 .weui-cell__ft .l-preview-imgs {text-align: right;}

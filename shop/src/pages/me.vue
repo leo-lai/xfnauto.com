@@ -58,7 +58,6 @@ export default {
   },
   mounted() {
     this.$api.user.getInfo().then(data => {
-      console.log(data)
       this.userInfo = data
       if(data.userType == 2) {
         this.orderLink = '/order/list2'
@@ -76,7 +75,7 @@ export default {
 .l-user-card{
   position: relative; height: 150px; overflow: hidden; color: #fff;
   background: #fff url(../assets/images/20180402011.jpg) no-repeat 50% 50%; background-size: 100%;
-  ._avatar{width: 60px; height: 60px; border: 2px solid #ff867b; border-radius: 50%; margin-right: 15px; background-color: #fff;}
+  ._avatar{width: 60px; height: 60px; border: 2px solid #ff867b; border-radius: 50%; margin-right: 15px; background-color: #ddd;}
   ._btn1{
     position: relative; background-color: #ff8a69; border-radius: 5px; padding: 3px 20px 3px 10px; font-size: 12px; color: #fff;
     &::after{

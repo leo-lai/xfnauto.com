@@ -72,7 +72,7 @@ export default {
       if(this.formData.familyId) {
         if(this.cheshen.familyId != this.formData.familyId) {
           this.cheshen.familyId = this.formData.familyId
-          this.$api.car.getChenShenList(this.formData.familyId).then(({data}) => {
+          this.$api.car.getCheShenList(this.formData.familyId).then(({data}) => {
             data = data.map(item => {
               return {
                 name: item.carColourName,

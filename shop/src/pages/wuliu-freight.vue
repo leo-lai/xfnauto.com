@@ -104,10 +104,10 @@
   </view-box>
 </template>
 <script>
-import { Icon, XDialog } from 'vux'
+import { XDialog } from 'vux'
 export default {
   name: 'wuliu-freight',
-  components: { Icon, XDialog },
+  components: { XDialog },
   data () {
     return {
       showFreight: false,

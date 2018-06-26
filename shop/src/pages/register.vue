@@ -26,7 +26,7 @@
     </group>
 
     <div class="l-btn-area">
-      <x-button @click.native="register" type="primary">{{formData.userType === 1 ? '注册' : '注册并完善商家信息'}}</x-button>
+      <x-button @click.native="register" type="primary">{{formData.userType === 1 ? '注册' : '注册并认证店铺'}}</x-button>
       <x-button @click.native="back">返回</x-button>
     </div>
   </view-box>
@@ -87,7 +87,7 @@ export default {
             if(this.formData.userType === 1) {
               this.$router.replace('/me')
             }else {
-              this.$router.replace('/me/store/info?register=1')
+              this.$router.replace('/store/auth?register=1')
             }
           }
         })

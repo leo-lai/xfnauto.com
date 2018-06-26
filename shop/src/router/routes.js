@@ -3,7 +3,8 @@ import Loan from '../pages/loan'
 import Me from '../pages/me'
 import Login from '../pages/login'
 import Register from '../pages/register'
-const MeStoreInfo = () => import('../pages/me-store-info').then(m => m.default)
+const MeStoreInfo = () => import('../pages/store-info').then(m => m.default)
+const MeStoreAuth = () => import('../pages/store-auth').then(m => m.default)
 const MeInfo = () => import('../pages/me-info').then(m => m.default)
 const Password = () => import('../pages/password').then(m => m.default)
 const Msg = () => import('../pages/msg').then(m => m.default)
@@ -12,6 +13,7 @@ const Loan1 = () => import('../pages/loan-1').then(m => m.default)
 const Loan2 = () => import('../pages/loan-2').then(m => m.default)
 const LoanList = () => import('../pages/loan-list').then(m => m.default)
 const LoanInfo = () => import('../pages/loan-info').then(m => m.default)
+const LoanAuth = () => import('../pages/loan-auth').then(m => m.default)
 const CarSelector = () => import('../pages/car-selector').then(m => m.default)
 const MapSelector = () => import('../pages/map-selector').then(m => m.default)
 const CarSeek = () => import('../pages/car-seek').then(m => m.default)
@@ -69,6 +71,14 @@ const routes = [
     }
   },
   {
+    path: '/loan/auth',
+    name: 'loan-auth',
+    component: LoanAuth,
+    meta: {
+      title: '垫资资格认证'
+    }
+  },
+  {
     path: '/loan/list',
     name: 'loan-list',
     component: LoanList,
@@ -104,11 +114,19 @@ const routes = [
     }
   },
   {
-    path: '/me/store/info',
-    name: 'me-store-info',
+    path: '/store/info',
+    name: 'store-info',
     component: MeStoreInfo,
     meta: {
       title: '完善商家信息'
+    }
+  },
+  {
+    path: '/store/auth',
+    name: 'store-auth',
+    component: MeStoreAuth,
+    meta: {
+      title: '商铺认证'
     }
   },
   {
