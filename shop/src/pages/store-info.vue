@@ -5,10 +5,10 @@
       <p v-if="storeInfo.state == 2" class="l-margin-t-m">{{storeInfo.reason}}</p>
     </div>
     <group label-width="6em">
-      <cell title="店铺名称" :value="storeInfo.shopName"></cell>
+      <cell title="商铺名称" :value="storeInfo.shopName"></cell>
       <cell title="商家类型" :value="getStoreType(storeInfo.type)"></cell>
-      <cell title="店铺地址" align-items="flex-start" :value="getAddress()"></cell>
-      <cell title="店铺描述" align-items="flex-start" :value="storeInfo.describes"></cell>
+      <cell title="商铺地址" align-items="flex-start" :value="getAddress()"></cell>
+      <cell title="商铺描述" align-items="flex-start" :value="storeInfo.describes"></cell>
     </group>
     <group label-width="6em">
       <cell title="法人姓名" :value="storeInfo.corporation"></cell>
@@ -32,7 +32,7 @@
           </div>
         </div>
       </cell>
-      <cell title="店铺照片" align-items="flex-start">
+      <cell title="商铺照片" align-items="flex-start">
         <div class="l-margin-t-m" slot="inline-desc">
           <div class="l-preview-imgs">
             <img class="_item" :src="item" v-for="item in storeInfo.image" :key="item">

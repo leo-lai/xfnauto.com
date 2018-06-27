@@ -25,9 +25,9 @@
 
     <group gutter="0" v-if="storeInfo" label-width="6em">
       <cell title="商家类型" :value="getStoreType(storeInfo.natureType)"></cell>
-      <cell title="店铺名称" :value="storeInfo.shortName"></cell>
-      <cell title="店铺地址" align-items="flex-start" :value="getAddress()"></cell>
-      <cell title="店铺描述" align-items="flex-start" :value="storeInfo.introduce"></cell>
+      <cell title="商铺名称" :value="storeInfo.shortName"></cell>
+      <cell title="商铺地址" align-items="flex-start" :value="getAddress()"></cell>
+      <cell title="商铺描述" align-items="flex-start" :value="storeInfo.introduce"></cell>
       <cell title="企业法人身份证" align-items="flex-start">
         <div slot="title" style="width: 10em;">企业法人身份证</div>
         <div class="l-idcard-upload l-flex-hc" slot="inline-desc">
@@ -49,7 +49,7 @@
           </div>
         </div>
       </cell>
-      <cell title="店铺照片" align-items="flex-start">
+      <cell title="商铺照片" align-items="flex-start">
         <div class="l-margin-t-m" slot="inline-desc">
           <div class="l-preview-imgs">
             <img class="_item" :src="item" v-for="(item, index) in storeImages" :key="item" @click="$api.previewImage(storeImages, index)">
@@ -76,7 +76,7 @@ export default {
   name: 'loan-2',
   data () {
     return {
-      storeStatus: ['店铺资料审核通过', '店铺资料审核不通过', '审核中'],
+      storeStatus: ['商铺资料审核通过', '商铺资料审核不通过', '审核中'],
       storeInfo: null,
       businessLicense: [],
       storeImages: [],

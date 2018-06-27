@@ -26,7 +26,7 @@
     </group>
 
     <div class="l-btn-area">
-      <x-button @click.native="register" type="primary">{{formData.userType === 1 ? '注册' : '注册并认证店铺'}}</x-button>
+      <x-button @click.native="register" type="primary">{{formData.userType === 1 ? '注册' : '注册并认证商铺'}}</x-button>
       <x-button @click.native="back">返回</x-button>
     </div>
   </view-box>

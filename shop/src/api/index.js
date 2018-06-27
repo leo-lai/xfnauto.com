@@ -492,11 +492,14 @@ const api = {
     getAllInfo() { // 个人信息和认证状态信息
       return fetch.ajax(apiURL2 + '/shop_v3/user/profile')
     },
-    saveStoreInfo(formData = {}) { // 提交店铺信息
+    saveStoreInfo(formData = {}) { // 提交商铺信息
       return fetch.post(apiURL2 + '/shop_v3/Index/verify', formData)
     },
-    getStoreInfo() { // 店铺详情
+    getStoreInfo() { // 商铺认证详情
       return fetch.ajax(apiURL2 + '/shop_v3/user/shopInfo')
+    },
+    getLoanInfo() { // 垫资认证详情
+      return fetch.ajax(apiURL2 + '/shop_v3/user/loanInfo')
     },
     forgotPwd(formData = {}) {
       return fetch.post(apiURL + '/interfaceShop/shopUsers/forgetPassword', formData)

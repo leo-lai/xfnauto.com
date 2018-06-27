@@ -99,7 +99,7 @@ export default {
         this.$router.push('/loan/auth')
       }else{
         this.$vux.alert.show({
-          content: '请先认证店铺',
+          content: '请先认证商铺',
           onHide: _ => {
             this.storeAuth()
           }

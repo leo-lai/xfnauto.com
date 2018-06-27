@@ -4,38 +4,50 @@
     <flow class="l-loan-step" orientation="vertical">
       <flow-state state="1" is-done>
         <div slot="title">
-          <h4 class="l-link">认证店铺</h4>
+          <h4 class="l-link">认证商铺</h4>
           <div class="_desc">
-            <p>恭喜您，已通过店铺认证。</p>
+            <p>恭喜您，已通过商铺认证。</p>
           </div>
         </div>
       </flow-state>
-      <flow-line is-done></flow-line>
 
+      <flow-line is-done></flow-line>
       <flow-state state="2" is-done>
         <div slot="title">
           <h4 @click="tpl.visible = true"><span class="l-txt-link">下载认证资料模板</span> <b class="l-icon l-txt-theme l-fs-xl">&#xe659;</b></h4>
           <div class="_desc">
-            <p>认证资料模板会以邮件的形式发送给您，收到模板后，完善认证模板资料信息并盖章，然后邮寄到喜蜂鸟平台总部。</p>
+            <p>认证资料模板会以邮件的形式发送给您，收到模板后，完善认证模板资料信息并盖章，然后把资料原件邮寄到喜蜂鸟平台总部。</p>
           </div>
         </div>
       </flow-state>
-      <flow-line :line-span="45"></flow-line>
 
-      <flow-state state="3">
+      <flow-line :line-span="40" :is-done="audited"></flow-line>
+      <flow-state state="3" :is-done="audited">
         <div slot="title">
-          <h4>喜蜂鸟平台总部审核</h4>
+          <h4>等待喜蜂鸟平台总部审核</h4>
           <div class="_desc">
             <p>一般审核时间为总部收到您的认证资料后1-3个工作日。</p>
+            <div class="_imgs">
+              <img width="50" height="50" v-for="(item,index) in loanInfo.materials" :key="index" :src="item" @click="$api.previewImage(loanInfo.materials, index)">
+            </div>
           </div>
         </div>
       </flow-state>
-      <flow-line :line-span="30"></flow-line>
-      <flow-state state="4">
+
+      <flow-line :line-span="40" :is-done="finished"></flow-line>
+      <flow-state state="4" :is-done="finished">
         <div slot="title">
           <h4>认证完成</h4>
           <div class="_desc">
             <p>垫资资格认证通过后，便可去申请垫资。</p>
+            <div v-if="loanInfo.state == 1" class="l-margin-t">
+              <span class="l-txt-ok">认证通过</span>，
+              <router-link class="l-txt-link" to="/loan">去申请垫资</router-link>
+            </div>
+            <div v-if="loanInfo.state == 2" class="l-margin-t">
+              <span class="l-txt-error">认证失败</span>
+              <p>{{loanInfo.reason}}</p>
+            </div>
           </div>
         </div>
       </flow-state>
@@ -76,6 +88,9 @@ export default {
   components: { Flow, FlowState, FlowLine, XDialog },
   data() {
     return {
+      audited: false,
+      finished: false,
+      loanInfo: {},
       tpl: {
         visible: false,
         email: ''
@@ -91,8 +106,9 @@ export default {
       
       this.$vux.loading.show()
       this.$api.loan.sendTpl({ email: this.tpl.email }).then(({data}) => {
+        this.tpl.visible = false
         this.$vux.alert.show({
-          content: '认证资料模板已发送到您的邮箱，请注意查收。',
+          content: '认证资料模板已发送到您的邮箱，注意查收。请尽快完善垫资认证资料并把原件邮寄到喜蜂鸟平台总部。',
           onHide: _ => {
             this.$router.back()
           }
@@ -101,10 +117,19 @@ export default {
         this.$vux.loading.hide()
         // this.tpl.visible = false
       })
+    },
+    getLoanInfo() {
+      this.$api.user.getLoanInfo().then(({ data }) => {
+        if(data) {
+          this.loanInfo = data
+          this.audited = data.state >= 0
+          this.finished = data.state >= 1
+        }
+      })
     }
   },
   mounted() {
-
+    this.getLoanInfo()
   }
 }
 </script>
@@ -115,16 +140,19 @@ export default {
     width: 30px; height: 30px; line-height: 30px; border-radius: 20px; 
   }
   .weui-wepay-flow__title-right{top: 3px; transform:none; left: 50px; }
-  ._desc{color: #999; margin-top: 5px; white-space: normal;}
 }
 
 .l-loan-step{
-  height: 350px; padding: 20px !important;
+  height: 400px; padding: 20px !important;
   .weui-wepay-flow__bd{ align-items: start; }
   .weui-wepay-flow__li{
     .l-flow_li-temp() !important
   }
   .weui-wepay-flow__line{position: relative; left: 13px;}
+  ._desc{color: #999; margin-top: 5px; white-space: normal;}
+  ._imgs{
+    img{margin: 5px 5px 0 0;}
+  }
 }
 
 .l-tpl-list{

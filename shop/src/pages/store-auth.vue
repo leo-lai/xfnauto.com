@@ -1,13 +1,13 @@
 <template>
   <view-box>
     <group gutter="0">
-      <x-input title="店铺名称" placeholder="必填" :max="100" :show-clear="false" placeholder-align="right" v-model="formData.shopName"></x-input>
+      <x-input title="商铺名称" placeholder="必填" :max="100" :show-clear="false" placeholder-align="right" v-model="formData.shopName"></x-input>
       <popup-radio title="商家类型" :options="storeType" v-model="formData.type" placeholder="请选择">
         <div slot="popup-header" class="vux-1px-b l-padding-btn l-txt-center">请选择商家类型</div>
       </popup-radio>
-      <x-address title="店铺区域" placeholder="请选择" raw-value :list="addressData" v-model="regionValue" @on-hide="sltAddress"></x-address>
+      <x-address title="商铺区域" placeholder="请选择" raw-value :list="addressData" v-model="regionValue" @on-hide="sltAddress"></x-address>
       <x-textarea class="vux-x-input-placeholder-right" title="详细地址" placeholder="请输入详细地址 (街道、门牌等)" :show-counter="false" :rows="1" autosize v-model="formData.address"></x-textarea>
-      <x-textarea class="vux-x-input-placeholder-right" title="店铺描述" placeholder="选填" :rows="3" v-model="formData.describes"></x-textarea>
+      <x-textarea class="vux-x-input-placeholder-right" title="商铺描述" placeholder="选填" :rows="3" v-model="formData.describes"></x-textarea>
     </group>
 
     <group label-width="6em">
@@ -33,7 +33,7 @@
           <img class="_item" :src="item" v-for="(item, index) in businessLicense" :key="index" @click="$api.previewImage(businessLicense, index)">
         </div>
       </cell>
-      <cell title="店铺照片" align-items="flex-start">
+      <cell title="商铺照片" align-items="flex-start">
         <span class="l-icon l-fs-x2" @click="chooseImage(4, 9)">&#xe610;</span>
         <div slot="inline-desc" class="l-preview-imgs">
           <img class="_item" :src="item" v-for="(item, index) in storeImages" :key="index" @click="$api.previewImage(storeImages, index)">
@@ -70,7 +70,7 @@ export default {
       businessLicense: ['http://www.sn.xinhuanet.com/titlepic/111712/1117129119_1447376336861_title0h.jpg','http://www.sn.xinhuanet.com/titlepic/111712/1117129119_1447376336861_title0h.jpg'],
       storeImages: ['http://www.sn.xinhuanet.com/titlepic/111712/1117129119_1447376336861_title0h.jpg'],
       formData: {
-        shopName: '测试默认店铺名1',
+        shopName: '测试默认商铺名1',
         type: 1,
         provinceId: '440000',
         provinceName: '广东省',
@@ -79,7 +79,7 @@ export default {
         areaId: '440305',
         areaName: '南山区',
         address: '深圳湾科技生态园三区10栋11层',
-        describes: '',                    // 店铺描述
+        describes: '',                    // 商铺描述
 
         corporation: '王莫某',             // 法人姓名
         phone: '18602029625',             // 联系电话
@@ -118,7 +118,7 @@ export default {
               case 3: // 营业执照
                 this.businessLicense = this.businessLicense.concat(images)
                 break
-              case 4: // 店铺照片
+              case 4: // 商铺照片
                 this.storeImages = this.storeImages.concat(images)
                 break
             }
@@ -148,7 +148,7 @@ export default {
     },
     submit() {
       if (!this.formData.shopName) {
-        this.$toptip('请填写店铺名称')
+        this.$toptip('请填写商铺名称')
         return
       }
       if (!this.formData.type) {
@@ -156,11 +156,11 @@ export default {
         return
       }
       if (this.regionValue.length === 0) {
-        this.$toptip('请选择店铺区域')
+        this.$toptip('请选择商铺区域')
         return
       }
       if (!this.formData.address) {
-        this.$toptip('请填写店铺详细地址')
+        this.$toptip('请填写商铺详细地址')
         return
       }
       if (!this.formData.corporation) {
@@ -184,7 +184,7 @@ export default {
         return
       }
       // if(!this.formData.image) {
-      //   this.$toptip('请上传店铺照片')
+      //   this.$toptip('请上传商铺照片')
       //   return
       // }
       
