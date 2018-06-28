@@ -66,25 +66,24 @@ export default {
       isRegister: false,
       addressData: ChinaAddressV4Data,
       storeType: [],
-      regionValue: ['广东省', '深圳市', '南山区'],
-      businessLicense: ['http://www.sn.xinhuanet.com/titlepic/111712/1117129119_1447376336861_title0h.jpg','http://www.sn.xinhuanet.com/titlepic/111712/1117129119_1447376336861_title0h.jpg'],
-      storeImages: ['http://www.sn.xinhuanet.com/titlepic/111712/1117129119_1447376336861_title0h.jpg'],
+      regionValue: [],
+      businessLicense: [],
+      storeImages: [],
       formData: {
-        shopName: '测试默认商铺名1',
-        type: 1,
-        provinceId: '440000',
-        provinceName: '广东省',
-        cityId: '440300',
-        cityName: '深圳市',
-        areaId: '440305',
-        areaName: '南山区',
-        address: '深圳湾科技生态园三区10栋11层',
+        shopName: '',
+        type: '',
+        provinceId: '',
+        provinceName: '',
+        cityId: '',
+        cityName: '',
+        areaId: '',
+        areaName: '',
+        address: '',
         describes: '',                    // 商铺描述
-
-        corporation: '王莫某',             // 法人姓名
-        phone: '18602029625',             // 联系电话
-        idCardPicOn: 'https://img04.sogoucdn.com/app/a/100520093/64be7cd29d8d1bfb-a97e056ab6f24dfe-5e6915b488e472cef1a549433cf01d10.jpg',
-        idCardPicOff: 'http://www.sn.xinhuanet.com/titlepic/111712/1117129119_1447376336861_title0h.jpg',
+        corporation: '',                  // 法人姓名
+        phone: '',                        // 联系电话
+        idCardPicOn: '',
+        idCardPicOff: '',
       }
     }
   },

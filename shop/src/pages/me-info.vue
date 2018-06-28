@@ -105,12 +105,15 @@ export default {
           }
         })
       }
+    },
+    getUserInfo() {
+      this.$api.user.getAllInfo().then(({ data }) => {
+        this.userInfo = data
+      })
     }
   },
   mounted() {
-    this.$api.user.getAllInfo().then(({ data }) => {
-      this.userInfo = data
-    })
+    this.getUserInfo()
   }
 }
 </script>

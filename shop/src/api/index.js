@@ -113,21 +113,26 @@ const fetch = {
     data.orgCode = storage.session.get('org_code') || null
     return new Promise((resolve, reject) => {
       let ajaxParams = {
-        url, method
+        url, method, headers: {}
       }
       switch (method) {
         case 'POST':
+          ajaxParams.headers['Content-Type'] = 'application/x-www-form-urlencoded'
           ajaxParams.data = data
-          ajaxParams.headers = {
-            'Content-Type': 'application/x-www-form-urlencoded'
-          }
           ajaxParams.transformRequest = [function (data) {
             let ret = []
             for (let key in data) {
-              ret.push(encodeURIComponent(key) + '=' + encodeURIComponent(data[key]))
+              if(data[key] != null && data[key] != undefined) {
+                ret.push(encodeURIComponent(key) + '=' + encodeURIComponent(data[key]))
+              }
             }
             return ret.join('&')
           }]
+          break
+        case 'JSON':
+          ajaxParams.method = 'POST'
+          ajaxParams.headers['Content-Type'] = 'application/json'
+          ajaxParams.data = data
           break
         default:
           ajaxParams.params = data
@@ -158,6 +163,9 @@ const fetch = {
   },
   post(url, data) {
     return this.ajax(url, data, 'POST')
+  },
+  json(url, data) {
+    return this.ajax(url, data, 'JSON')
   }
 }
 
@@ -592,19 +600,33 @@ const api = {
     apply1(formData = {}) { // 个人贷款
       return fetch.post(apiURL + '/interfaceShop/applyLoan/applyLoanEdit', formData)
     },
+    // apply2(formData = {}) { // 商家垫资
+    //   return fetch.post(apiURL + '/interfaceShop/applyLoan/applyLoanMerchant', formData)
+    // },
     apply2(formData = {}) { // 商家垫资
-      return fetch.post(apiURL + '/interfaceShop/applyLoan/applyLoanMerchant', formData)
+      return fetch.post(apiURL2 + '/shop_v3/loan/create', formData)
     },
     getList(formData = {}, page = 1, rows = 50) { // 贷款申请记录
       formData.page = page
       formData.rows = rows
       return fetch.post(apiURL + '/interfaceShop/applyLoan/myApplyLoanList', formData)
     },
-    getInfo(applyLoanId = '') {
+    getInfo(applyLoanId = '') { // 贷款详情
       return fetch.post(apiURL + '/interfaceShop/applyLoan/applyLoanInfo', { applyLoanId })
+    },
+    getList2(formData = {}, page = 1, rows = 50) { // 垫资申请记录
+      formData.page = page
+      formData.rows = rows
+      return fetch.ajax(apiURL2 + '/shop_v3/loan/index', formData)
+    },
+    getInfo2(id = '') { // 垫资详情
+      return fetch.ajax(apiURL2 + '/shop_v3/loan/detail', { id })
     },
     sendTpl(formData = {}) { // 发送认证模板
       return fetch.post(apiURL2 + '/shop_v3/loan/send', formData)
+    },
+    cancel(orderId = '') { // 取消垫资单
+      return fetch.ajax(apiURL2 + '/shop_v3/loan/cancel', { orderId })
     }
   },
   seek: { // 寻车

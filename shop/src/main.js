@@ -64,6 +64,12 @@ Vue.filter('Wan', function (value) {
   return (value / 10000).toFixed(2)
 })
 
+// 整数去两位小数点 10.00 -> 10
+Vue.filter('Int0', function (value) {
+  if (!value) return ''
+  return (value * 100) / 100
+})
+
 /* eslint-disable no-new */
 import App from './App'
 new Vue({

@@ -77,8 +77,11 @@ export default {
       this.$router.savedScroll[this.$route.fullPath] = event.target.scrollTop
     },
     onScroll() {
-      this.noPreventBounce = !!document.querySelector('[no-prevent-bounce]')
       this.$nextTick(_ => {
+        setTimeout(_ => {
+          this.noPreventBounce = !!document.querySelector('[no-prevent-bounce]')
+        }, 600)
+        
         let viewBoxs = document.querySelectorAll('#vux_view_box_body')
         let scrollElem = viewBoxs[1] || viewBoxs[0]
         if (scrollElem) {
@@ -102,6 +105,7 @@ export default {
       }, false)
 
       appBody.addEventListener('touchmove', event => {
+        console.log(this.noPreventBounce)
         if(this.noPreventBounce) return
 
         let e = event.touches[0] || event

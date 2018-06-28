@@ -22,7 +22,7 @@
 
 <script>
 export default {
-  name: 'me-info',
+  name: 'wuliu-freight-addcar',
   data () {
     return {
       formData: {

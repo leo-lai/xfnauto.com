@@ -12,8 +12,11 @@ const Pay = () => import('../pages/pay').then(m => m.default)
 const Loan1 = () => import('../pages/loan-1').then(m => m.default)
 const Loan2 = () => import('../pages/loan-2').then(m => m.default)
 const LoanList = () => import('../pages/loan-list').then(m => m.default)
+const LoanList2 = () => import('../pages/loan-list2').then(m => m.default)
 const LoanInfo = () => import('../pages/loan-info').then(m => m.default)
+const LoanInfo2 = () => import('../pages/loan-info2').then(m => m.default)
 const LoanAuth = () => import('../pages/loan-auth').then(m => m.default)
+const Loan2Addcar = () => import('../pages/loan-2-addcar').then(m => m.default)
 const CarSelector = () => import('../pages/car-selector').then(m => m.default)
 const MapSelector = () => import('../pages/map-selector').then(m => m.default)
 const CarSeek = () => import('../pages/car-seek').then(m => m.default)
@@ -88,11 +91,36 @@ const routes = [
     }
   },
   {
+    path: '/loan/list2',
+    name: 'loan-list2',
+    component: LoanList2,
+    meta: {
+      title: '垫资申请记录',
+      auth: true
+    }
+  },
+  {
     path: '/loan/info',
     name: 'loan-info',
     component: LoanInfo,
     meta: {
       title: '加载中'
+    }
+  },
+  {
+    path: '/loan/info2',
+    name: 'loan-info2',
+    component: LoanInfo2,
+    meta: {
+      title: '垫资详情'
+    }
+  },
+  {
+    path: '/loan/2/addcar',
+    name: 'loan-2-addcar',
+    component: Loan2Addcar,
+    meta: {
+      title: '添加垫资车辆'
     }
   },
   {

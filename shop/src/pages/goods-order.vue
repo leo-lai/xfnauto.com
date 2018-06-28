@@ -226,7 +226,6 @@ export default {
     font-size: 14px; padding: 12px 15px; background-color: #eef3f6; color: inherit;
     img{width: 20px; height: 20px; vertical-align: -4px; margin-right: 5px;}
   }
-
 }
 .l-goods-info{
   ._tag1 {

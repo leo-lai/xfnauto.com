@@ -31,7 +31,7 @@
           <cell title="寻车记录" link="/car/seek/list">
             <img class="weui-cell__icon" slot="icon" src="../assets/images/icon-002.png">
           </cell>
-          <cell :title="loanTitle" link="/loan/list">
+          <cell :title="loanTitle" :link="loanLink">
             <img class="weui-cell__icon" slot="icon" src="../assets/images/icon-003.png">
           </cell>
         </group>
@@ -51,7 +51,8 @@ export default {
     return {
       userInfo: null,
       orderLink: '/order/list3',
-      loanTitle: ''
+      loanLink: '/loan/list',
+      loanTitle: '贷款申请记录'
     }
   },
   methods: {
@@ -61,10 +62,8 @@ export default {
       this.userInfo = data
       if(data.userType == 2) {
         this.orderLink = '/order/list2'
+        this.loanLink = '/loan/list2'
         this.loanTitle = '垫资申请记录'
-      }else{
-        this.orderLink = '/order/list3'
-        this.loanTitle = '贷款申请记录'
       }
     })
   }

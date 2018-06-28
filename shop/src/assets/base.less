@@ -1,11 +1,11 @@
 @theme-color: rgb(235, 97, 0);
 @font-face {
   font-family: 'l-iconfont';  /* project id 647105 */
-  src: url('//at.alicdn.com/t/font_647105_khnxh7oii8h.eot');
-  src: url('//at.alicdn.com/t/font_647105_khnxh7oii8h.eot?#iefix') format('embedded-opentype'),
-  url('//at.alicdn.com/t/font_647105_khnxh7oii8h.woff') format('woff'),
-  url('//at.alicdn.com/t/font_647105_khnxh7oii8h.ttf') format('truetype'),
-  url('//at.alicdn.com/t/font_647105_khnxh7oii8h.svg#l-iconfont') format('svg');
+  src: url('//at.alicdn.com/t/font_647105_d73x048od.eot');
+  src: url('//at.alicdn.com/t/font_647105_d73x048od.eot?#iefix') format('embedded-opentype'),
+  url('//at.alicdn.com/t/font_647105_d73x048od.woff') format('woff'),
+  url('//at.alicdn.com/t/font_647105_d73x048od.ttf') format('truetype'),
+  url('//at.alicdn.com/t/font_647105_d73x048od.svg#l-iconfont') format('svg');
 }
 [class^='l-icon']{
   font-family: 'l-iconfont' !important;
@@ -302,9 +302,11 @@ h1,h2,h3,h4,h5{font-weight: 500;}
 .l-margin-b{margin-bottom: 15px;}
 .l-margin-b-m{margin-bottom: 10px;}
 .l-margin-l{margin-left: 15px;}
+.l-margin-l-m{margin-left: 10px;}
 .l-margin-l-s{margin-left: 5px;}
 .l-margin-r{margin-right: 15px;}
 .l-margin-tb{margin-top: 15px; margin-bottom: 15px;}
+.l-margin-tb-m{margin-top: 10px; margin-bottom: 10px;}
 .l-margin-lr{margin-left: 15px; margin-right: 15px;}
 .l-margin-lr-m{margin-left: 10px; margin-right: 10px;}
 .l-margin-lr-s{margin-left: 5px; margin-right: 5px;}
@@ -324,7 +326,7 @@ h1,h2,h3,h4,h5{font-weight: 500;}
 .l-link-main{color: @theme-color; text-decoration: underline;}
 .l-link-gray{color: #999; text-decoration: underline;}
 
-.l-thumb1{width: 50px; height: 50px; border-radius: 5px; border: 1px solid #eee; background: no-repeat 50% 50%; background-size: cover;}
+.l-thumb1{width: 50px; height: 50px; border-radius: 5px; border: 1px solid #eee; background: no-repeat 50% 50%; background-size: contain;}
 .l-thumb1[radius]{border-radius: 50%;}
 
 // 页面切换动画
@@ -442,8 +444,17 @@ h1,h2,h3,h4,h5{font-weight: 500;}
 .weui-wepay-flow__li{
   .l-flow_li() !important
 }
+
 .weui-btn{font-size: 16px !important;}
-.weui-btn_mini{font-size: 12px !important;}
+.weui-btn[round]{border-radius: 99px !important;}
+.weui-btn_plain-default{border-color: rgba(0, 0, 0, 0.1) !important;}
+.weui-btn_plain-primary{
+  color:  @theme-color !important;
+  border: 1px solid @theme-color !important;
+}
+._l-btn_mini{line-height: 2 ; padding: 0 15px; font-size: 12px;}
+.weui-btn_mini{ ._l-btn_mini() !important;}
+
 .weui-input{color: #333 !important;}
 .weui-cells{font-size: 16px !important; font-weight: 400;}
 .weui-cells .vux-label{font-weight: 400 !important;}

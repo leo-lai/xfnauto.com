@@ -46,7 +46,7 @@
             </div>
             <div v-if="loanInfo.state == 2" class="l-margin-t">
               <span class="l-txt-error">认证失败</span>
-              <p>{{loanInfo.reason}}</p>
+              <p>原因：{{loanInfo.reason}}</p>
             </div>
           </div>
         </div>
