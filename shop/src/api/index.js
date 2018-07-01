@@ -627,7 +627,13 @@ const api = {
     },
     cancel(orderId = '') { // 取消垫资单
       return fetch.ajax(apiURL2 + '/shop_v3/loan/cancel', { orderId })
-    }
+    },
+    deferRecord(orderId = '') { // 延期记录
+      return fetch.ajax(apiURL2 + '/shop_v3/loan/overduerecords', { orderId })
+    },
+    getPayRecord(id = '') { // 还款记录
+      return fetch.ajax(apiURL2 + '/shop_v3/loan/payrecord', { id })
+    },
   },
   seek: { // 寻车
     add(formData = {}) {

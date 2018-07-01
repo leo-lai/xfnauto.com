@@ -67,7 +67,7 @@ export default {
           { label: '请还款', value: 4 },
           { label: '已逾期', value: 5 },
           { label: '已拒绝', value: 1 },
-          { label: '移交处理', value: 6 },
+          { label: '已移交处理', value: 6 },
           { label: '已还清', value: 7 },
         ],
         active: ''
