@@ -13,14 +13,14 @@
     </group>
 
     <group>
-      <x-input title="期望价" placeholder="请填写" type="number" :show-clear="false" :max="10" placeholder-align="right" v-model="formData.expectationAmount">
+      <x-input title="期望价" placeholder="请填写" keyboard="number" ::max="10" placeholder-align="right" v-model="formData.expectationAmount">
         <span slot="right" class="l-txt-gray l-margin-l-s">万元</span>
       </x-input>
-      <x-input title="上牌城市" placeholder="请填写" :show-clear="false" :max="50" placeholder-align="right" v-model="formData.signCity"></x-input>
+      <x-input title="上牌城市" placeholder="请填写" :max="50" placeholder-align="right" v-model="formData.signCity"></x-input>
       <calendar title="期望提车时间" v-model="formData.expectationHaveingCarTime" placeholder="请选择" disable-past></calendar>
-      <x-input title="联系人姓名" placeholder="请填写" :show-clear="false" :max="20" placeholder-align="right" v-model="formData.linkmanName"></x-input>
+      <x-input title="联系人姓名" placeholder="请填写" :max="20" placeholder-align="right" v-model="formData.linkmanName"></x-input>
       <cell title="联系人电话" :value="formData.linkmanPhone"></cell>
-      <!-- <x-input title="联系人电话" placeholder="请填写" type="tel" :max="11" :show-clear="false" placeholder-align="right" v-model="formData.linkmanPhone"></x-input> -->
+      <!-- <x-input title="联系人电话" placeholder="请填写" type="tel" :max="11" placeholder-align="right" v-model="formData.linkmanPhone"></x-input> -->
       <x-textarea class="vux-x-input-placeholder-right" title="特殊要求" placeholder="请填写" :rows="3" v-model="formData.remarks"></x-textarea>
     </group>
 

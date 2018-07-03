@@ -5,22 +5,22 @@
       <a :class="{'_active': formData.userType === 2}" @click="formData.userType = 2">我是商家</a>
     </div>
     <group gutter="0">
-      <x-input class="l-ipt" type="tel" is-type="china-mobile" placeholder="请输入手机号码" :max="11" v-model="formData.phoneNumber">
+      <x-input class="l-ipt" keyboard="number" is-type="china-mobile" :max="11" placeholder="请输入手机号码" v-model="formData.phoneNumber">
         <i slot="label" class="l-icon">&#xe613;</i>
       </x-input>
-      <x-input class="l-ipt" type="number" placeholder="请输入手机验证码" :max="6" v-model="formData.phoneCode">
+      <x-input class="l-ipt" keyboard="number" :max="6" placeholder="请输入手机验证码" v-model="formData.phoneCode">
         <i slot="label" class="l-icon">&#xe60f;</i>
         <x-button ref="sendBtn" type="primary" slot="right" mini @click.native="sendMobiCode">获取验证码</x-button>
       </x-input>
     </group>
     <group>
-      <x-input class="l-ipt" type="text" placeholder="请输入您的真实姓名" :max="50" v-model="formData.realName">
+      <x-input class="l-ipt" type="text" :max="50" placeholder="请输入您的真实姓名" v-model="formData.realName">
         <i slot="label" class="l-icon">&#xe60e;</i>
       </x-input>
-      <x-input class="l-ipt" type="password" placeholder="请输入登录密码" :max="50" v-model="formData.password">
+      <x-input class="l-ipt" type="password" :max="50" placeholder="请输入登录密码" v-model="formData.password">
         <i slot="label" class="l-icon">&#xe616;</i>
       </x-input>
-      <x-input class="l-ipt" type="password" placeholder="请再次输入密码" :max="50" v-model="formData.password2">
+      <x-input class="l-ipt" type="password" :max="50" placeholder="请再次输入密码" v-model="formData.password2">
         <i slot="label" class="l-icon">&#xe616;</i>
       </x-input>
     </group>

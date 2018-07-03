@@ -31,8 +31,8 @@
         </div>
       </div>
       <div class="_ft">
-        <span style="vertical-align: 5px;margin-right: 5px;" class="l-txt-link l-fs-s" @click="$api.previewImage(0, item.voucher)">查看还款凭证</span>
-        <img width="40" height="40" style="margin:5px 5px 0 0;" v-for="(img, index) in item.voucher" :key="index" :src="img" @click="$api.previewImage(index, item.voucher)">
+        <span style="vertical-align: 5px;margin-right: 5px;" class="l-txt-link l-fs-s" @click="$api.previewImage(item.voucher, 0)">查看还款凭证</span>
+        <img width="40" height="40" style="margin:5px 5px 0 0;" v-for="(img, index) in item.voucher" :key="index" :src="img" @click="$api.previewImage(item.voucher, index)">
       </div>
     </div>
   </view-box>
@@ -80,9 +80,9 @@ export default {
 .l-info-car{
   background-color: #f4fafa; padding: 10px; margin: 5px 0; border-radius: 5px;
   &._disabled{opacity: 0.6;}
-  .l-thumb1{margin:5px 10px 0 0; position: relative; overflow: hidden;}
+  .l-thumb1{margin: 3px 10px 0 0; position: relative; overflow: hidden; width: 60px; height: 60px;}
   ._state1, ._state2{
-    position: absolute; bottom: 0; left: 0; right: 0; font-size: 10px; text-align: center; padding: 1px 0; color: #fff;
+    position: absolute; bottom: 0; left: 0; right: 0; font-size: 10px; text-align: center; padding: 1px 0 2px; color: #fff;
   }
   ._state1{background-color: #39b94d; }
   ._state2{background-color: #ff2828; }

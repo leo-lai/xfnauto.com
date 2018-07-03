@@ -25,14 +25,14 @@
             </div>
             <span @click="delcar(item.guid)"><icon type="clear"></icon></span>
           </div>
-          <div class="l-txt-gray l-fs-m l-margin-t-s">
+          <div class="l-txt-gray l-fs-s l-margin-t-s">
             <p>
-              <span style="display: inline-block; width: 43%;">指导价：<i class="l-rmb">{{item.guidancePrice}}</i></span>
-              <span>实际购车价：<i class="l-rmb">{{item.price}}</i></span>
+              <span style="display: inline-block; width: 50%;">实际购车价：<i class="l-rmb">{{item.price | Int0}}</i></span>
+              <span>垫资数量：{{item.number}}辆</span>
             </p>
             <p>
-              <span style="display: inline-block; width: 43%;">垫资数量：{{item.number}}辆</span>
-              <span>垫资金额：<i class="l-rmb">{{item.amount}}</i></span>
+              <span style="display: inline-block; width: 50%;">保证金：<i>{{item.downPayments | Int0}}%</i></span>
+              <span>垫资金额：<i class="l-rmb">{{item.amount | Int0}}</i></span>
             </p>
           </div>
         </div>
@@ -40,7 +40,10 @@
       </div>
 
       <group>
-        <x-input title="垫资期限" type="tel" :show-clear="false" :max="20" placeholder="请输入垫资天数" placeholder-align="right" v-model="formData.period">
+        <cell title="当前手续费率">
+          <span>{{userInfo.rate}}</span><span class="l-txt-gray l-margin-l-s">%</span>
+        </cell>
+        <x-input title="垫资期限" keyboard="number" :max="20" placeholder="请输入垫资天数" placeholder-align="right" v-model="formData.period">
           <span class="l-txt-gray l-margin-l-s" slot="right">天</span>
         </x-input>
       </group>
@@ -126,11 +129,13 @@ export default {
       immediate: false,
       deep: true,
       handler() {
-        setTimeout(this.getAmount, 200)
+        clearTimeout(this.timeid)
+        this.timeid = setTimeout(this.getAmount, 200)
       }
     },
     'formData.period': function (value) {
-      setTimeout(this.getAmount, 200)
+      clearTimeout(this.timeid)
+      this.timeid = setTimeout(this.getAmount, 200)
     }
   },
   methods: {
@@ -160,11 +165,26 @@ export default {
       this.$api.user.getAllInfo().then(({ data }) => {
         this.userInfo = data
         this.formData.rate = data.rate
+
+        if(this.$route.query.id) {
+          this.getOrderInfo()
+        }
+      })
+    },
+    getOrderInfo() {
+      this.$vux.loading.show()
+      this.$api.loan.getInfo2(this.$route.query.id).then(({data}) => {
+        if(data && data.id != this.$storage.session.get('loan-2-id')) {
+          this.$storage.session.set('loan-2-id', data.id)
+          this.formData.period = data.period
+          this.carList = data.list
+        }
+      }).finally(_ => {
+        this.$vux.loading.hide()
       })
     },
     delcar(guid) {
       this.carList = this.carList.filter(item => item.guid !== guid)
-      this.$storage.session.set('loan-2-addcar', this.carList)
     },
     getAmount() {
       let amount = 0, fee = 0
@@ -180,10 +200,11 @@ export default {
         fee = Math.ceil(amount * rate * period) / 100
       }
 
-      this.formData.amount = amount
+      this.formData.amount = Math.ceil(amount * 100) / 100
       this.formData.fee = fee
 
       this.$storage.session.set('loan-2-form', this.formData)
+      this.$storage.session.set('loan-2-addcar', this.carList)
     },
     submit() {
       if(this.carList.length === 0) {
@@ -220,7 +241,7 @@ export default {
     this.getUserInfo()
 
     this.carList = this.$storage.session.get('loan-2-addcar') || []
-    this.$utils.copyObj(this.formData, this.$storage.session.get('loan-2-form')) 
+    this.$utils.copyObj(this.formData, this.$storage.session.get('loan-2-form'))
   }
 }
 </script>

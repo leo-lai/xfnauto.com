@@ -1,10 +1,10 @@
 <template>
   <view-box>
     <group gutter="0">
-      <x-input class="l-ipt" type="tel" is-type="china-mobile" placeholder="请输入手机号码" :max="11" v-model="formData.phoneNumber">
+      <x-input class="l-ipt" keyboard="number" is-type="china-mobile" :max="11" placeholder="请输入手机号码" v-model="formData.phoneNumber">
         <i slot="label" class="l-icon">&#xe613;</i>
       </x-input>
-      <x-input class="l-ipt" type="number" placeholder="请输入手机验证码" :max="6" v-model="formData.phoneCode">
+      <x-input class="l-ipt" keyboard="number" placeholder="请输入手机验证码" :max="6" v-model="formData.phoneCode">
         <i slot="label" class="l-icon">&#xe60f;</i>
         <x-button ref="sendBtn" type="primary" slot="right" mini @click.native="sendMobiCode">获取验证码</x-button>
       </x-input>

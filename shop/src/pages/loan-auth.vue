@@ -68,7 +68,7 @@
               <cell title="担保函" inline-desc="用于签章人认证中的资料认证">
                 <icon class="l-txt-theme l-fs-m" type="success-no-circle"></icon>
               </cell>
-              <x-input type="email" :max="100" placeholder-align="center" placeholder="请输入您的邮箱地址" v-model="tpl.email"></x-input>
+              <x-input v-model="tpl.email" is-type="email" type="text" :max="100" placeholder-align="center" placeholder="请输入您的邮箱地址"></x-input>
             </group>
             <div class="_btn" @click="sendTpl">立即发送</div>
           </div>

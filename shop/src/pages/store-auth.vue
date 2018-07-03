@@ -1,7 +1,7 @@
 <template>
   <view-box>
     <group gutter="0">
-      <x-input title="商铺名称" placeholder="必填" :max="100" :show-clear="false" placeholder-align="right" v-model="formData.shopName"></x-input>
+      <x-input title="商铺名称" placeholder="必填" :max="100" placeholder-align="right" v-model="formData.shopName"></x-input>
       <popup-radio title="商家类型" :options="storeType" v-model="formData.type" placeholder="请选择">
         <div slot="popup-header" class="vux-1px-b l-padding-btn l-txt-center">请选择商家类型</div>
       </popup-radio>
@@ -11,8 +11,8 @@
     </group>
 
     <group label-width="6em">
-      <x-input title="法人姓名" placeholder="必填" :show-clear="false" :max="20" placeholder-align="right" v-model="formData.corporation"></x-input>
-      <x-input title="联系电话" placeholder="必填" type="tel" :max="11" :show-clear="false" placeholder-align="right" v-model="formData.phone"></x-input>
+      <x-input title="法人姓名" placeholder="必填" :max="20" placeholder-align="right" v-model="formData.corporation"></x-input>
+      <x-input title="联系电话" placeholder="必填" keyboard="number" is-type="china-mobile" :max="11" placeholder-align="right" v-model="formData.phone"></x-input>
       <cell title="法人身份证" align-items="flex-start">
         <div slot="title" style="width: 10em;">法人身份证</div>
         <div class="l-idcard-upload l-flex-hc" slot="inline-desc">
@@ -46,7 +46,7 @@
       <div class="_inner">
         <div class="l-flex-hc l-padding">
           <template v-if="isRegister">
-            <x-button style="width: 50%;" class="l-btn-radius" @click.native="gohome">稍后认证，先去淘车</x-button>
+            <x-button style="width: 50%;" class="l-btn-radius" @click.native="gohome">稍后认证，去淘车</x-button>
             <span class="l-margin-l"></span>
           </template>
           <x-button style="width: 50%;" class="l-btn-radius" type="primary" @click.native="submit">提交审核</x-button>

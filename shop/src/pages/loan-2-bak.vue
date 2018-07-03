@@ -12,8 +12,8 @@
       <cell title="指导价">
         <span>{{formData.guidancePrice}} 元</span>
       </cell>
-      <x-input title="车辆数量" placeholder="请输入申请垫资车辆数量" type="tel" :max="10" placeholder-align="right" v-model="formData.carNumber"></x-input>
-      <x-input title="垫资总额" placeholder="请输入垫资总额" type="number" :max="10" placeholder-align="right" v-model="formData.loanAmount">
+      <x-input title="车辆数量" placeholder="请输入申请垫资车辆数量" keyboard="number" :max="10" placeholder-align="right" v-model="formData.carNumber"></x-input>
+      <x-input title="垫资总额" placeholder="请输入垫资总额" keyboard="number" :max="10" placeholder-align="right" v-model="formData.loanAmount">
         <span slot="right" class="l-txt-gray l-margin-l-s">元</span>
       </x-input>
     </group>

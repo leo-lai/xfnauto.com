@@ -1,19 +1,23 @@
 <template>
   <view-box no-prevent-bounce>
-    <!-- <div class="l-search-placeholder">
-      <search @on-submit="onSearch" @on-cancel="onSearch" v-model="list.filter.keywords" :auto-fixed="false" placeholder="输入车型查找"></search>
-    </div> -->
-    
     <div class="l-tab">
       <tab :scroll-threshold="5" :line-width="1">
         <tab-item v-for="item in tab.data" :key="item.value" :selected="tab.active === item.value" @click.native="tabClick(item.value)">{{item.label}}</tab-item>
       </tab>
     </div>
+    <div class="_tab-placeholder"></div>
+
+    <div class="l-search-placeholder">
+      <search @on-submit="onSearch" @on-cancel="onSearch" v-model="list.filter.keywords" :auto-fixed="false" placeholder="输入垫资单号或车型查找"></search>
+    </div>
 
     <router-link tag="div" :to="'/loan/info2?id=' + item.id" class="l-loan-item  l-fs-m" v-for="item in list.data" :key="item.id">
       <div class="_hd l-flex-hc l-is-link">
         <div class="l-rest">{{item.orderId}}</div>
-        <span class="l-txt-theme">{{item.stateName}}</span>
+        <span v-if="item.state == 4 || item.state == 5" class="l-fr l-txt-error l-fs-m">
+          <icon class="l-fs-m _icon" type="warn"></icon>{{item.stateName}}
+        </span>
+        <span v-else class="l-fr l-txt-theme l-fs-m">{{item.stateName}}</span>
       </div>
       <div class="_bd l-flex-hc" v-for="carItem in item.info" :key="carItem.id">
         <img class="_thumb" :src="carItem.thumb" alt="">
@@ -25,12 +29,12 @@
           </p>
         </div>
       </div>
-      <div class="l-margin-tb-m l-flex-hc">
+      <div class="l-margin-t-m l-flex-hc">
         <div class="l-rest">
-          <span class="l-fs-m l-txt-gray">{{item.createTime}}</span>
+          <span class="l-fs-m l-txt-gray">申请日期 {{item.createTime}}</span>
         </div>
         <div v-if="[0, 1, 2].includes(item.state)">垫资本金总额：<span class="l-txt-theme l-rmb">{{item.amount}}</span></div>
-        <div v-else-if="[3, 4, 5, 6].includes(item.state)">待还总额：<span class="l-txt-theme l-rmb">{{item.unpayAmount}}</span></div>
+        <div v-else-if="[3, 4, 5, 6].includes(item.state)">待还总额：<span class="l-txt-theme l-rmb">{{item.unpayAmountTotal}}</span></div>
         <div v-else-if="item.state == 7">还款总额：<span class="l-txt-theme l-rmb">{{item.totalAmount}}</span></div>
       </div>
       <div v-if="item.state == 0" class="_ft vux-1px-t l-txt-right" @click.stop>
@@ -155,8 +159,11 @@ export default {
 }
 </script>
 <style lang="less" scoped>
+.l-tab{position: fixed; left: 0; right: 0; top: 0; z-index: 1;}
+._tab-placeholder{height: 44px;}
 .l-loan-item{
   background-color: #fff; padding: 10px; margin: 10px 0;
+  ._hd ._icon{vertical-align: -2px;}
   ._thumb{width: 50px; height: 50px; border-radius: 5px; margin-right: 10px; background-color: #fff;}
   ._bd{ background-color:#f4fafa; padding: 10px; margin-top: 10px; }
   ._ft{ padding: 10px 0 0 0;}

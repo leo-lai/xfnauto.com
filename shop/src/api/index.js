@@ -572,7 +572,7 @@ const api = {
     getInfo1(advanceOrderId = '') { // 预约单详情
       return fetch.post(apiURL + '/interfaceShop/advanceOrder/orgAdvanceOrderInfo', { advanceOrderId })
     },
-    getList2(formData = {}, page = 1, rows = 50) { // 订购单
+    getList2(formData = {}, page = 1, rows = 200) { // 订购单
       formData.page = page
       formData.rows = rows
       return fetch.post(apiURL + '/interfaceShop/advanceOrder/myOrderList', formData)

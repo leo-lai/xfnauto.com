@@ -3,7 +3,7 @@
     <div class="l-search-placeholder">
       <search @on-submit="onSearch" @on-cancel="onSearch" v-model="list.filter.keywords" :auto-fixed="false" placeholder="输入单号或车型查询"></search>
     </div>
-    <div class="l-seek-item l-fs-m" v-for="item in list.data" :key="item.customerOrderId">
+    <div class="l-seek-item l-fs-m" v-for="(item,index) in list.data" :key="index">
       <router-link tag="div" :to="'/order/info3?id=' + item.customerOrderId">
         <div class="_hd l-flex-hc l-is-link">
           <div class="l-rest">订购单号：{{item.customerOrderCode}}</div>

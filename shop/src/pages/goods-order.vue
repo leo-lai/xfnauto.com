@@ -58,8 +58,8 @@
     </group>
 
     <group>      
-      <x-input title="客户姓名" placeholder="请填写" :show-clear="false" :max="20" placeholder-align="right" v-model="formData.realName"></x-input>
-      <!-- <x-input title="联系电话" placeholder="请填写" type="tel" :max="11" :show-clear="false" placeholder-align="right" v-model="formData.phoneNumber"></x-input> -->
+      <x-input title="客户姓名" placeholder="请填写" :max="20" placeholder-align="right" v-model="formData.realName"></x-input>
+      <!-- <x-input title="联系电话" placeholder="请填写" type="tel" :max="11" placeholder-align="right" v-model="formData.phoneNumber"></x-input> -->
       <cell title="联系电话" :value="formData.phoneNumber"></cell>
       <calendar title="预约到店日期" v-model="formData.appointmentDate" placeholder="请选择" disable-past></calendar>
       <x-textarea class="vux-x-input-placeholder-right" title="预约备注" placeholder="请填写" :rows="3" v-model="formData.remarks"></x-textarea>

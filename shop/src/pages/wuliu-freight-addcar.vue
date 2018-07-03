@@ -8,7 +8,7 @@
       <cell title="指导价">
         <span class="l-rmb">{{formData.guidancePrice}}万</span>
       </cell>
-      <x-input title="车辆数量" placeholder="请输入车辆数量" type="tel" :max="10" placeholder-align="right" v-model="formData.carNumber"></x-input>
+      <x-input title="车辆数量" placeholder="请输入车辆数量" type="tel" keyboard="number" :max="10" placeholder-align="right" v-model="formData.carNumber"></x-input>
     </group>
 
     <div class="l-fixed-bottom">

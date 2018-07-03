@@ -4,11 +4,11 @@
     <div class="l-login-form">
       <div class="_ipt l-flex-hc">
         <i class="l-icon">&#xe613;</i>
-        <input autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" type="tel" placeholder="请输入手机号码" maxlength="11" v-model="formData.phoneNumber">
+        <input autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" type="tel" maxlength="11" placeholder="请输入手机号码" v-model="formData.phoneNumber">
       </div>
       <div class="_ipt l-flex-hc">
         <i class="l-icon">&#xe60f;</i>
-        <input autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" type="password" placeholder="请输入登录密码" maxlength="50" v-model="formData.password" @keyup.enter="login">
+        <input autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" type="password" maxlength="50" placeholder="请输入登录密码" v-model="formData.password" @keyup.enter="login">
       </div>
       <div class="l-margin-t-m l-txt-right">
         <router-link class="l-link-gray l-fs-s" to="/password">忘记密码？</router-link>

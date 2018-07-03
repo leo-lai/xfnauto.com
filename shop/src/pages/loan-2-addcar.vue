@@ -9,13 +9,13 @@
         <span>{{formData.guidancePrice}}</span><i class="l-margin-l-s">元</i>
       </cell>
       <popup-picker title="车身颜色" :data="cheshen.list" v-model="cheshen.slted"  @on-show="getCheShenList" show-name placeholder="请选择"></popup-picker>
-      <x-input title="实际购车价格" placeholder="" type="tel" :max="10" placeholder-align="right" :show-clear="false" v-model="formData.price">
+      <x-input title="实际购车价" placeholder="" keyboard="number" :max="10" placeholder-align="right" v-model="formData.price">
         <span class="l-txt-gray l-margin-l-s" slot="right">元</span>
       </x-input>
-      <x-input title="保证金比列" placeholder="20 ~ 100" type="tel" :max="10" placeholder-align="right" :show-clear="false" v-model="formData.downPayments">
+      <x-input title="保证金比列" placeholder="20 ~ 100" keyboard="number" :max="10" placeholder-align="right" v-model="formData.downPayments">
         <span class="l-txt-gray l-margin-l-s" slot="right">%</span>
       </x-input>
-      <x-input title="垫资车辆数量" placeholder="" type="tel" :max="10" placeholder-align="right" :show-clear="false" v-model="formData.number">
+      <x-input title="垫资车辆数量" placeholder="" keyboard="number" :max="10" placeholder-align="right" v-model="formData.number">
         <span class="l-txt-gray l-margin-l-s" slot="right">辆</span>
       </x-input>
       <cell title="垫资金额">
@@ -74,17 +74,25 @@ export default {
   },
   methods: {
     getAmount() {
-      let price = Number(this.formData.price) || 0
-      let downPayments = Math.max(Math.min(Number(this.formData.downPayments) || 20, 100), 20)
-      let number = Math.max(Number(this.formData.number) || 1, 1)
-
-      this.formData.price = price
-      this.formData.downPayments = downPayments
-      this.formData.number = number
-
-      if(price && number) {
-        this.formData.amount = Math.ceil(price * number * (1 - downPayments / 100) * 100) / 100
+      let {price, downPayments, number} = this.formData
+      price = Number(price)
+      if( !(price && price > 0) ) {
+        this.$toptip('实际购车价必须大于0')
+        return
       }
+      downPayments = Number(downPayments)
+      if( !(downPayments && downPayments >= 20 && downPayments<= 100) ) {
+        this.$toptip('保证金比例只能输入20~100')
+        return
+      }
+      number = Number(number)
+      if( !(number && number >= 1) ) {
+        this.$toptip('垫资车辆数量至少大于0')
+        return
+      }
+
+      this.formData.number = Math.ceil(number)
+      this.formData.amount = Math.ceil(price * number * (1 - downPayments / 100) * 100) / 100
     },
     getCheShenList() {
       if(this.formData.familyId) {
@@ -117,16 +125,20 @@ export default {
       //   return
       // }
 
-      if(!(Number(this.formData.price) > 0)) {
-        this.$toptip('请输入实际购车价格')
+      let {price, downPayments, number} = this.formData
+      price = Number(price)
+      if( !(price && price > 0) ) {
+        this.$toptip('实际购车价必须大于0')
         return
       }
-      if(!(Number(this.formData.downPayments) > 0)) {
-        this.$toptip('请输入保证金比例')
+      downPayments = Number(downPayments)
+      if( !(downPayments && downPayments >= 20 && downPayments<= 100) ) {
+        this.$toptip('保证金比例只能输入20~100')
         return
       }
-      if(!(Number(this.formData.number) > 0)) {
-        this.$toptip('请输入垫资车辆数量')
+      number = Number(number)
+      if( !(number && number >= 1) ) {
+        this.$toptip('垫资车辆数量至少大于0')
         return
       }
       

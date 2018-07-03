@@ -51,7 +51,8 @@ export default {
       this.onInfinite(1)
     },
     onInfinite(page) {
-      this.$api.order.getList2(this.list.filter, page || this.list.page).then(({data}) => {
+      page = page || this.list.page
+      this.$api.order.getList2(this.list.filter, page).then(({data}) => {
         let returnList = data.list.filter(item => item.infos.length > 0).map(item => {
           let carInfo = item.infos[0]
           carInfo.thumb = this.$utils.imgThumb(carInfo.image, 100, 100) || this.$config.thumb1
@@ -59,9 +60,7 @@ export default {
           return item
         })
         
-        
-        this.list.data = data.page > 1 ? this.list.data.concat(returnList) : returnList
-
+        this.list.data = page > 1 ? this.list.data.concat(returnList) : returnList
         if(returnList.length > 0){
           this.$nextTick(()=>{
             this.$refs.infinite.$emit('$InfiniteLoading:loaded')

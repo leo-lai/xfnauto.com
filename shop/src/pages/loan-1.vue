@@ -48,7 +48,7 @@
       <popup-radio title="还款期数" :options="loanPeriod" v-model="formData.loanPeriod" placeholder="请选择">
         <div slot="popup-header" class="vux-1px-b l-padding-btn l-txt-center">请选择还款期数</div>
       </popup-radio>
-      <x-input :show-clear="false" title="贷款总额" placeholder="请输入贷款总额" type="number" :max="10" placeholder-align="right" v-model="formData.loanAmount">
+      <x-input title="贷款总额" placeholder="请输入贷款总额" keyboard="number" :max="10" placeholder-align="right" v-model="formData.loanAmount">
         <span slot="right" class="l-txt-gray l-margin-l-s">元</span>
       </x-input>
     </group>
@@ -58,8 +58,8 @@
       <h4 class="l-rest">提交资料</h4>
     </div>
     <group gutter="0">
-      <x-input title="申请人姓名" placeholder="请输入姓名" :show-clear="false" :max="20" placeholder-align="right" v-model="formData.loanPeopleName"></x-input>
-      <x-input title="申请人电话" placeholder="请输入电话" type="tel" :max="11" :show-clear="false" placeholder-align="right" v-model="formData.loanPeoplePhone"></x-input>
+      <x-input title="申请人姓名" placeholder="请输入姓名" :max="20" placeholder-align="right" v-model="formData.loanPeopleName"></x-input>
+      <x-input title="申请人电话" placeholder="请输入电话" keyboard="number" is-type="china-mobile" :max="11" placeholder-align="right" v-model="formData.loanPeoplePhone"></x-input>
       <cell title="上传身份证照片" align-items="flex-start">
         <div slot="title" style="width: 10em;">上传身份证照片</div>
         <div class="l-idcard-upload l-flex-hc" slot="inline-desc">
