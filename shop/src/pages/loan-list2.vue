@@ -166,7 +166,7 @@ export default {
   ._hd ._icon{vertical-align: -2px;}
   ._thumb{width: 50px; height: 50px; border-radius: 5px; margin-right: 10px; background-color: #fff;}
   ._bd{ background-color:#f4fafa; padding: 10px; margin-top: 10px; }
-  ._ft{ padding: 10px 0 0 0;}
+  ._ft{ padding: 10px 0 0 0; margin-top: 10px;}
 }
 .l-fixed-rbbtn{
   position: fixed; bottom: 30px; right: 30px;

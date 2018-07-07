@@ -92,7 +92,7 @@ export default {
       }
 
       this.formData.number = Math.ceil(number)
-      this.formData.amount = Math.ceil(price * number * (1 - downPayments / 100) * 100) / 100
+      this.formData.amount = Math.ceil(price * number * (100 - downPayments)) / 100
     },
     getCheShenList() {
       if(this.formData.familyId) {
