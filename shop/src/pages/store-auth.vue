@@ -103,9 +103,7 @@ export default {
       }
     },
     chooseImage(type = 1, number = 1) {
-      this.$api
-        .chooseImage(number)
-        .then(localIds => {
+      this.$api.chooseImage(number).then(localIds => {
           this.$api.uploadImage(localIds).then(({ serverIds, images, localIds }) => {
             switch (type) {
               case 1: // 身份证正面
