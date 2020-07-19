@@ -22,7 +22,7 @@
 
 	<properties>
 		<spring.version>4.2.5.RELEASE</spring.version>
-		<fasterxml.jackson.version>2.7.3</fasterxml.jackson.version>
+		<fasterxml.jackson.version>2.11.1</fasterxml.jackson.version>
 		<!-- LOG -->
 		<slf4j.version>1.7.7</slf4j.version>
 		<logback.version>1.1.2</logback.version>
