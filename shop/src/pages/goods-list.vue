@@ -9,7 +9,7 @@
           <div class="_tab" :class="{'_active': tabIndex == 1}" @click="tabClick(1)">
             <span>{{brandName}}</span>
           </div>
-          <div class="_l vux-1px-l"></div>
+          <div class="van-hairline--left l-margin"></div>
           <div class="_tab" :class="{'_active': tabIndex == 2}" @click="tabClick(2)">
             <span>{{cityName}}</span>
           </div>
